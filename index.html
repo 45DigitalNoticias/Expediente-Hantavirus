@@ -46,12 +46,12 @@
     --pergamino-oscuro: #f5f8fb;   /* GRIS MUY CLARO: paneles secundarios */
     --tinta-naval: #072146;        /* NAVY BBVA: sidebar, header, timebar */
     --tinta-profunda: #04162e;     /* NAVY MÁS OSCURO: gradientes profundos */
-    --bermellon: #ffcc00;          /* AMARILLO BBVA: acento alerta/cálido */
-    --bermellon-claro: #ffd93d;
+    --bermellon: #b8860b;          /* ÁMBAR QUEMADO: acento alerta/cálido */
+    --bermellon-claro: #d4a017;
     --algamar: #1973b8;            /* CYAN BBVA: acento principal CTA */
     --algamar-claro: #2a8cd8;
-    --dorado: #ffcc00;             /* AMARILLO BBVA: acento premium */
-    --dorado-claro: #ffd93d;
+    --dorado: #b8860b;             /* ÁMBAR QUEMADO: acento premium */
+    --dorado-claro: #d4a017;
     --sepia: #5a6e8c;              /* GRIS AZULADO: texto secundario */
     --tinta-texto: #072146;        /* NAVY: texto principal sobre cards blancas */
     --divisor: #cbd5e1;            /* GRIS AZULADO PÁLIDO: separadores */
@@ -1645,7 +1645,7 @@
       <div class="row"><span class="dot" style="background:#1973b8"></span><span>Exposición / ruta del crucero</span></div>
       <div class="row"><span class="dot" style="background:#04162e;border-color:#fff"></span><span>Muerte confirmada</span></div>
       <div class="row"><span class="dot" style="background:#072146"></span><span>Hospital de destino</span></div>
-      <div class="row"><span class="dot" style="background:#ffcc00"></span><span>Laboratorio / institucional</span></div>
+      <div class="row"><span class="dot" style="background:#b8860b"></span><span>Laboratorio / institucional</span></div>
       <div class="row"><span class="line"></span><span>Ruta marítima</span></div>
       <div class="row"><span class="dash"></span><span>Evacuación aérea</span></div>
     </div>
@@ -1830,7 +1830,7 @@
 
   // Marcadores numerados
   const markers = {};
-  const colors = { route:'#1973b8', symptom:'#ffcc00', death:'#04162e', hospital:'#072146', lab:'#2a8cd8' };
+  const colors = { route:'#1973b8', symptom:'#b8860b', death:'#04162e', hospital:'#072146', lab:'#2a8cd8' };
 
   events.forEach(e => {
     const color = colors[e.type] || '#888';
