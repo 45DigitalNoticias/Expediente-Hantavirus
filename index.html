@@ -1642,7 +1642,7 @@
   <!-- ============== MAPA (centro) ============== -->
   <div id="map">
     <div class="legend">
-      <div class="row"><span class="dot" style="background:#1973b8"></span><span>Exposición / ruta del crucero</span></div>
+      <div class="row"><span class="dot" style="background:#4a7fa3"></span><span>Exposición / ruta del crucero</span></div>
       <div class="row"><span class="dot" style="background:#04162e;border-color:#fff"></span><span>Muerte confirmada</span></div>
       <div class="row"><span class="dot" style="background:#072146"></span><span>Hospital de destino</span></div>
       <div class="row"><span class="dot" style="background:#b8860b"></span><span>Laboratorio / institucional</span></div>
@@ -1807,7 +1807,7 @@
     [-37.10,-12.28], [-15.92,-5.72], [-7.93,-14.36],
     [14.93,-23.51], [28.10,-16.49]
   ];
-  const routeLine = L.polyline(cruiseRoute, { color:'#1973b8', weight:3, opacity:0.9 }).addTo(map);
+  const routeLine = L.polyline(cruiseRoute, { color:'#4a7fa3', weight:3, opacity:0.9 }).addTo(map);
 
   // Líneas de evacuación
   const evacOrigin = [28.10,-16.49]; // Tenerife (desembarque)
@@ -1830,7 +1830,7 @@
 
   // Marcadores numerados
   const markers = {};
-  const colors = { route:'#1973b8', symptom:'#b8860b', death:'#04162e', hospital:'#072146', lab:'#2a8cd8' };
+  const colors = { route:'#4a7fa3', symptom:'#b8860b', death:'#04162e', hospital:'#072146', lab:'#2a8cd8' };
 
   events.forEach(e => {
     const color = colors[e.type] || '#888';
