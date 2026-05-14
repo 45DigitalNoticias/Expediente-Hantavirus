@@ -39,23 +39,24 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   :root {
-    /* Paleta marítima/cartográfica — carta náutica + tinta editorial */
-    --pergamino: #f3ead2;
-    --pergamino-claro: #faf3df;
-    --pergamino-oscuro: #e6d9b0;
-    --tinta-naval: #1c3a5c;
-    --tinta-profunda: #0e2238;
-    --bermellon: #a8362a;
-    --bermellon-claro: #c25040;
-    --algamar: #2d6a6d;
-    --algamar-claro: #3f8587;
-    --dorado: #b08c30;
-    --dorado-claro: #d6b04a;
-    --sepia: #6b5538;
-    --tinta-texto: #1f1a13;
-    --divisor: #c9b988;
+    /* Paleta "Editorial nocturno" — periodismo de investigación moderno
+       (anti-Claude default: cero pergamino, cero terracota, dark mode editorial) */
+    --pergamino: #14161b;          /* CARBÓN: fondo principal */
+    --pergamino-claro: #20242c;    /* CARBÓN_2: bandas y bloques elevados */
+    --pergamino-oscuro: #0f1117;   /* CARBÓN_3: bloques deprimidos */
+    --tinta-naval: #f3f4f6;        /* PLATA: textos principales (antes era oscuro, ahora es claro) */
+    --tinta-profunda: #ffffff;     /* BLANCO PURO: titulares */
+    --bermellon: #dc2626;          /* CARMÍN: acento alerta */
+    --bermellon-claro: #ef4444;
+    --algamar: #10b981;            /* ESMERALDA: acento principal */
+    --algamar-claro: #34d399;
+    --dorado: #f59e0b;             /* ÁMBAR: acento decorativo */
+    --dorado-claro: #fbbf24;
+    --sepia: #a1a1aa;              /* ZINC CLARO: texto secundario */
+    --tinta-texto: #e4e4e7;        /* ZINC BLANCO: texto del cuerpo */
+    --divisor: #3f3f46;            /* ZINC OSCURO: separadores */
 
-    /* Alias retrocompatibles para que el JS y CSS existente sigan funcionando */
+    /* Alias retrocompatibles */
     --rojo: var(--bermellon);
     --azul: var(--tinta-naval);
     --gris: var(--tinta-texto);
@@ -1631,10 +1632,10 @@
   <!-- ============== MAPA (centro) ============== -->
   <div id="map">
     <div class="legend">
-      <div class="row"><span class="dot" style="background:var(--bermellon)"></span><span>Exposición / ruta del crucero</span></div>
-      <div class="row"><span class="dot" style="background:var(--tinta-profunda)"></span><span>Muerte confirmada</span></div>
-      <div class="row"><span class="dot" style="background:var(--tinta-naval)"></span><span>Hospital de destino</span></div>
-      <div class="row"><span class="dot" style="background:var(--dorado)"></span><span>Laboratorio / institucional</span></div>
+      <div class="row"><span class="dot" style="background:#dc2626"></span><span>Exposición / ruta del crucero</span></div>
+      <div class="row"><span class="dot" style="background:#0f1117;border-color:#fff"></span><span>Muerte confirmada</span></div>
+      <div class="row"><span class="dot" style="background:#10b981"></span><span>Hospital de destino</span></div>
+      <div class="row"><span class="dot" style="background:#8b5cf6"></span><span>Laboratorio / institucional</span></div>
       <div class="row"><span class="line"></span><span>Ruta marítima</span></div>
       <div class="row"><span class="dash"></span><span>Evacuación aérea</span></div>
     </div>
@@ -1796,7 +1797,7 @@
     [-37.10,-12.28], [-15.92,-5.72], [-7.93,-14.36],
     [14.93,-23.51], [28.10,-16.49]
   ];
-  const routeLine = L.polyline(cruiseRoute, { color:'#c0392b', weight:3, opacity:0.75 }).addTo(map);
+  const routeLine = L.polyline(cruiseRoute, { color:'#dc2626', weight:3, opacity:0.8 }).addTo(map);
 
   // Líneas de evacuación
   const evacOrigin = [28.10,-16.49]; // Tenerife (desembarque)
@@ -1813,13 +1814,13 @@
   ];
   evacDest.forEach(dest => {
     L.polyline([evacOrigin, dest], {
-      color:'#2c5f8d', weight:1.3, opacity:0.45, dashArray:'5,5'
+      color:'#10b981', weight:1.3, opacity:0.55, dashArray:'5,5'
     }).addTo(map);
   });
 
   // Marcadores numerados
   const markers = {};
-  const colors = { route:'#c0392b', symptom:'#e67e22', death:'#1a1a1a', hospital:'#2c5f8d', lab:'#7d6b3f' };
+  const colors = { route:'#dc2626', symptom:'#f59e0b', death:'#0f1117', hospital:'#10b981', lab:'#8b5cf6' };
 
   events.forEach(e => {
     const color = colors[e.type] || '#888';
