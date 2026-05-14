@@ -1,0 +1,2518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Hantavirus 2026 — mapa completo del brote MV Hondius</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  :root {
+    /* Paleta marítima/cartográfica — carta náutica + tinta editorial */
+    --pergamino: #f3ead2;
+    --pergamino-claro: #faf3df;
+    --pergamino-oscuro: #e6d9b0;
+    --tinta-naval: #1c3a5c;
+    --tinta-profunda: #0e2238;
+    --bermellon: #a8362a;
+    --bermellon-claro: #c25040;
+    --algamar: #2d6a6d;
+    --algamar-claro: #3f8587;
+    --dorado: #b08c30;
+    --dorado-claro: #d6b04a;
+    --sepia: #6b5538;
+    --tinta-texto: #1f1a13;
+    --divisor: #c9b988;
+
+    /* Alias retrocompatibles para que el JS y CSS existente sigan funcionando */
+    --rojo: var(--bermellon);
+    --azul: var(--tinta-naval);
+    --gris: var(--tinta-texto);
+    --crema: var(--pergamino);
+    --mostaza: var(--dorado);
+    --naranja: var(--algamar-claro);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--pergamino);
+    background-image:
+      radial-gradient(rgba(112, 90, 50, 0.05) 1px, transparent 1px),
+      radial-gradient(rgba(112, 90, 50, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px, 36px 36px;
+    background-position: 0 0, 12px 12px;
+    color: var(--tinta-texto);
+    overflow: hidden;
+    height: 100vh;
+  }
+  header {
+    padding: 14px 28px 12px;
+    border-bottom: 2px solid var(--tinta-naval);
+    background: var(--pergamino-claro);
+    background-image: linear-gradient(180deg, #fcf7e6 0%, var(--pergamino-claro) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    box-shadow: 0 1px 0 var(--dorado) inset, 0 2px 8px rgba(28, 58, 92, 0.06);
+    position: relative;
+  }
+  header::after {
+    content: "";
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    bottom: -6px;
+    height: 2px;
+    background: repeating-linear-gradient(90deg,
+      var(--tinta-naval) 0 8px,
+      transparent 8px 14px);
+    opacity: 0.35;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+  .brand .logo-mark {
+    background: var(--bermellon);
+    color: var(--pergamino-claro);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 8px 12px 8px;
+    letter-spacing: -0.04em;
+    border-radius: 2px;
+    box-shadow: 0 1px 0 var(--dorado) inset, 0 2px 6px rgba(168, 54, 42, 0.25);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  }
+  .brand .logo-wordmark {
+    line-height: 1.1;
+    font-family: Georgia, serif;
+  }
+  .brand .logo-wordmark .l1 {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--tinta-naval);
+  }
+  .brand .logo-wordmark .l2 {
+    display: block;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--sepia);
+    margin-top: 3px;
+    border-top: 1px solid var(--divisor);
+    padding-top: 3px;
+  }
+  .header-center { flex: 1; min-width: 0; }
+  header .title h1 {
+    margin: 0 0 4px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  header .title p {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+  .cutoff {
+    background: var(--tinta-naval);
+    color: var(--pergamino-claro);
+    padding: 8px 20px;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 1.2;
+    font-family: Georgia, serif;
+    border: 1px solid var(--tinta-profunda);
+    box-shadow: 0 1px 0 var(--dorado) inset, 0 2px 4px rgba(14, 34, 56, 0.25);
+    position: relative;
+  }
+  .cutoff::before {
+    content: "✺";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--dorado);
+    background: var(--pergamino-claro);
+    padding: 0 6px;
+    font-size: 13px;
+    line-height: 1;
+  }
+  .cutoff .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dorado-claro);
+    margin-top: 2px;
+  }
+  .cutoff .date {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 420px;
+    height: calc(100vh - 76px - 78px);
+  }
+  #map { width: 100%; height: 100%; border-left: 1px solid var(--divisor); border-right: 1px solid var(--divisor); }
+
+  /* ===== Sidebar de navegación (panel lateral izquierdo) ===== */
+  .sidenav {
+    background: var(--tinta-naval);
+    background-image: linear-gradient(180deg, var(--tinta-profunda) 0%, var(--tinta-naval) 100%);
+    color: var(--pergamino-claro);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border-right: 2px solid var(--dorado);
+    position: relative;
+  }
+  .sidenav::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--dorado) 0%, var(--bermellon) 50%, var(--dorado) 100%);
+    opacity: 0.4;
+  }
+  .sidenav-header {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid rgba(208, 176, 74, 0.3);
+    font-family: Georgia, serif;
+  }
+  .sidenav-header .eyebrow {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--dorado-claro);
+    margin-bottom: 4px;
+  }
+  .sidenav-header .nav-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pergamino-claro);
+    line-height: 1.3;
+  }
+  .nav-items {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    flex: 1;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 20px;
+    cursor: pointer;
+    color: rgba(243, 234, 210, 0.7);
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+    user-select: none;
+    font-family: Georgia, serif;
+  }
+  .nav-item:hover {
+    background: rgba(208, 176, 74, 0.08);
+    color: var(--pergamino-claro);
+    border-left-color: var(--dorado-claro);
+  }
+  .nav-item.active {
+    background: linear-gradient(90deg, rgba(168, 54, 42, 0.25) 0%, rgba(168, 54, 42, 0) 100%);
+    color: var(--pergamino-claro);
+    border-left-color: var(--bermellon-claro);
+  }
+  .nav-item .nav-icon {
+    font-size: 20px;
+    line-height: 1;
+    width: 22px;
+    text-align: center;
+    color: var(--dorado-claro);
+    font-weight: 600;
+  }
+  .nav-item.active .nav-icon { color: var(--bermellon-claro); }
+  .nav-item .nav-label {
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .nav-item .nav-meta {
+    margin-left: auto;
+    font-size: 10px;
+    background: rgba(208, 176, 74, 0.2);
+    color: var(--dorado-claro);
+    padding: 2px 6px;
+    border-radius: 8px;
+    line-height: 1;
+  }
+  .nav-item.active .nav-meta {
+    background: var(--bermellon);
+    color: var(--pergamino-claro);
+  }
+  .sidenav-footer {
+    padding: 12px 20px;
+    border-top: 1px solid rgba(208, 176, 74, 0.2);
+    font-size: 10px;
+    color: rgba(243, 234, 210, 0.5);
+    text-align: center;
+    line-height: 1.4;
+    font-family: Georgia, serif;
+    font-style: italic;
+  }
+
+  /* ===== Panel de contenido (derecha) ===== */
+  aside {
+    background: var(--pergamino-claro);
+    border-left: 1px solid var(--divisor);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: -2px 0 8px rgba(28, 58, 92, 0.04);
+  }
+  .panel-title {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--divisor);
+    background: var(--pergamino-oscuro);
+    background-image: linear-gradient(180deg, var(--pergamino-oscuro) 0%, var(--pergamino-claro) 100%);
+    font-family: Georgia, serif;
+  }
+  .panel-title .eyebrow {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--sepia);
+  }
+  .panel-title h2 {
+    margin: 2px 0 0;
+    font-size: 16px;
+    color: var(--tinta-naval);
+    letter-spacing: -0.01em;
+  }
+
+  /* Tabs ocultos — reemplazados por sidenav */
+  .tabs { display: none; }
+  .tab-panel {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+    display: none;
+  }
+  .tab-panel.active { display: block; }
+
+  .stats-box {
+    padding: 16px 20px;
+    background: var(--pergamino-claro);
+    border-bottom: 1px solid var(--divisor);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    text-align: center;
+    position: relative;
+  }
+  .stats-box::after {
+    content: "";
+    position: absolute;
+    left: 20px; right: 20px; bottom: 0;
+    height: 1px;
+    background: repeating-linear-gradient(90deg,
+      var(--divisor) 0 6px, transparent 6px 10px);
+  }
+  .stats-box .stat { position: relative; }
+  .stats-box .stat:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: -5px;
+    top: 20%;
+    bottom: 20%;
+    width: 1px;
+    background: var(--divisor);
+  }
+  .stats-box .stat .n {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--bermellon);
+    line-height: 1;
+    font-family: Georgia, serif;
+  }
+  .stats-box .stat .l {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sepia);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--divisor);
+    background: var(--pergamino);
+  }
+  .filter-chip {
+    padding: 4px 12px;
+    border: 1px solid var(--divisor);
+    border-radius: 12px;
+    background: var(--pergamino-claro);
+    cursor: pointer;
+    color: var(--sepia);
+    font-size: 12px;
+    font-family: Georgia, serif;
+    transition: all 0.15s;
+  }
+  .filter-chip:hover { border-color: var(--tinta-naval); color: var(--tinta-naval); }
+  .filter-chip.active {
+    background: var(--tinta-naval);
+    color: var(--pergamino-claro);
+    border-color: var(--tinta-profunda);
+  }
+
+  .event {
+    display: grid;
+    grid-template-columns: 78px 1fr;
+    gap: 10px;
+    padding: 12px 18px;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, opacity 0.3s;
+    border-bottom: 1px solid var(--divisor);
+  }
+  .event:hover { background: var(--pergamino); border-left-color: var(--bermellon); }
+  .event.active {
+    background: linear-gradient(90deg, rgba(168, 54, 42, 0.08), transparent);
+    border-left-color: var(--bermellon);
+  }
+  .event.dimmed { opacity: 0.3; }
+  .event .date {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--bermellon);
+    text-align: right;
+    padding-top: 2px;
+    font-family: Georgia, serif;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .event .num {
+    display: inline-block;
+    background: var(--tinta-naval);
+    color: var(--dorado-claro);
+    font-size: 10px;
+    border-radius: 8px;
+    padding: 2px 7px;
+    margin-right: 6px;
+    vertical-align: middle;
+    font-weight: 600;
+  }
+  .event .place { font-weight: 600; color: var(--tinta-naval); }
+  .event .desc {
+    color: #444;
+    margin-top: 2px;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+  .event .verif { font-size: 10px; margin-left: 4px; vertical-align: middle; }
+  .event-death { border-left-color: var(--tinta-profunda) !important; }
+  .event-death .date { color: var(--tinta-profunda); }
+
+  /* Casos por país */
+  .country {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--divisor);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: start;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .country:hover {
+    background: var(--pergamino);
+    border-left-color: var(--algamar);
+  }
+  .country .flag {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--tinta-naval);
+  }
+  .country .hosp {
+    font-size: 12px;
+    color: var(--sepia);
+    margin-top: 3px;
+    font-style: italic;
+  }
+  .country .country-note {
+    font-size: 12px;
+    color: #555;
+    margin-top: 4px;
+    line-height: 1.4;
+    text-align: justify !important;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+  }
+  .country .num-cases {
+    text-align: right;
+    font-size: 11px;
+    color: var(--sepia);
+    line-height: 1.5;
+  }
+  .country .num-cases b { color: var(--bermellon); font-size: 15px; font-family: Georgia, serif; }
+  .country .num-cases .death { color: var(--tinta-profunda); font-weight: 600; }
+
+  /* ========== BOLETÍN DE DECLARACIONES ========== */
+  .boletin-help {
+    padding: 14px 20px;
+    background: var(--pergamino-oscuro);
+    border-bottom: 1px solid var(--divisor);
+    font-size: 11.5px;
+    color: var(--sepia);
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .declaracion {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--divisor);
+    border-left: 3px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+    position: relative;
+  }
+  .declaracion:hover {
+    background: var(--pergamino);
+    border-left-color: var(--algamar);
+  }
+  .declaracion-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .declaracion-fecha {
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 11.5px;
+    color: var(--bermellon);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .declaracion-fuente {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+  .fuente-oms { background: var(--algamar); color: var(--pergamino-claro); }
+  .fuente-cdc { background: var(--tinta-naval); color: var(--pergamino-claro); }
+  .fuente-ecdc { background: var(--dorado); color: var(--tinta-profunda); }
+  .fuente-sanidad { background: var(--bermellon); color: var(--pergamino-claro); }
+  .fuente-arg { background: #4a6c2a; color: var(--pergamino-claro); }
+  .fuente-eu { background: var(--sepia); color: var(--pergamino-claro); }
+  .declaracion-vocero {
+    font-size: 12px;
+    color: var(--tinta-naval);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .declaracion-cita {
+    font-family: Georgia, serif;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--tinta-texto);
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    padding: 0 0 0 18px;
+    border-left: 2px solid var(--dorado);
+    margin: 6px 0 8px;
+    position: relative;
+    font-style: italic;
+  }
+  .declaracion-cita::before {
+    content: "“";
+    position: absolute;
+    left: 0;
+    top: -8px;
+    font-size: 32px;
+    color: var(--dorado);
+    line-height: 1;
+    font-family: Georgia, serif;
+  }
+  .declaracion-contexto {
+    font-size: 12px;
+    color: var(--sepia);
+    line-height: 1.5;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    margin: 6px 0 8px;
+  }
+  .declaracion-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--tinta-naval);
+    text-decoration: none;
+    padding: 3px 9px;
+    border: 1px solid var(--divisor);
+    border-radius: 2px;
+    background: var(--pergamino-claro);
+    transition: all 0.15s;
+    font-family: Georgia, serif;
+  }
+  .declaracion-link:hover {
+    background: var(--tinta-naval);
+    color: var(--pergamino-claro);
+    border-color: var(--tinta-profunda);
+  }
+  .declaracion-link::before {
+    content: "↗";
+    font-size: 11px;
+  }
+
+  /* Columnas de opinión */
+  .column-card {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+    transition: background 0.15s;
+  }
+  .column-card:hover { background: #fafaf2; }
+  .column-card .meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #888;
+    margin-bottom: 6px;
+  }
+  .column-card .meta .fecha {
+    color: var(--rojo);
+    font-weight: 600;
+  }
+  .column-card .meta .pill {
+    background: #e8e4d7;
+    color: #555;
+    padding: 2px 7px;
+    border-radius: 8px;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+  }
+  .column-card .meta .pill-antecedente {
+    background: var(--dorado);
+    color: var(--tinta-profunda);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+  .column-card h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gris);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .column-card .resumen {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    margin: 0 0 8px;
+  }
+  .column-card .concepto {
+    font-size: 11.5px;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .column-card .read-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 7px 14px;
+    background: var(--bermellon);
+    color: var(--pergamino-claro);
+    text-decoration: none;
+    border-radius: 2px;
+    font-size: 12px;
+    font-family: Georgia, serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border: 1px solid var(--bermellon-claro);
+    transition: all 0.15s;
+  }
+  .column-card .read-btn:hover {
+    background: var(--tinta-naval);
+    border-color: var(--tinta-profunda);
+    transform: translateX(2px);
+  }
+  .column-card .read-btn::after { content: "→"; }
+
+  /* =========== VISTA DE LECTOR FULLSCREEN (inmersiva) =========== */
+  .reader-view {
+    display: none;
+  }
+  .reader-view.fullscreen {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 9999;
+    background: var(--pergamino);
+    background-image:
+      radial-gradient(rgba(112, 90, 50, 0.04) 1px, transparent 1px),
+      radial-gradient(rgba(112, 90, 50, 0.03) 1px, transparent 1px);
+    background-size: 28px 28px, 42px 42px;
+    background-position: 0 0, 14px 14px;
+    overflow-y: auto;
+    flex-direction: column;
+    animation: fadeInReader 0.3s ease-out;
+  }
+  @keyframes fadeInReader {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .reader-topbar {
+    background: var(--pergamino-claro);
+    background-image: linear-gradient(180deg, #fcf7e6 0%, var(--pergamino-claro) 100%);
+    border-bottom: 2px solid var(--tinta-naval);
+    box-shadow: 0 1px 0 var(--dorado) inset, 0 2px 8px rgba(28, 58, 92, 0.06);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+  .reader-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .reader-topbar .logo-mark {
+    background: var(--bermellon);
+    color: var(--pergamino-claro);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 6px 10px;
+    letter-spacing: -0.04em;
+    border-radius: 2px;
+    font-family: Georgia, serif;
+    box-shadow: 0 1px 0 var(--dorado) inset;
+  }
+  .reader-topbar .topbar-title {
+    font-family: Georgia, serif;
+    font-size: 13px;
+    color: var(--tinta-naval);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .reader-topbar .topbar-title small {
+    display: block;
+    font-size: 10px;
+    color: var(--sepia);
+    text-transform: none;
+    letter-spacing: 0.06em;
+    font-weight: 400;
+    margin-top: 2px;
+    font-style: italic;
+  }
+  .reader-back {
+    background: var(--tinta-naval);
+    color: var(--pergamino-claro);
+    padding: 9px 18px;
+    border: 1px solid var(--tinta-profunda);
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-family: Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    user-select: none;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    box-shadow: 0 1px 0 var(--dorado) inset, 0 2px 4px rgba(14, 34, 56, 0.2);
+  }
+  .reader-back:hover {
+    background: var(--bermellon);
+    border-color: var(--bermellon-claro);
+    transform: translateX(-2px);
+  }
+  .reader-back::before {
+    content: "←";
+    font-size: 15px;
+    line-height: 1;
+  }
+  .reader-article {
+    padding: 40px 32px 60px;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--tinta-texto);
+    max-width: 720px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .reader-view.fullscreen .reader-title { font-size: 38px; line-height: 1.1; }
+  .reader-view.fullscreen .reader-bajada { font-size: 17px; }
+  .reader-view.fullscreen .reader-body p { font-size: 17px; line-height: 1.8; margin-bottom: 22px; }
+  .reader-view.fullscreen .reader-body p:first-of-type::first-letter {
+    font-size: 56px;
+    margin: 6px 10px -4px 0;
+  }
+  .reader-view.fullscreen .reader-eyebrow { font-size: 11px; margin-bottom: 14px; padding-bottom: 8px; }
+  .reader-view.fullscreen .reader-meta { font-size: 12px; gap: 18px; margin-bottom: 22px; padding-bottom: 16px; }
+  .reader-view.fullscreen .reader-section-title { font-size: 12px; margin-top: 34px; margin-bottom: 16px; }
+  .reader-view.fullscreen .reader-fuentes li { font-size: 13px; line-height: 1.6; }
+  .reader-view.fullscreen .reader-glosario li { font-size: 13.5px; line-height: 1.65; }
+  .reader-view.fullscreen .reader-divider { font-size: 18px; margin: 32px 0 24px; }
+  .reader-view.fullscreen .reader-firma { font-size: 15px; }
+  .reader-eyebrow {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--bermellon);
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--divisor);
+  }
+  .reader-title {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--tinta-profunda);
+    margin: 0 0 12px;
+    font-family: Georgia, serif;
+  }
+  .reader-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 11px;
+    color: var(--sepia);
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dotted var(--divisor);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .reader-meta b { color: var(--tinta-naval); }
+  .reader-bajada {
+    font-family: Georgia, serif;
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--sepia);
+    border-left: 3px solid var(--dorado);
+    padding-left: 14px;
+    margin: 0 0 24px;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .reader-body p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--tinta-texto);
+    margin: 0 0 18px;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+  .reader-body p:first-of-type::first-letter {
+    font-family: Georgia, serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--bermellon);
+    float: left;
+    line-height: 0.85;
+    margin: 4px 8px 0 0;
+  }
+  .reader-body strong { color: var(--tinta-profunda); font-weight: 700; }
+  .reader-body em { color: var(--sepia); }
+  .reader-divider {
+    text-align: center;
+    color: var(--dorado);
+    font-size: 16px;
+    letter-spacing: 1em;
+    margin: 24px 0 20px;
+    padding-left: 1em;
+  }
+  .reader-firma {
+    font-style: italic;
+    color: var(--bermellon);
+    font-weight: 600;
+    margin: 16px 0 28px;
+    font-size: 14px;
+    text-align: right;
+  }
+  .reader-section-title {
+    font-family: Georgia, serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--tinta-naval);
+    margin: 26px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--divisor);
+    font-weight: 600;
+  }
+  .reader-fuentes ul, .reader-glosario ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .reader-fuentes li {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--sepia);
+    margin-bottom: 8px;
+    padding-left: 14px;
+    position: relative;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .reader-fuentes li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--dorado);
+    font-size: 10px;
+    top: 3px;
+  }
+  .reader-fuentes a {
+    color: var(--tinta-naval);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--algamar);
+  }
+  .reader-fuentes a:hover { color: var(--bermellon); border-bottom-color: var(--bermellon); }
+  .reader-glosario li {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--tinta-texto);
+    margin-bottom: 10px;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .reader-glosario b {
+    color: var(--tinta-profunda);
+    font-family: Georgia, serif;
+  }
+  .reader-figura {
+    margin: 28px 0 24px;
+    text-align: center;
+  }
+  .reader-figura img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--divisor);
+    box-shadow: 0 4px 16px rgba(28, 58, 92, 0.15), 0 0 0 1px var(--dorado) inset;
+    display: block;
+    margin: 0 auto;
+    background: var(--pergamino-claro);
+  }
+  .reader-figura figcaption {
+    font-family: Georgia, serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--sepia);
+    line-height: 1.5;
+    margin-top: 10px;
+    padding: 0 12px;
+    text-align: center;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .reader-figura figcaption b, .reader-figura figcaption em { color: var(--tinta-naval); }
+
+  /* =========== GALERÍA DE PORTADAS =========== */
+  .reader-galeria {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 2px solid var(--divisor);
+    position: relative;
+  }
+  .reader-galeria::before {
+    content: "❦";
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--pergamino);
+    color: var(--dorado);
+    padding: 0 12px;
+    font-size: 16px;
+    line-height: 1;
+  }
+  .reader-galeria-titulo {
+    font-family: Georgia, serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--tinta-naval);
+    margin: 6px 0 8px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .reader-galeria-intro {
+    font-family: Georgia, serif;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--sepia);
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    margin: 0 auto 22px;
+    max-width: 560px;
+    font-style: italic;
+  }
+  .reader-galeria-intro em, .reader-galeria-intro b { color: var(--tinta-naval); font-style: normal; }
+  .galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .galeria-item {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.18s ease-out;
+    cursor: zoom-in;
+  }
+  .galeria-item:hover { transform: translateY(-3px); }
+  .galeria-item img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border: 1px solid var(--divisor);
+    box-shadow: 0 2px 6px rgba(28, 58, 92, 0.18), 0 0 0 1px rgba(176, 140, 48, 0.4) inset;
+    background: var(--pergamino-claro);
+    display: block;
+  }
+  .galeria-item.destacada img {
+    border: 2px solid var(--bermellon);
+    box-shadow: 0 3px 10px rgba(168, 54, 42, 0.3), 0 0 0 2px var(--dorado) inset;
+  }
+  .galeria-item-meta {
+    margin-top: 6px;
+    line-height: 1.25;
+  }
+  .galeria-fecha {
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--bermellon);
+    font-weight: 700;
+  }
+  .galeria-titulo {
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 11px;
+    font-style: italic;
+    color: var(--tinta-naval);
+    line-height: 1.35;
+    margin-top: 2px;
+  }
+  .galeria-nota {
+    font-family: Georgia, serif;
+    font-size: 10.5px;
+    color: var(--sepia);
+    line-height: 1.45;
+    margin-top: 4px;
+  }
+
+  /* Lightbox para click en portada */
+  .galeria-lightbox {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(14, 34, 56, 0.92);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    cursor: zoom-out;
+    animation: fadeInReader 0.2s ease-out;
+  }
+  .galeria-lightbox.active { display: flex; }
+  .galeria-lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border: 1px solid var(--dorado);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .galeria-lightbox-cap {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--pergamino-claro);
+    font-family: Georgia, serif;
+    font-size: 13px;
+    font-style: italic;
+    text-align: center;
+    max-width: 80%;
+    background: rgba(14, 34, 56, 0.6);
+    padding: 8px 16px;
+    border-radius: 2px;
+  }
+  .galeria-lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    color: var(--pergamino-claro);
+    font-size: 28px;
+    cursor: pointer;
+    font-family: Georgia, serif;
+    line-height: 1;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--dorado);
+    border-radius: 50%;
+    background: rgba(14, 34, 56, 0.6);
+  }
+  .galeria-lightbox-close:hover {
+    background: var(--bermellon);
+    border-color: var(--bermellon-claro);
+  }
+
+  @media (max-width: 700px) {
+    .galeria-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .galeria-fecha { font-size: 9px; }
+    .galeria-titulo { font-size: 10px; }
+    .galeria-nota { display: none; }
+  }
+  @media (max-width: 480px) {
+    .galeria-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .galeria-nota { display: block; }
+  }
+  .reader-share {
+    margin: 20px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--divisor);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .reader-share a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--pergamino);
+    border: 1px solid var(--divisor);
+    border-radius: 2px;
+    font-size: 11px;
+    color: var(--sepia);
+    text-decoration: none;
+    font-family: Georgia, serif;
+    transition: all 0.15s;
+  }
+  .reader-share a:hover {
+    background: var(--tinta-naval);
+    color: var(--pergamino-claro);
+    border-color: var(--tinta-profunda);
+  }
+  .column-card .links a {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 3px;
+    font-size: 11.5px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    color: #555;
+    background: #fff;
+    transition: all 0.15s;
+  }
+  .column-card .links a:hover {
+    background: var(--gris);
+    color: #fff;
+    border-color: var(--gris);
+  }
+  .column-card .links a.primary {
+    background: var(--rojo);
+    color: #fff;
+    border-color: var(--rojo);
+  }
+  .column-card .links a.primary:hover {
+    background: #a33222;
+    border-color: #a33222;
+  }
+  .columns-empty {
+    padding: 40px 24px;
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .columns-empty .icon {
+    font-family: Georgia, serif;
+    font-size: 36px;
+    color: #ddd;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .columns-help {
+    padding: 14px 20px;
+    background: #fafaf6;
+    border-bottom: 1px solid #eee;
+    font-size: 11.5px;
+    color: #666;
+    line-height: 1.45;
+  }
+  .columns-help b { color: var(--gris); }
+
+  /* Fuentes */
+  .source-group { padding: 14px 18px; border-bottom: 1px solid var(--divisor); }
+  .source-group h3 {
+    margin: 0 0 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--tinta-naval);
+    font-family: Georgia, serif;
+  }
+  .source-group ul { margin: 0; padding-left: 16px; }
+  .source-group li {
+    margin-bottom: 6px;
+    font-size: 12.5px;
+    line-height: 1.4;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    color: var(--sepia);
+  }
+  .source-group a { color: var(--tinta-naval); text-decoration: none; border-bottom: 1px dotted var(--algamar); }
+  .source-group a:hover { color: var(--bermellon); border-bottom-color: var(--bermellon); }
+  .source-tag {
+    display: inline-block;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-right: 6px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .tag-oficial { background: var(--algamar); color: var(--pergamino-claro); }
+  .tag-medio { background: var(--tinta-naval); color: var(--pergamino-claro); }
+  .tag-es { background: var(--bermellon); color: var(--pergamino-claro); }
+  .tag-bulo { background: #7a1a1a; color: var(--pergamino-claro); }
+  .tag-tracker { background: var(--dorado); color: var(--tinta-profunda); }
+
+  /* Timeline slider — barra náutica */
+  .timebar {
+    background: var(--pergamino-claro);
+    background-image: linear-gradient(0deg, var(--pergamino-oscuro) 0%, var(--pergamino-claro) 100%);
+    border-top: 2px solid var(--tinta-naval);
+    box-shadow: 0 -1px 0 var(--dorado) inset, 0 -2px 8px rgba(28, 58, 92, 0.06);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    height: 78px;
+  }
+  .play-btn {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--bermellon);
+    background-image: radial-gradient(circle at 30% 30%, var(--bermellon-claro), var(--bermellon));
+    color: var(--pergamino-claro);
+    border: 2px solid var(--tinta-profunda);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(168, 54, 42, 0.3);
+    transition: transform 0.15s;
+  }
+  .play-btn:hover { transform: scale(1.05); }
+  .slider-wrap { flex: 1; }
+  .slider-labels {
+    display: flex; justify-content: space-between;
+    font-size: 10px; color: var(--sepia);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: Georgia, serif;
+  }
+  .slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: linear-gradient(to right, var(--bermellon) 0%, var(--bermellon) var(--pct,100%), var(--pergamino-oscuro) var(--pct,100%), var(--pergamino-oscuro) 100%);
+    border-radius: 3px;
+    outline: none;
+    border: 1px solid var(--divisor);
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--pergamino-claro);
+    border: 3px solid var(--bermellon);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .slider::-moz-range-thumb {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--pergamino-claro);
+    border: 3px solid var(--bermellon);
+    cursor: pointer;
+  }
+  .current-date {
+    font-family: Georgia, serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--tinta-naval);
+    width: 120px;
+    text-align: center;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .current-date::before {
+    content: "✺ ";
+    color: var(--dorado);
+  }
+
+  .leaflet-popup-content {
+    font-family: Georgia, serif;
+    font-size: 13px;
+    line-height: 1.4;
+    max-width: 280px;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+  .leaflet-popup-content b { display: block; margin-bottom: 4px; font-size: 14px; }
+  .leaflet-popup-content .pop-date { color: var(--rojo); font-weight: 600; font-size: 12px; }
+
+  /* Legend overlay on map — estilo carta náutica */
+  .legend {
+    position: absolute; bottom: 14px; left: 14px;
+    background: var(--pergamino-claro);
+    background-image: linear-gradient(180deg, var(--pergamino-claro), var(--pergamino));
+    padding: 12px 16px;
+    border: 1px solid var(--tinta-naval);
+    border-radius: 2px;
+    font-size: 12px;
+    font-family: Georgia, serif;
+    color: var(--tinta-naval);
+    box-shadow: 0 2px 8px rgba(28, 58, 92, 0.15), 0 0 0 1px var(--dorado) inset;
+    z-index: 500;
+    line-height: 1.7;
+  }
+  .legend::before {
+    content: "LEYENDA";
+    display: block;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--sepia);
+    border-bottom: 1px solid var(--divisor);
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .legend .row { display: flex; align-items: center; gap: 8px; }
+  .legend .dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+  }
+  .legend .line {
+    width: 18px; height: 0;
+    border-top: 3px solid var(--rojo);
+  }
+  .legend .dash {
+    width: 18px; height: 0;
+    border-top: 2px dashed var(--azul);
+  }
+
+  /* ==========  RESPONSIVE  ========== */
+
+  /* Desktop estándar — sidebar a 200px */
+  @media (max-width: 1280px) {
+    .layout { grid-template-columns: 200px 1fr 380px; }
+  }
+
+  /* Tablet landscape — sidebar más compacto */
+  @media (max-width: 1100px) {
+    .layout { grid-template-columns: 64px 1fr 340px; }
+    .sidenav-header { padding: 14px 8px 10px; text-align: center; }
+    .sidenav-header .eyebrow { font-size: 8px; letter-spacing: 0.1em; }
+    .sidenav-header .nav-title { font-size: 10px; line-height: 1.2; }
+    .nav-item { padding: 14px 8px; flex-direction: column; gap: 4px; text-align: center; }
+    .nav-item .nav-label { font-size: 9px; letter-spacing: 0.04em; line-height: 1.1; }
+    .nav-item .nav-icon { font-size: 18px; }
+    .nav-item .nav-meta { display: none; }
+    .sidenav-footer { display: none; }
+    header { padding: 12px 18px 10px; gap: 14px; }
+    header .title h1 { font-size: 17px; }
+    header .title p { font-size: 12px; }
+    .brand .logo-mark { font-size: 26px; padding: 6px 10px; }
+    .brand .logo-wordmark .l1 { font-size: 12px; }
+    .brand .logo-wordmark .l2 { font-size: 8px; }
+    .cutoff { padding: 6px 14px; }
+    .cutoff .date { font-size: 16px; }
+  }
+
+  /* Tablet portrait + móvil grande — stacking vertical, sidenav arriba */
+  @media (max-width: 860px) {
+    body { overflow: auto; height: auto; }
+    .layout {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
+    .sidenav {
+      flex-direction: row;
+      border-right: none;
+      border-bottom: 2px solid var(--dorado);
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    .sidenav::before { display: none; }
+    .sidenav-header { display: none; }
+    .nav-items {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      padding: 0;
+      flex: 1;
+    }
+    .nav-item {
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 14px;
+      border-left: none;
+      border-bottom: 3px solid transparent;
+      min-width: 86px;
+      text-align: center;
+      flex: 1 0 auto;
+    }
+    .nav-item.active {
+      border-left-color: transparent;
+      border-bottom-color: var(--bermellon-claro);
+      background: linear-gradient(180deg, rgba(168, 54, 42, 0.2) 0%, transparent 100%);
+    }
+    .nav-item .nav-label { font-size: 10px; }
+    .nav-item .nav-icon { font-size: 18px; }
+    .nav-item .nav-meta { display: none; }
+    .sidenav-footer { display: none; }
+
+    #map {
+      width: 100%;
+      height: 55vh;
+      min-height: 360px;
+      border-left: none;
+      border-right: none;
+    }
+    aside {
+      border-left: none;
+      border-top: 1px solid var(--divisor);
+      max-height: none;
+      height: auto;
+    }
+    .tab-panel { max-height: none; }
+    .timebar { padding: 12px 16px; gap: 12px; height: auto; }
+  }
+
+  /* Móvil — header en filas y nav grande */
+  @media (max-width: 600px) {
+    header {
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 10px 14px;
+      gap: 10px;
+    }
+    header::after { left: 14px; right: 14px; }
+    .brand { gap: 10px; }
+    .brand .logo-mark { font-size: 22px; padding: 5px 9px; }
+    .brand .logo-wordmark .l2 { display: none; }
+    .header-center { order: 3; flex-basis: 100%; }
+    header .title h1 { font-size: 16px; }
+    header .title p { font-size: 11px; line-height: 1.35; }
+    .cutoff { padding: 5px 12px; }
+    .cutoff .label { font-size: 9px; }
+    .cutoff .date { font-size: 14px; }
+
+    #map { height: 50vh; min-height: 320px; }
+
+    .nav-item { min-width: 72px; padding: 9px 8px; }
+    .nav-item .nav-label { font-size: 9px; }
+    .nav-item .nav-icon { font-size: 16px; }
+
+    .stats-box {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px 10px;
+    }
+    .stats-box .stat .n { font-size: 22px; }
+    .stats-box .stat:not(:last-child)::after { display: none; }
+
+    .filters { padding: 8px 12px; }
+    .filter-chip { font-size: 11px; padding: 3px 9px; }
+
+    .event { grid-template-columns: 60px 1fr; padding: 10px 14px; }
+    .event .date { font-size: 11px; }
+    .event .desc { font-size: 12.5px; }
+
+    .country { padding: 12px 14px; }
+    .country .flag { font-size: 13px; }
+
+    .source-group { padding: 12px 14px; }
+    .source-group li { font-size: 12px; }
+
+    .column-card { padding: 14px 16px; }
+    .column-card h3 { font-size: 15px; }
+
+    .declaracion { padding: 14px 16px; }
+    .declaracion-cita { font-size: 13px; padding-left: 14px; }
+
+    .timebar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding: 12px 14px;
+      height: auto;
+    }
+    .play-btn { width: 36px; height: 36px; align-self: center; }
+    .current-date { width: auto; }
+    .slider-labels { font-size: 9px; }
+
+    .legend {
+      font-size: 10px;
+      padding: 8px 10px;
+      bottom: 8px; left: 8px;
+      max-width: calc(100% - 20px);
+    }
+  }
+
+  /* Pantallas muy chicas */
+  @media (max-width: 380px) {
+    .brand .logo-wordmark { display: none; }
+    header .title h1 { font-size: 15px; }
+    .stats-box { grid-template-columns: repeat(2, 1fr); }
+    .nav-item .nav-label { font-size: 8.5px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo-mark">45</div>
+    <div class="logo-wordmark">
+      <span class="l1">Digital Noticias</span>
+      <span class="l2">9–10 a.m.</span>
+    </div>
+  </div>
+  <div class="header-center title">
+    <h1>Hantavirus 2026 — brote MV Hondius</h1>
+    <p>Cronología completa, casos por país y fuentes verificables — Andes virus (ANDV)</p>
+  </div>
+  <div class="cutoff">
+    <div class="label">Datos al</div>
+    <div class="date">13 may 2026</div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============== SIDENAV — panel lateral izquierdo ============== -->
+  <nav class="sidenav" role="navigation">
+    <div class="sidenav-header">
+      <div class="eyebrow">Expediente</div>
+      <div class="nav-title">Hantavirus 2026<br/>MV Hondius</div>
+    </div>
+    <div class="nav-items">
+      <div class="nav-item active" data-tab="cronologia">
+        <span class="nav-icon">◷</span>
+        <span class="nav-label">Cronología</span>
+        <span class="nav-meta">21</span>
+      </div>
+      <div class="nav-item" data-tab="paises">
+        <span class="nav-icon">◉</span>
+        <span class="nav-label">Casos por país</span>
+        <span class="nav-meta">11</span>
+      </div>
+      <div class="nav-item" data-tab="boletin">
+        <span class="nav-icon">⚑</span>
+        <span class="nav-label">Boletín oficial</span>
+        <span class="nav-meta">●</span>
+      </div>
+      <div class="nav-item" data-tab="columnas">
+        <span class="nav-icon">§</span>
+        <span class="nav-label">Columnas</span>
+      </div>
+      <div class="nav-item" data-tab="fuentes">
+        <span class="nav-icon">❡</span>
+        <span class="nav-label">Fuentes</span>
+      </div>
+    </div>
+    <div class="sidenav-footer">
+      Lectura sistémica<br/>45 Digital Noticias
+    </div>
+  </nav>
+
+  <!-- ============== MAPA (centro) ============== -->
+  <div id="map">
+    <div class="legend">
+      <div class="row"><span class="dot" style="background:var(--bermellon)"></span><span>Exposición / ruta del crucero</span></div>
+      <div class="row"><span class="dot" style="background:var(--tinta-profunda)"></span><span>Muerte confirmada</span></div>
+      <div class="row"><span class="dot" style="background:var(--tinta-naval)"></span><span>Hospital de destino</span></div>
+      <div class="row"><span class="dot" style="background:var(--dorado)"></span><span>Laboratorio / institucional</span></div>
+      <div class="row"><span class="line"></span><span>Ruta marítima</span></div>
+      <div class="row"><span class="dash"></span><span>Evacuación aérea</span></div>
+    </div>
+  </div>
+
+  <!-- ============== PANEL DE CONTENIDO (derecha) ============== -->
+  <aside>
+
+    <!-- TAB: CRONOLOGÍA -->
+    <div class="tab-panel active" id="panel-cronologia">
+      <div class="stats-box">
+        <div class="stat"><div class="n">11</div><div class="l">Casos totales</div></div>
+        <div class="stat"><div class="n">8</div><div class="l">Confirmados</div></div>
+        <div class="stat"><div class="n">3</div><div class="l">Muertes</div></div>
+        <div class="stat"><div class="n">147</div><div class="l">Expuestos</div></div>
+      </div>
+      <div class="filters">
+        <span class="filter-chip active" data-f="all">Todos</span>
+        <span class="filter-chip" data-f="route">Ruta</span>
+        <span class="filter-chip" data-f="death">Muertes</span>
+        <span class="filter-chip" data-f="hospital">Hospitales</span>
+        <span class="filter-chip" data-f="lab">Institucional</span>
+      </div>
+      <div id="timeline"></div>
+    </div>
+
+    <!-- TAB: CASOS POR PAÍS -->
+    <div class="tab-panel" id="panel-paises">
+      <div class="stats-box">
+        <div class="stat"><div class="n">11</div><div class="l">Países afectados</div></div>
+        <div class="stat"><div class="n">9</div><div class="l">Con casos</div></div>
+        <div class="stat"><div class="n">23</div><div class="l">Nacionalidades</div></div>
+        <div class="stat"><div class="n">42</div><div class="l">Días cuarentena</div></div>
+      </div>
+      <div id="countries"></div>
+    </div>
+
+    <!-- TAB: BOLETÍN DE DECLARACIONES -->
+    <div class="tab-panel" id="panel-boletin">
+      <div class="panel-title">
+        <div class="eyebrow">Cotejo institucional</div>
+        <h2>Declaraciones recientes</h2>
+      </div>
+      <div class="boletin-help">
+        Comunicados, ruedas de prensa y posicionamientos oficiales — ordenados de lo más reciente a lo más antiguo. Cada entrada enlaza a la fuente verificable.
+      </div>
+      <div id="declaraciones-list"></div>
+    </div>
+
+    <!-- TAB: COLUMNAS DE OPINIÓN -->
+    <div class="tab-panel" id="panel-columnas">
+      <!-- Vista 1: Índice -->
+      <div id="columnas-index">
+        <div class="panel-title">
+          <div class="eyebrow">Sala de lectura</div>
+          <h2>Columnas de opinión</h2>
+        </div>
+        <div class="columns-help">
+          Piezas editoriales vinculadas a este expediente. Haz clic en cualquier título para leer la columna completa.
+        </div>
+        <div id="columnas-list"></div>
+      </div>
+
+    </div>
+
+    <!-- Vista 2 (fuera del aside, fullscreen): Lector inmersivo -->
+    <div id="columnas-reader" class="reader-view">
+      <div class="reader-topbar">
+        <div class="reader-topbar-left">
+          <div class="logo-mark">45</div>
+          <div class="topbar-title">
+            Digital Noticias
+            <small>Sala de lectura</small>
+          </div>
+        </div>
+        <div class="reader-back" id="reader-back-btn">Volver al mapa</div>
+      </div>
+      <div class="reader-article" id="reader-content"></div>
+    </div>
+
+    <!-- Lightbox para galería de portadas -->
+    <div class="galeria-lightbox" id="galeria-lightbox">
+      <div class="galeria-lightbox-close" id="lightbox-close">×</div>
+      <img id="lightbox-img" src="" alt="" />
+      <div class="galeria-lightbox-cap" id="lightbox-cap"></div>
+    </div>
+
+    <!-- TAB: FUENTES -->
+    <div class="tab-panel" id="panel-fuentes">
+      <div id="sources"></div>
+    </div>
+  </aside>
+</div>
+
+<div class="timebar">
+  <button class="play-btn" id="play">▶</button>
+  <div class="slider-wrap">
+    <div class="slider-labels">
+      <span>1 abr — Ushuaia</span>
+      <span>HOY · 13 may</span>
+      <span>18 may — Rotterdam</span>
+    </div>
+    <input type="range" min="1" max="48" value="43" class="slider" id="slider" style="--pct:90%" />
+  </div>
+  <div class="current-date" id="current-date">13 may</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // ----- Datos cronológicos (n=día desde 1-abr) -----
+  const events = [
+    { n:1,  day:1,  date:'1-abr',  type:'route',    coords:[-54.81,-68.30], place:'Ushuaia, Argentina', desc:'Zarpa el MV Hondius con 175 personas (pasajeros + tripulación) a bordo. Operador: Oceanwide Expeditions.', v:'✅' },
+    { n:2,  day:6,  date:'6-abr',  type:'symptom',  coords:[-64.50,-62.00], place:'Mar de Drake / Antártida', desc:'Primer síntoma reportado: hombre holandés de 70 años. Sin alarma epidemiológica inicial.', v:'✅' },
+    { n:3,  day:11, date:'11-abr', type:'death',    coords:[-50.00,-30.00], place:'A bordo, Atlántico Sur', desc:'Primera muerte: holandés de 70 años. Atribuida inicialmente a causas naturales — esto retrasa 21 días la alerta sanitaria.', v:'✅' },
+    { n:4,  day:14, date:'13-15 abr', type:'route', coords:[-37.10,-12.28], place:'Tristán da Cunha', desc:'Escala. 1 caso probable se quedó en la isla (estable al cierre).', v:'✅' },
+    { n:5,  day:24, date:'24-abr', type:'route',    coords:[-15.92,-5.72],  place:'Santa Helena', desc:'Escala. 30 pasajeros desembarcan aquí — punto clave para rastreo posterior.', v:'✅' },
+    { n:6,  day:26, date:'26-abr', type:'death',    coords:[-26.20,28.04],  place:'Johannesburgo, Sudáfrica', desc:'Segunda muerte: esposa del primer fallecido, holandesa de 69 años. Evacuada por aire desde el barco al Charlotte Maxeke Hospital.', v:'✅' },
+    { n:7,  day:32, date:'2-may',  type:'death',    coords:[-10.00,-20.00], place:'A bordo, Atlántico Sur', desc:'Tercera muerte: mujer alemana. Ese mismo día el brote es notificado oficialmente a la OMS.', v:'✅' },
+    { n:8,  day:33, date:'3-may',  type:'route',    coords:[14.93,-23.51],  place:'Praia, Cabo Verde', desc:'El barco fondea fuera de puerto. Cabo Verde niega atraque por riesgo sanitario.', v:'✅' },
+    { n:9,  day:34, date:'4-may',  type:'lab',     coords:[14.93,-23.51],  place:'Laboratorio de referencia', desc:'Secuenciación genética identifica el patógeno: hantavirus Andes (ANDV). Primer caso confirmado por PCR.', v:'✅' },
+    { n:10, day:36, date:'6-may',  type:'hospital', coords:[47.37,8.54],    place:'Zúrich, Suiza', desc:'Gobierno suizo confirma 1 paciente tratado en Zúrich. Total acumulado: 8 casos.', v:'✅' },
+    { n:11, day:37, date:'7-may',  type:'lab',      coords:[46.20,6.14],    place:'Ginebra — OMS', desc:'OMS publica respuesta oficial. Dr. Tedros: virus Andes conocido, no nueva cepa, riesgo pandémico bajo.', v:'✅' },
+    { n:12, day:38, date:'8-may',  type:'lab',      coords:[28.46,-16.25],  place:'Tenerife, Canarias', desc:'CDC despliega equipo de epidemiólogos en las Canarias para evaluar exposición de pasajeros estadounidenses.', v:'✅' },
+    { n:13, day:40, date:'10-may', type:'route',    coords:[28.10,-16.49],  place:'Puerto de Granadilla, Tenerife', desc:'MV Hondius atraca tras 40 días en el mar. España fija ese día como "día cero" de la cuarentena oficial.', v:'✅' },
+    { n:14, day:41, date:'11-may', type:'route',    coords:[28.10,-16.49],  place:'Tenerife — desembarque', desc:'Desembarque completo de 147 personas. Repatriaciones por vuelos medicalizados a múltiples países.', v:'✅' },
+    { n:15, day:41, date:'11-may', type:'hospital', coords:[41.12,-95.92],  place:'Offutt AFB / Nebraska, EEUU', desc:'17 estadounidenses aterrizan en Offutt Air Force Base; trasladados a la Nebraska Biocontainment Unit. 1 positivo, 1 con síntomas leves.', v:'✅' },
+    { n:16, day:42, date:'12-may', type:'hospital', coords:[40.41,-3.74],   place:'Madrid — Hospital Gómez Ulla', desc:'14 españoles en cuarentena 42 días en el Hospital Central de Defensa Gómez Ulla. 1 positivo leve, estable.', v:'✅' },
+    { n:17, day:42, date:'12-may', type:'hospital', coords:[48.86,2.35],    place:'Francia — caso crítico', desc:'Mujer francesa de 65 años en estado crítico, ventilación asistida. Pronóstico vital comprometido según parte médico citado por medios.', v:'⚠️' },
+    { n:18, day:42, date:'12-may', type:'hospital', coords:[41.90,12.50],   place:'Roma — análisis ISS', desc:'Italiano joven de Calabria asintomático; muestras enviadas al Instituto Superior de Salud (ISS) en Roma para confirmación.', v:'⚠️' },
+    { n:19, day:42, date:'12-may', type:'lab',      coords:[46.20,6.14],    place:'OMS — comunicado oficial', desc:'OMS actualiza: 11 casos en total (9 confirmados, 2 probables), 3 muertes. Riesgo poblacional bajo.', v:'✅' },
+    { n:20, day:43, date:'13-may', type:'lab',      coords:[59.33,18.06],   place:'ECDC — Estocolmo', desc:'ECDC actualiza: 11 casos (8 confirmados, 2 probables, 1 inconcluso), 3 muertes. Sin casos nuevos desde update previo. Riesgo UE/EEE muy bajo.', v:'✅' },
+    { n:21, day:48, date:'17-18 may (programado)', type:'route', coords:[51.92,4.48], place:'Rotterdam — destino del barco', desc:'MV Hondius llegará a Rotterdam para desinfección. A bordo: 27 personas asintomáticas (25 tripulantes + 2 funcionarios sanitarios).', v:'⚠️' }
+  ];
+
+  // Mapeo día → fecha legible
+  const dayToDate = {
+    1:'1 abr', 6:'6 abr', 11:'11 abr', 14:'14 abr', 24:'24 abr', 26:'26 abr',
+    32:'2 may', 33:'3 may', 34:'4 may', 36:'6 may', 37:'7 may', 38:'8 may',
+    40:'10 may', 41:'11 may', 42:'12 may', 43:'13 may', 48:'18 may'
+  };
+  function dayLabel(d) {
+    if (dayToDate[d]) return dayToDate[d];
+    if (d <= 30) return `${d} abr`;
+    return `${d - 30} may`;
+  }
+
+  // ----- Mapa -----
+  const map = L.map('map', { worldCopyJump: true }).setView([-15, -20], 3);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 8, minZoom: 2
+  }).addTo(map);
+
+  // Ruta del barco
+  const cruiseRoute = [
+    [-54.81,-68.30], [-64.50,-62.00], [-54.43,-36.59],
+    [-37.10,-12.28], [-15.92,-5.72], [-7.93,-14.36],
+    [14.93,-23.51], [28.10,-16.49]
+  ];
+  const routeLine = L.polyline(cruiseRoute, { color:'#c0392b', weight:3, opacity:0.75 }).addTo(map);
+
+  // Líneas de evacuación
+  const evacOrigin = [28.10,-16.49]; // Tenerife (desembarque)
+  const evacDest = [
+    [-26.20,28.04],   // Johannesburgo
+    [52.37,4.90],     // Ámsterdam
+    [47.37,8.54],     // Zúrich
+    [52.52,13.40],    // Berlín
+    [40.41,-3.74],    // Madrid
+    [48.86,2.35],     // París
+    [41.90,12.50],    // Roma
+    [41.12,-95.92],   // Omaha
+    [51.92,4.48]      // Rotterdam (programado)
+  ];
+  evacDest.forEach(dest => {
+    L.polyline([evacOrigin, dest], {
+      color:'#2c5f8d', weight:1.3, opacity:0.45, dashArray:'5,5'
+    }).addTo(map);
+  });
+
+  // Marcadores numerados
+  const markers = {};
+  const colors = { route:'#c0392b', symptom:'#e67e22', death:'#1a1a1a', hospital:'#2c5f8d', lab:'#7d6b3f' };
+
+  events.forEach(e => {
+    const color = colors[e.type] || '#888';
+    const icon = L.divIcon({
+      className: 'event-marker',
+      html: `<div style="width:26px;height:26px;background:${color};color:#fff;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:12px;font-weight:600;box-shadow:0 0 0 1px rgba(0,0,0,0.35);">${e.n}</div>`,
+      iconSize: [26, 26], iconAnchor: [13, 13]
+    });
+    const m = L.marker(e.coords, { icon }).addTo(map);
+    m.bindPopup(`<span class="pop-date">${e.date} · ${e.v}</span><b>${e.place}</b>${e.desc}`);
+    markers[e.n] = m;
+  });
+
+  // ----- Panel cronología -----
+  const tl = document.getElementById('timeline');
+  events.forEach(e => {
+    const div = document.createElement('div');
+    div.className = 'event' + (e.type === 'death' ? ' event-death' : '');
+    div.dataset.n = e.n;
+    div.dataset.type = e.type;
+    div.dataset.day = e.day;
+    div.innerHTML = `
+      <div class="date">${e.date}</div>
+      <div>
+        <span class="num">#${e.n}</span><span class="place">${e.place}</span><span class="verif">${e.v}</span>
+        <div class="desc">${e.desc}</div>
+      </div>
+    `;
+    div.addEventListener('click', () => {
+      document.querySelectorAll('.event').forEach(x => x.classList.remove('active'));
+      div.classList.add('active');
+      map.flyTo(e.coords, Math.max(map.getZoom(), 4), { duration: 0.8 });
+      setTimeout(() => markers[e.n].openPopup(), 850);
+    });
+    tl.appendChild(div);
+  });
+
+  // ----- Filtros -----
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const f = chip.dataset.f;
+      document.querySelectorAll('.event').forEach(ev => {
+        const t = ev.dataset.type;
+        let show = true;
+        if (f === 'death') show = (t === 'death');
+        else if (f === 'hospital') show = (t === 'hospital');
+        else if (f === 'route') show = (t === 'route' || t === 'symptom');
+        else if (f === 'lab') show = (t === 'lab');
+        ev.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  // ----- Sidenav -----
+  document.querySelectorAll('.nav-item').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+      // Cerrar el lector fullscreen si estaba abierto
+      const reader = document.getElementById('columnas-reader');
+      if (reader && reader.classList.contains('fullscreen')) {
+        reader.classList.remove('fullscreen');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // ----- Slider temporal -----
+  const slider = document.getElementById('slider');
+  const currentDateLabel = document.getElementById('current-date');
+  const playBtn = document.getElementById('play');
+  let playing = false;
+  let playInterval = null;
+
+  function applyTimeFilter(day) {
+    currentDateLabel.textContent = dayLabel(day);
+    const pct = ((day - 1) / 47) * 100;
+    slider.style.setProperty('--pct', pct + '%');
+    // Dim events posteriores
+    document.querySelectorAll('.event').forEach(ev => {
+      const d = parseInt(ev.dataset.day);
+      if (d > day) ev.classList.add('dimmed');
+      else ev.classList.remove('dimmed');
+    });
+    // Ocultar/mostrar marcadores
+    events.forEach(e => {
+      if (e.day > day) map.removeLayer(markers[e.n]);
+      else markers[e.n].addTo(map);
+    });
+  }
+
+  slider.addEventListener('input', e => {
+    applyTimeFilter(parseInt(e.target.value));
+  });
+
+  playBtn.addEventListener('click', () => {
+    if (playing) {
+      clearInterval(playInterval);
+      playBtn.textContent = '▶';
+      playing = false;
+    } else {
+      playing = true;
+      playBtn.textContent = '⏸';
+      let d = parseInt(slider.value);
+      if (d >= 48) { d = 1; slider.value = 1; }
+      playInterval = setInterval(() => {
+        d += 1;
+        if (d > 48) {
+          clearInterval(playInterval);
+          playBtn.textContent = '▶';
+          playing = false;
+          return;
+        }
+        slider.value = d;
+        applyTimeFilter(d);
+      }, 500);
+    }
+  });
+
+  applyTimeFilter(43); // arranca en 13-may
+
+  // Vista inicial englobando todo
+  const bounds = L.latLngBounds(events.map(e => e.coords));
+  map.fitBounds(bounds, { padding: [50, 50] });
+
+  // ----- Casos por país -----
+  const countries = [
+    { name:'Países Bajos', flag:'🇳🇱', coords:[52.37,4.90], hosp:'Ámsterdam (varios centros)',
+      conf:2, prob:0, obs:0, deaths:2,
+      note:'Matrimonio holandés: marido falleció a bordo (11-abr); esposa evacuada y falleció en Johannesburgo (26-abr).', v:'✅' },
+    { name:'Alemania', flag:'🇩🇪', coords:[52.52,13.40], hosp:'Repatriación a Alemania',
+      conf:1, prob:0, obs:0, deaths:1,
+      note:'Mujer alemana falleció a bordo el 2-may; el brote se notificó a la OMS ese día.', v:'✅' },
+    { name:'Sudáfrica', flag:'🇿🇦', coords:[-26.20,28.04], hosp:'Charlotte Maxeke Hospital, Johannesburgo',
+      conf:0, prob:0, obs:0, deaths:0,
+      note:'Sin casos sudafricanos. Recibió por evacuación aérea a la holandesa fallecida.', v:'✅' },
+    { name:'Suiza', flag:'🇨🇭', coords:[47.37,8.54], hosp:'Hospital Universitario de Zúrich',
+      conf:1, prob:0, obs:0, deaths:0,
+      note:'1 paciente confirmado positivo el 6-may; tratamiento en curso.', v:'✅' },
+    { name:'España', flag:'🇪🇸', coords:[40.41,-3.74], hosp:'Hospital Central de Defensa Gómez Ulla, Madrid',
+      conf:1, prob:0, obs:14, deaths:0,
+      note:'14 españoles en cuarentena 42 días. 1 positivo con síntomas leves, estable. Una mujer de 32 años en Alicante con 3 PCR negativas sigue hospitalizada por protocolo.', v:'✅' },
+    { name:'Francia', flag:'🇫🇷', coords:[48.86,2.35], hosp:'Hospital no divulgado',
+      conf:1, prob:0, obs:0, deaths:0,
+      note:'Mujer de 65 años en estado crítico, ventilación asistida. Pronóstico vital comprometido.', v:'⚠️' },
+    { name:'Italia', flag:'🇮🇹', coords:[41.90,12.50], hosp:'ISS Roma (análisis)',
+      conf:0, prob:1, obs:0, deaths:0,
+      note:'Italiano joven de Calabria asintomático; muestras en análisis en el ISS.', v:'⚠️' },
+    { name:'Estados Unidos', flag:'🇺🇸', coords:[41.12,-95.92], hosp:'Nebraska Biocontainment Unit, Omaha',
+      conf:1, prob:0, obs:16, deaths:0,
+      note:'17 estadounidenses repatriados a Offutt AFB y trasladados a unidad de biocontención. 1 positivo, 1 con síntomas leves.', v:'✅' },
+    { name:'Tristán da Cunha', flag:'🇸🇭', coords:[-37.10,-12.28], hosp:'Atención local',
+      conf:0, prob:1, obs:0, deaths:0,
+      note:'1 caso probable que se quedó en la isla. Estable.', v:'✅' },
+    { name:'Reino Unido', flag:'🇬🇧', coords:[51.51,-0.13], hosp:'Monitoreo',
+      conf:0, prob:0, obs:0, deaths:0,
+      note:'Pasajeros desembarcados en monitoreo. Sin casos confirmados al cierre.', v:'⚠️' },
+    { name:'Argentina', flag:'🇦🇷', coords:[-54.81,-68.30], hosp:'Punto de origen (Ushuaia)',
+      conf:0, prob:0, obs:0, deaths:0,
+      note:'Puerto de embarque. Exposición probable a Oligoryzomys longicaudatus, reservorio del ANDV en Patagonia.', v:'✅' }
+  ];
+
+  const ctn = document.getElementById('countries');
+  countries.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'country';
+    div.innerHTML = `
+      <div>
+        <div class="flag">${c.flag} ${c.name} <span class="verif" style="font-size:10px">${c.v}</span></div>
+        <div class="hosp">${c.hosp}</div>
+        <div class="country-note">${c.note}</div>
+      </div>
+      <div class="num-cases">
+        ${c.conf ? `<div><b>${c.conf}</b> conf.</div>` : ''}
+        ${c.prob ? `<div>${c.prob} prob.</div>` : ''}
+        ${c.obs ? `<div>${c.obs} obs.</div>` : ''}
+        ${c.deaths ? `<div class="death">† ${c.deaths}</div>` : ''}
+      </div>
+    `;
+    div.addEventListener('click', () => {
+      map.flyTo(c.coords, Math.max(map.getZoom(), 4), { duration: 0.8 });
+    });
+    ctn.appendChild(div);
+  });
+
+  // ----- Fuentes -----
+  const sources = [
+    { group:'Organismos oficiales (sanitarios)', tag:'tag-oficial', items:[
+      { t:'OMS — DON599 (informe inicial del brote)', url:'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON599' },
+      { t:'OMS — DON600 (actualización al 8 de mayo)', url:'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON600' },
+      { t:'OMS — Respuesta de Tedros (7 de mayo)', url:'https://www.who.int/news/item/07-05-2026-who-s-response-to-hantavirus-cases-linked-to-a-cruise-ship' },
+      { t:'OMS (versión en español) — Respuesta al brote', url:'https://www.who.int/es/news/item/07-05-2026-who-s-response-to-hantavirus-cases-linked-to-a-cruise-ship' },
+      { t:'ECDC — Andes hantavirus outbreak (update 13-may)', url:'https://www.ecdc.europa.eu/en/infectious-disease-topics/hantavirus-infection/surveillance-and-updates/andes-hantavirus-outbreak' },
+      { t:'CDC — Andes virus outbreak situation summary', url:'https://www.cdc.gov/hantavirus/situation-summary/index.html' },
+      { t:'CDC — HAN 00528 (alerta sanitaria multipaís)', url:'https://www.cdc.gov/han/php/notices/han00528.html' },
+      { t:'CDC Newsroom — Update on M/V Hondius outbreak', url:'https://www.cdc.gov/media/releases/2026/2026-cdc-provides-update-on-hantavirus-outbreak-linked-to-m-v-hondius-cruise-ship.html' },
+      { t:'Noticias ONU — "No es otro COVID"', url:'https://news.un.org/es/story/2026/05/1541422' }
+    ]},
+    { group:'Medios internacionales (inglés)', tag:'tag-medio', items:[
+      { t:'Wikipedia — MV Hondius hantavirus outbreak (cronología consolidada)', url:'https://en.wikipedia.org/wiki/MV_Hondius_hantavirus_outbreak' },
+      { t:'CNN — Visualización en mapas y gráficos del brote', url:'https://www.cnn.com/us/maps-hantavirus-cruise-outbreak-vis' },
+      { t:'CNN — De EEUU a Singapur, países se suman al rastreo', url:'https://www.cnn.com/2026/05/07/world/hantavirus-ship-tenerife-outbreak-intl' },
+      { t:'NPR — Pasajeros llegan a EEUU tras positivo', url:'https://www.npr.org/2026/05/10/nx-s1-5817578/hantavirus-cruise-ship-nebraska-us-passengers' },
+      { t:'Washington Post — American tests positive', url:'https://www.washingtonpost.com/health/2026/05/09/hantavirus-us-cruise-cdc/' },
+      { t:'CBS News — Crucero llega a Canarias', url:'https://www.cbsnews.com/news/cruise-ship-stricken-by-hantavirus-reaches-canary-islands/' },
+      { t:'Today — Pandemic risk explained', url:'https://www.today.com/health/news/hantavirus-pandemic-risk-2026-cruise-ship-outbreak-covid-rcna344538' },
+      { t:'Today — Map of US states with cruise passengers', url:'https://www.today.com/health/disease/us-hantavirus-cruise-ship-outbreak-passengers-map-states-rcna344213' },
+      { t:'ABC News — Live updates Canary Islands', url:'https://abcnews.com/International/live-updates/hantavirus-live-updates-mv-hondius-canary-islands/?id=132746955' },
+      { t:'KFF Quick Take — Test case for US public health', url:'https://www.kff.org/quick-take/the-hantavirus-outbreak-is-a-test-case-for-the-u-s-public-health-response/' },
+      { t:'BMJ — Should reset WHO airborne approach', url:'https://www.bmj.com/content/393/bmj.s919' },
+      { t:'Fox News — Concern over human-to-human spread', url:'https://www.foxnews.com/health/andes-virus-linked-cruise-ship-deaths-raises-concern-over-human-to-human-spread' },
+      { t:'Korea Times — Hantavirus, discovered in Korea 1950s', url:'https://www.koreatimes.co.kr/southkorea/health/20260513/hantavirus-first-discovered-in-korea-in-1950s-what-to-know' },
+      { t:'Euronews — Qué es el hantavirus y cómo se transmite', url:'https://www.euronews.com/health/2026/05/12/what-is-hantavirus-and-how-is-it-transmitted-questions-and-answers-about-the-outbreak' }
+    ]},
+    { group:'Medios en español', tag:'tag-es', items:[
+      { t:'Infobae España — Última hora del brote 12-may', url:'https://www.infobae.com/espana/2026/05/12/hantavirus-ultima-hora-del-brote-en-el-crucero-mv-hondius-en-directo-continua-la-cuarentena-de-los-espanoles-con-un-positivo-provisional-en-la-uatan/' },
+      { t:'Infobae Argentina — Datos oficiales y crucero', url:'https://www.infobae.com/salud/2026/05/12/hantavirus-en-argentina-los-ultimos-datos-oficiales-y-como-avanza-la-investigacion-del-brote-en-el-crucero/' },
+      { t:'Tribuna (México) — OMS confirma 10 casos', url:'https://tribuna.com.mx/mundo/2026/05/12/hantavirus-en-crucero-mv-hondius-oms-confirma-10-casos-positivos-y-asegura-que-el-riesgo-es-bajo_532248/' },
+      { t:'CNN Español — 5 países en el rastreo', url:'https://cnnespanol.cnn.com/2026/05/07/mundo/hantavirus-5-paises-brote-trax' },
+      { t:'CNN Español — Live news 11-may', url:'https://cnnespanol.cnn.com/2026/05/11/mundo/live-news/ultima-hora-crucero-hantavirus-contagios-trax' },
+      { t:'CNN Español — Evacúan a tres personas', url:'https://cnnespanol.cnn.com/2026/05/05/mundo/crucero-hantavirus-oms-sospecha-transmision-personas-trax' },
+      { t:'El Imparcial — Vigilancia podría extenderse 42 días', url:'https://www.elimparcial.com/mundo/2026/05/11/oms-advierte-que-podrian-aparecer-mas-casos-de-hantavirus-tras-brote-en-crucero-vigilancia-podria-extenderse-hasta-42-dias/' },
+      { t:'Wikipedia (español) — Brote de hantavirus en el MV Hondius', url:'https://es.wikipedia.org/wiki/Brote_de_hantavirus_en_el_MV_Hondius' }
+    ]},
+    { group:'Trackers y dashboards', tag:'tag-tracker', items:[
+      { t:'ArcGIS Dashboard — ANDV Hantavirus 2026', url:'https://www.arcgis.com/apps/dashboards/5c68442d2afc42d7ba2696e4cd393729' },
+      { t:'Hantavirus Outbreak Tracker (timeline en vivo)', url:'https://hantavirustracker.io/' },
+      { t:'HantavirusMap — Cases & deaths', url:'https://hantavirusmap.net/' },
+      { t:'HantaView — Global tracking', url:'https://www.hantaview.com/map' },
+      { t:'GenomicEpi — Hantavirus Cruise Outbreak Tracker', url:'https://genomicepi.com/outbreaks/hantavirus-hondius/' }
+    ]}
+  ];
+
+  // =================================================================
+  //  BOLETÍN — declaraciones y comunicados oficiales recientes
+  //  Ordenado automáticamente de más reciente a más antiguo.
+  // =================================================================
+  const declaraciones = [
+    {
+      fecha: '2026-05-13',
+      fechaLegible: '13 may 2026',
+      fuente: 'OMS',
+      tagClass: 'fuente-oms',
+      vocero: 'Dr. Tedros Adhanom Ghebreyesus — Director General',
+      cita: 'En este momento no hay señal de que estemos viendo el inicio de un brote mayor. La situación podría cambiar y, dado el largo periodo de incubación del virus, es posible que veamos más casos en las próximas semanas.',
+      contexto: 'Declaración tras la rueda de prensa en Madrid. Total: 11 casos confirmados o sospechosos, todos vinculados al MV Hondius.',
+      url: 'https://news.un.org/en/story/2026/05/1167458'
+    },
+    {
+      fecha: '2026-05-13',
+      fechaLegible: '13 may 2026',
+      fuente: 'UE',
+      tagClass: 'fuente-eu',
+      vocero: 'Reunión UE + Reino Unido + ECDC + Comisión Europea',
+      cita: 'PCR obligatoria para toda la tripulación del crucero a su llegada a Países Bajos. Quienes no regresen a sus países harán cuarentena ahí.',
+      contexto: 'Acuerdo conjunto de los Estados miembros europeos y el Reino Unido para coordinar la vigilancia del brote.',
+      url: 'https://www.infobae.com/espana/2026/05/13/hantavirus-ultima-hora-de-los-pacientes-en-espana-francia-y-paises-bajos-en-directo-el-pasajero-espanol-que-ha-dado-positivo-permanece-con-sintomas-leves/'
+    },
+    {
+      fecha: '2026-05-13',
+      fechaLegible: '13 may 2026',
+      fuente: 'Sanidad ES',
+      tagClass: 'fuente-sanidad',
+      vocero: 'Ministerio de Sanidad, España',
+      cita: 'Cada país ha reportado sus casos y sus contactos, y el seguimiento de los mismos. El pasajero español con positivo está estable y con pocos síntomas.',
+      contexto: 'Comunicado tras la reunión con países UE, Reino Unido, ECDC y Comisión Europea.',
+      url: 'https://www.elespanol.com/ciencia/20260513/hantavirus-ultima-hora-hoy-directo-torres-respecto-supuesto-positivo-oculto-gobierno-propia-oms-declaro-negativo/1003744241672_10.html'
+    },
+    {
+      fecha: '2026-05-13',
+      fechaLegible: '13 may 2026',
+      fuente: 'ECDC',
+      tagClass: 'fuente-ecdc',
+      vocero: 'European Centre for Disease Prevention and Control',
+      cita: 'El riesgo para la población general de la UE/EEE sigue siendo muy bajo. No se han reportado casos nuevos ni muertes desde la actualización previa.',
+      contexto: 'Update técnico al 13 de mayo: 11 casos (8 confirmados, 2 probables, 1 inconcluso), 3 muertes.',
+      url: 'https://www.ecdc.europa.eu/en/infectious-disease-topics/hantavirus-infection/surveillance-and-updates/andes-hantavirus-outbreak'
+    },
+    {
+      fecha: '2026-05-12',
+      fechaLegible: '12 may 2026',
+      fuente: 'OMS',
+      tagClass: 'fuente-oms',
+      vocero: 'Conferencia conjunta en Moncloa, Madrid',
+      cita: 'Esto no es otro COVID. El riesgo de salud pública actual por hantavirus sigue siendo bajo.',
+      contexto: 'Rueda de prensa de Tedros en el Palacio de la Moncloa, junto a autoridades españolas.',
+      url: 'https://news.un.org/es/story/2026/05/1541422'
+    },
+    {
+      fecha: '2026-05-12',
+      fechaLegible: '12 may 2026',
+      fuente: 'Argentina',
+      tagClass: 'fuente-arg',
+      vocero: 'Ministerio de Salud de la Nación, Argentina',
+      cita: 'Argentina envió insumos diagnósticos a laboratorios de Senegal, Sudáfrica, Países Bajos, España y Reino Unido para identificar hantavirus Andes en muestras del brote.',
+      contexto: 'Cooperación técnica internacional desde el país donde se origina la exposición probable (Patagonia).',
+      url: 'https://www.infobae.com/salud/2026/05/12/hantavirus-en-argentina-los-ultimos-datos-oficiales-y-como-avanza-la-investigacion-del-brote-en-el-crucero/'
+    },
+    {
+      fecha: '2026-05-09',
+      fechaLegible: '9 may 2026',
+      fuente: 'OMS',
+      tagClass: 'fuente-oms',
+      vocero: 'Dr. Tedros — Mensaje al pueblo de Tenerife',
+      cita: 'Reconocemos y agradecemos a las autoridades canarias y al personal sanitario de Tenerife su disposición para recibir el barco y coordinar la respuesta al brote.',
+      contexto: 'Mensaje publicado tras el rechazo previo de Cabo Verde y la decisión española de aceptar el atraque.',
+      url: 'https://www.who.int/news/item/09-05-2026-message-by-the-who-director-general-to-the-people-of-tenerife-regarding-the-hantavirus-response'
+    },
+    {
+      fecha: '2026-05-08',
+      fechaLegible: '8 may 2026',
+      fuente: 'Sanidad ES',
+      tagClass: 'fuente-sanidad',
+      vocero: 'Centro de Coordinación de Alertas Sanitarias',
+      cita: 'Informe de situación del brote: protocolo activado, equipos de epidemiología desplegados en Canarias, coordinación con la OMS, ECDC y CDC en marcha.',
+      contexto: 'Documento técnico PDF emitido por el Ministerio de Sanidad español.',
+      url: 'https://www.sanidad.gob.es/areas/alertasEmergenciasSanitarias/alertasActuales/fiebreHemorragica/docs/20260508_informe_situacion_HANTAVIRUS.pdf'
+    },
+    {
+      fecha: '2026-05-08',
+      fechaLegible: '8 may 2026',
+      fuente: 'CDC',
+      tagClass: 'fuente-cdc',
+      vocero: 'Centers for Disease Control and Prevention, EEUU',
+      cita: 'El riesgo para la salud pública en EEUU permanece extremadamente bajo. Equipo del CDC desplegado en Canarias para evaluar exposición de pasajeros estadounidenses.',
+      contexto: 'Comunicado de prensa institucional. Pasajeros americanos serán repatriados a la Nebraska Biocontainment Unit.',
+      url: 'https://www.cdc.gov/media/releases/2026/2026-cdc-provides-update-on-hantavirus-outbreak-linked-to-m-v-hondius-cruise-ship.html'
+    },
+    {
+      fecha: '2026-05-07',
+      fechaLegible: '7 may 2026',
+      fuente: 'OMS',
+      tagClass: 'fuente-oms',
+      vocero: 'Dr. Tedros — Respuesta inicial',
+      cita: 'El virus identificado es el hantavirus Andes, conocido desde 1995. No es una cepa nueva. El riesgo pandémico es bajo.',
+      contexto: 'Primera declaración formal de la OMS tras la notificación del brote el 2 de mayo y la confirmación genética el 4 de mayo.',
+      url: 'https://www.who.int/news/item/07-05-2026-who-s-response-to-hantavirus-cases-linked-to-a-cruise-ship'
+    },
+    {
+      fecha: '2026-05-06',
+      fechaLegible: '6 may 2026',
+      fuente: 'ECDC',
+      tagClass: 'fuente-ecdc',
+      vocero: 'European Centre for Disease Prevention and Control',
+      cita: 'Evaluación técnica del brote: virus Andes confirmado, ruta de transmisión persona-persona requiere contacto cercano y prolongado, riesgo de propagación comunitaria muy bajo.',
+      contexto: 'Documento técnico PDF de la ECDC con recomendaciones para los Estados miembros.',
+      url: 'https://www.ecdc.europa.eu/sites/default/files/documents/TAB-hantavirus-06052026.pdf'
+    },
+    {
+      fecha: '2026-05-05',
+      fechaLegible: '5 may 2026',
+      fuente: 'Sanidad ES',
+      tagClass: 'fuente-sanidad',
+      vocero: 'Centro de Coordinación de Alertas Sanitarias',
+      cita: 'Primer informe de situación. Activación de protocolos nacionales. España coordina con países UE y autoridades del crucero.',
+      contexto: 'Documento técnico PDF emitido tras la notificación oficial del brote.',
+      url: 'https://www.sanidad.gob.es/areas/alertasEmergenciasSanitarias/alertasActuales/fiebreHemorragica/docs/20260505_informe_situacion_HANTAVIRUS.pdf'
+    },
+    {
+      fecha: '2026-05-02',
+      fechaLegible: '2 may 2026',
+      fuente: 'OMS',
+      tagClass: 'fuente-oms',
+      vocero: 'Notificación oficial bajo el Reglamento Sanitario Internacional',
+      cita: 'Reino Unido notifica a la OMS un clúster de enfermedad respiratoria aguda grave a bordo del MV Hondius, con dos fallecimientos y un paciente crítico.',
+      contexto: 'Activación formal del sistema de alerta global. El barco lleva ya 31 días navegando desde Ushuaia.',
+      url: 'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON599'
+    }
+  ];
+
+  const declaracionesContainer = document.getElementById('declaraciones-list');
+  const declaracionesSorted = [...declaraciones].sort((a, b) => b.fecha.localeCompare(a.fecha));
+  declaracionesSorted.forEach(d => {
+    const div = document.createElement('div');
+    div.className = 'declaracion';
+    div.innerHTML = `
+      <div class="declaracion-meta">
+        <span class="declaracion-fecha">${d.fechaLegible}</span>
+        <span class="declaracion-fuente ${d.tagClass}">${d.fuente}</span>
+      </div>
+      <div class="declaracion-vocero">${d.vocero}</div>
+      <blockquote class="declaracion-cita">${d.cita}</blockquote>
+      <div class="declaracion-contexto">${d.contexto}</div>
+      <a class="declaracion-link" href="${d.url}" target="_blank" rel="noopener">Fuente verificable</a>
+    `;
+    declaracionesContainer.appendChild(div);
+  });
+
+  // =================================================================
+  //  COLUMNAS DE OPINIÓN VINCULADAS — agregar entradas aquí
+  //  Plantilla:
+  //  {
+  //    titulo: "Título de la columna",
+  //    fecha: "YYYY-MM-DD",         // formato ISO, ordena automáticamente
+  //    fechaLegible: "13 mayo 2026", // como se muestra
+  //    resumen: "Resumen de 2-3 líneas. Tesis editorial y ángulo.",
+  //    conceptoEje: "Autor (año) — Obra de referencia",
+  //    mdPath: "2026-05-13/Título — columna.md",
+  //    docxPath: "2026-05-13/Título — columna.docx",
+  //    estado: "publicada" | "borrador"  // opcional
+  //  }
+  // =================================================================
+  // =================================================================
+  //  COLUMNAS — datos públicos. Sin rutas a archivos internos.
+  //  El contenido completo se renderiza en el lector.
+  // =================================================================
+  const columnas = [
+    {
+      id: 'la-arquitectura-que-quedo',
+      titulo: 'La arquitectura que quedó',
+      fechaPublicacion: '2026-05-08',
+      fechaLegible: '8 de mayo de 2026',
+      serie: null,
+      etiqueta: 'Antecedente',
+      conceptoEje: 'Naomi Klein — <em>La doctrina del shock</em> (2007), aplicada al saldo institucional del COVID-19',
+      resumen: 'No es la pandemia lo que vuelve. Es la maquinaria de respuesta a la pandemia la que nunca se desmontó. Operation Warp Speed, autorización de emergencia, inmunidad civil, financiamiento pandémico permanente — los cinco mecanismos heredados del COVID que hoy están listos para reactivarse.',
+      bajada: 'No es la pandemia lo que vuelve. Es la maquinaria de respuesta a la pandemia la que nunca se desmontó. Y eso, en mayo de 2026, conviene mirarlo con cuidado.',
+      tiempoLectura: '5 min',
+      imagen: '2026-05-08/20201010_SQ_UK-Winners and losers How covid-19 is reordering the global economy.avif',
+      imagenCaption: 'Portada de <em>The Economist</em> — <strong>"Winners and losers: How covid-19 is reordering the global economy"</strong>, 10 de octubre de 2020 (edición UK). Octava portada COVID del año; la primera en codificar explícitamente la tesis de redistribución asimétrica que sostiene esta columna.',
+      imagenInsertarDespuesParrafo: 0,
+      galeria: {
+        titulo: 'El 2020 en portadas — cronología visual',
+        intro: 'A lo largo del año, <em>The Economist</em> documentó semana tras semana la construcción de la arquitectura institucional que hoy queda heredada. Cada portada marca un momento del proceso. Las edita Daniel Franklin y la editora en jefe Zanny Minton Beddoes — la misma que en noviembre de 2025 firmaría <em>The World Ahead 2026</em>, con la jeringa ya en la portada.',
+        items: [
+          { fecha: '1 feb 2020', edicion: 'US', titulo: 'How bad will it get', archivo: '2026-05-08/20200201_SQ_US-How bad will it get.avif', nota: 'Cuando el virus aún era "el de China". Primer cover.' },
+          { fecha: '7 mar 2020', edicion: 'UK', titulo: 'The right medicine for the world economy', archivo: '2026-05-08/20200307_SQ_UK-The right medicine for the world economy.avif', nota: 'La economía entra al cuadro.' },
+          { fecha: '14 mar 2020', edicion: 'US', titulo: 'The politics of pandemics', archivo: '2026-05-08/20200314_SQ_US-The politics of pandemics.avif', nota: 'La pandemia se vuelve política partidista.' },
+          { fecha: '21 mar 2020', edicion: 'UK', titulo: 'Closed', archivo: '2026-05-08/20200321_SQ_UK-Closed.avif', nota: 'El mundo se detiene. Inicia el confinamiento global.' },
+          { fecha: '28 mar 2020', edicion: 'US', titulo: 'Everything\'s under control — Big government, liberty and the virus', archivo: '2026-05-08/20200328_SQ_US-Everythings under control Big government, liberty and the virus.avif', nota: 'El Estado entra a controlarlo todo. Tensión libertad-seguridad.' },
+          { fecha: '18 abr 2020', edicion: 'US', titulo: 'Is China winning? — The geopolitical consequences of covid-19', archivo: '2026-05-08/20200418_SQ_US-Is China winning The geopolitical consequences of covid-19.avif', nota: 'La geopolítica se reorganiza alrededor del virus.' },
+          { fecha: '2 may 2020', edicion: 'UK', titulo: 'The 90% economy', archivo: '2026-05-08/20200502_SQ_UK-The 90% economy.avif', nota: 'El nuevo equilibrio. Diez por ciento menos. Permanente.' },
+          { fecha: '27 jun 2020', edicion: 'UK', titulo: 'The next catastrophe (and how to survive it)', archivo: '2026-05-08/20200627_SQ_UK-The next catastrophe (and how to survive it).avif', nota: 'Anticipando la siguiente catástrofe — atención al título.' },
+          { fecha: '22 ago 2020', edicion: 'UK', titulo: 'The aliens among us — How viruses shape the world', archivo: '2026-05-08/20200822_SQ_UK-The aliens among us How viruses shape the world.avif', nota: 'El virus como agente que reordena el mundo.' },
+          { fecha: '26 sep 2020', edicion: 'US', titulo: 'Why are so many governments getting it wrong', archivo: '2026-05-08/20200926_SQ_US-Why are so many governments getting it wrong.avif', nota: 'Crítica al manejo gubernamental — terreno fértil para la desconfianza.' },
+          { fecha: '10 oct 2020', edicion: 'UK', titulo: 'Winners and losers — How covid-19 is reordering the global economy', archivo: '2026-05-08/20201010_SQ_UK-Winners and losers How covid-19 is reordering the global economy.avif', nota: 'La tesis explícita. Hay ganadores. Hay perdedores.', destacada: true },
+          { fecha: '14 nov 2020', edicion: 'US', titulo: 'Suddenly, hope', archivo: '2026-05-08/20201114_SQ_US-Suddenly, hope.avif', nota: 'Anuncio de las vacunas. Las farmacéuticas cierran el ciclo.' }
+        ]
+      },
+      parrafos: [
+        'Cuando termina una crisis pública, suele decirse que las cosas "vuelven a la normalidad". El lenguaje engaña. Lo que vuelve no es el estado previo: es un nuevo equilibrio que incorpora todas las soluciones de emergencia como dispositivos disponibles. La pandemia de COVID-19, entre 2020 y 2022, no sólo dejó un saldo económico desigual — eso lo cubrimos en otra pieza de este expediente. Dejó algo más: una arquitectura institucional. Cláusulas legales, protocolos sanitarios, agencias financieras, plataformas tecnológicas, marcos de propiedad intelectual. Todo eso quedó instalado. Y todo eso está disponible hoy, en mayo de 2026, mientras un crucero con hantavirus desembarca en Tenerife.',
+        'Vale la pena enumerar lo que quedó.',
+        '<strong>Primero, el modelo público-privado de desarrollo acelerado.</strong> <em>Operation Warp Speed</em> — el programa de la administración Trump de mayo de 2020 — coordinó <strong>18 mil millones de dólares de inversión federal estadounidense</strong> con seis farmacéuticas (Pfizer, Moderna, Johnson & Johnson, AstraZeneca, Novavax, Sanofi-GSK) para desarrollar vacunas en tiempos sin precedentes. El resultado fue una hazaña científica: vacunas en menos de un año. Pero también: propiedad intelectual privada construida sobre dinero público sin condiciones de retorno proporcional. El esquema <strong>Bayh-Dole</strong>, vigente desde 1980 en Estados Unidos, permite que universidades y centros públicos patenten descubrimientos hechos con fondos federales y los licencien a privados. La vacuna de ARN mensajero — base del fenómeno Moderna y Pfizer-BioNTech — descansa sobre décadas de investigación financiada por los <strong>NIH</strong> en universidades públicas. El público pagó la investigación. El privado capturó la renta.',
+        '<strong>Segundo, el mecanismo de autorización de emergencia.</strong> La <strong>FDA estadounidense</strong> y la <strong>EMA europea</strong> normalizaron vías rápidas de aprobación que comprimen los plazos regulatorios estándar. Lo que antes tomaba ocho a doce años se ejecuta hoy en doce a veinticuatro meses bajo el régimen de emergencia. Las primeras vacunas COVID se aprobaron bajo <em>Emergency Use Authorization</em> (FDA) y <em>Conditional Marketing Authorization</em> (EMA). Estas categorías legales no son temporales: son ahora parte del aparato regulatorio permanente. Cualquier patógeno futuro declarado "emergencia de salud pública de preocupación internacional" — la categoría que la OMS aplicó al COVID y que tiene contemplada también para el hantavirus si escalara — puede activar el mismo mecanismo.',
+        '<strong>Tercero, la cláusula de inmunidad legal.</strong> Los contratos de adquisición de vacunas COVID firmados entre gobiernos y farmacéuticas incluyeron, sin excepción documentada, cláusulas de <strong>inmunidad civil ante eventos adversos</strong>. Pfizer, Moderna y AstraZeneca quedaron protegidas legalmente de demandas por daños asociados a sus productos, transfiriendo el riesgo financiero a los Estados firmantes. Estos contratos, en buena parte, siguen siendo confidenciales: la Comisión Europea fue criticada repetidamente por opacidad sobre los términos pactados con Pfizer-BioNTech, y la Ombudsman europea emitió decisión formal en 2022 reclamando mayor transparencia. La inmunidad como cláusula estándar bajo emergencia: ese es el precedente.',
+        '<strong>Cuarto, el aparato de comunicación coordinada.</strong> Durante COVID se consolidó una arquitectura discursiva centralizada — voceros únicos por país, ruedas de prensa diarias, reglas de evidencia estrechas sobre lo que cuenta como "información confiable". Plataformas como YouTube, Facebook y X (entonces Twitter) implementaron políticas de moderación específicas para contenido sanitario, coordinadas con la OMS y las autoridades nacionales. Eso también quedó instalado. La consecuencia editorial es ambivalente: el espacio para la disidencia médica legítima se cerró al mismo nivel que el espacio para la desinformación, y el efecto secundario es un vacío de confianza que hoy alimenta los reflejos virales conspirativos. El "hanta = estafa" que circuló en redes sociales este mes no nace de la nada: nace de esa misma centralización mal saldada.',
+        '<strong>Quinto, la red de financiamiento pandémico permanente.</strong> Después del COVID se reforzaron tres instituciones clave que hoy operan a tiempo completo: <strong>CEPI</strong> (Coalition for Epidemic Preparedness Innovations, fundada en 2017), <strong>BARDA</strong> (Biomedical Advanced Research and Development Authority, agencia federal estadounidense) y el <strong>Fondo Pandémico del Banco Mundial</strong> (lanzado en septiembre de 2022). Estas tres canalizan miles de millones de dólares hacia candidatos vacunales, plataformas biotecnológicas y centros de bioseguridad. Su tarea declarada es preparar al mundo para "la próxima pandemia". Su tarea efectiva, vista desde el ángulo editorial: mantener viva una <em>pipeline</em> permanente de productos farmacéuticos en desarrollo que necesitan emergencias para cerrar el ciclo financiero.',
+        'Mire el lector lo que esto significa hoy. La vacuna de ARN mensajero contra hantavirus Andes desarrollada por el doctor Alexander Bukreyev en la University of Texas Medical Branch existe desde 2024. Estuvo parada dos años por falta de financiamiento. Cuando entren en operación los mecanismos descritos arriba — autorización de emergencia, fondos públicos acelerados, inmunidad civil, comunicación coordinada — la vacuna pasará en meses lo que normalmente tomaría años. No porque las reglas hayan cambiado al fin. Porque las reglas excepcionales del COVID ya son las reglas estándar.',
+        'No es necesario predecir una pandemia. Basta con observar que, si llega, <strong>el aparato ya está montado</strong>. <strong>El COVID no fue la prueba. Fue el manual.</strong>'
+      ],
+      firma: '45 Digital Noticias.',
+      fuentes: [
+        { texto: '<b>Klein, Naomi.</b> <em>La doctrina del shock: el auge del capitalismo del desastre.</em> Paidós, 2007. ISBN 978-84-493-2041-2.' },
+        { texto: '<b>U.S. Government Accountability Office.</b> <em>Operation Warp Speed — Accelerated COVID-19 Vaccine Development Status</em> (GAO-21-319), febrero 2021.', url: 'https://www.gao.gov/products/gao-21-319' },
+        { texto: '<b>Bayh-Dole Act</b> — Patent and Trademark Law Amendments Act of 1980 (Department of Energy)', url: 'https://www.energy.gov/gc/articles/bayh-dole-act' },
+        { texto: '<b>FDA</b> — Emergency Use Authorization (EUA), marco regulatorio vigente', url: 'https://www.fda.gov/emergency-preparedness-and-response/mcm-legal-regulatory-and-policy-framework/emergency-use-authorization' },
+        { texto: '<b>EMA</b> — Conditional Marketing Authorisation (CMA), política europea', url: 'https://www.ema.europa.eu/en/human-regulatory-overview/marketing-authorisation/conditional-marketing-authorisation' },
+        { texto: '<b>European Ombudsman.</b> Decisión sobre transparencia de contratos Pfizer-BioNTech (caso 1316/2021/MIG), 2022', url: 'https://www.ombudsman.europa.eu/en/decision/en/156915' },
+        { texto: '<b>CEPI</b> — Coalition for Epidemic Preparedness Innovations. Fundada en Davos, enero 2017', url: 'https://cepi.net/' },
+        { texto: '<b>BARDA</b> — Biomedical Advanced Research and Development Authority (HHS, EE.UU.)', url: 'https://aspr.hhs.gov/AboutASPR/ProgramOffices/BARDA/Pages/default.aspx' },
+        { texto: '<b>Pandemic Fund — Banco Mundial.</b> Lanzado septiembre 2022', url: 'https://www.worldbank.org/en/programs/financial-intermediary-fund-for-pandemic-prevention-preparedness-and-response' },
+        { texto: '<b>Comisión Europea — Vaccine Strategy COVID-19.</b> Documentos públicos sobre adquisición de vacunas', url: 'https://commission.europa.eu/strategy-and-policy/coronavirus-response/safe-covid-19-vaccines-europeans_en' },
+        { texto: '<b>The Economist.</b> <em>The World in 2021</em> — edición anual publicada noviembre 2020.' }
+      ],
+      glosario: [
+        { termino: 'Doctrina del shock', definicion: 'concepto de Naomi Klein (2007): la crisis aguda como condición de posibilidad para reformas económicas y políticas que en tiempos normales encontrarían resistencia democrática.' },
+        { termino: 'Operation Warp Speed', definicion: 'programa federal estadounidense (mayo 2020) que coordinó $18 mil millones con seis farmacéuticas para acelerar el desarrollo de vacunas COVID-19.' },
+        { termino: 'Bayh-Dole Act', definicion: 'ley estadounidense de 1980 que permite a universidades y entidades públicas patentar descubrimientos hechos con fondos federales y licenciarlos a privados. Base legal de buena parte del esquema público-privado farmacéutico.' },
+        { termino: 'Emergency Use Authorization (EUA)', definicion: 'vía rápida de aprobación de la FDA bajo régimen de emergencia, comprimiendo los plazos regulatorios estándar.' },
+        { termino: 'Conditional Marketing Authorisation (CMA)', definicion: 'equivalente europeo (EMA) de la EUA. Aprobación condicionada con datos parciales bajo emergencia sanitaria.' },
+        { termino: 'Inmunidad civil farmacéutica', definicion: 'cláusula contractual estándar en los contratos COVID por la cual el Estado firmante asume la responsabilidad legal por eventos adversos derivados de la vacuna, eximiendo al laboratorio.' },
+        { termino: 'CEPI', definicion: 'Coalition for Epidemic Preparedness Innovations. Fundada en Davos 2017. Coordina financiamiento global para desarrollo de vacunas contra patógenos epidémicos.' },
+        { termino: 'BARDA', definicion: 'Biomedical Advanced Research and Development Authority. Agencia federal estadounidense del Departamento de Salud y Servicios Humanos.' },
+        { termino: 'Fondo Pandémico del Banco Mundial', definicion: 'Pandemic Fund. Lanzado en septiembre 2022 tras COVID. Mecanismo financiero internacional para preparación y respuesta pandémica permanente.' },
+        { termino: 'NIH', definicion: 'National Institutes of Health, Estados Unidos. Principal agencia federal de financiamiento de investigación biomédica.' }
+      ]
+    },
+    {
+      id: 'cuando-el-mundo-para',
+      titulo: 'Cuando el mundo para, alguien siempre gana',
+      fechaPublicacion: '2026-05-13',
+      fechaLegible: '13 de mayo de 2026',
+      serie: null, // Pieza independiente
+      conceptoEje: 'Naomi Klein — <em>La doctrina del shock</em> (2007)',
+      resumen: 'Del COVID al MV Hondius — el manual que se repite, los actores que ya estaban en posición, y la portada de <em>The Economist</em> que lo anunció seis meses antes.',
+      bajada: 'Del COVID al MV Hondius — el manual que se repite, los actores que ya estaban en posición, y la portada que lo dijo seis meses antes.',
+      tiempoLectura: '6 min',
+      imagen: '2026-05-13/the-economist-world-ahead-2026.png',
+      imagenCaption: 'Portada de <em>The Economist</em> — <em>The World Ahead 2026</em>, edición número 40, publicada en noviembre de 2025. Ilustración de Andrew Rae.',
+      imagenInsertarDespuesParrafo: 7, // después del párrafo 8 (0-indexed: 7) donde se menciona la portada
+      parrafos: [
+        'El virus llegó en un crucero. El 1 de abril de 2026 el MV Hondius zarpó de Ushuaia rumbo a la Antártida. Cinco semanas después llevaba tres muertos a bordo, seis casos confirmados oficialmente por la Organización Mundial de la Salud, contagios documentados en Suiza y España, un caso sospechoso francés, dieciséis personas en cuarentena en una <em>facility</em> en Nebraska, dos en un hospital de Atlanta. El barco fondeó el domingo 10 de mayo en Granadilla de Abona, en Tenerife. Sus 147 pasajeros y tripulantes desembarcaron clasificados por la OMS como <em>contactos de alto riesgo</em>, en monitoreo durante 42 días — el período máximo de incubación de la cepa identificada por los laboratorios de Suiza y Sudáfrica como <strong>Andes orthohantavirus</strong>, la única hantavirus del mundo con transmisión persona a persona documentada y letalidad cercana al 45%.',
+        'No hay vacuna aprobada. No hay tratamiento antiviral específico. Lo que sí existe, posicionado antes del brote, conviene mirarlo con atención.',
+        'Los <strong>Institutos Nacionales de Salud de Estados Unidos</strong> (NIH) clasificaron al virus Andes, en el primer trimestre de 2026, entre los patógenos sin vacuna de mayor preocupación pandémica — categoría que activa financiamiento federal acelerado. El equipo del doctor <strong>Alexander Bukreyev</strong> en la University of Texas Medical Branch desarrolló una vacuna de ARN mensajero contra el virus Andes que funcionó en modelos animales en 2024, pero permanece estancada en fase preclínica por falta de financiamiento desde entonces. El <strong>USAMRIID</strong> — el Instituto de Investigación Médica de Enfermedades Infecciosas del Ejército estadounidense — completó la Fase 1 clínica de una vacuna de ADN contra el virus Andes, publicada en <em>The Journal of Infectious Diseases</em> en enero de 2024 (Paulsen et al., vol. 229, pp. 30–38). Inventor: Jay W. Hooper. La patente está registrada a nombre del Gobierno de Estados Unidos. Toda licencia de producción masiva pasa por Washington. Los laboratorios de <strong>Hospitales Universitarios de Ginebra</strong> y del <strong>NICD de Sudáfrica</strong> identificaron la cepa Andes en cuarenta y ocho horas después del primer caso fuera del barco.',
+        'Lo que esa arquitectura describe no es una coincidencia administrativa. Es lo que la periodista canadiense <strong>Naomi Klein</strong> bautizó hace casi veinte años, en <em>La doctrina del shock</em> (2007), como <strong>capitalismo del desastre</strong>: un patrón económico donde la crisis aguda — desastre natural, golpe de Estado, atentado, pandemia — opera como condición de posibilidad para una redistribución vertical de la riqueza, ejecutada bajo el régimen procedimental de la emergencia y, por tanto, exenta del escrutinio deliberativo de los tiempos normales.',
+        'Conviene recordar la edición previa. Entre 2020 y 2022, durante la pandemia de COVID-19, la deuda mundial creció hasta los <strong>226 billones de dólares</strong>, el mayor aumento en un solo año desde la Segunda Guerra Mundial (FMI, <em>Monitor Fiscal</em> 2021). Los gobiernos del G20 desplegaron 16 billones de dólares en estímulo fiscal. La fortuna de los diez hombres más ricos del planeta se duplicó, pasando de 700 mil millones a 1.5 billones de dólares, a un ritmo aproximado de <strong>15 mil dólares por segundo</strong> (Oxfam con datos Forbes, 2022). Se creó un nuevo millonario cada 30 horas mientras, al mismo ritmo, aproximadamente un millón de personas caían a la pobreza extrema. Pfizer, Moderna, Amazon, Microsoft, Zoom y los fondos de inversión que compraron deuda barata para venderla en la recuperación: los ganadores quedaron documentados en cada informe anual.',
+        'El mecanismo opera en cinco pasos conocidos. Los gobiernos emiten deuda. Los bancos centrales la compran inyectando liquidez — durante la pandemia, sólo en anuncios, los bancos centrales movilizaron más de seis billones de dólares. Ese dinero llega primero a las grandes corporaciones, que se financian a tasas cercanas a cero, mientras la pequeña empresa paga entre 15 y 20%. Las grandes usan el capital para consolidar competencia y recomprar acciones, lo que dispara su valor bursátil. Los mercados suben. Y quien tiene acciones — no la clase trabajadora — captura el rendimiento.',
+        'El brote del MV Hondius reproduce las primeras semanas de ese ciclo en miniatura. La diferencia importante respecto a 2020 es que ahora existe precedente. En enero de aquel año los protocolos no existían; hoy sí. Eso no significa que la pandemia se repetirá: los expertos en infectología tienen razón en pedir calma, y la transmisibilidad de la cepa Andes es muy inferior a la del SARS-CoV-2. La pregunta editorial es distinta: por qué el patrón económico se activa exactamente igual cuando hay miedo, atención mediática y un mercado sin solución. La vacuna ARN mensajero de la Universidad de Texas, parada por costos durante dos años, recibirá ahora atención presupuestaria. Los fondos de inversión institucional — <strong>BlackRock, Vanguard, State Street</strong>, las tres mayores firmas de gestión de activos del mundo — son tenedores mayoritarios de Pfizer, Moderna, Merck, Bayer y CSL Behring, y no necesitan tomar decisiones explícitas: están ya dentro de cada empresa que va a competir por la adaptación de plataforma.',
+        'Hay un elemento simbólico que conviene mencionar con la cautela que merece. En noviembre de 2025, <em>The Economist</em> publicó su edición anual <em>The World Ahead 2026</em> — la número cuarenta de la serie. La portada, una ilustración densa de íconos, presenta el planeta como un balón de fútbol rodeado de tanques, misiles, drones, satélites, un pastel marcado <em>250</em> (por el aniversario estadounidense del 4 de julio de 2026) y un conjunto de jeringas y pastillas que la propia revista interpreta como la revolución de los medicamentos GLP-1. Esa lectura es la oficial. La lectura editorial que ofrecemos no la suplanta: la complementa. Un símbolo no decide qué significará; queda a la espera de que la realidad lo alcance. En mayo de 2026, con un hantavirus desembarcando en Tenerife, la jeringa ya no es solamente Ozempic.',
+        'La editora en jefe de <em>The Economist</em>, <strong>Zanny Minton Beddoes</strong>, participa regularmente en el foro Bilderberg — la reunión privada anual de líderes globales, fundada en 1954, cuya membresía es por invitación y cuyas deliberaciones no se publican. Eso es información pública. El contenido de las discusiones, no.',
+        'Naomi Klein no escribió, en 2007, sobre conspiraciones. Escribió sobre estructura. Sobre lo que ocurre cuando el mercado tiene productos listos antes que la pregunta esté formulada. Cuando la patente ya tiene dueño antes de que la enfermedad tenga nombre público. Cuando los fondos ya están dentro de las farmacéuticas que aún no compiten. Las piezas estaban en su lugar. Solo faltaba el detonador. El detonador llegó en un crucero.'
+      ],
+      firma: '45 Digital Noticias.',
+      fuentes: [
+        { texto: '<b>Klein, Naomi.</b> <em>La doctrina del shock: el auge del capitalismo del desastre</em>. Paidós, 2007.' },
+        { texto: '<b>Paulsen, S. J., Frenck, R. W., Tomashek, K. M. et al.</b> "Safety and immunogenicity of an Andes virus DNA vaccine." <em>The Journal of Infectious Diseases</em>, vol. 229, enero 2024, pp. 30–38. DOI: 10.1093/infdis/jiad235.' },
+        { texto: '<b>The Economist.</b> <em>The World Ahead 2026</em>. Edición anual número 40, publicada noviembre 2025.' },
+        { texto: '<b>FMI</b> — <em>Monitor Fiscal</em> abril 2021.' },
+        { texto: '<b>Oxfam International</b> — <em>Las desigualdades matan</em> (enero 2022); <em>Profiting from Pain</em> (mayo 2022).' },
+        { texto: '<b>Forbes</b> — Billionaires Rankings 2020–2022.' },
+        { texto: 'Hantavirus, última hora del crucero MV Hondius — Infobae 11 may 2026', url: 'https://www.infobae.com/espana/2026/05/11/hantavirus-ultima-hora-del-brote-en-el-crucero-mv-hondius-en-directo-sanidad-confirma-los-analisis-geneticos-demuestran-que-el-virus-es-variante-andes-y-que-no-tiene-mutaciones-relevantes/' },
+        { texto: 'Llegada del MV Hondius a Tenerife — CNN Español 10 may 2026', url: 'https://cnnespanol.cnn.com/2026/05/10/mundo/live-news/ultima-hora-crucero-hantavirus-tenerife-repatriacion-trax' },
+        { texto: 'Cifras del brote — CNN Español 8 may 2026', url: 'https://cnnespanol.cnn.com/2026/05/08/salud/dicen-cifras-sobre-hantavirus-trax' },
+        { texto: 'Cepa Andes y vacuna ARNm Universidad de Texas (Bukreyev) — Infobae', url: 'https://www.infobae.com/america/ciencia-america/2026/05/06/hantavirus-en-el-crucero-que-zarpo-de-ushuaia-como-es-la-cepa-andes-la-unica-que-se-transmite-entre-humanos/' },
+        { texto: 'Brote de hantavirus en el MV Hondius — Wikipedia', url: 'https://es.wikipedia.org/wiki/Brote_de_hantavirus_en_el_MV_Hondius' },
+        { texto: 'The World Ahead 2026 — lanzamiento (PR Newswire)', url: 'https://www.prnewswire.com/news-releases/the-economist-launches-the-world-ahead-2026with-rich-countries-living-beyond-their-means-the-risk-of-a-bond-market-crisis-is-growing-302610103.html' },
+        { texto: 'Decoding the cover — Economist World Ahead 2026 (análisis de medios)', url: 'https://andreabelvedere.medium.com/economist-world-ahead-2026-decoding-the-signals-of-a-restless-year-54aeecf65e30' },
+        { texto: 'Bulos y desinformaciones del brote — Maldita.es', url: 'https://maldita.es/desinfo/20260508/bulos-desinformaciones-contexto-brote-hantavirus/' },
+        { texto: 'Pfizer y vacuna hantavirus — fact-check Newtral.es', url: 'https://www.newtral.es/pfizer-vacuna-hantavirus/20260507/' }
+      ],
+      glosario: [
+        { termino: 'Doctrina del shock', definicion: 'concepto acuñado por Naomi Klein en su libro homónimo de 2007. Describe el patrón por el cual los gobiernos y el capital aprovechan crisis agudas (desastres, golpes, atentados, pandemias) para imponer reformas económicas y políticas que en tiempos de normalidad encontrarían resistencia democrática.' },
+        { termino: 'Capitalismo del desastre', definicion: 'sinónimo operativo del anterior. Acentúa la dimensión económica: la crisis como modelo de negocio.' },
+        { termino: 'Hantavirus Andes (Andes orthohantavirus)', definicion: 'variante de hantavirus endémica de la Patagonia argentina y chilena. La única hantavirus del mundo con transmisión persona a persona documentada. Reservorio: el ratón colilargo. Letalidad ~45%. Sin vacuna aprobada al momento de esta emisión.' },
+        { termino: 'ARN mensajero (ARNm)', definicion: 'plataforma tecnológica de vacunación que usa una hebra de instrucciones genéticas para que las células del cuerpo fabriquen una proteína viral y entrenen al sistema inmune. Las vacunas de Pfizer-BioNTech y Moderna contra el COVID son de este tipo.' },
+        { termino: 'USAMRIID', definicion: 'Instituto de Investigación Médica de Enfermedades Infecciosas del Ejército de Estados Unidos. Desarrolla vacunas y tratamientos contra patógenos considerados de riesgo biológico-militar.' },
+        { termino: 'NIH', definicion: 'National Institutes of Health, los Institutos Nacionales de Salud de Estados Unidos. Principal agencia federal de financiamiento científico.' },
+        { termino: 'Operation Warp Speed', definicion: 'programa de la administración Trump (mayo 2020) que coordinó inversión pública con desarrollo privado de vacunas COVID. Modelo de cooperación público-privada bajo emergencia.' },
+        { termino: 'GLP-1', definicion: 'clase de medicamentos (Ozempic, Wegovy, Mounjaro) que regulan el apetito y la glucosa. Originalmente para diabetes tipo 2, su uso para reducción de peso ha generado un mercado global multimillonario desde 2023.' },
+        { termino: 'The World Ahead', definicion: 'edición anual especial de The Economist, publicada cada noviembre desde 1986, con predicciones para el año siguiente. La edición 2026 fue la número 40.' },
+        { termino: 'Bilderberg', definicion: 'reunión privada anual de líderes políticos, financieros, mediáticos y académicos del mundo atlántico, celebrada desde 1954. No se publican actas. La participación es por invitación.' },
+        { termino: 'BlackRock / Vanguard / State Street', definicion: 'las tres mayores firmas de gestión de activos del mundo. En conjunto administran cerca de 25 billones de dólares y son tenedores mayoritarios de la mayoría de empresas cotizadas en Estados Unidos, incluidas las grandes farmacéuticas. Conocidos como Big Three.' }
+      ]
+    }
+  ];
+
+  // ---------- Renderizado del ÍNDICE ----------
+  const columnasContainer = document.getElementById('columnas-list');
+  const columnasIndex = document.getElementById('columnas-index');
+  const columnasReader = document.getElementById('columnas-reader');
+  const readerContent = document.getElementById('reader-content');
+
+  function renderColumnasIndex() {
+    columnasContainer.innerHTML = '';
+    if (columnas.length === 0) {
+      columnasContainer.innerHTML = `
+        <div class="columns-empty">
+          <div class="icon">§</div>
+          <div><b>Sin columnas vinculadas todavía.</b></div>
+        </div>`;
+      return;
+    }
+    const sorted = [...columnas].sort((a, b) => b.fechaPublicacion.localeCompare(a.fechaPublicacion));
+    sorted.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'column-card';
+      const serieTag = c.serie ? `<span class="pill">${c.serie.titulo} · Parte ${c.serie.orden} de ${c.serie.total}</span>` : '';
+      const etiquetaTag = c.etiqueta ? `<span class="pill pill-antecedente">${c.etiqueta}</span>` : '';
+      card.innerHTML = `
+        <div class="meta">
+          <span class="fecha">${c.fechaLegible}</span>
+          ${etiquetaTag}
+          ${serieTag}
+          ${c.tiempoLectura ? `<span class="pill">${c.tiempoLectura} de lectura</span>` : ''}
+        </div>
+        <h3>${c.titulo}</h3>
+        <p class="resumen">${c.resumen}</p>
+        ${c.conceptoEje ? `<div class="concepto">Concepto eje: ${c.conceptoEje}</div>` : ''}
+        <a class="read-btn" data-id="${c.id}">Leer columna</a>
+      `;
+      card.querySelector('.read-btn').addEventListener('click', e => {
+        e.preventDefault();
+        abrirLector(c.id);
+      });
+      columnasContainer.appendChild(card);
+    });
+  }
+
+  // ---------- Renderizado del LECTOR ----------
+  function abrirLector(id) {
+    const c = columnas.find(x => x.id === id);
+    if (!c) return;
+    const serieHTML = c.serie
+      ? `<div class="reader-eyebrow">${c.serie.titulo} — Parte ${c.serie.orden} de ${c.serie.total}</div>`
+      : `<div class="reader-eyebrow">Columna de opinión — 45 Digital Noticias</div>`;
+    // Construir la figura de imagen (si existe)
+    const figuraHTML = c.imagen ? `
+      <figure class="reader-figura">
+        <img src="${encodeURI(c.imagen)}" alt="${c.imagenCaption ? c.imagenCaption.replace(/<[^>]+>/g, '') : c.titulo}" onerror="this.parentElement.style.display='none'" />
+        ${c.imagenCaption ? `<figcaption>${c.imagenCaption}</figcaption>` : ''}
+      </figure>
+    ` : '';
+
+    // Insertar la figura en la posición editorial indicada (o al final si no se indica)
+    const insertarDespues = typeof c.imagenInsertarDespuesParrafo === 'number'
+      ? c.imagenInsertarDespuesParrafo
+      : -1;
+    const cuerpoHTML = c.parrafos.map((p, i) => {
+      const parr = `<p>${p}</p>`;
+      return (i === insertarDespues && c.imagen) ? parr + figuraHTML : parr;
+    }).join('');
+    // Si no se especificó posición, la figura va antes del cuerpo (al inicio)
+    const imagenHTML = (c.imagen && insertarDespues === -1) ? figuraHTML : '';
+    const fuentesHTML = c.fuentes && c.fuentes.length ? `
+      <div class="reader-fuentes">
+        <h3 class="reader-section-title">Fuentes y referencias citadas</h3>
+        <ul>
+          ${c.fuentes.map(f => `<li>${f.url ? `<a href="${f.url}" target="_blank" rel="noopener">${f.texto}</a>` : f.texto}</li>`).join('')}
+        </ul>
+      </div>
+    ` : '';
+    const glosarioHTML = c.glosario && c.glosario.length ? `
+      <div class="reader-glosario">
+        <h3 class="reader-section-title">Glosario</h3>
+        <ul>
+          ${c.glosario.map(g => `<li><b>${g.termino}</b> — ${g.definicion}</li>`).join('')}
+        </ul>
+      </div>
+    ` : '';
+
+    // Galería de portadas (opcional)
+    const galeriaHTML = (c.galeria && c.galeria.items && c.galeria.items.length) ? `
+      <div class="reader-galeria">
+        <h3 class="reader-galeria-titulo">${c.galeria.titulo || 'Galería'}</h3>
+        ${c.galeria.intro ? `<p class="reader-galeria-intro">${c.galeria.intro}</p>` : ''}
+        <div class="galeria-grid">
+          ${c.galeria.items.map((g, i) => `
+            <a class="galeria-item ${g.destacada ? 'destacada' : ''}" data-galeria-idx="${i}">
+              <img src="${encodeURI(g.archivo)}" alt="${g.titulo}" loading="lazy" />
+              <div class="galeria-item-meta">
+                <span class="galeria-fecha">${g.fecha}${g.edicion ? ' · ' + g.edicion : ''}</span>
+                <span class="galeria-titulo">${g.titulo}</span>
+                ${g.nota ? `<div class="galeria-nota">${g.nota}</div>` : ''}
+              </div>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    readerContent.innerHTML = `
+      ${serieHTML}
+      <h1 class="reader-title">${c.titulo}</h1>
+      <div class="reader-meta">
+        <span>Publicada el <b>${c.fechaLegible}</b></span>
+        ${c.conceptoEje ? `<span>Concepto eje: <b>${c.conceptoEje}</b></span>` : ''}
+      </div>
+      <div class="reader-bajada">${c.bajada}</div>
+      ${imagenHTML}
+      <div class="reader-body">${cuerpoHTML}</div>
+      <div class="reader-divider">✺ ✺ ✺</div>
+      <div class="reader-firma">${c.firma || '45 Digital Noticias.'}</div>
+      ${fuentesHTML}
+      ${glosarioHTML}
+      ${galeriaHTML}
+    `;
+
+    // Bind del lightbox después de renderizar
+    if (c.galeria && c.galeria.items) {
+      readerContent.querySelectorAll('.galeria-item').forEach(item => {
+        item.addEventListener('click', e => {
+          e.preventDefault();
+          const idx = parseInt(item.dataset.galeriaIdx);
+          abrirLightbox(c.galeria.items[idx]);
+        });
+      });
+    }
+    columnasReader.classList.add('fullscreen');
+    document.body.style.overflow = 'hidden';
+    columnasReader.scrollTop = 0;
+  }
+
+  function volverAlMapa() {
+    columnasReader.classList.remove('fullscreen');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('reader-back-btn').addEventListener('click', volverAlMapa);
+
+  // ---------- Lightbox de galería ----------
+  const lightbox = document.getElementById('galeria-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCap = document.getElementById('lightbox-cap');
+
+  function abrirLightbox(item) {
+    lightboxImg.src = encodeURI(item.archivo);
+    lightboxImg.alt = item.titulo || '';
+    lightboxCap.innerHTML = `<b>${item.fecha}${item.edicion ? ' · ' + item.edicion : ''}</b> — "${item.titulo}"${item.nota ? '<br/>' + item.nota : ''}`;
+    lightbox.classList.add('active');
+  }
+  function cerrarLightbox() {
+    lightbox.classList.remove('active');
+  }
+  lightbox.addEventListener('click', cerrarLightbox);
+  document.getElementById('lightbox-close').addEventListener('click', e => {
+    e.stopPropagation();
+    cerrarLightbox();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (lightbox.classList.contains('active')) {
+        cerrarLightbox();
+      } else if (columnasReader.classList.contains('fullscreen')) {
+        volverAlMapa();
+      }
+    }
+  });
+
+  renderColumnasIndex();
+
+  const srcContainer = document.getElementById('sources');
+  sources.forEach(g => {
+    const div = document.createElement('div');
+    div.className = 'source-group';
+    div.innerHTML = `
+      <h3><span class="source-tag ${g.tag}">${g.group.split(' ')[0]}</span> ${g.group}</h3>
+      <ul>
+        ${g.items.map(i => `<li><a href="${i.url}" target="_blank" rel="noopener">${i.t}</a></li>`).join('')}
+      </ul>
+    `;
+    srcContainer.appendChild(div);
+  });
+</script>
+
+</body>
+</html>
