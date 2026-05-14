@@ -1586,7 +1586,7 @@
   </div>
   <div class="cutoff">
     <div class="label">Datos al</div>
-    <div class="date">13 may 2026</div>
+    <div class="date">14 may 2026</div>
   </div>
 </header>
 
@@ -1765,8 +1765,11 @@
     { n:17, day:42, date:'12-may', type:'hospital', coords:[48.86,2.35],    place:'Francia — caso crítico', desc:'Mujer francesa de 65 años en estado crítico, ventilación asistida. Pronóstico vital comprometido según parte médico citado por medios.', v:'⚠️' },
     { n:18, day:42, date:'12-may', type:'hospital', coords:[41.90,12.50],   place:'Roma — análisis ISS', desc:'Italiano joven de Calabria asintomático; muestras enviadas al Instituto Superior de Salud (ISS) en Roma para confirmación.', v:'⚠️' },
     { n:19, day:42, date:'12-may', type:'lab',      coords:[46.20,6.14],    place:'OMS — comunicado oficial', desc:'OMS actualiza: 11 casos en total (9 confirmados, 2 probables), 3 muertes. Riesgo poblacional bajo.', v:'✅' },
-    { n:20, day:43, date:'13-may', type:'lab',      coords:[59.33,18.06],   place:'ECDC — Estocolmo', desc:'ECDC actualiza: 11 casos (8 confirmados, 2 probables, 1 inconcluso), 3 muertes. Sin casos nuevos desde update previo. Riesgo UE/EEE muy bajo.', v:'✅' },
-    { n:21, day:48, date:'17-18 may (programado)', type:'route', coords:[51.92,4.48], place:'Rotterdam — destino del barco', desc:'MV Hondius llegará a Rotterdam para desinfección. A bordo: 27 personas asintomáticas (25 tripulantes + 2 funcionarios sanitarios).', v:'⚠️' }
+    { n:20, day:41, date:'11-may', type:'lab', coords:[19.43,-99.13], place:'México — Aviso Epidemiológico Nacional', desc:'La Secretaría de Salud de México emite la PRIMERA Alerta Epidemiológica Nacional por hantavirus en la historia del país. Cero casos en territorio, pero activa vigilancia en hospitales, laboratorios y unidades médicas. El aviso cita explícitamente la movilidad del Mundial 2026 como factor de riesgo adicional.', v:'✅' },
+    { n:21, day:42, date:'12-may', type:'hospital', coords:[51.81,5.84], place:'Radboudumc Nijmegen — fallo de protocolo', desc:'El Hospital Universitario Radboudumc (Países Bajos) pone en cuarentena preventiva de 6 semanas a 12 trabajadores sanitarios. Procesaron muestras de sangre y desecharon orina de un paciente positivo con protocolo estándar en lugar del estricto requerido. Paciente admitido 7-may; fallo detectado sábado 10-may.', v:'✅' },
+    { n:22, day:43, date:'13-may', type:'lab', coords:[59.33,18.06], place:'ECDC — Estocolmo (DON601 / Surveillance Update)', desc:'ECDC actualiza cifras del cluster: 9 confirmados (+2 desde el 11-may), 2 probables, 3 muertes. Letalidad 27%. La OMS publica DON601: hipótesis de transmisión humano-humano a bordo se convierte en working hypothesis institucional. Riesgo UE/EEE sigue muy bajo.', v:'✅' },
+    { n:23, day:43, date:'13-may', type:'hospital', coords:[48.86,2.35], place:'Francia — fase terminal del soporte', desc:'La paciente francesa hospitalizada en París entra en "fase terminal del cuidado de soporte". Conectada a ECMO (pulmón artificial) para oxigenación extracorpórea. Es el caso vivo más grave del cluster.', v:'⚠️' },
+    { n:24, day:48, date:'17-18 may (programado)', type:'route', coords:[51.92,4.48], place:'Rotterdam — destino del barco', desc:'MV Hondius llegará a Rotterdam para desinfección. A bordo: 27 personas asintomáticas (25 tripulantes + 2 funcionarios sanitarios). Cuarentena hasta el 21 de junio (42 días desde el día cero del 10 de mayo).', v:'⚠️' }
   ];
 
   // Mapeo día → fecha legible
@@ -1948,9 +1951,12 @@
 
   // ----- Casos por país -----
   const countries = [
-    { name:'Países Bajos', flag:'🇳🇱', coords:[52.37,4.90], hosp:'Ámsterdam (varios centros)',
-      conf:2, prob:0, obs:0, deaths:2,
-      note:'Matrimonio holandés: marido falleció a bordo (11-abr); esposa evacuada y falleció en Johannesburgo (26-abr).', v:'✅' },
+    { name:'Países Bajos', flag:'🇳🇱', coords:[51.81,5.84], hosp:'Radboudumc — Nijmegen + Ámsterdam',
+      conf:2, prob:0, obs:12, deaths:2,
+      note:'Matrimonio holandés: marido falleció a bordo (11-abr); esposa evacuada y falleció en Johannesburgo (26-abr). El 12-may el Hospital Universitario Radboudumc (Nijmegen) puso en cuarentena preventiva de 6 semanas a 12 trabajadores sanitarios por fallo de protocolo al manejar muestras de sangre y orina de un paciente con hantavirus. El barco MV Hondius arribará a Rotterdam el 17-18 may con 27 personas a bordo (25 tripulación + 2 expertos sanitarios), todos asintomáticos al cierre.', v:'✅' },
+    { name:'México', flag:'🇲🇽', coords:[19.43,-99.13], hosp:'Vigilancia nacional activada — Secretaría de Salud',
+      conf:0, prob:0, obs:0, deaths:0,
+      note:'PRIMERA Alerta Epidemiológica Nacional por hantavirus (11-may-2026). Cero casos en territorio nacional. Vigilancia activada en hospitales, laboratorios y unidades médicas de los tres niveles de atención. El Aviso cita explícitamente la movilidad asociada al Mundial 2026 como factor de riesgo adicional. Secretario de Salud: Dr. David Kershenobich.', v:'✅' },
     { name:'Alemania', flag:'🇩🇪', coords:[52.52,13.40], hosp:'Repatriación a Alemania',
       conf:1, prob:0, obs:0, deaths:1,
       note:'Mujer alemana falleció a bordo el 2-may; el brote se notificó a la OMS ese día.', v:'✅' },
@@ -1963,9 +1969,9 @@
     { name:'España', flag:'🇪🇸', coords:[40.41,-3.74], hosp:'Hospital Central de Defensa Gómez Ulla, Madrid',
       conf:1, prob:0, obs:14, deaths:0,
       note:'14 españoles en cuarentena 42 días. 1 positivo con síntomas leves, estable. Una mujer de 32 años en Alicante con 3 PCR negativas sigue hospitalizada por protocolo.', v:'✅' },
-    { name:'Francia', flag:'🇫🇷', coords:[48.86,2.35], hosp:'Hospital no divulgado',
+    { name:'Francia', flag:'🇫🇷', coords:[48.86,2.35], hosp:'Hospital París (no divulgado) — ECMO',
       conf:1, prob:0, obs:0, deaths:0,
-      note:'Mujer de 65 años en estado crítico, ventilación asistida. Pronóstico vital comprometido.', v:'⚠️' },
+      note:'Mujer de 65 años en estado crítico. Al 13-may en "fase terminal del cuidado de soporte" — conectada a pulmón artificial (ECMO) para oxigenación. Pronóstico vital comprometido. Caso más grave fuera de los fallecidos a bordo.', v:'⚠️' },
     { name:'Italia', flag:'🇮🇹', coords:[41.90,12.50], hosp:'ISS Roma (análisis)',
       conf:0, prob:1, obs:0, deaths:0,
       note:'Italiano joven de Calabria asintomático; muestras en análisis en el ISS.', v:'⚠️' },
@@ -2059,6 +2065,36 @@
   //  Ordenado automáticamente de más reciente a más antiguo.
   // =================================================================
   const declaraciones = [
+    {
+      fecha: '2026-05-13',
+      fechaLegible: '13 may 2026',
+      fuente: 'ECDC',
+      tagClass: 'fuente-ecdc',
+      vocero: 'European Centre for Disease Prevention and Control — Surveillance Update',
+      cita: '9 casos confirmados por laboratorio (+2 desde el 11 de mayo), 2 probables, 3 muertes. Letalidad ~27%. El riesgo para la población general de la UE/EEE sigue siendo muy bajo.',
+      contexto: 'Actualización formal del cluster con cifras revisadas. Hipótesis de trabajo confirmada: caso índice adquirió infección por exposición ambiental en Argentina antes de embarcar, con transmisión humano-humano subsecuente a bordo.',
+      url: 'https://www.ecdc.europa.eu/en/infectious-disease-topics/hantavirus-infection/surveillance-and-updates/andes-hantavirus-outbreak'
+    },
+    {
+      fecha: '2026-05-13',
+      fechaLegible: '13 may 2026',
+      fuente: 'OMS',
+      tagClass: 'fuente-oms',
+      vocero: 'OMS — Disease Outbreak News (DON601)',
+      cita: 'Cluster de hantavirus Andes vinculado al MV Hondius — actualización oficial. Hipótesis de trabajo: caso índice infectado por exposición ambiental en Argentina, transmisión humano-humano a bordo subsecuente.',
+      contexto: 'DON601 actualiza la DON600 del 8 de mayo. Marco epidemiológico oficial revisado con la hipótesis de transmisión persona a persona ya no como posibilidad sino como working hypothesis institucional.',
+      url: 'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON601'
+    },
+    {
+      fecha: '2026-05-11',
+      fechaLegible: '11 may 2026',
+      fuente: 'Salud MX',
+      tagClass: 'fuente-arg',
+      vocero: 'Secretaría de Salud — Gobierno de México · Dr. David Kershenobich',
+      cita: 'Primera Alerta Epidemiológica Nacional por hantavirus en la historia del país. Activación de vigilancia en hospitales, laboratorios y unidades médicas de los tres niveles de atención. Cero casos confirmados en territorio nacional. La movilidad asociada al Mundial 2026 es factor de riesgo adicional que demanda reforzar la vigilancia.',
+      contexto: 'Aviso Epidemiológico formal publicado en gob.mx/salud. Establece protocolos específicos para detección de pacientes sospechosos y manejo de muestras clínicas bajo refrigeración por personal entrenado. El secretario de Salud confirmó el 13-may que no se han detectado casos en México.',
+      url: 'https://www.gob.mx/salud/documentos/aviso-epidemiologico-por-brote-multinacional-por-hantavirus-de-los-andes-2026'
+    },
     {
       fecha: '2026-05-13',
       fechaLegible: '13 may 2026',
