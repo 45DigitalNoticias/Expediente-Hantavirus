@@ -39,23 +39,25 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   :root {
-    /* Paleta "Azules sofisticada" — claridad editorial + dos acentos de elegancia
-       (navy + cyan eléctrico + naranja de alerta + dorado champagne + tinta negra) */
-    --pergamino: #fafcfe;          /* BLANCO con tinte azul: fondo principal */
-    --pergamino-claro: #ffffff;    /* BLANCO PURO: bloques elevados */
-    --pergamino-oscuro: #e6edf3;   /* AZUL PÁLIDO: paneles deprimidos */
-    --tinta-naval: #0b1f3f;        /* NAVY OSCURO: sidebar, badges, fondos elegantes */
-    --tinta-profunda: #000814;     /* NEGRO ABSOLUTO con tinte navy: titulares */
-    --bermellon: #ff6b35;          /* NARANJA: acento de alerta sanitaria */
-    --bermellon-claro: #ff8c5a;
-    --algamar: #1fb6ff;            /* CYAN ELÉCTRICO: acento principal (navegación, links) */
-    --algamar-claro: #5dcbff;
-    --dorado: #c9a227;             /* DORADO CHAMPAGNE: acento premium / institucional */
-    --dorado-claro: #d4b847;
+    /* Paleta "BBVA Corporate" — navy profundo dominante + cards blancas + cyan/teal + amarillo
+       Editorial bancario premium. Marco oscuro, contenido claro para legibilidad. */
+    --pergamino: #ffffff;          /* BLANCO: fondo de cards de contenido */
+    --pergamino-claro: #ffffff;    /* BLANCO PURO */
+    --pergamino-oscuro: #f5f8fb;   /* GRIS MUY CLARO: paneles secundarios */
+    --tinta-naval: #072146;        /* NAVY BBVA: sidebar, header, timebar */
+    --tinta-profunda: #04162e;     /* NAVY MÁS OSCURO: gradientes profundos */
+    --bermellon: #ffcc00;          /* AMARILLO BBVA: acento alerta/cálido */
+    --bermellon-claro: #ffd93d;
+    --algamar: #1973b8;            /* CYAN BBVA: acento principal CTA */
+    --algamar-claro: #2a8cd8;
+    --dorado: #ffcc00;             /* AMARILLO BBVA: acento premium */
+    --dorado-claro: #ffd93d;
     --sepia: #5a6e8c;              /* GRIS AZULADO: texto secundario */
-    --tinta-texto: #1e293b;        /* SLATE: texto del cuerpo */
-    --divisor: #cbd5e1;            /* GRIS PÁLIDO AZULADO: separadores */
-    --navy: #0b1f3f;               /* NAVY OSCURO: sidebar bg, badges */
+    --tinta-texto: #072146;        /* NAVY: texto principal sobre cards blancas */
+    --divisor: #cbd5e1;            /* GRIS AZULADO PÁLIDO: separadores */
+    --navy: #072146;               /* alias navy */
+    --navy-oscuro: #04162e;        /* navy profundo */
+    --frame-bg: #072146;           /* fondo del frame (body, header, footer) */
 
     /* Alias retrocompatibles */
     --rojo: var(--bermellon);
@@ -65,6 +67,9 @@
     --mostaza: var(--dorado);
     --naranja: var(--bermellon);
   }
+
+  /* Override: el body queda con frame navy oscuro */
+  body { background: var(--frame-bg) !important; }
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -81,16 +86,20 @@
   }
   header {
     padding: 14px 28px 12px;
-    border-bottom: 2px solid var(--tinta-naval);
-    background: var(--pergamino-claro);
-    background-image: linear-gradient(180deg, #fcf7e6 0%, var(--pergamino-claro) 100%);
+    border-bottom: 2px solid var(--dorado);
+    background: var(--frame-bg);
+    background-image: linear-gradient(180deg, var(--tinta-profunda) 0%, var(--frame-bg) 100%);
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    box-shadow: 0 1px 0 var(--dorado) inset, 0 2px 8px rgba(28, 58, 92, 0.06);
+    box-shadow: 0 1px 0 var(--dorado) inset, 0 2px 8px rgba(0, 0, 0, 0.3);
     position: relative;
   }
+  header .title h1, header .title p { color: #ffffff; }
+  header .brand .logo-wordmark .l1 { color: #ffffff; }
+  header .brand .logo-wordmark .l2 { color: rgba(255,255,255,0.65); border-color: rgba(255,255,255,0.2); }
   header::after {
     content: "";
     position: absolute;
@@ -1633,10 +1642,10 @@
   <!-- ============== MAPA (centro) ============== -->
   <div id="map">
     <div class="legend">
-      <div class="row"><span class="dot" style="background:#1fb6ff"></span><span>Exposición / ruta del crucero</span></div>
-      <div class="row"><span class="dot" style="background:#000814"></span><span>Muerte confirmada</span></div>
-      <div class="row"><span class="dot" style="background:#0b1f3f"></span><span>Hospital de destino</span></div>
-      <div class="row"><span class="dot" style="background:#c9a227"></span><span>Laboratorio / institucional</span></div>
+      <div class="row"><span class="dot" style="background:#1973b8"></span><span>Exposición / ruta del crucero</span></div>
+      <div class="row"><span class="dot" style="background:#04162e;border-color:#fff"></span><span>Muerte confirmada</span></div>
+      <div class="row"><span class="dot" style="background:#072146"></span><span>Hospital de destino</span></div>
+      <div class="row"><span class="dot" style="background:#ffcc00"></span><span>Laboratorio / institucional</span></div>
       <div class="row"><span class="line"></span><span>Ruta marítima</span></div>
       <div class="row"><span class="dash"></span><span>Evacuación aérea</span></div>
     </div>
@@ -1798,7 +1807,7 @@
     [-37.10,-12.28], [-15.92,-5.72], [-7.93,-14.36],
     [14.93,-23.51], [28.10,-16.49]
   ];
-  const routeLine = L.polyline(cruiseRoute, { color:'#1fb6ff', weight:3, opacity:0.85 }).addTo(map);
+  const routeLine = L.polyline(cruiseRoute, { color:'#1973b8', weight:3, opacity:0.9 }).addTo(map);
 
   // Líneas de evacuación
   const evacOrigin = [28.10,-16.49]; // Tenerife (desembarque)
@@ -1815,13 +1824,13 @@
   ];
   evacDest.forEach(dest => {
     L.polyline([evacOrigin, dest], {
-      color:'#0b1f3f', weight:1.3, opacity:0.45, dashArray:'5,5'
+      color:'#072146', weight:1.3, opacity:0.45, dashArray:'5,5'
     }).addTo(map);
   });
 
   // Marcadores numerados
   const markers = {};
-  const colors = { route:'#1fb6ff', symptom:'#ff6b35', death:'#000814', hospital:'#0b1f3f', lab:'#c9a227' };
+  const colors = { route:'#1973b8', symptom:'#ffcc00', death:'#04162e', hospital:'#072146', lab:'#2a8cd8' };
 
   events.forEach(e => {
     const color = colors[e.type] || '#888';
