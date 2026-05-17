@@ -1417,6 +1417,161 @@
     width: 18px; height: 0;
     border-top: 2px dashed #b8860b;
   }
+  /* ===== Botón flotante de Capas (FAB) ===== */
+  .layers-fab {
+    position: absolute;
+    top: 14px; right: 14px;
+    z-index: 500;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 14px 9px 11px;
+    background: #b8860b; color: #fff;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 6px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(11,31,63,0.28), 0 0 0 1px rgba(0,0,0,0.06);
+    transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .layers-fab:hover {
+    background: #a07509;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(11,31,63,0.33);
+  }
+  .layers-fab.active {
+    background: #04162e;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4) inset, 0 0 0 1px rgba(0,0,0,0.1);
+  }
+  .layers-fab svg {
+    width: 18px; height: 18px;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  .layers-fab-count {
+    background: rgba(255,255,255,0.22);
+    color: #fff;
+    font-size: 11px; font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 10px;
+    margin-left: 2px;
+    min-width: 16px;
+    text-align: center;
+    display: inline-block;
+  }
+
+  /* ===== Panel emergente de capas ===== */
+  .layers-panel {
+    position: absolute;
+    top: 60px; right: 14px;
+    z-index: 600;
+    width: 320px;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-shadow: 0 10px 32px rgba(11,31,63,0.22);
+    font-family: Georgia, "Times New Roman", serif;
+    opacity: 0; visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    overflow: hidden;
+  }
+  .layers-panel.open {
+    opacity: 1; visibility: visible;
+    transform: translateY(0);
+  }
+  .layers-panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+  .layers-panel-title {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: #072146;
+  }
+  .layers-panel-close {
+    border: none; background: none;
+    font-size: 18px; color: #5a6e8c;
+    cursor: pointer;
+    line-height: 1; padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .layers-panel-close:hover {
+    background: #e2e8f0; color: #072146;
+  }
+
+  .layer-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 14px;
+    cursor: pointer;
+    transition: background 0.14s ease;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .layer-row:last-child { border-bottom: none; }
+  .layer-row:hover { background: #f8fafc; }
+
+  .layer-icon-box {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+  .layer-icon-box svg {
+    width: 19px; height: 19px;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .layer-text { flex: 1; min-width: 0; }
+  .layer-name {
+    font-size: 13.5px; font-weight: 700;
+    color: #072146;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+  .layer-desc {
+    font-size: 11.5px;
+    color: #5a6e8c;
+    line-height: 1.35;
+    font-style: italic;
+  }
+
+  /* Toggle iOS-style */
+  .layer-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px; height: 22px;
+    flex-shrink: 0;
+  }
+  .layer-toggle input {
+    opacity: 0; width: 0; height: 0;
+  }
+  .layer-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #cbd5e1;
+    border-radius: 22px;
+    transition: background 0.2s ease;
+  }
+  .layer-toggle-slider:before {
+    content: "";
+    position: absolute;
+    height: 16px; width: 16px;
+    left: 3px; bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  }
+  .layer-toggle input:checked + .layer-toggle-slider {
+    background: #b8860b;
+  }
+  .layer-toggle input:checked + .layer-toggle-slider:before {
+    transform: translateX(18px);
+  }
 
   /* ==========  RESPONSIVE  ========== */
 
@@ -1653,6 +1808,77 @@
       <div class="row"><span class="line"></span><span>Ruta marítima</span></div>
       <div class="row"><span class="dash"></span><span>Evacuación aérea</span></div>
       <div class="row"><span class="dash-amber"></span><span>Ruta pre-crucero del caso índice</span></div>
+    </div>
+
+    <!-- Botón flotante de Capas -->
+    <button class="layers-fab" id="layersFab" aria-label="Capas del expediente" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+        <polyline points="2 17 12 22 22 17"/>
+        <polyline points="2 12 12 17 22 12"/>
+      </svg>
+      <span>Capas</span>
+      <span class="layers-fab-count" id="layersFabCount">0</span>
+    </button>
+
+    <!-- Panel emergente de Capas -->
+    <div class="layers-panel" id="layersPanel" role="dialog" aria-label="Selección de capas">
+      <div class="layers-panel-header">
+        <span class="layers-panel-title">Capas del expediente</span>
+        <button class="layers-panel-close" id="layersPanelClose" aria-label="Cerrar panel">✕</button>
+      </div>
+      <div class="layer-row" data-layer="vacunas">
+        <div class="layer-icon-box" style="background:#2a8cd8">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 2l4 4"/>
+            <path d="M14 6l4 4"/>
+            <path d="M13 7L3 17l4 4 10-10"/>
+            <path d="M2 22l2-2"/>
+            <path d="M10 12l2 2"/>
+            <path d="M7 15l2 2"/>
+          </svg>
+        </div>
+        <div class="layer-text">
+          <div class="layer-name">Vacunas en desarrollo</div>
+          <div class="layer-desc">6 nodos · pipeline I+D global</div>
+        </div>
+        <label class="layer-toggle" onclick="event.stopPropagation()">
+          <input type="checkbox" data-layer-input="vacunas">
+          <span class="layer-toggle-slider"></span>
+        </label>
+      </div>
+      <div class="layer-row" data-layer="financiamiento">
+        <div class="layer-icon-box" style="background:#7a4ea8">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="2" x2="12" y2="22"/>
+            <path d="M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="layer-text">
+          <div class="layer-name">Financiamiento pandémico</div>
+          <div class="layer-desc">5 nodos · CEPI, BARDA, NIH, Pandemic Fund, Gates</div>
+        </div>
+        <label class="layer-toggle" onclick="event.stopPropagation()">
+          <input type="checkbox" data-layer-input="financiamiento">
+          <span class="layer-toggle-slider"></span>
+        </label>
+      </div>
+      <div class="layer-row" data-layer="geopolitica">
+        <div class="layer-icon-box" style="background:#a23a2a">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+            <line x1="4" y1="22" x2="4" y2="15"/>
+          </svg>
+        </div>
+        <div class="layer-text">
+          <div class="layer-name">Geopolítica previa al brote</div>
+          <div class="layer-desc">3 nodos · salidas OMS + alerta OPS</div>
+        </div>
+        <label class="layer-toggle" onclick="event.stopPropagation()">
+          <input type="checkbox" data-layer-input="geopolitica">
+          <span class="layer-toggle-slider"></span>
+        </label>
+      </div>
     </div>
   </div>
 
@@ -1980,12 +2206,64 @@
       .bindPopup(`<span class="pop-date">${g.fecha}</span><b>${g.titulo}</b><p>${g.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${g.fuente}</em></p>`))
   );
 
-  // ---- CONTROL DE CAPAS TOGGLABLE ----
-  L.control.layers({}, {
-    'Vacunas en desarrollo': vacunasLayer,
-    'Financiamiento pandémico': financiamientoLayer,
-    'Geopolítica previa al brote': geopolLayer
-  }, { position: 'topright', collapsed: false }).addTo(map);
+  // ---- CONTROL DE CAPAS — PANEL FLOTANTE CUSTOM ----
+  const overlayMap = {
+    vacunas: vacunasLayer,
+    financiamiento: financiamientoLayer,
+    geopolitica: geopolLayer
+  };
+  const layersFab = document.getElementById('layersFab');
+  const layersPanel = document.getElementById('layersPanel');
+  const layersPanelClose = document.getElementById('layersPanelClose');
+  const layersFabCount = document.getElementById('layersFabCount');
+
+  function updateFabCount() {
+    const active = document.querySelectorAll('input[data-layer-input]:checked').length;
+    layersFabCount.textContent = active;
+    layersFabCount.style.display = active > 0 ? 'inline-block' : 'none';
+    layersFab.classList.toggle('active', layersPanel.classList.contains('open'));
+  }
+
+  function setPanelOpen(open) {
+    layersPanel.classList.toggle('open', open);
+    layersFab.setAttribute('aria-expanded', open ? 'true' : 'false');
+    layersFab.classList.toggle('active', open);
+  }
+
+  layersFab.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setPanelOpen(!layersPanel.classList.contains('open'));
+  });
+  layersPanelClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setPanelOpen(false);
+  });
+  document.addEventListener('click', (e) => {
+    if (!layersPanel.contains(e.target) && !layersFab.contains(e.target)) {
+      setPanelOpen(false);
+    }
+  });
+
+  // Cada row entera es clickeable (atajo)
+  document.querySelectorAll('.layer-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const cb = row.querySelector('input[data-layer-input]');
+      cb.checked = !cb.checked;
+      cb.dispatchEvent(new Event('change'));
+    });
+  });
+
+  // Toggles individuales — agregan/quitan la capa del mapa
+  document.querySelectorAll('input[data-layer-input]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const key = cb.getAttribute('data-layer-input');
+      const layer = overlayMap[key];
+      if (cb.checked) map.addLayer(layer);
+      else map.removeLayer(layer);
+      updateFabCount();
+    });
+  });
+  updateFabCount();
 
   // ----- Panel cronología -----
   const tl = document.getElementById('timeline');
