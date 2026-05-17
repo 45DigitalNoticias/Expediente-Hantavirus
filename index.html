@@ -1887,6 +1887,106 @@
     markers[e.n] = m;
   });
 
+  // =====================================================================
+  // CAPAS TOGGLABLES — Vacunas, Financiamiento, Geopolítica previa
+  // =====================================================================
+  // Capa 2: Vacunas en desarrollo
+  // Capa 3: Financiamiento pandémico
+  // Capa 4: Geopolítica previa al brote
+  // Todas apagadas por defecto. Se prenden con el control superior derecho.
+  // Cada nodo lleva atribución de fuente verificable.
+  // =====================================================================
+
+  // ---- ICONOS ----
+  const vaccineIcon = L.divIcon({
+    className: 'vaccine-marker',
+    html: '<div style="width:24px;height:24px;background:#2a8cd8;color:#fff;border:2px solid #fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:13px;font-weight:700;box-shadow:0 0 0 1px rgba(0,0,0,0.35);">V</div>',
+    iconSize: [24, 24], iconAnchor: [12, 12]
+  });
+  const fundIcon = L.divIcon({
+    className: 'fund-marker',
+    html: '<div style="width:26px;height:26px;background:#7a4ea8;color:#fff;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:14px;font-weight:700;box-shadow:0 0 0 1px rgba(0,0,0,0.35);">$</div>',
+    iconSize: [26, 26], iconAnchor: [13, 13]
+  });
+  const geoIcon = L.divIcon({
+    className: 'geo-marker',
+    html: '<div style="width:26px;height:26px;background:#a23a2a;color:#fff;border:2px solid #fff;border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:14px;font-weight:700;box-shadow:0 0 0 1px rgba(0,0,0,0.35);">⚐</div>',
+    iconSize: [26, 26], iconAnchor: [13, 13]
+  });
+
+  // ---- CAPA 2: VACUNAS EN DESARROLLO ----
+  const vacunas = [
+    { coords: [42.36, -71.08], inst: 'Moderna',
+      desc: 'Cambridge, Massachusetts. Programa <em>mRNA Access</em> en colaboración con Korea University Vaccine Innovation Center. Estado: preclínico.',
+      fuente: 'Korea Biomedical Review · The Microbiologist · EurekAlert' },
+    { coords: [37.59, 127.03], inst: 'Korea University · Vaccine Innovation Center',
+      desc: 'Seúl, Corea del Sur. Socio académico de Moderna. Equipo del Prof. Park Man-sung confirmó protección en ratones en febrero de 2025.',
+      fuente: 'Korea Biomedical Review (KBR), feb-2025' },
+    { coords: [39.42, -77.42], inst: 'USAMRIID',
+      desc: 'Frederick, Maryland. Hooper et al. 2023 — vacuna ANDV-Gn/Gc mRNA con respuesta de anticuerpos neutralizantes en primates no humanos. Preclínico.',
+      fuente: 'Hooper et al. (publicación científica, 2023)' },
+    { coords: [29.30, -94.80], inst: 'UTMB · Bukreyev Lab',
+      desc: 'Galveston, Texas. Vacuna mRNA pan-hantavirus desarrollada por Alexander Bukreyev. En pausa por recortes de financiamiento NIH (2024).',
+      fuente: 'University of Texas Medical Branch · cobertura editorial' },
+    { coords: [51.38, -2.36], inst: 'University of Bath',
+      desc: 'Bath, Inglaterra. Vacuna termoestable contra <em>Hantaan virus</em> (cepa distinta del Andes). Contrato con gobierno británico.',
+      fuente: 'University of Bath · fuente primaria pendiente' },
+    { coords: [59.91, 10.75], inst: 'CEPI · Coalition for Epidemic Preparedness Innovations',
+      desc: 'Oslo, Noruega. Programa <strong>"100 Day Mission"</strong> (vacuna lista en cien días). CEO Richard Hatchett pidió $2,500M USD el 17-may-2026 usando el brote del Hondius como argumento.',
+      fuente: 'The Hill Times (17-may-2026) · CEPI' }
+  ];
+  const vacunasLayer = L.layerGroup(
+    vacunas.map(v => L.marker(v.coords, { icon: vaccineIcon })
+      .bindPopup(`<b>${v.inst}</b><p>${v.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${v.fuente}</em></p>`))
+  );
+
+  // ---- CAPA 3: FINANCIAMIENTO PANDÉMICO ----
+  const financiadores = [
+    { coords: [59.91, 10.75], inst: 'CEPI',
+      desc: 'Oslo. Coalition for Epidemic Preparedness Innovations. Pidió $2,500M USD el 17-may-2026 para el programa "100 Day Mission".',
+      fuente: 'CEPI · The Hill Times' },
+    { coords: [38.99, -77.10], inst: 'NIH',
+      desc: 'Bethesda, Maryland. National Institutes of Health. Mayor agencia federal de financiamiento biomédico de EE.UU. Recortes a programas de vacunas pan-hantavirus en 2024.',
+      fuente: 'NIH · cobertura prensa' },
+    { coords: [38.95, -77.10], inst: 'BARDA',
+      desc: 'Washington DC. Biomedical Advanced Research and Development Authority (HHS/ASPR). Contratista federal en preparación pandémica.',
+      fuente: 'HHS · ASPR' },
+    { coords: [38.89, -77.04], inst: 'Banco Mundial · Pandemic Fund',
+      desc: 'Washington DC. Mecanismo financiero multilateral lanzado en septiembre de 2022 para preparación y respuesta pandémica.',
+      fuente: 'Banco Mundial' },
+    { coords: [47.62, -122.34], inst: 'Bill & Melinda Gates Foundation',
+      desc: 'Seattle, Washington. Donante histórico de CEPI desde su fundación en Davos 2017.',
+      fuente: 'CEPI · Annual Report' }
+  ];
+  const financiamientoLayer = L.layerGroup(
+    financiadores.map(f => L.marker(f.coords, { icon: fundIcon })
+      .bindPopup(`<b>${f.inst}</b><p>${f.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${f.fuente}</em></p>`))
+  );
+
+  // ---- CAPA 4: GEOPOLÍTICA PREVIA AL BROTE ----
+  const geopoliticos = [
+    { coords: [38.92, -77.05], fecha: '20-ene-2026', titulo: 'Estados Unidos abandona la OMS',
+      desc: 'Washington DC. Donald Trump firma orden ejecutiva de salida en su primer día como Presidente. Patrón espejo Trump-Milei: la salida argentina se concretará dos meses después.',
+      fuente: 'Cobertura internacional · El Mostrador, TV Azteca' },
+    { coords: [-34.62, -58.36], fecha: '17-mar-2026', titulo: 'Argentina concreta su salida de la OMS',
+      desc: 'Buenos Aires. Por aplicación del Convenio de Viena, un año después de la notificación formal del 17-mar-2025. Quince días antes del zarpe del MV Hondius desde Ushuaia.',
+      fuente: 'Página/12 · Infobae · Chequeado · Euronews' },
+    { coords: [38.91, -77.06], fecha: '19-dic-2025', titulo: 'OPS emite alerta epidemiológica regional por hantavirus',
+      desc: 'Washington DC, sede OPS. 229 casos confirmados y 59 muertes en 8 países del cono sur en 2025 — cuadruplica la media histórica. Tres meses antes de la salida argentina de la OMS.',
+      fuente: 'OPS / Boletín Epidemiológico' }
+  ];
+  const geopolLayer = L.layerGroup(
+    geopoliticos.map(g => L.marker(g.coords, { icon: geoIcon })
+      .bindPopup(`<span class="pop-date">${g.fecha}</span><b>${g.titulo}</b><p>${g.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${g.fuente}</em></p>`))
+  );
+
+  // ---- CONTROL DE CAPAS TOGGLABLE ----
+  L.control.layers({}, {
+    'Vacunas en desarrollo': vacunasLayer,
+    'Financiamiento pandémico': financiamientoLayer,
+    'Geopolítica previa al brote': geopolLayer
+  }, { position: 'topright', collapsed: false }).addTo(map);
+
   // ----- Panel cronología -----
   const tl = document.getElementById('timeline');
   events.forEach(e => {
