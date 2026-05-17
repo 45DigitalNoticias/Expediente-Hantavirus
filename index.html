@@ -1822,6 +1822,28 @@
     '<span class="pop-date">27-nov-2025 al 1-abr-2026</span><b>Ruta pre-crucero del caso índice</b><p>El paciente cero del brote — un ciudadano holandés — viajó cuatro meses por Chile, Uruguay y Argentina antes de abordar el MV Hondius en Ushuaia. Min. Salud Argentina publicó el informe el 6 de mayo de 2026.</p>'
   );
 
+  // Marcadores de la ruta pre-crucero: partida + dos paradas intermedias
+  const sailIcon = L.divIcon({
+    className: 'pre-cruise-sail',
+    html: '<div style="width:34px;height:34px;background:#b8860b;color:#fff;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;box-shadow:0 0 0 1px rgba(0,0,0,0.35);">⛵</div>',
+    iconSize: [34, 34], iconAnchor: [17, 17]
+  });
+  const stopIcon = L.divIcon({
+    className: 'pre-cruise-stop',
+    html: '<div style="width:16px;height:16px;background:#b8860b;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 1px rgba(0,0,0,0.35);"></div>',
+    iconSize: [16, 16], iconAnchor: [8, 8]
+  });
+
+  L.marker([-33.45, -70.66], { icon: sailIcon }).addTo(map).bindPopup(
+    '<span class="pop-date">Aprox. 27-nov-2025</span><b>Santiago de Chile · Partida</b><p>El caso índice del brote — un ciudadano holandés — inició aquí su recorrido sudamericano de cuatro meses antes de abordar el MV Hondius en Ushuaia. <em>Las fechas exactas de cada escala no fueron publicadas; el informe del Min. Salud argentino (6-may-2026) consigna solo el período total: 27-nov-2025 al 1-abr-2026.</em></p>'
+  );
+  L.marker([-34.90, -56.16], { icon: stopIcon }).addTo(map).bindPopup(
+    '<span class="pop-date">Entre nov-2025 y mar-2026</span><b>Montevideo, Uruguay · Paso</b><p>Tránsito por Uruguay durante el recorrido sudamericano del caso índice. Itinerario consignado en el informe del Min. Salud argentino del 6 de mayo de 2026.</p>'
+  );
+  L.marker([-34.60, -58.38], { icon: stopIcon }).addTo(map).bindPopup(
+    '<span class="pop-date">Entre nov-2025 y mar-2026</span><b>Buenos Aires, Argentina · Paso</b><p>Tránsito por Argentina — zona endémica del virus Andes — antes de continuar hacia Ushuaia. Itinerario consignado en el informe del Min. Salud argentino del 6 de mayo de 2026.</p>'
+  );
+
   // Ruta del barco
   const cruiseRoute = [
     [-54.81,-68.30], [-64.50,-62.00], [-54.43,-36.59],
