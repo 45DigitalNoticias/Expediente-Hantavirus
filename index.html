@@ -1375,6 +1375,11 @@
   .leaflet-popup-content .pop-date { color: var(--rojo); font-weight: 600; font-size: 12px; }
 
   /* Legend overlay on map — estilo carta náutica */
+  /* Empuja el control de zoom a la derecha de la leyenda (que vive
+     en bottom-left con ancho ~280px) para que no la tape. */
+  .leaflet-bottom.leaflet-left .leaflet-control-zoom {
+    margin-left: 290px;
+  }
   .legend {
     position: absolute; bottom: 14px; left: 14px;
     background: var(--pergamino-claro);
@@ -2286,7 +2291,26 @@
     iconSize: [26, 26], iconAnchor: [13, 13]
   });
 
+  // ---- HELPER: marcador con offset opcional + línea conectora ----
+  // Cuando varios nodos comparten la misma ciudad, los marcadores se
+  // amontonan. Si la entrada tiene `offset` (coords desplazadas), el
+  // marcador se renderiza en la posición offset y una línea punteada
+  // delgada lo une con su coordenada real. Patrón aplicable a cualquier
+  // capa donde haya coincidencia geográfica.
+  function addNodeToLayer(layer, item, icon, buildPopupHtml) {
+    const popupHtml = buildPopupHtml(item);
+    const markerPos = item.offset || item.coords;
+    layer.addLayer(L.marker(markerPos, { icon }).bindPopup(popupHtml));
+    if (item.offset) {
+      layer.addLayer(L.polyline([item.offset, item.coords], {
+        color: '#5a6e8c', weight: 1, opacity: 0.55, dashArray: '2,4'
+      }));
+    }
+  }
+
   // ---- CAPA 2: VACUNAS EN DESARROLLO ----
+  // CEPI Oslo coincide con CEPI en la capa Financiamiento: damos offset
+  // al nodo de Vacunas para que no se encime con el de $.
   const vacunas = [
     { coords: [42.36, -71.08], inst: 'Moderna',
       desc: 'Cambridge, Massachusetts. Programa <em>mRNA Access</em> en colaboración con Korea University Vaccine Innovation Center. Estado: preclínico.',
@@ -2303,31 +2327,14 @@
     { coords: [51.38, -2.36], inst: 'University of Bath',
       desc: 'Bath, Inglaterra. Vacuna termoestable contra <em>Hantaan virus</em> (cepa distinta del Andes). Contrato con gobierno británico.',
       fuente: 'University of Bath · fuente primaria pendiente' },
-    { coords: [59.91, 10.75], inst: 'CEPI · Coalition for Epidemic Preparedness Innovations',
+    { coords: [59.91, 10.75], offset: [61.0, 12.5], inst: 'CEPI · Coalition for Epidemic Preparedness Innovations',
       desc: 'Oslo, Noruega. Programa <strong>"100 Day Mission"</strong> (vacuna lista en cien días). CEO Richard Hatchett pidió $2,500M USD el 17-may-2026 usando el brote del Hondius como argumento.',
       fuente: 'The Hill Times (17-may-2026) · CEPI' }
   ];
-  const vacunasLayer = L.layerGroup(
-    vacunas.map(v => L.marker(v.coords, { icon: vaccineIcon })
-      .bindPopup(`<b>${v.inst}</b><p>${v.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${v.fuente}</em></p>`))
-  );
-
-  // ---- HELPER: construye marcador + línea conectora si hay offset ----
-  // Cuando varios nodos comparten una misma ciudad (ej. Washington DC) los
-  // marcadores se amontonan visualmente. Si la entrada trae `offset` (coords),
-  // el marcador se renderiza en esa posición desplazada y una línea punteada
-  // delgada lo une con su coordenada real, indicando "este nodo refiere a
-  // esta parte del mapa".
-  function addNodeToLayer(layer, item, icon, buildPopupHtml) {
-    const popupHtml = buildPopupHtml(item);
-    const markerPos = item.offset || item.coords;
-    layer.addLayer(L.marker(markerPos, { icon }).bindPopup(popupHtml));
-    if (item.offset) {
-      layer.addLayer(L.polyline([item.offset, item.coords], {
-        color: '#5a6e8c', weight: 1, opacity: 0.55, dashArray: '2,4'
-      }));
-    }
-  }
+  const vacunasLayer = L.layerGroup();
+  vacunas.forEach(v => addNodeToLayer(vacunasLayer, v, vaccineIcon,
+    v => `<b>${v.inst}</b><p>${v.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${v.fuente}</em></p>`
+  ));
 
   // ---- CAPA 3: FINANCIAMIENTO PANDÉMICO ----
   // Tres de los cinco nodos están en el área metropolitana de Washington DC,
