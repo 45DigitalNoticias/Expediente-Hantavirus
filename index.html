@@ -1420,7 +1420,8 @@
   /* ===== Botón flotante de Capas (FAB) ===== */
   .layers-fab {
     position: absolute;
-    top: 14px; right: 14px;
+    top: 14px; left: 50%;
+    transform: translateX(-50%);
     z-index: 500;
     display: inline-flex; align-items: center; gap: 8px;
     padding: 9px 14px 9px 11px;
@@ -1436,7 +1437,7 @@
   }
   .layers-fab:hover {
     background: #a07509;
-    transform: translateY(-1px);
+    transform: translateX(-50%) translateY(-1px);
     box-shadow: 0 6px 18px rgba(11,31,63,0.33);
   }
   .layers-fab.active {
@@ -1462,22 +1463,22 @@
   /* ===== Panel emergente de capas ===== */
   .layers-panel {
     position: absolute;
-    top: 60px; right: 14px;
+    top: 60px; left: 50%;
     z-index: 600;
-    width: 320px;
+    width: 340px;
     background: #fff;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
     box-shadow: 0 10px 32px rgba(11,31,63,0.22);
     font-family: Georgia, "Times New Roman", serif;
     opacity: 0; visibility: hidden;
-    transform: translateY(-6px);
+    transform: translateX(-50%) translateY(-6px);
     transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
     overflow: hidden;
   }
   .layers-panel.open {
     opacity: 1; visibility: visible;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
   }
   .layers-panel-header {
     display: flex; align-items: center; justify-content: space-between;
