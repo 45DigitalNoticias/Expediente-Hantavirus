@@ -1413,6 +1413,10 @@
     width: 18px; height: 0;
     border-top: 2px dashed var(--azul);
   }
+  .legend .dash-amber {
+    width: 18px; height: 0;
+    border-top: 2px dashed #b8860b;
+  }
 
   /* ==========  RESPONSIVE  ========== */
 
@@ -1648,6 +1652,7 @@
       <div class="row"><span class="dot" style="background:#b8860b"></span><span>Laboratorio / institucional</span></div>
       <div class="row"><span class="line"></span><span>Ruta marítima</span></div>
       <div class="row"><span class="dash"></span><span>Evacuación aérea</span></div>
+      <div class="row"><span class="dash-amber"></span><span>Ruta pre-crucero del caso índice</span></div>
     </div>
   </div>
 
@@ -1800,6 +1805,22 @@
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors', maxZoom: 8, minZoom: 2
   }).addTo(map);
+
+  // Ruta pre-crucero del caso índice (ciudadano holandés)
+  // Viajó por Chile, Uruguay, Argentina entre 27-nov-2025 y 1-abr-2026
+  // Fuente: Min. Salud Argentina, informe del 6-may-2026
+  const preCruiseRoute = [
+    [-33.45,-70.66],  // Santiago de Chile (~ nov 2025)
+    [-34.90,-56.16],  // Montevideo, Uruguay
+    [-34.60,-58.38],  // Buenos Aires, Argentina
+    [-54.81,-68.30]   // Ushuaia, donde aborda el MV Hondius (1 abr 2026)
+  ];
+  const preCruiseLine = L.polyline(preCruiseRoute, {
+    color:'#b8860b', weight:2, opacity:0.75, dashArray:'8,6'
+  }).addTo(map);
+  preCruiseLine.bindPopup(
+    '<span class="pop-date">27-nov-2025 al 1-abr-2026</span><b>Ruta pre-crucero del caso índice</b><p>El paciente cero del brote — un ciudadano holandés — viajó cuatro meses por Chile, Uruguay y Argentina antes de abordar el MV Hondius en Ushuaia. Min. Salud Argentina publicó el informe el 6 de mayo de 2026.</p>'
+  );
 
   // Ruta del barco
   const cruiseRoute = [
