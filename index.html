@@ -1858,9 +1858,10 @@
   <div id="map">
     <div class="legend">
       <div class="row"><span class="dot" style="background:#4a7fa3"></span><span>Exposición / ruta del crucero</span></div>
-      <div class="row"><span class="dot" style="background:#04162e;border-color:#fff"></span><span>Muerte confirmada</span></div>
-      <div class="row"><span class="dot" style="background:#072146"></span><span>Hospital de destino</span></div>
-      <div class="row"><span class="dot" style="background:#b8860b"></span><span>Laboratorio / institucional</span></div>
+      <div class="row"><span class="dot" style="background:#d97706"></span><span>Síntoma detectado</span></div>
+      <div class="row"><span class="dot" style="background:#991b1b;border-color:#fff"></span><span>Muerte confirmada</span></div>
+      <div class="row"><span class="dot" style="background:#0d9488"></span><span>Hospital de destino</span></div>
+      <div class="row"><span class="dot" style="background:#15803d"></span><span>Laboratorio / institucional</span></div>
       <div class="row"><span class="line"></span><span>Ruta marítima</span></div>
       <div class="row"><span class="dash"></span><span>Evacuación aérea</span></div>
       <div class="row"><span class="dash-amber"></span><span>Ruta pre-crucero del caso índice</span></div>
@@ -1924,6 +1925,14 @@
           <line x1="4" y1="22" x2="4" y2="15"/>
         </svg>
         <span>Geopol.</span>
+      </button>
+      <button class="layer-tab" data-layer="continentes" title="Continentes con detección de hantavirus">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        <span>Continentes</span>
       </button>
 
       <div class="layer-tab-divider"></div>
@@ -2070,19 +2079,19 @@
           <li>
             <span class="guia-layer-line" style="background:#4a7fa3"></span>
             <div class="guia-text">
-              <b>Ruta</b> — Travesía marítima del MV Hondius. Línea continua steel-cyan entre Ushuaia (1 abr) y Rotterdam (18 may), pasando por Tristán da Cunha y Tenerife.
+              <b>Ruta</b> — Travesía marítima del MV Hondius. Línea continua cyan steel entre Ushuaia (1 abr) y Rotterdam (18 may), pasando por Tristán da Cunha y Tenerife.
             </div>
           </li>
           <li>
-            <span class="guia-layer-color" style="background:#04162e"></span>
+            <span class="guia-layer-color" style="background:#991b1b"></span>
             <div class="guia-text">
-              <b>Casos</b> — Marcadores numerados 1, 2, 3… en orden cronológico del brote. Click en cualquiera abre un popup con fecha, lugar, descripción y nivel de verificación (✅ confirmado, ⚠️ parcial, ❓ no confirmado).
+              <b>Casos</b> — Marcadores numerados 1, 2, 3… en orden cronológico del brote. Cada tipo de evento tiene un color distinto: <b style="color:#4a7fa3">cyan</b> exposición, <b style="color:#d97706">mostaza</b> síntoma detectado, <b style="color:#991b1b">rojo vino</b> muerte confirmada, <b style="color:#0d9488">teal</b> hospital de destino, <b style="color:#15803d">verde forest</b> laboratorio / institucional. Click abre popup con fecha, lugar, descripción y nivel de verificación (✅ confirmado, ⚠️ parcial, ❓ no confirmado).
             </div>
           </li>
           <li>
             <span class="guia-layer-dash"></span>
             <div class="guia-text">
-              <b>Evac.</b> — Líneas navy punteadas saliendo de Tenerife (puerto de desembarque) hacia los nueve destinos de evacuación: Ámsterdam, Berlín, Madrid, París, Roma, Zúrich, Omaha, Johannesburgo y Rotterdam.
+              <b>Evac.</b> — Líneas gris carbón punteadas saliendo de Tenerife (puerto de desembarque) hacia los nueve destinos de evacuación: Ámsterdam, Berlín, Madrid, París, Roma, Zúrich, Omaha, Johannesburgo y Rotterdam.
             </div>
           </li>
           <li>
@@ -2095,7 +2104,7 @@
       </div>
 
       <div class="guia-section">
-        <h3>Las tres capas de contexto</h3>
+        <h3>Las cuatro capas de contexto</h3>
         <ul class="guia-layers">
           <li>
             <span class="guia-layer-color" style="background:#2a8cd8"></span>
@@ -2106,13 +2115,19 @@
           <li>
             <span class="guia-layer-color" style="background:#7a4ea8"></span>
             <div class="guia-text">
-              <b>Financ.</b> — Nodos de financiamiento pandémico: CEPI (Oslo), NIH, BARDA, Banco Mundial Pandemic Fund, Bill &amp; Melinda Gates Foundation. Círculos morados con símbolo "$". Cifras concretas cuando están disponibles.
+              <b>Financ.</b> — Nodos de financiamiento pandémico: CEPI (Oslo), NIH, BARDA, Banco Mundial Pandemic Fund, Bill &amp; Melinda Gates Foundation. Círculos morados con símbolo "$". Los nodos del área metropolitana de Washington DC llevan offset visual con línea conectora gris hacia su sede real.
             </div>
           </li>
           <li>
             <span class="guia-layer-color" style="background:#a23a2a"></span>
             <div class="guia-text">
               <b>Geopol.</b> — Eventos geopolíticos previos al brote: salida formal de EE.UU. de la OMS (20-ene-2026, Trump), salida de Argentina (17-mar-2026, Milei), alerta epidemiológica regional de la OPS (19-dic-2025). Marcadores guinda con bandera.
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-color" style="background:#ea580c"></span>
+            <div class="guia-text">
+              <b>Continentes</b> — Marcadores tipo <em>pill</em> naranjas sobre el centro aproximado de cada continente con detección vinculada al hantavirus: Sudamérica (reservorio endémico + caso índice), Norteamérica (1 caso confirmado en Nebraska + nodo federal), Europa (5 países con casos del brote + puerto final Rotterdam), África (1 muerte en Johannesburgo + Santa Helena), Asia (2 en cuarentena en Singapur), Oceanía (Australia en monitoreo). Click muestra cifras y fuentes por continente.
             </div>
           </li>
         </ul>
@@ -2302,14 +2317,22 @@
     [51.92,4.48]      // Rotterdam (programado)
   ];
   const evacuationPolylines = evacDest.map(dest =>
-    L.polyline([evacOrigin, dest], { color:'#072146', weight:1.3, opacity:0.45, dashArray:'5,5' })
+    L.polyline([evacOrigin, dest], { color:'#4b5563', weight:1.3, opacity:0.55, dashArray:'5,5' })
   );
   const evacLayer = L.layerGroup(evacuationPolylines).addTo(map);
 
   // Marcadores numerados (casos / eventos del brote)
+  // Paleta diferenciada por categoría (no atada a la paleta original
+  // del sitio; busca contraste alto entre tipos para legibilidad).
   const markers = {};
   const numberedMarkersList = [];
-  const colors = { route:'#4a7fa3', symptom:'#b8860b', death:'#04162e', hospital:'#072146', lab:'#2a8cd8' };
+  const colors = {
+    route:    '#4a7fa3',  // cyan steel — waypoints de la ruta del crucero
+    symptom:  '#d97706',  // mostaza naranja — síntoma detectado
+    death:    '#991b1b',  // rojo vino — muerte confirmada
+    hospital: '#0d9488',  // teal — hospital de destino
+    lab:      '#15803d'   // verde forest — laboratorio / institucional
+  };
 
   events.forEach(e => {
     const color = colors[e.type] || '#888';
@@ -2422,6 +2445,53 @@
     f => `<b>${f.inst}</b><p>${f.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${f.fuente}</em></p>`
   ));
 
+  // ---- CAPA 5: CONTINENTES CON DETECCIÓN DE HANTAVIRUS ----
+  // Marcadores tipo pill naranjas en cada continente con casos vinculados
+  // al brote MV Hondius o reservorio endémico previo (Sudamérica).
+  // Apagada por default. Capa de contexto geográfico macro.
+  function continentIcon(label) {
+    return L.divIcon({
+      className: 'continent-marker',
+      html: '<div style="background:#ea580c;color:#fff;border:2px solid #fff;border-radius:18px;padding:5px 14px;font-family:Georgia,serif;font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,0.32);">' + label + '</div>',
+      iconSize: null, iconAnchor: [50, 14]
+    });
+  }
+
+  const continentes = [
+    { coords: [-15, -60], label: 'Sudamérica',
+      titulo: 'América del Sur',
+      desc: '<b>0 casos del brote MV Hondius</b>, pero <b>94 casos endémicos / 13 muertes</b> reportados en 2026 (semana epi. 15) según la OPS. Distribución: Chile (38 / 13 muertes), Argentina (32), Bolivia (11), Panamá (8), Brasil (3), Paraguay (2). Reservorio endémico del <em>virus Andes</em>. El caso índice del MV Hondius se infectó aquí durante un viaje de cuatro meses (27-nov-2025 al 1-abr-2026) por Chile, Uruguay y Argentina antes de abordar el barco en Ushuaia.',
+      fuente: 'OPS · Boletín Epidemiológico Nacional Argentino' },
+    { coords: [40, -100], label: 'Norteamérica',
+      titulo: 'América del Norte',
+      desc: '<b>1 caso confirmado por laboratorio</b> vinculado al MV Hondius: Dr. Stephen Kornfeld (oncólogo), en biocontención en el University of Nebraska Medical Center, Omaha. EE.UU.: 41 personas en monitoreo. Canadá: 26 contactos por exposición de bajo riesgo. Nodo federal de coordinación: USAMRIID (Frederick, Maryland) + National Quarantine Unit Nebraska.',
+      fuente: 'CDC HAN 00528 · CNN · CBC' },
+    { coords: [52, 15], label: 'Europa',
+      titulo: 'Europa',
+      desc: '<b>5 casos confirmados</b> distribuidos en seis países. Concentración principal de pasajeros del MV Hondius: Reino Unido, Países Bajos, Alemania, Francia, España, Suiza. Turquía: contactos. Países Bajos = puerto de atraque final del Hondius (Rotterdam, 18-may-2026): 23 cabinas de cuarentena instaladas en el puerto bajo protocolo RIVM. España: paciente estable en el Hospital Gómez Ulla, Madrid.',
+      fuente: 'ECDC · Infobae · El País · NL Times' },
+    { coords: [0, 20], label: 'África',
+      titulo: 'África',
+      desc: '<b>1 muerte confirmada del brote</b>: la viuda neerlandesa (segunda víctima del matrimonio embarcado) falleció en <b>Johannesburgo, Sudáfrica</b>, tras ser evacuada desde Santa Helena el 3 de mayo de 2026. Santa Helena: puerto de tránsito y desembarque sanitario británico durante la travesía del Hondius.',
+      fuente: 'OMS DON601 · CNN · El País' },
+    { coords: [15, 100], label: 'Asia',
+      titulo: 'Asia',
+      desc: '<b>2 residentes en cuarentena</b>, sin casos confirmados al 17-may-2026. Singapur: dos pasajeros del MV Hondius fueron trasladados al Centro Nacional de Enfermedades Infecciosas y permanecen aislados al menos un mes.',
+      fuente: 'Ministerio de Salud de Singapur · CNA' },
+    { coords: [-25, 135], label: 'Oceanía',
+      titulo: 'Oceanía',
+      desc: '<b>Pasajeros del MV Hondius en monitoreo</b>, sin casos confirmados al 17-may-2026. Australia: residentes que viajaban en el crucero están bajo seguimiento epidemiológico activo del Departamento de Salud federal.',
+      fuente: 'Cobertura prensa internacional' }
+  ];
+  const continentesLayer = L.layerGroup();
+  continentes.forEach(c => {
+    continentesLayer.addLayer(
+      L.marker(c.coords, { icon: continentIcon(c.label) }).bindPopup(
+        '<b>' + c.titulo + '</b><p>' + c.desc + '</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ' + c.fuente + '</em></p>'
+      )
+    );
+  });
+
   // ---- CAPA 4: GEOPOLÍTICA PREVIA AL BROTE ----
   // Dos de los tres nodos están en Washington DC; llevan offset visual.
   const geopoliticos = [
@@ -2448,7 +2518,8 @@
     preCruise: preCruiseLayer,
     vacunas: vacunasLayer,
     financiamiento: financiamientoLayer,
-    geopolitica: geopolLayer
+    geopolitica: geopolLayer,
+    continentes: continentesLayer
   };
 
   function toggleLayer(key, on) {
