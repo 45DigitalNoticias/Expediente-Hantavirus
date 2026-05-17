@@ -1625,6 +1625,119 @@
   }
   .guia-tip b { color: #072146; }
 
+  /* ===== Apartado VACUNAS — pipeline de I+D ===== */
+  .vacuna-intro {
+    background: #f8fafc;
+    border-left: 3px solid #2a8cd8;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: #5a6e8c;
+    font-style: italic;
+  }
+  .vacuna-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+  }
+  .vacuna-stat {
+    text-align: center;
+  }
+  .vacuna-stat-n {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #2a8cd8;
+    line-height: 1;
+  }
+  .vacuna-stat-l {
+    font-size: 9.5px;
+    color: #5a6e8c;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 6px;
+    line-height: 1.2;
+  }
+  .vacuna-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #2a8cd8;
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(11,31,63,0.06);
+  }
+  .vacuna-card-titulo {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #072146;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
+    margin-bottom: 4px;
+  }
+  .vacuna-card-sede {
+    font-size: 11px;
+    color: #5a6e8c;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+  .vacuna-card-rows {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 6px 12px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .vacuna-card-rows .vkey {
+    color: #5a6e8c;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    padding-top: 3px;
+  }
+  .vacuna-card-rows .vval {
+    color: #072146;
+  }
+  .vacuna-card-rows .vval.vfuente {
+    color: #5a6e8c;
+    font-style: italic;
+    font-size: 11px;
+  }
+  .vacuna-fase {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #fef3c7;
+    color: #92400e;
+    border-radius: 10px;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .vacuna-fase.fase-pre   { background: #fef3c7; color: #92400e; }
+  .vacuna-fase.fase-1     { background: #dbeafe; color: #1e40af; }
+  .vacuna-fase.fase-2     { background: #d1fae5; color: #065f46; }
+  .vacuna-fase.fase-3     { background: #ede9fe; color: #5b21b6; }
+  .vacuna-fase.fase-pausa { background: #fee2e2; color: #991b1b; }
+  .vacuna-note {
+    background: rgba(184,134,11,0.08);
+    border-left: 3px solid #b8860b;
+    padding: 10px 12px;
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: #5a6e8c;
+    margin-top: 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .vacuna-note b { color: #072146; }
+
   /* ==========  RESPONSIVE  ========== */
 
   /* Desktop estándar — sidebar a 200px */
@@ -1844,6 +1957,11 @@
         <span class="nav-icon">❡</span>
         <span class="nav-label">Fuentes</span>
       </div>
+      <div class="nav-item" data-tab="vacunas">
+        <span class="nav-icon">+</span>
+        <span class="nav-label">Vacunas</span>
+        <span class="nav-meta">5</span>
+      </div>
       <div class="nav-item" data-tab="guia">
         <span class="nav-icon">?</span>
         <span class="nav-label">Cómo leer este mapa</span>
@@ -2039,6 +2157,97 @@
     <!-- TAB: FUENTES -->
     <div class="tab-panel" id="panel-fuentes">
       <div id="sources"></div>
+    </div>
+
+    <!-- TAB: VACUNAS — Pipeline de I+D contra hantavirus -->
+    <div class="tab-panel" id="panel-vacunas">
+      <div class="vacuna-intro">
+        Apartado de seguimiento permanente del pipeline global de vacunas contra hantavirus. Se actualiza conforme aparecen anuncios oficiales. Cada entrada lleva atribución de fuente verificable; los datos no refrendados quedan marcados como <em>fuente pendiente</em>.
+      </div>
+
+      <div class="vacuna-stats">
+        <div class="vacuna-stat">
+          <div class="vacuna-stat-n">5</div>
+          <div class="vacuna-stat-l">Programas activos</div>
+        </div>
+        <div class="vacuna-stat">
+          <div class="vacuna-stat-n">0</div>
+          <div class="vacuna-stat-l">En Fase clínica</div>
+        </div>
+        <div class="vacuna-stat">
+          <div class="vacuna-stat-n">$2.5B</div>
+          <div class="vacuna-stat-l">USD pedidos · CEPI</div>
+        </div>
+      </div>
+
+      <div class="vacuna-card">
+        <div class="vacuna-card-titulo">Moderna + Korea University · Vaccine Innovation Center</div>
+        <div class="vacuna-card-sede">Cambridge, MA (EE.UU.) + Seúl, Corea del Sur</div>
+        <div class="vacuna-card-rows">
+          <span class="vkey">Producto</span><span class="vval">Vacuna mRNA contra <em>virus Andes</em> (ANDV)</span>
+          <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-pre">Preclínico</span> — ratones, feb-2025</span>
+          <span class="vkey">Inicio</span><span class="vval">Programa <em>mRNA Access</em> · acuerdo firmado entre 2023 y 2024 según fuente</span>
+          <span class="vkey">Líder</span><span class="vval">Prof. Park Man-sung · Korea University College of Medicine</span>
+          <span class="vkey">Financ.</span><span class="vval">Programa <em>mRNA Access</em> de Moderna · contribución privada con socio académico</span>
+          <span class="vkey">Fuente</span><span class="vval vfuente">Korea Biomedical Review (feb-2025) · The Microbiologist · EurekAlert</span>
+        </div>
+      </div>
+
+      <div class="vacuna-card">
+        <div class="vacuna-card-titulo">USAMRIID · Hooper Lab</div>
+        <div class="vacuna-card-sede">Frederick, Maryland (EE.UU.)</div>
+        <div class="vacuna-card-rows">
+          <span class="vkey">Producto</span><span class="vval">Vacuna ANDV-Gn/Gc mRNA</span>
+          <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-pre">Preclínico</span> — primates no humanos</span>
+          <span class="vkey">Inicio</span><span class="vval">Publicación científica de Hooper et al. (2023)</span>
+          <span class="vkey">Líder</span><span class="vval">Jay W. Hooper · USAMRIID</span>
+          <span class="vkey">Financ.</span><span class="vval">Federal estadounidense (Departamento de Defensa)</span>
+          <span class="vkey">Fuente</span><span class="vval vfuente">Hooper et al. (2023) — publicación científica</span>
+        </div>
+      </div>
+
+      <div class="vacuna-card">
+        <div class="vacuna-card-titulo">UTMB · Bukreyev Lab</div>
+        <div class="vacuna-card-sede">University of Texas Medical Branch, Galveston (EE.UU.)</div>
+        <div class="vacuna-card-rows">
+          <span class="vkey">Producto</span><span class="vval">Vacuna mRNA pan-hantavirus</span>
+          <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-pausa">En pausa</span> — recortes de financiamiento NIH (2024)</span>
+          <span class="vkey">Inicio</span><span class="vval">2024 · plataforma de I+D propia del laboratorio</span>
+          <span class="vkey">Líder</span><span class="vval">Alexander Bukreyev · UTMB</span>
+          <span class="vkey">Financ.</span><span class="vval">Federal estadounidense (NIH, recortado en 2024)</span>
+          <span class="vkey">Fuente</span><span class="vval vfuente">University of Texas Medical Branch · cobertura editorial del expediente</span>
+        </div>
+      </div>
+
+      <div class="vacuna-card">
+        <div class="vacuna-card-titulo">University of Bath</div>
+        <div class="vacuna-card-sede">Bath, Inglaterra (Reino Unido)</div>
+        <div class="vacuna-card-rows">
+          <span class="vkey">Producto</span><span class="vval">Vacuna termoestable contra <em>Hantaan virus</em> (cepa distinta del Andes)</span>
+          <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-pre">Preclínico</span></span>
+          <span class="vkey">Inicio</span><span class="vval">Contrato con gobierno británico</span>
+          <span class="vkey">Líder</span><span class="vval">Equipo de la Universidad de Bath</span>
+          <span class="vkey">Financ.</span><span class="vval">Gobierno del Reino Unido</span>
+          <span class="vkey">Fuente</span><span class="vval vfuente">University of Bath · fuente primaria pendiente de localizar</span>
+        </div>
+      </div>
+
+      <div class="vacuna-card" style="border-left-color:#7a4ea8">
+        <div class="vacuna-card-titulo">CEPI · 100 Day Mission</div>
+        <div class="vacuna-card-sede">Coalition for Epidemic Preparedness Innovations · Oslo, Noruega</div>
+        <div class="vacuna-card-rows">
+          <span class="vkey">Producto</span><span class="vval">Programa marco para producir cualquier vacuna en 100 días desde el día cero de una pandemia. No es una vacuna en sí — es la <em>infraestructura</em> que prometen tener lista.</span>
+          <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-pre">Programa</span> — sin vacuna específica ANDV</span>
+          <span class="vkey">Inicio</span><span class="vval">Programa anunciado tras COVID-19 · escalado público el 17 de mayo de 2026 usando el brote del MV Hondius como argumento</span>
+          <span class="vkey">Líder</span><span class="vval">Dr. Richard Hatchett · CEO de CEPI</span>
+          <span class="vkey">Financ.</span><span class="vval"><b>USD 2,500 millones</b> pedidos a sus socios en pieza de Hill Times (17-may-2026). Donante histórico: Bill &amp; Melinda Gates Foundation, Wellcome Trust, gobiernos de Reino Unido, Noruega, Alemania, Japón.</span>
+          <span class="vkey">Fuente</span><span class="vval vfuente">The Hill Times (17-may-2026) · CEPI — <em>What the Hantavirus outbreak tells us about preparing for Disease X</em></span>
+        </div>
+      </div>
+
+      <div class="vacuna-note">
+        <b>Honestidad de método.</b> Esta tabla solo registra programas con fuente verificable. Lo no refrendado queda como "fuente pendiente". Datos que circulan en redes pero no en prensa especializada o publicación científica (ej. supuesto programa Fase I de USAMRIID, ensilication de Bath) <b>no se publican</b> hasta que aparezca atribución sólida. El apartado se actualiza con cada anuncio oficial nuevo del pipeline.
+      </div>
     </div>
 
     <!-- TAB: GUÍA — Cómo leer este mapa -->
