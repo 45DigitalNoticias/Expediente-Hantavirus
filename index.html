@@ -1464,10 +1464,10 @@
     color: #072146;
   }
   .layer-tab.active {
-    background: #b8860b;
+    background: #04162e;
     color: #fff;
     opacity: 1;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.18) inset;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25) inset;
   }
   .layer-tab svg {
     width: 18px; height: 18px;
@@ -1492,6 +1492,97 @@
     background: rgba(7,33,70,0.06);
     opacity: 1;
   }
+
+  /* ===== Panel Guía — Cómo leer este mapa ===== */
+  .guia-intro {
+    background: #f8fafc;
+    border-left: 3px solid #04162e;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #5a6e8c;
+    font-style: italic;
+  }
+  .guia-section {
+    margin-bottom: 22px;
+  }
+  .guia-section:last-child { margin-bottom: 0; }
+  .guia-section h3 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #072146;
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .guia-section p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: #5a6e8c;
+    margin: 0 0 10px;
+  }
+  .guia-section p:last-child { margin-bottom: 0; }
+  .guia-section p b, .guia-section p strong { color: #072146; }
+
+  .guia-layers {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .guia-layers li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #e2e8f0;
+  }
+  .guia-layers li:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .guia-layer-color {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+  }
+  .guia-layer-line {
+    width: 22px; height: 3px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+  .guia-layer-dash {
+    width: 22px; height: 0;
+    border-top: 2px dashed #072146;
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+  .guia-layers .guia-text {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #5a6e8c;
+  }
+  .guia-layers .guia-text b { color: #072146; }
+
+  .guia-tip {
+    background: rgba(184,134,11,0.08);
+    border-left: 3px solid #b8860b;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #5a6e8c;
+    margin-top: 10px;
+    border-radius: 0 4px 4px 0;
+  }
+  .guia-tip b { color: #072146; }
 
   /* ==========  RESPONSIVE  ========== */
 
@@ -1712,6 +1803,10 @@
         <span class="nav-icon">❡</span>
         <span class="nav-label">Fuentes</span>
       </div>
+      <div class="nav-item" data-tab="guia">
+        <span class="nav-icon">?</span>
+        <span class="nav-label">Cómo leer este mapa</span>
+      </div>
     </div>
     <div class="sidenav-footer">
       Lectura sistémica<br/>45 Digital Noticias
@@ -1894,6 +1989,119 @@
     <!-- TAB: FUENTES -->
     <div class="tab-panel" id="panel-fuentes">
       <div id="sources"></div>
+    </div>
+
+    <!-- TAB: GUÍA — Cómo leer este mapa -->
+    <div class="tab-panel" id="panel-guia">
+      <div class="guia-intro">
+        El mapa interactivo del Expediente Hantavirus 2026 reúne datos verificables del brote del MV Hondius en un solo plano editorial. No es ilustración: es una herramienta de lectura sistémica. Cada elemento es atribuible a una fuente y puede aislarse o combinarse con otros.
+      </div>
+
+      <div class="guia-section">
+        <h3>Barra de capas — arriba del mapa</h3>
+        <p>La <b>toolbar horizontal</b> centrada arriba del mapa permite activar y desactivar siete capas independientes. Cada pestaña tiene un ícono y una etiqueta. Estado <b>activo</b>: fondo navy. Estado <b>inactivo</b>: gris claro. Click para alternar.</p>
+        <p>Las capas se dividen en <b>tres bloques</b> separados por líneas verticales:</p>
+        <ul class="guia-layers">
+          <li>
+            <span class="guia-layer-color" style="background:#04162e"></span>
+            <div class="guia-text">
+              <b>Brote</b> — las cuatro capas base, activadas por default. Muestran la historia del MV Hondius tal como la cubrió la prensa entre el 1 de abril y el 18 de mayo de 2026.
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-color" style="background:#04162e"></span>
+            <div class="guia-text">
+              <b>Contexto</b> — tres capas de ecosistema, apagadas por default. Muestran lo que rodea al brote: pipeline de vacunas, financiamiento pandémico y eventos geopolíticos previos.
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-color" style="background:#04162e"></span>
+            <div class="guia-text">
+              <b>Controles globales</b> — botones <b>"Todas"</b> y <b>"Ninguna"</b> al final de la barra. Útil para aislar un solo dato: apaga todas y enciende solo la capa que te interesa analizar.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="guia-section">
+        <h3>Las cuatro capas del brote</h3>
+        <ul class="guia-layers">
+          <li>
+            <span class="guia-layer-line" style="background:#4a7fa3"></span>
+            <div class="guia-text">
+              <b>Ruta</b> — Travesía marítima del MV Hondius. Línea continua steel-cyan entre Ushuaia (1 abr) y Rotterdam (18 may), pasando por Tristán da Cunha y Tenerife.
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-color" style="background:#04162e"></span>
+            <div class="guia-text">
+              <b>Casos</b> — Marcadores numerados 1, 2, 3… en orden cronológico del brote. Click en cualquiera abre un popup con fecha, lugar, descripción y nivel de verificación (✅ confirmado, ⚠️ parcial, ❓ no confirmado).
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-dash"></span>
+            <div class="guia-text">
+              <b>Evac.</b> — Líneas navy punteadas saliendo de Tenerife (puerto de desembarque) hacia los nueve destinos de evacuación: Ámsterdam, Berlín, Madrid, París, Roma, Zúrich, Omaha, Johannesburgo y Rotterdam.
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-color" style="background:#b8860b"></span>
+            <div class="guia-text">
+              <b>Pre-crucero</b> — Ruta del <b>caso índice</b> (ciudadano holandés) durante los cuatro meses anteriores al zarpe. Santiago de Chile → Montevideo → Buenos Aires → Ushuaia, según informe del Ministerio de Salud argentino del 6 de mayo. Línea ámbar punteada con marcador "P" en el punto de partida y dots en las paradas.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="guia-section">
+        <h3>Las tres capas de contexto</h3>
+        <ul class="guia-layers">
+          <li>
+            <span class="guia-layer-color" style="background:#2a8cd8"></span>
+            <div class="guia-text">
+              <b>Vacunas</b> — Pipeline global de I+D contra hantavirus: Moderna + Korea University, USAMRIID (Hooper 2023), UTMB-Bukreyev, University of Bath, CEPI. Cuadrados azules con marca "V". Click muestra fase clínica, socios y fuente.
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-color" style="background:#7a4ea8"></span>
+            <div class="guia-text">
+              <b>Financ.</b> — Nodos de financiamiento pandémico: CEPI (Oslo), NIH, BARDA, Banco Mundial Pandemic Fund, Bill &amp; Melinda Gates Foundation. Círculos morados con símbolo "$". Cifras concretas cuando están disponibles.
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-color" style="background:#a23a2a"></span>
+            <div class="guia-text">
+              <b>Geopol.</b> — Eventos geopolíticos previos al brote: salida formal de EE.UU. de la OMS (20-ene-2026, Trump), salida de Argentina (17-mar-2026, Milei), alerta epidemiológica regional de la OPS (19-dic-2025). Marcadores guinda con bandera.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="guia-section">
+        <h3>Cómo interactuar</h3>
+        <p>• <b>Click en cualquier marcador</b> abre un popup con la información completa de ese evento o nodo, incluida la fuente verificable.</p>
+        <p>• <b>Click en una línea</b> (ruta marítima o pre-crucero) también abre popup descriptivo.</p>
+        <p>• <b>Zoom y arrastre</b> funcionan como en cualquier mapa: rueda del ratón o doble click para acercar, click + arrastrar para mover.</p>
+        <p>• La <b>línea de tiempo</b> abajo del mapa permite recorrer los 48 días del brote en orden cronológico. Botón ▶ reproduce automáticamente.</p>
+        <p>• El <b>panel lateral derecho</b> tiene cinco pestañas adicionales: Cronología (línea de tiempo detallada con filtros), Casos por país, Boletín oficial, Columnas (las cinco piezas del expediente) y Fuentes (todas las referencias).</p>
+      </div>
+
+      <div class="guia-section">
+        <h3>Qué tipo de datos verás</h3>
+        <p>Tres categorías:</p>
+        <p>• <b>Cifras epidemiológicas</b> — provienen de la OMS (DON601, 14-may-2026), CDC, ECDC, OPS y los ministerios nacionales de salud. Cifras canónicas: 11 casos, 3 muertes, 147 personas a bordo, 12 países afectados.</p>
+        <p>• <b>Datos institucionales</b> — pipeline de vacunas, financiadores, eventos geopolíticos. Fuentes: Korea Biomedical Review, Hooper et al. 2023, The Hill Times, CEPI, Página/12, Infobae, Chequeado.</p>
+        <p>• <b>Atribuciones académicas</b> — cuando una columna del expediente cita a un autor (Klein, Crary, Goffman, Jung, Schmitt), el concepto eje aparece en la pestaña <i>Columnas</i> del panel lateral.</p>
+        <div class="guia-tip">
+          <b>Honestidad de método.</b> Los nodos del mapa que no tienen fuente primaria refrendada aparecen marcados como "fuente pendiente" en su popup. No se publica nada como hecho sin atribución.
+        </div>
+      </div>
+
+      <div class="guia-section">
+        <h3>Lectura editorial</h3>
+        <p>Este mapa no es ilustración. Es una herramienta de lectura sistémica. Cada vez que prendes o apagas una capa, propones una hipótesis: <em>¿qué muestra el brote si lo lees solo con el pipeline de vacunas activado? ¿qué dibujan los nodos de financiamiento cuando los superpones con la ruta marítima? ¿qué cambia si activas la capa geopolítica y observas que Argentina abandonó la OMS quince días antes de que el barco zarpara de su puerto?</em></p>
+        <p>El expediente está pensado para ser <b>interrogado</b>, no consumido. Las cinco columnas del arco (8 – 18 mayo) leen el brote desde ángulos distintos: la arquitectura institucional que el COVID dejó montada (Klein), el capitalismo del desastre (Klein), la economía de la atención (Crary), los rostros públicos como <i>frontstage</i> goffmaniano, la decisión soberana en clave schmittiana. Cada una se publica en la pestaña <i>Columnas</i> del panel.</p>
+      </div>
     </div>
   </aside>
 </div>
