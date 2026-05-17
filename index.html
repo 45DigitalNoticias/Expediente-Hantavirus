@@ -1823,9 +1823,9 @@
   );
 
   // Marcadores de la ruta pre-crucero: partida + dos paradas intermedias
-  const sailIcon = L.divIcon({
-    className: 'pre-cruise-sail',
-    html: '<div style="width:34px;height:34px;background:#b8860b;color:#fff;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;box-shadow:0 0 0 1px rgba(0,0,0,0.35);">⛵</div>',
+  const startIcon = L.divIcon({
+    className: 'pre-cruise-start',
+    html: '<div style="width:34px;height:34px;background:#b8860b;color:#fff;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:18px;font-weight:700;line-height:1;box-shadow:0 0 0 1px rgba(0,0,0,0.35);">P</div>',
     iconSize: [34, 34], iconAnchor: [17, 17]
   });
   const stopIcon = L.divIcon({
@@ -1834,7 +1834,7 @@
     iconSize: [16, 16], iconAnchor: [8, 8]
   });
 
-  L.marker([-33.45, -70.66], { icon: sailIcon }).addTo(map).bindPopup(
+  L.marker([-33.45, -70.66], { icon: startIcon }).addTo(map).bindPopup(
     '<span class="pop-date">Aprox. 27-nov-2025</span><b>Santiago de Chile · Partida</b><p>El caso índice del brote — un ciudadano holandés — inició aquí su recorrido sudamericano de cuatro meses antes de abordar el MV Hondius en Ushuaia. <em>Las fechas exactas de cada escala no fueron publicadas; el informe del Min. Salud argentino (6-may-2026) consigna solo el período total: 27-nov-2025 al 1-abr-2026.</em></p>'
   );
   L.marker([-34.90, -56.16], { icon: stopIcon }).addTo(map).bindPopup(
