@@ -317,11 +317,13 @@
   /* ===== Panel de contenido (derecha) ===== */
   aside {
     background: var(--pergamino-claro);
-    border-left: 1px solid var(--divisor);
+    border-left: 3px solid #04162e;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: -2px 0 8px rgba(28, 58, 92, 0.04);
+    box-shadow: -10px 0 24px rgba(11, 31, 63, 0.22);
+    position: relative;
+    z-index: 10;
   }
   .panel-title {
     padding: 14px 20px;
@@ -1407,11 +1409,11 @@
   }
   .legend .line {
     width: 18px; height: 0;
-    border-top: 3px solid var(--rojo);
+    border-top: 3px solid #4a7fa3;
   }
   .legend .dash {
     width: 18px; height: 0;
-    border-top: 2px dashed var(--azul);
+    border-top: 2px dashed #4b5563;
   }
   .legend .dash-amber {
     width: 18px; height: 0;
@@ -2162,10 +2164,11 @@
   }
 
   // ----- Mapa -----
-  const map = L.map('map', { worldCopyJump: true }).setView([-15, -20], 3);
+  const map = L.map('map', { worldCopyJump: true, zoomControl: false }).setView([-15, -20], 3);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors', maxZoom: 8, minZoom: 2
+    attribution: '© OpenStreetMap contributors', maxZoom: 11, minZoom: 2
   }).addTo(map);
+  L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
   // ============================================================
   // Capas BASE del expediente — todas en layerGroups togglables
@@ -2309,45 +2312,65 @@
       .bindPopup(`<b>${v.inst}</b><p>${v.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${v.fuente}</em></p>`))
   );
 
+  // ---- HELPER: construye marcador + línea conectora si hay offset ----
+  // Cuando varios nodos comparten una misma ciudad (ej. Washington DC) los
+  // marcadores se amontonan visualmente. Si la entrada trae `offset` (coords),
+  // el marcador se renderiza en esa posición desplazada y una línea punteada
+  // delgada lo une con su coordenada real, indicando "este nodo refiere a
+  // esta parte del mapa".
+  function addNodeToLayer(layer, item, icon, buildPopupHtml) {
+    const popupHtml = buildPopupHtml(item);
+    const markerPos = item.offset || item.coords;
+    layer.addLayer(L.marker(markerPos, { icon }).bindPopup(popupHtml));
+    if (item.offset) {
+      layer.addLayer(L.polyline([item.offset, item.coords], {
+        color: '#5a6e8c', weight: 1, opacity: 0.55, dashArray: '2,4'
+      }));
+    }
+  }
+
   // ---- CAPA 3: FINANCIAMIENTO PANDÉMICO ----
+  // Tres de los cinco nodos están en el área metropolitana de Washington DC,
+  // así que llevan offset visual + línea conectora a su sede real.
   const financiadores = [
     { coords: [59.91, 10.75], inst: 'CEPI',
       desc: 'Oslo. Coalition for Epidemic Preparedness Innovations. Pidió $2,500M USD el 17-may-2026 para el programa "100 Day Mission".',
       fuente: 'CEPI · The Hill Times' },
-    { coords: [38.99, -77.10], inst: 'NIH',
+    { coords: [38.99, -77.10], offset: [40.4, -76.0], inst: 'NIH',
       desc: 'Bethesda, Maryland. National Institutes of Health. Mayor agencia federal de financiamiento biomédico de EE.UU. Recortes a programas de vacunas pan-hantavirus en 2024.',
       fuente: 'NIH · cobertura prensa' },
-    { coords: [38.95, -77.10], inst: 'BARDA',
+    { coords: [38.95, -77.10], offset: [39.6, -80.2], inst: 'BARDA',
       desc: 'Washington DC. Biomedical Advanced Research and Development Authority (HHS/ASPR). Contratista federal en preparación pandémica.',
       fuente: 'HHS · ASPR' },
-    { coords: [38.89, -77.04], inst: 'Banco Mundial · Pandemic Fund',
+    { coords: [38.89, -77.04], offset: [36.8, -75.5], inst: 'Banco Mundial · Pandemic Fund',
       desc: 'Washington DC. Mecanismo financiero multilateral lanzado en septiembre de 2022 para preparación y respuesta pandémica.',
       fuente: 'Banco Mundial' },
     { coords: [47.62, -122.34], inst: 'Bill & Melinda Gates Foundation',
       desc: 'Seattle, Washington. Donante histórico de CEPI desde su fundación en Davos 2017.',
       fuente: 'CEPI · Annual Report' }
   ];
-  const financiamientoLayer = L.layerGroup(
-    financiadores.map(f => L.marker(f.coords, { icon: fundIcon })
-      .bindPopup(`<b>${f.inst}</b><p>${f.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${f.fuente}</em></p>`))
-  );
+  const financiamientoLayer = L.layerGroup();
+  financiadores.forEach(f => addNodeToLayer(financiamientoLayer, f, fundIcon,
+    f => `<b>${f.inst}</b><p>${f.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${f.fuente}</em></p>`
+  ));
 
   // ---- CAPA 4: GEOPOLÍTICA PREVIA AL BROTE ----
+  // Dos de los tres nodos están en Washington DC; llevan offset visual.
   const geopoliticos = [
-    { coords: [38.92, -77.05], fecha: '20-ene-2026', titulo: 'Estados Unidos abandona la OMS',
+    { coords: [38.92, -77.05], offset: [36.8, -80.2], fecha: '20-ene-2026', titulo: 'Estados Unidos abandona la OMS',
       desc: 'Washington DC. Donald Trump firma orden ejecutiva de salida en su primer día como Presidente. Patrón espejo Trump-Milei: la salida argentina se concretará dos meses después.',
       fuente: 'Cobertura internacional · El Mostrador, TV Azteca' },
     { coords: [-34.62, -58.36], fecha: '17-mar-2026', titulo: 'Argentina concreta su salida de la OMS',
       desc: 'Buenos Aires. Por aplicación del Convenio de Viena, un año después de la notificación formal del 17-mar-2025. Quince días antes del zarpe del MV Hondius desde Ushuaia.',
       fuente: 'Página/12 · Infobae · Chequeado · Euronews' },
-    { coords: [38.91, -77.06], fecha: '19-dic-2025', titulo: 'OPS emite alerta epidemiológica regional por hantavirus',
+    { coords: [38.91, -77.06], offset: [40.6, -79.5], fecha: '19-dic-2025', titulo: 'OPS emite alerta epidemiológica regional por hantavirus',
       desc: 'Washington DC, sede OPS. 229 casos confirmados y 59 muertes en 8 países del cono sur en 2025 — cuadruplica la media histórica. Tres meses antes de la salida argentina de la OMS.',
       fuente: 'OPS / Boletín Epidemiológico' }
   ];
-  const geopolLayer = L.layerGroup(
-    geopoliticos.map(g => L.marker(g.coords, { icon: geoIcon })
-      .bindPopup(`<span class="pop-date">${g.fecha}</span><b>${g.titulo}</b><p>${g.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${g.fuente}</em></p>`))
-  );
+  const geopolLayer = L.layerGroup();
+  geopoliticos.forEach(g => addNodeToLayer(geopolLayer, g, geoIcon,
+    g => `<span class="pop-date">${g.fecha}</span><b>${g.titulo}</b><p>${g.desc}</p><p style="font-size:11px;color:#5a6e8c"><em>Fuente: ${g.fuente}</em></p>`
+  ));
 
   // ---- CONTROL DE CAPAS — TOOLBAR HORIZONTAL ----
   const overlayMap = {
