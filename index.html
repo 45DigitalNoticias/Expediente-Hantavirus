@@ -1538,32 +1538,39 @@
   .guia-intro {
     background: #f8fafc;
     border-left: 3px solid #04162e;
-    padding: 12px 14px;
-    margin-bottom: 20px;
-    font-size: 13px;
-    line-height: 1.55;
+    padding: 16px 18px;
+    margin-bottom: 32px;
+    font-size: 14.5px;
+    line-height: 1.65;
     color: #5a6e8c;
     font-style: italic;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
   .guia-section {
-    margin-bottom: 22px;
+    margin-bottom: 40px;
+    padding-top: 4px;
   }
   .guia-section:last-child { margin-bottom: 0; }
   .guia-section h3 {
-    font-size: 12px;
+    font-size: 13.5px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #072146;
-    margin: 0 0 10px;
-    padding-bottom: 6px;
+    margin: 0 0 14px;
+    padding-bottom: 8px;
     border-bottom: 1px solid #e2e8f0;
   }
   .guia-section p {
-    font-size: 13px;
-    line-height: 1.55;
+    font-size: 14.5px;
+    line-height: 1.7;
     color: #5a6e8c;
-    margin: 0 0 10px;
+    margin: 0 0 12px;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
   .guia-section p:last-child { margin-bottom: 0; }
   .guia-section p b, .guia-section p strong { color: #072146; }
@@ -1576,9 +1583,9 @@
   .guia-layers li {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
+    gap: 14px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
     border-bottom: 1px dashed #e2e8f0;
   }
   .guia-layers li:last-child {
@@ -1587,41 +1594,47 @@
     border-bottom: none;
   }
   .guia-layer-color {
-    width: 14px; height: 14px;
+    width: 16px; height: 16px;
     border-radius: 3px;
     flex-shrink: 0;
-    margin-top: 3px;
+    margin-top: 4px;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
   }
   .guia-layer-line {
-    width: 22px; height: 3px;
+    width: 24px; height: 3px;
     border-radius: 2px;
-    flex-shrink: 0;
-    margin-top: 7px;
-  }
-  .guia-layer-dash {
-    width: 22px; height: 0;
-    border-top: 2px dashed #072146;
     flex-shrink: 0;
     margin-top: 8px;
   }
+  .guia-layer-dash {
+    width: 24px; height: 0;
+    border-top: 2px dashed #072146;
+    flex-shrink: 0;
+    margin-top: 10px;
+  }
   .guia-layers .guia-text {
     flex: 1;
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.65;
     color: #5a6e8c;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
   .guia-layers .guia-text b { color: #072146; }
 
   .guia-tip {
     background: rgba(184,134,11,0.08);
     border-left: 3px solid #b8860b;
-    padding: 10px 12px;
-    font-size: 12.5px;
-    line-height: 1.5;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    line-height: 1.65;
     color: #5a6e8c;
-    margin-top: 10px;
+    margin-top: 16px;
     border-radius: 0 4px 4px 0;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
   .guia-tip b { color: #072146; }
 
@@ -1629,12 +1642,15 @@
   .vacuna-intro {
     background: #f8fafc;
     border-left: 3px solid #2a8cd8;
-    padding: 12px 14px;
-    margin-bottom: 16px;
-    font-size: 12.5px;
-    line-height: 1.55;
+    padding: 16px 18px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    line-height: 1.65;
     color: #5a6e8c;
     font-style: italic;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
   .vacuna-stats {
     display: grid;
@@ -1729,12 +1745,15 @@
   .vacuna-note {
     background: rgba(184,134,11,0.08);
     border-left: 3px solid #b8860b;
-    padding: 10px 12px;
-    font-size: 11.5px;
-    line-height: 1.5;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    line-height: 1.65;
     color: #5a6e8c;
-    margin-top: 16px;
+    margin-top: 24px;
     border-radius: 0 4px 4px 0;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
   .vacuna-note b { color: #072146; }
 
@@ -2132,21 +2151,6 @@
 
     </div>
 
-    <!-- Vista 2 (fuera del aside, fullscreen): Lector inmersivo -->
-    <div id="columnas-reader" class="reader-view">
-      <div class="reader-topbar">
-        <div class="reader-topbar-left">
-          <div class="logo-mark">45</div>
-          <div class="topbar-title">
-            Digital Noticias
-            <small>Sala de lectura</small>
-          </div>
-        </div>
-        <div class="reader-back" id="reader-back-btn">Volver al mapa</div>
-      </div>
-      <div class="reader-article" id="reader-content"></div>
-    </div>
-
     <!-- Lightbox para galería de portadas -->
     <div class="galeria-lightbox" id="galeria-lightbox">
       <div class="galeria-lightbox-close" id="lightbox-close">×</div>
@@ -2369,6 +2373,22 @@
       </div>
     </div>
   </aside>
+</div>
+
+<!-- Lector inmersivo de columnas — fuera del aside para que el fullscreen
+     no se vea afectado por overflow:hidden ni stacking contexts del panel. -->
+<div id="columnas-reader" class="reader-view">
+  <div class="reader-topbar">
+    <div class="reader-topbar-left">
+      <div class="logo-mark">45</div>
+      <div class="topbar-title">
+        Digital Noticias
+        <small>Sala de lectura</small>
+      </div>
+    </div>
+    <div class="reader-back" id="reader-back-btn">Volver al mapa</div>
+  </div>
+  <div class="reader-article" id="reader-content"></div>
 </div>
 
 <div class="timebar">
