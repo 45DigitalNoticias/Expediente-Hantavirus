@@ -1314,15 +1314,49 @@
     transition: transform 0.15s;
   }
   .play-btn:hover { transform: scale(1.05); }
-  .slider-wrap { flex: 1; }
+  .slider-wrap { flex: 1; position: relative; }
   .slider-labels {
-    display: flex; justify-content: space-between;
-    font-size: 10px; color: var(--sepia);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    position: relative;
+    height: 30px;
+    margin-bottom: 4px;
     font-family: Georgia, serif;
   }
+  .slider-label {
+    position: absolute;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.15;
+  }
+  .slider-label.is-start { transform: translateX(0); text-align: left; }
+  .slider-label.is-end   { transform: translateX(-100%); text-align: right; }
+  .slider-label-day {
+    display: block;
+    font-weight: 700;
+    font-size: 10.5px;
+    color: var(--tinta-naval);
+    letter-spacing: 0.02em;
+  }
+  .slider-label-event {
+    display: block;
+    font-size: 8.5px;
+    color: var(--sepia);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 1px;
+  }
+  .slider-label-tick {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 6px;
+    background: var(--tinta-naval);
+    opacity: 0.45;
+  }
+  .slider-label.is-start .slider-label-tick { left: 0; transform: none; }
+  .slider-label.is-end   .slider-label-tick { left: 100%; transform: translateX(-100%); }
   .slider {
     width: 100%;
     -webkit-appearance: none;
@@ -2117,9 +2151,36 @@
   <button class="play-btn" id="play">▶</button>
   <div class="slider-wrap">
     <div class="slider-labels">
-      <span>1 abr — Ushuaia</span>
-      <span>HOY · 13 may</span>
-      <span>18 may — Rotterdam</span>
+      <span class="slider-label is-start" style="left:0%">
+        <span class="slider-label-day">1 abr</span>
+        <span class="slider-label-event">Ushuaia · Zarpe</span>
+        <span class="slider-label-tick"></span>
+      </span>
+      <span class="slider-label" style="left:34%">
+        <span class="slider-label-day">17 abr</span>
+        <span class="slider-label-event">Primer caso</span>
+        <span class="slider-label-tick"></span>
+      </span>
+      <span class="slider-label" style="left:66%">
+        <span class="slider-label-day">2 may</span>
+        <span class="slider-label-event">OMS notif.</span>
+        <span class="slider-label-tick"></span>
+      </span>
+      <span class="slider-label" style="left:74%">
+        <span class="slider-label-day">6 may</span>
+        <span class="slider-label-event">Andes virus</span>
+        <span class="slider-label-tick"></span>
+      </span>
+      <span class="slider-label" style="left:85%">
+        <span class="slider-label-day">11 may</span>
+        <span class="slider-label-event">CONAVE · MX</span>
+        <span class="slider-label-tick"></span>
+      </span>
+      <span class="slider-label is-end" style="left:100%">
+        <span class="slider-label-day">18 may</span>
+        <span class="slider-label-event">Rotterdam</span>
+        <span class="slider-label-tick"></span>
+      </span>
     </div>
     <input type="range" min="1" max="48" value="43" class="slider" id="slider" style="--pct:90%" />
   </div>
