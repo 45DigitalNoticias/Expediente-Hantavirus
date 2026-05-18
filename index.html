@@ -2453,14 +2453,14 @@
     { n:14, day:41, date:'11-may', type:'route',    coords:[28.10,-16.49],  place:'Tenerife — desembarque', desc:'Desembarque completo de 147 personas. Repatriaciones por vuelos medicalizados a múltiples países.', v:'✅' },
     { n:15, day:41, date:'11-may', type:'hospital', coords:[41.12,-95.92],  place:'Offutt AFB / Nebraska, EEUU', desc:'17 estadounidenses aterrizan en Offutt Air Force Base; trasladados a la Nebraska Biocontainment Unit. 1 positivo, 1 con síntomas leves.', v:'✅' },
     { n:16, day:42, date:'12-may', type:'hospital', coords:[40.41,-3.74],   place:'Madrid — Hospital Gómez Ulla', desc:'14 españoles en cuarentena 42 días en el Hospital Central de Defensa Gómez Ulla. 1 positivo leve, estable.', v:'✅' },
-    { n:17, day:42, date:'12-may', type:'hospital', coords:[48.86,2.35],    place:'Hospital Bichat, París — caso crítico', desc:'Mujer francesa de 65 años, pasajera del MV Hondius, hospitalizada en el Hospital Bichat de París en estado crítico. Cuadro pulmonar más severo del brote. Atendida por el Dr. Xavier Lescure, infectólogo. Conectada a oxigenación extracorpórea (ECMO). Pronóstico vital comprometido según el parte médico oficial. Su muestra fue secuenciada en Francia y la cepa coincide sin mutaciones con la del cono sur sudamericano.', v:'✅' },
+    { n:17, day:42, date:'12-may', type:'hospital', coords:[48.86,2.35],    place:'Hospital Bichat, París — caso crítico', desc:'Mujer francesa en sus 60 años, pasajera del MV Hondius, hospitalizada en el Hospital Bichat de París en estado crítico. Cuadro pulmonar más severo del brote. Comorbilidades documentadas: asma y otras afecciones previas. Atendida por el Dr. Xavier Lescure, infectólogo. Conectada a oxigenación extracorpórea (ECMO). Pronóstico vital comprometido según el parte médico oficial. Su muestra fue secuenciada en Francia y la cepa coincide sin mutaciones con la del cono sur sudamericano. La literatura sobre hantavirus severo señala que el ECMO temprano puede dar hasta ~80% de supervivencia en casos críticos.', v:'✅' },
     { n:18, day:42, date:'12-may', type:'hospital', coords:[41.90,12.50],   place:'Roma — análisis ISS', desc:'Italiano joven de Calabria asintomático; muestras enviadas al Instituto Superior de Salud (ISS) en Roma para confirmación.', v:'⚠️' },
     { n:19, day:42, date:'12-may', type:'lab',      coords:[46.20,6.14],    place:'OMS — comunicado oficial', desc:'OMS actualiza: 11 casos en total (9 confirmados, 2 probables), 3 muertes. Riesgo poblacional bajo.', v:'✅' },
     { n:20, day:41, date:'11-may', type:'lab', coords:[19.43,-99.13], place:'México — Aviso Epidemiológico Nacional', desc:'La Secretaría de Salud de México emite la PRIMERA Alerta Epidemiológica Nacional por hantavirus en la historia del país. Cero casos en territorio, pero activa vigilancia en hospitales, laboratorios y unidades médicas. El aviso cita explícitamente la movilidad del Mundial 2026 como factor de riesgo adicional.', v:'✅' },
     { n:21, day:42, date:'12-may', type:'hospital', coords:[51.81,5.84], place:'Radboudumc Nijmegen — fallo de protocolo', desc:'El Hospital Universitario Radboudumc (Países Bajos) pone en cuarentena preventiva de 6 semanas a 12 trabajadores sanitarios. Procesaron muestras de sangre y desecharon orina de un paciente positivo con protocolo estándar en lugar del estricto requerido. Paciente admitido 7-may; fallo detectado sábado 10-may.', v:'✅' },
     { n:22, day:43, date:'13-may', type:'lab', coords:[59.33,18.06], place:'ECDC — Estocolmo (DON601 / Surveillance Update)', desc:'ECDC actualiza cifras del cluster: 9 confirmados (+2 desde el 11-may), 2 probables, 3 muertes. Letalidad 27%. La OMS publica DON601: hipótesis de transmisión humano-humano a bordo se convierte en working hypothesis institucional. Riesgo UE/EEE sigue muy bajo.', v:'✅' },
     { n:23, day:43, date:'13-may', type:'hospital', coords:[48.86,2.35], place:'París — Bichat · fase terminal del soporte', desc:'La paciente francesa (65 años, Hospital Bichat) entra en lo que el Dr. Xavier Lescure describe como "fase terminal del cuidado de soporte" en parte médico oficial. Sigue conectada a ECMO (pulmón artificial) para oxigenación extracorpórea. Es el caso vivo más grave del cluster del MV Hondius. Las próximas horas se anuncian como determinantes para el pronóstico vital.', v:'✅' },
-    { n:24, day:48, date:'17-18 may (programado)', type:'route', coords:[51.92,4.48], place:'Rotterdam — destino del barco', desc:'MV Hondius llegará a Rotterdam para desinfección. A bordo: 27 personas asintomáticas (25 tripulantes + 2 funcionarios sanitarios). Cuarentena hasta el 21 de junio (42 días desde el día cero del 10 de mayo).', v:'⚠️' }
+    { n:24, day:48, date:'18-may', type:'route', coords:[51.92,4.48], place:'Rotterdam — atraque y desinfección', desc:'MV Hondius atraca en Rotterdam la mañana del lunes 18 de mayo para desinfección. A bordo: 27 personas asintomáticas (25 tripulantes + 2 funcionarios sanitarios holandeses). Autoridades neerlandesas instalaron 25 contenedores blancos a lo largo del muelle, equipados con internet satelital y catering, para cuarentena inmediata de 42 días. Evacuación de la tripulación en tres batches. Desglose por nacionalidad: 17 filipinos, 4 holandeses (2 tripulantes + 2 sanitarios), 4 ucranianos, 1 ruso, 1 polaco. Cuarentena hasta el 21 de junio (42 días desde el día cero del 10 de mayo).', v:'✅' }
   ];
 
   // Mapeo día → fecha legible
@@ -2699,8 +2699,8 @@
       fuente: 'CDC HAN 00528 · CNN · CBC' },
     { coords: [52, 15], label: 'Europa',
       titulo: 'Europa',
-      desc: '<b>5 casos confirmados</b> distribuidos en seis países. Concentración principal de pasajeros del MV Hondius: Reino Unido, Países Bajos, Alemania, Francia, España, Suiza. Turquía: contactos. Países Bajos = puerto de atraque final del Hondius (Rotterdam, 18-may-2026): 23 cabinas de cuarentena instaladas en el puerto bajo protocolo RIVM. España: paciente estable en el Hospital Gómez Ulla, Madrid.',
-      fuente: 'ECDC · Infobae · El País · NL Times' },
+      desc: '<b>5 casos confirmados</b> distribuidos en seis países. Concentración principal de pasajeros del MV Hondius: Reino Unido, Países Bajos, Alemania, Francia, España, Suiza. Turquía: contactos.<br><br><b>Países Bajos · Rotterdam</b>: el barco atracó el 18-may-2026 para desinfección. 25 contenedores blancos instalados en el muelle para cuarentena de 42 días, con internet satelital y catering. Tripulación restante: 17 filipinos, 4 holandeses, 4 ucranianos, 1 ruso, 1 polaco.<br><br><b>Francia</b>: mujer en sus 60 años (asma + comorbilidades) en estado crítico en el Hospital Bichat, París, bajo ECMO; atendida por el Dr. Xavier Lescure (infectología). Caso pulmonar más severo del cluster.<br><br><b>España</b>: paciente estable en el Hospital Central de Defensa Gómez Ulla, Madrid.',
+      fuente: 'ECDC · OMS DON601 · NL Times · France24 · Al Jazeera · NPR · PBS · Infobae · El País' },
     { coords: [0, 20], label: 'África',
       titulo: 'África',
       desc: '<b>1 muerte confirmada del brote</b>: la viuda neerlandesa (segunda víctima del matrimonio embarcado) falleció en <b>Johannesburgo, Sudáfrica</b>, tras ser evacuada desde Santa Helena el 3 de mayo de 2026. Santa Helena: puerto de tránsito y desembarque sanitario británico durante la travesía del Hondius.',
@@ -3001,11 +3001,19 @@
       { t:'Wikipedia (español) — Brote de hantavirus en el MV Hondius', url:'https://es.wikipedia.org/wiki/Brote_de_hantavirus_en_el_MV_Hondius' }
     ]},
     { group:'Trackers y dashboards', tag:'tag-tracker', items:[
-      { t:'ArcGIS Dashboard — ANDV Hantavirus 2026', url:'https://www.arcgis.com/apps/dashboards/5c68442d2afc42d7ba2696e4cd393729' },
+      { t:'ArcGIS Dashboard — ANDV Hantavirus 2026 (institucional, basado en ESRI)', url:'https://www.arcgis.com/apps/dashboards/5c68442d2afc42d7ba2696e4cd393729' },
+      { t:'GenomicEpi — Hantavirus Cruise Outbreak Tracker (perfil académico)', url:'https://genomicepi.com/outbreaks/hantavirus-hondius/' },
       { t:'Hantavirus Outbreak Tracker (timeline en vivo)', url:'https://hantavirustracker.io/' },
-      { t:'HantavirusMap — Cases & deaths', url:'https://hantavirusmap.net/' },
+      { t:'HantavirusMap.net — Cases & deaths', url:'https://hantavirusmap.net/' },
       { t:'HantaView — Global tracking', url:'https://www.hantaview.com/map' },
-      { t:'GenomicEpi — Hantavirus Cruise Outbreak Tracker', url:'https://genomicepi.com/outbreaks/hantavirus-hondius/' }
+      { t:'hantavirus.live — posición en vivo del barco (AIS) + feed de noticias', url:'https://hantavirus.live/' },
+      { t:'hantavirus.one — mapa interactivo paralelo + feed', url:'https://hantavirus.one/' },
+      { t:'hantavirustracker2026.com — sitio dedicado al brote', url:'https://hantavirustracker2026.com/' },
+      { t:'hantavirus.up.railway.app — operado por una sola persona (declarado)', url:'https://hantavirus.up.railway.app/' },
+      { t:'Hantaflow — dashboard de outbreak en vivo', url:'https://hantaflow.com/' },
+      { t:'Hantavirus-Now — Live Tracker', url:'https://www.hantavirus-now.com/' },
+      { t:'HantavirusMap.com — Live Global Outbreak Tracker', url:'https://hantavirusmap.com/' },
+      { t:'Hantavirus Live Tracker — Official Updates 2026', url:'https://hantaviruslivetracker.org/' }
     ]}
   ];
 
