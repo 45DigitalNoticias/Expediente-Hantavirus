@@ -2460,14 +2460,15 @@
     { n:21, day:42, date:'12-may', type:'hospital', coords:[51.81,5.84], place:'Radboudumc Nijmegen — fallo de protocolo', desc:'El Hospital Universitario Radboudumc (Países Bajos) pone en cuarentena preventiva de 6 semanas a 12 trabajadores sanitarios. Procesaron muestras de sangre y desecharon orina de un paciente positivo con protocolo estándar en lugar del estricto requerido. Paciente admitido 7-may; fallo detectado sábado 10-may.', v:'✅' },
     { n:22, day:43, date:'13-may', type:'lab', coords:[59.33,18.06], place:'ECDC — Estocolmo (DON601 / Surveillance Update)', desc:'ECDC actualiza cifras del cluster: 9 confirmados (+2 desde el 11-may), 2 probables, 3 muertes. Letalidad 27%. La OMS publica DON601: hipótesis de transmisión humano-humano a bordo se convierte en working hypothesis institucional. Riesgo UE/EEE sigue muy bajo.', v:'✅' },
     { n:23, day:43, date:'13-may', type:'hospital', coords:[48.86,2.35], place:'París — Bichat · fase terminal del soporte', desc:'La paciente francesa (65 años, Hospital Bichat) entra en lo que el Dr. Xavier Lescure describe como "fase terminal del cuidado de soporte" en parte médico oficial. Sigue conectada a ECMO (pulmón artificial) para oxigenación extracorpórea. Es el caso vivo más grave del cluster del MV Hondius. Las próximas horas se anuncian como determinantes para el pronóstico vital.', v:'✅' },
-    { n:24, day:48, date:'18-may', type:'route', coords:[51.92,4.48], place:'Rotterdam — atraque y desinfección', desc:'MV Hondius atraca en Rotterdam la mañana del lunes 18 de mayo para desinfección. A bordo: 27 personas asintomáticas (25 tripulantes + 2 funcionarios sanitarios holandeses). Autoridades neerlandesas instalaron 25 contenedores blancos a lo largo del muelle, equipados con internet satelital y catering, para cuarentena inmediata de 42 días. Evacuación de la tripulación en tres batches. Desglose por nacionalidad: 17 filipinos, 4 holandeses (2 tripulantes + 2 sanitarios), 4 ucranianos, 1 ruso, 1 polaco. Cuarentena hasta el 21 de junio (42 días desde el día cero del 10 de mayo).', v:'✅' }
+    { n:24, day:48, date:'18-may', type:'route', coords:[51.92,4.48], place:'Rotterdam — atraque y desinfección', desc:'MV Hondius atraca en el Puerto de Rotterdam a las <b>10:30 AM</b> del lunes 18 de mayo. A bordo: 27 personas asintomáticas (25 tripulantes + 2 funcionarios sanitarios holandeses). El RIVM (Instituto Nacional de Salud Pública neerlandés) confirma ausencia total de síntomas al desembarcar. Cuarentena diferenciada: los 2 tripulantes holandeses van a cuarentena domiciliaria; el resto (mayormente filipinos) se aloja en 25 contenedores blancos instalados a lo largo del muelle, equipados con internet satelital y catering. Cuarentena de 42 días hasta el 21 de junio (desde el día cero del 10-may). Desglose por nacionalidad: 17 filipinos, 4 holandeses (2 tripulantes + 2 sanitarios), 4 ucranianos, 1 ruso, 1 polaco.', v:'✅' },
+    { n:25, day:48, date:'18-25 may', type:'lab', coords:[51.91,4.46], place:'Rotterdam — desinfección RIVM en curso', desc:'Inicia la desinfección profunda del MV Hondius por una empresa especializada bajo protocolo del RIVM. Plazo estimado: hasta una semana. Procedimiento: trajes de protección personal, limpieza de todas las superficies + sistemas de ventilación, evaluación cuarto por cuarto. Es la primera operación de desinfección de un buque de expedición por brote de hantavirus en aguas neerlandesas.', v:'✅' }
   ];
 
   // Mapeo día → fecha legible
   const dayToDate = {
     1:'1 abr', 6:'6 abr', 11:'11 abr', 14:'14 abr', 24:'24 abr', 26:'26 abr',
     32:'2 may', 33:'3 may', 34:'4 may', 36:'6 may', 37:'7 may', 38:'8 may',
-    40:'10 may', 41:'11 may', 42:'12 may', 43:'13 may', 48:'18 may'
+    40:'10 may', 41:'11 may', 42:'12 may', 43:'13 may', 48:'18 may', 55:'25 may'
   };
   function dayLabel(d) {
     if (dayToDate[d]) return dayToDate[d];
@@ -2726,12 +2727,12 @@
   // ---- CAPA 4: GEOPOLÍTICA PREVIA AL BROTE ----
   // Dos de los tres nodos están en Washington DC; llevan offset visual.
   const geopoliticos = [
-    { coords: [38.92, -77.05], offset: [36.8, -80.2], fecha: '20-ene-2026', titulo: 'Estados Unidos abandona la OMS',
-      desc: 'Washington DC. Donald Trump firma orden ejecutiva de salida en su primer día como Presidente. Patrón espejo Trump-Milei: la salida argentina se concretará dos meses después.',
-      fuente: 'Cobertura internacional · El Mostrador, TV Azteca' },
+    { coords: [38.92, -77.05], offset: [36.8, -80.2], fecha: '22-ene-2026', titulo: 'Estados Unidos abandona la OMS',
+      desc: 'Washington DC. La salida formal entra en vigor el 22 de enero de 2026 tras el período de un año reglamentario desde la firma de la Orden Ejecutiva 14155 por Donald Trump el 20 de enero de 2025 (su primer día como Presidente). <b>Impacto financiero:</b> EE.UU. aportaba aproximadamente <b>USD 681 millones anuales</b> a la OMS — cuota evaluada de USD 111M más contribuciones voluntarias de ~USD 570M. Era <b>el 12-15% del presupuesto total</b> de la organización entre 2022 y 2023, su mayor donante histórico. <b>Consecuencia inmediata:</b> la OMS enfrenta un <b>déficit de USD 1,900 millones</b> en el presupuesto 2026-2027 — el 45% del presupuesto ya reducido a USD 4,200M. Crisis presupuestaria descrita por Health Policy Watch como "más grande de lo previsto".',
+      fuente: 'HHS Fact Sheet · Health Policy Watch · CGD · NPR · CRS Report' },
     { coords: [-34.62, -58.36], fecha: '17-mar-2026', titulo: 'Argentina concreta su salida de la OMS',
-      desc: 'Buenos Aires. Por aplicación del Convenio de Viena, un año después de la notificación formal del 17-mar-2025. Quince días antes del zarpe del MV Hondius desde Ushuaia.',
-      fuente: 'Página/12 · Infobae · Chequeado · Euronews' },
+      desc: 'Buenos Aires. La salida se concreta el 17 de marzo de 2026 por aplicación del Convenio de Viena, un año exacto después de la notificación formal del gobierno Milei al SG de la ONU el 17-mar-2025. Quince días antes del zarpe del MV Hondius desde Ushuaia. <b>Impacto financiero:</b> Argentina aportaba aproximadamente <b>USD 1.13 millones anuales</b> a la OMS (cuota equivalente a 1,248 millones de pesos argentinos según la previsión presupuestaria 2024), más USD 369,500 a la OPS. Cifra <b>financieramente marginal</b> frente a los USD 681M estadounidenses — el acto argentino es <b>simbólico-político</b>, no presupuestal. <b>Diferencia clave:</b> Argentina <b>permanece como miembro de la OPS</b> (oficina regional de las Américas), por lo que mantiene acceso a cooperación técnica regional. La salida es de la OMS global, no de la red continental sanitaria.',
+      fuente: 'Página/12 · Infobae · Chequeado · La Nación · El Cronista · Min. Salud Argentina (Lugones)' },
     { coords: [38.91, -77.06], offset: [40.6, -79.5], fecha: '19-dic-2025', titulo: 'OPS emite alerta epidemiológica regional por hantavirus',
       desc: 'Washington DC, sede OPS. 229 casos confirmados y 59 muertes en 8 países del cono sur en 2025 — cuadruplica la media histórica. Tres meses antes de la salida argentina de la OMS.',
       fuente: 'OPS / Boletín Epidemiológico' }
