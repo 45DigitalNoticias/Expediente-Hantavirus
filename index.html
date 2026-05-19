@@ -1638,6 +1638,45 @@
   }
   .guia-tip b { color: #072146; }
 
+  /* ===== Glosario del expediente (dentro del panel Guía) ===== */
+  .guia-glosario-subtitle {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #b8860b;
+    margin: 22px 0 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .guia-glosario-subtitle:first-of-type {
+    margin-top: 8px;
+  }
+  .guia-glosario {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .guia-glosario li {
+    display: block;
+    padding: 12px 0;
+    margin: 0;
+    border-bottom: 1px dashed #e2e8f0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #5a6e8c;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+  .guia-glosario li:last-child {
+    border-bottom: none;
+  }
+  .guia-glosario li b {
+    color: #072146;
+    font-weight: 700;
+  }
+
   /* ===== Apartado VACUNAS — pipeline de I+D ===== */
   .vacuna-intro {
     background: #f8fafc;
@@ -2369,9 +2408,60 @@
       </div>
 
       <div class="guia-section">
+        <h3>Glosario del expediente</h3>
+        <p>Definiciones cortas de los términos, organismos, cepas y conceptos que aparecen en el mapa, los popups y las columnas. Se actualiza cada vez que se incorpora un término nuevo al expediente.</p>
+
+        <div class="guia-glosario-subtitle">Organismos sanitarios</div>
+        <ul class="guia-glosario">
+          <li><b>OMS</b> — Organización Mundial de la Salud. Sede en Ginebra. Brazo de la ONU para coordinación de salud global. Fundada en 1948. Estados Unidos abandonó formalmente la OMS el 22 de enero de 2026; Argentina, el 17 de marzo de 2026.</li>
+          <li><b>OPS</b> — Organización Panamericana de la Salud. Sede en Washington DC. Brazo regional de la OMS para las Américas. Fundada en 1902, es el organismo de salud pública internacional más antiguo del mundo. Argentina permanece como miembro de la OPS pese a su salida de la OMS — mantiene acceso a cooperación técnica continental.</li>
+          <li><b>CDC</b> — Centers for Disease Control and Prevention. Agencia federal estadounidense de salud pública. Sede en Atlanta.</li>
+          <li><b>ECDC</b> — European Centre for Disease Prevention and Control. Equivalente europeo del CDC. Sede en Estocolmo.</li>
+          <li><b>RIVM</b> — Rijksinstituut voor Volksgezondheid en Milieu. Instituto Nacional de Salud Pública y Medio Ambiente de los Países Bajos. Coordinó la respuesta sanitaria al atraque del MV Hondius en Rotterdam.</li>
+          <li><b>CONAVE</b> — Comité Nacional para la Vigilancia Epidemiológica de México. Órgano técnico de la Secretaría de Salud. Emite avisos y alertas sanitarias nacionales.</li>
+          <li><b>USAMRIID</b> — US Army Medical Research Institute of Infectious Diseases. Sede en Frederick, Maryland. Investiga vacunas y contramedidas contra patógenos de alto riesgo. Operador del programa de vacuna DNA contra Andes (Fase 1 completada).</li>
+          <li><b>BARDA</b> — Biomedical Advanced Research and Development Authority. Agencia federal estadounidense bajo HHS/ASPR. Financia desarrollo de contramedidas médicas para emergencias.</li>
+          <li><b>NIH</b> — National Institutes of Health. Principal agencia federal estadounidense de financiamiento biomédico. Sede en Bethesda, Maryland.</li>
+          <li><b>CEPI</b> — Coalition for Epidemic Preparedness Innovations. Fundada en Davos en 2017. Sede en Oslo. Coalición público-privada que financia desarrollo de vacunas contra patógenos emergentes. Programa estrella: "100 Day Mission".</li>
+        </ul>
+
+        <div class="guia-glosario-subtitle">Enfermedad y agente</div>
+        <ul class="guia-glosario">
+          <li><b>Hantavirus</b> — Género de virus transmitidos típicamente por roedores. Múltiples cepas distintas, cada una con su geografía endémica y perfil clínico propio.</li>
+          <li><b>Virus Andes (ANDV)</b> — Cepa endémica de Argentina y Chile. <b>Única cepa con transmisión humano-a-humano documentada</b> por contacto cercano prolongado. Letalidad cercana al 30%. Es la cepa del brote MV Hondius.</li>
+          <li><b>Cepa Choclo (CHOV)</b> — Cepa endémica de Panamá desde 1999 (Los Santos, Herrera, Veraguas, Coclé). Reservorio: <em>Oligoryzomys costaricensis</em>. Letalidad baja, muchas infecciones asintomáticas. Sin transmisión interpersonal documentada.</li>
+          <li><b>MV Hondius</b> — Crucero de expedición de bandera neerlandesa, operado por Oceanwide Expeditions. Inició su travesía 2026 zarpando de Ushuaia el 1 de abril. Atracó en Rotterdam el 18 de mayo. Origen del brote internacional de hantavirus 2026.</li>
+          <li><b>ECMO</b> — Oxigenación por membrana extracorpórea. "Pulmón artificial" para casos de fallo respiratorio severo. Aplicado a la paciente francesa del brote en el Hospital Bichat de París.</li>
+        </ul>
+
+        <div class="guia-glosario-subtitle">Conceptos académicos del expediente</div>
+        <ul class="guia-glosario">
+          <li><b>Doctrina del shock</b> (Naomi Klein, 2007) — La crisis aguda como condición de posibilidad para reformas económicas que en tiempos normales encontrarían resistencia democrática. Concepto eje de las columnas del 8 y 13 de mayo.</li>
+          <li><b>24/7</b> (Jonathan Crary, 2013) — Tesis sobre el capitalismo contemporáneo que busca eliminar los tiempos muertos del consumo y normalizar el flujo continuo de atención. Concepto eje de la columna del 14 de mayo.</li>
+          <li><b>Frontstage / backstage</b> (Erving Goffman, 1959) — El escenario público donde las figuras autorizadas representan un acontecimiento, frente a la trastienda operativa donde se afina la utilería. Concepto eje de la columna del 15 de mayo.</li>
+          <li><b>Sincronicidad</b> (Carl Gustav Jung, 1952) — Afloración simultánea, en lugares no coordinados, de un mismo símbolo activo en el inconsciente colectivo. No es causalidad ni coincidencia neutra. Concepto auxiliar en la columna del 15 de mayo.</li>
+          <li><b>Decisionismo schmittiano</b> (Carl Schmitt, 1932) — "Soberano es quien decide sobre la excepción". El poder se mide por la capacidad de desconectar el sistema (suspender una norma, salirse de un tratado, abandonar un organismo). Concepto eje de la columna del 18 de mayo.</li>
+          <li><b>Spatial fix / ajuste espacial</b> (David Harvey, 2003) — El sistema hegemónico en crisis se rescata reordenando el espacio geográfico — abriendo territorios, instalando bases, controlando corredores. El imperio se mantiene mediante geografía. Concepto eje de la columna del 19 de mayo.</li>
+          <li><b>Memento mori / vanitas</b> — Tradición visual europea (especialmente pintura holandesa del siglo XVII) del recordatorio de la muerte: tablero de ajedrez, calavera, reloj de arena, vela apagada. Referenciada en la lectura de la portada de <em>The Economist</em> de diciembre de 2025.</li>
+        </ul>
+
+        <div class="guia-glosario-subtitle">Eventos y normas específicas</div>
+        <ul class="guia-glosario">
+          <li><b>Decreto 697/2025</b> — Instrumento jurídico mediante el cual el gobierno de Milei autorizó el ingreso de tropas estadounidenses a las bases navales de Mar del Plata, Ushuaia y Puerto Belgrano en octubre de 2025, sin pasar por el Congreso argentino.</li>
+          <li><b>Ejercicio TRIDENT</b> — Maniobras militares conjuntas EE.UU.-Argentina realizadas del 20 de octubre al 15 de noviembre de 2025 al amparo del Decreto 697/2025.</li>
+          <li><b>Pasaje de Drake</b> — Estrecho marítimo entre el extremo sur sudamericano (Tierra del Fuego, Cabo de Hornos) y la Antártida. Punto estratégico clave de tránsito naval e investigación polar, en disputa silenciosa entre EE.UU. y China desde hace más de una década.</li>
+          <li><b>CPAC</b> — Conservative Political Action Conference. Encuentro anual de la derecha política estadounidense organizada. Plataforma de proyección internacional del trumpismo. Milei pronunció ahí su discurso de "alineamiento con EE.UU. e Israel" en febrero de 2025.</li>
+          <li><b>Mar-a-Lago</b> — Residencia y centro político de Donald Trump en Palm Beach, Florida. Sede de facto de sus reuniones diplomáticas no oficiales antes y durante su segundo mandato.</li>
+          <li><b>Convenio de Viena</b> — Tratado internacional firmado en 1969 que regula la entrada y salida de Estados de organismos multilaterales. Establece plazo de un año entre la notificación formal y la salida efectiva. Es el marco bajo el cual se concretaron las salidas de Argentina y EE.UU. de la OMS.</li>
+          <li><b>MetLife Stadium</b> — Estadio en East Rutherford, Nueva Jersey. Sede de la final del Mundial 2026 (19 de julio).</li>
+          <li><b>Mundial 2026</b> — Primer Mundial de Futbol del nuevo formato FIFA: 48 selecciones, 104 partidos, 39 días. Distribución asimétrica: 78 partidos en EE.UU. (75 % del torneo), 13 en México, 13 en Canadá.</li>
+        </ul>
+      </div>
+
+      <div class="guia-section">
         <h3>Lectura editorial</h3>
         <p>Este mapa no es ilustración. Es una herramienta de lectura sistémica. Cada vez que prendes o apagas una capa, propones una hipótesis: <em>¿qué muestra el brote si lo lees solo con el pipeline de vacunas activado? ¿qué dibujan los nodos de financiamiento cuando los superpones con la ruta marítima? ¿qué cambia si activas la capa geopolítica y observas que Argentina abandonó la OMS quince días antes de que el barco zarpara de su puerto?</em></p>
-        <p>El expediente está pensado para ser <b>interrogado</b>, no consumido. Las cinco columnas del arco (8 – 18 mayo) leen el brote desde ángulos distintos: la arquitectura institucional que el COVID dejó montada (Klein), el capitalismo del desastre (Klein), la economía de la atención (Crary), los rostros públicos como <i>frontstage</i> goffmaniano, la decisión soberana en clave schmittiana. Cada una se publica en la pestaña <i>Columnas</i> del panel.</p>
+        <p>El expediente está pensado para ser <b>interrogado</b>, no consumido. Las <b>seis columnas del arco</b> (8 – 19 de mayo) leen el brote desde ángulos distintos: la arquitectura institucional que el COVID dejó montada (Klein), el capitalismo del desastre (Klein), la economía de la atención (Crary), los rostros públicos como <em>frontstage</em> goffmaniano (Goffman / Jung), la decisión soberana en clave schmittiana (Schmitt), y el ajuste espacial en Ushuaia (Harvey). Cada una se publica en la pestaña <i>Columnas</i> del panel.</p>
       </div>
     </div>
   </aside>
@@ -2734,8 +2824,8 @@
       desc: 'Buenos Aires. La salida se concreta el 17 de marzo de 2026 por aplicación del Convenio de Viena, un año exacto después de la notificación formal del gobierno Milei al SG de la ONU el 17-mar-2025. Quince días antes del zarpe del MV Hondius desde Ushuaia. <b>Impacto financiero:</b> Argentina aportaba aproximadamente <b>USD 1.13 millones anuales</b> a la OMS (cuota equivalente a 1,248 millones de pesos argentinos según la previsión presupuestaria 2024), más USD 369,500 a la OPS. Cifra <b>financieramente marginal</b> frente a los USD 681M estadounidenses — el acto argentino es <b>simbólico-político</b>, no presupuestal. <b>Diferencia clave:</b> Argentina <b>permanece como miembro de la OPS</b> (oficina regional de las Américas), por lo que mantiene acceso a cooperación técnica regional. La salida es de la OMS global, no de la red continental sanitaria.',
       fuente: 'Página/12 · Infobae · Chequeado · La Nación · El Cronista · Min. Salud Argentina (Lugones)' },
     { coords: [38.91, -77.06], offset: [40.6, -79.5], fecha: '19-dic-2025', titulo: 'OPS emite alerta epidemiológica regional por hantavirus',
-      desc: 'Washington DC, sede OPS. 229 casos confirmados y 59 muertes en 8 países del cono sur en 2025 — cuadruplica la media histórica. Tres meses antes de la salida argentina de la OMS.',
-      fuente: 'OPS / Boletín Epidemiológico' }
+      desc: 'Washington DC, sede de la <b>OPS</b> (Organización Panamericana de la Salud, brazo regional de la OMS para las Américas, fundada en 1902). En 2025, hasta la semana epidemiológica 47, se reportaron en el cono sur <b>229 casos confirmados</b> y <b>59 muertes</b> en 8 países — aproximadamente <b>cuatro veces la media histórica anual</b> de la región (~50-60 casos/año). El virus Andes es endémico desde 1993-1995 en Argentina y Chile. La alerta se emitió tres meses antes de la salida formal de Argentina de la OMS, y casi cuatro meses antes del zarpe del MV Hondius desde Ushuaia.',
+      fuente: 'OPS / Boletín Epidemiológico Regional' }
   ];
   const geopolLayer = L.layerGroup();
   geopoliticos.forEach(g => addNodeToLayer(geopolLayer, g, geoIcon,
