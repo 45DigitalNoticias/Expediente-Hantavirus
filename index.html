@@ -1480,6 +1480,20 @@
     width: 18px; height: 0;
     border-top: 2px dashed #b8860b;
   }
+  /* Secciones de leyenda dinámica — separadas por línea cuando aparecen varias */
+  .legend-section + .legend-section {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--divisor);
+  }
+  /* Limitar altura para que no crezca infinitamente cuando se activan muchas capas */
+  .legend {
+    max-height: calc(100vh - 280px);
+    overflow-y: auto;
+    max-width: 280px;
+  }
+  .legend::-webkit-scrollbar { width: 6px; }
+  .legend::-webkit-scrollbar-thumb { background: var(--dorado); border-radius: 3px; }
   /* ===== Toolbar horizontal de capas (centrada arriba del mapa) ===== */
   .layers-toolbar {
     position: absolute;
@@ -2064,15 +2078,77 @@
 
   <!-- ============== MAPA (centro) ============== -->
   <div id="map">
-    <div class="legend">
-      <div class="row"><span class="dot" style="background:#4a7fa3"></span><span>Exposición / ruta del crucero</span></div>
-      <div class="row"><span class="dot" style="background:#d97706"></span><span>Síntoma detectado</span></div>
-      <div class="row"><span class="dot" style="background:#991b1b;border-color:#fff"></span><span>Muerte confirmada</span></div>
-      <div class="row"><span class="dot" style="background:#0d9488"></span><span>Hospital de destino</span></div>
-      <div class="row"><span class="dot" style="background:#15803d"></span><span>Laboratorio / institucional</span></div>
-      <div class="row"><span class="line"></span><span>Ruta marítima</span></div>
-      <div class="row"><span class="dash"></span><span>Evacuación aérea</span></div>
-      <div class="row"><span class="dash-amber"></span><span>Ruta pre-crucero del caso índice</span></div>
+    <div class="legend" id="mapLegend">
+      <!-- Sección base: brote MV Hondius (siempre visible si las capas base están activas) -->
+      <div class="legend-section" data-legend-for="ruta,casos,evac,preCruise">
+        <div class="row"><span class="dot" style="background:#4a7fa3"></span><span>Exposición / ruta del crucero</span></div>
+        <div class="row"><span class="dot" style="background:#d97706"></span><span>Síntoma detectado</span></div>
+        <div class="row"><span class="dot" style="background:#991b1b;border-color:#fff"></span><span>Muerte confirmada</span></div>
+        <div class="row"><span class="dot" style="background:#0d9488"></span><span>Hospital de destino</span></div>
+        <div class="row"><span class="dot" style="background:#15803d"></span><span>Laboratorio / institucional</span></div>
+        <div class="row"><span class="line"></span><span>Ruta marítima</span></div>
+        <div class="row"><span class="dash"></span><span>Evacuación aérea</span></div>
+        <div class="row"><span class="dash-amber"></span><span>Ruta pre-crucero del caso índice</span></div>
+      </div>
+      <!-- Sección capa endémico -->
+      <div class="legend-section" data-legend-for="endemico" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Situación endémica regional</div>
+        <div class="row"><span class="dot" style="background:#9c2b3a"></span><span>País con hantavirus endémico (etiqueta = cepa)</span></div>
+      </div>
+      <!-- Sección capa corredor -->
+      <div class="legend-section" data-legend-for="corredor" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Corredor fronterizo</div>
+        <div class="row"><span class="dot" style="background:#b85a3a;opacity:0.5"></span><span>Tarija (BOL) ↔ Salta-Jujuy (ARG): mismo foco, vigilancia partida</span></div>
+      </div>
+      <!-- Sección Sedes Mundial -->
+      <div class="legend-section" data-legend-for="mundialSedes" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Sedes Mundial 2026</div>
+        <div class="row"><span class="dot" style="background:#0a6939;border-radius:3px"></span><span>México · 3 sedes (CDMX, Guadalajara, Monterrey)</span></div>
+        <div class="row"><span class="dot" style="background:#1a3a8a;border-radius:3px"></span><span>Estados Unidos · 11 sedes</span></div>
+        <div class="row"><span class="dot" style="background:#a31a1a;border-radius:3px"></span><span>Canadá · 2 sedes (Toronto, Vancouver)</span></div>
+      </div>
+      <!-- Sección Rutas selecciones endémicas -->
+      <div class="legend-section" data-legend-for="mundialRutas" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Rutas de selecciones endémicas</div>
+        <div class="row"><span class="dash" style="border-top-color:#5a8bb8"></span><span>Argentina (Andes)</span></div>
+        <div class="row"><span class="dash" style="border-top-color:#1a8f4a"></span><span>Brasil (Juquitiba)</span></div>
+        <div class="row"><span class="dash" style="border-top-color:#7ab0d8"></span><span>Uruguay (Lechiguanas)</span></div>
+        <div class="row"><span class="dash" style="border-top-color:#b85a3a"></span><span>Paraguay (Laguna Negra)</span></div>
+        <div class="row"><span class="dash" style="border-top-color:#c00"></span><span>Panamá (Choclo)</span></div>
+      </div>
+      <!-- Sección Aficionados -->
+      <div class="legend-section" data-legend-for="aficionados" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Aficionados · 48 países → hub → sede</div>
+        <div class="row"><span class="dot" style="background:#c00"></span><span>Cepa Andes / Juquitiba (cono sur severo)</span></div>
+        <div class="row"><span class="dot" style="background:#1a3a8a"></span><span>Cepa Sin Nombre (Norteamérica)</span></div>
+        <div class="row"><span class="dot" style="background:#2a8c4e"></span><span>Cepa Puumala/Dobrava (Europa)</span></div>
+        <div class="row"><span class="dot" style="background:#7a4ea8"></span><span>Cepa Hantaan (Asia)</span></div>
+        <div class="row"><span class="dot" style="background:#d4a017"></span><span>Cepa Choclo (Panamá)</span></div>
+        <div class="row"><span class="dot" style="background:#888"></span><span>Sin endémico documentado</span></div>
+        <div class="row"><span class="dot" style="background:#fff;border:2px solid #b8860b;width:10px;height:10px"></span><span>Hub aeroportuario (escala)</span></div>
+        <div class="row"><span class="line" style="border-top:2px solid #888;border-top-style:solid"></span><span>Tramo origen → hub (sólido)</span></div>
+        <div class="row"><span class="line" style="border-top:2px dashed #888"></span><span>Tramo hub → sede (punteado)</span></div>
+      </div>
+      <!-- Sección Geopolítica -->
+      <div class="legend-section" data-legend-for="geopolitica" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Eventos geopolíticos</div>
+        <div class="row"><span class="dot" style="background:#8b5cf6"></span><span>Salida OMS · alerta OPS</span></div>
+      </div>
+      <!-- Sección Vacunas -->
+      <div class="legend-section" data-legend-for="vacunas" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Pipeline de vacunas</div>
+        <div class="row"><span class="dot" style="background:#7a4ea8"></span><span>Programa de I+D en curso</span></div>
+      </div>
+      <!-- Sección Financiamiento -->
+      <div class="legend-section" data-legend-for="financiamiento" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Financiamiento pandémico</div>
+        <div class="row"><span class="dot" style="background:#b8860b"></span><span>Nodo BARDA / CEPI / OMS</span></div>
+      </div>
+      <!-- Sección Continentes -->
+      <div class="legend-section" data-legend-for="continentes" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Detección por continente</div>
+        <div class="row"><span class="dot" style="background:#5a6e8c"></span><span>Continente con casos/monitoreo</span></div>
+      </div>
     </div>
 
     <!-- Toolbar de capas (centrada arriba del mapa) -->
@@ -3035,10 +3111,18 @@
   const sedeIcon = (pais) => {
     const colores = { MX:'#0a6939', US:'#1a3a8a', CA:'#a31a1a' };
     const color = colores[pais] || '#5a5a5a';
+    // Ícono de estadio: elipse con líneas internas (estilo cancha)
     return L.divIcon({
       className: 'sede-icon',
-      html: `<div style="width:22px;height:22px;background:${color};color:#fff;border:2px solid #fff;border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:10px;font-weight:700;line-height:1;box-shadow:0 0 0 1px rgba(0,0,0,0.4),0 2px 4px rgba(0,0,0,0.3);">⚽</div>`,
-      iconSize: [22, 22], iconAnchor: [11, 11]
+      html: `<div style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));">
+        <svg viewBox="0 0 28 28" width="26" height="26">
+          <ellipse cx="14" cy="14" rx="12" ry="8" fill="${color}" stroke="#fff" stroke-width="1.5"/>
+          <line x1="14" y1="6" x2="14" y2="22" stroke="#fff" stroke-width="1" opacity="0.85"/>
+          <circle cx="14" cy="14" r="2.5" fill="none" stroke="#fff" stroke-width="1" opacity="0.85"/>
+          <path d="M4 14 L7 14 M21 14 L24 14" stroke="#fff" stroke-width="1" opacity="0.85"/>
+        </svg>
+      </div>`,
+      iconSize: [26, 26], iconAnchor: [13, 13]
     });
   };
   const mundialSedesLayer = L.layerGroup();
@@ -3197,10 +3281,16 @@
   // Marcadores de hubs (los puntos de interconexión)
   const hubsUsados = new Set();
   aficionados.forEach(a => { if (a.hub) hubsUsados.add(a.hub); });
+  // Ícono de aeropuerto: SVG con avión sobre círculo dorado (hub de tránsito)
   const hubIcon = L.divIcon({
     className: 'hub-icon',
-    html: `<div style="width:14px;height:14px;background:#fff;border:2px solid #b8860b;border-radius:50%;box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 1px 3px rgba(0,0,0,0.3);"></div>`,
-    iconSize: [14, 14], iconAnchor: [7, 7]
+    html: `<div style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4));">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <circle cx="12" cy="12" r="11" fill="#fff" stroke="#b8860b" stroke-width="2"/>
+        <path d="M21 16v-2l-8-5V3.5C13 2.67 12.33 2 11.5 2S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#b8860b" transform="translate(0.5, 0) scale(0.85) translate(1.5, 1.5)"/>
+      </svg>
+    </div>`,
+    iconSize: [24, 24], iconAnchor: [12, 12]
   });
   hubsUsados.forEach(hubKey => {
     const h = HUBS[hubKey];
@@ -3260,6 +3350,24 @@
     if (!layer) return;
     if (on) map.addLayer(layer);
     else map.removeLayer(layer);
+    actualizarLeyenda();
+  }
+
+  // ----- Leyenda dinámica: muestra/oculta secciones según capas activas -----
+  function actualizarLeyenda() {
+    const capasActivas = new Set();
+    document.querySelectorAll('.layer-tab[data-layer].active').forEach(t => capasActivas.add(t.dataset.layer));
+    document.querySelectorAll('.legend-section').forEach(section => {
+      const keys = (section.dataset.legendFor || '').split(',').map(k => k.trim());
+      const visible = keys.some(k => capasActivas.has(k));
+      section.style.display = visible ? '' : 'none';
+    });
+    // Si NINGUNA sección está visible, mostrar al menos la primera (brote MV Hondius) para no dejar el mapa sin leyenda
+    const algunaVisible = Array.from(document.querySelectorAll('.legend-section')).some(s => s.style.display !== 'none');
+    if (!algunaVisible) {
+      const primera = document.querySelector('.legend-section');
+      if (primera) primera.style.display = '';
+    }
   }
 
   document.querySelectorAll('.layer-tab[data-layer]').forEach(btn => {
@@ -3270,6 +3378,8 @@
       toggleLayer(key, willBeActive);
     });
   });
+  // Inicializar leyenda al cargar — solo muestra las secciones de capas activas por default
+  actualizarLeyenda();
 
   // Controles globales: Todas / Ninguna
   document.querySelectorAll('.layer-tab[data-action]').forEach(btn => {
