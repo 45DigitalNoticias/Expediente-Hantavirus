@@ -2102,10 +2102,10 @@
       </div>
       <!-- Sección Sedes Mundial -->
       <div class="legend-section" data-legend-for="mundialSedes" style="display:none">
-        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Sedes Mundial 2026</div>
-        <div class="row"><span class="dot" style="background:#0a6939;border-radius:3px"></span><span>México · 3 sedes (CDMX, Guadalajara, Monterrey)</span></div>
-        <div class="row"><span class="dot" style="background:#1a3a8a;border-radius:3px"></span><span>Estados Unidos · 11 sedes</span></div>
-        <div class="row"><span class="dot" style="background:#a31a1a;border-radius:3px"></span><span>Canadá · 2 sedes (Toronto, Vancouver)</span></div>
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Sedes Mundial 2026 ⚽</div>
+        <div class="row"><span style="display:inline-flex;width:16px;height:16px;background:#0a6939;color:#fff;border:1px solid #fff;border-radius:3px;align-items:center;justify-content:center;font-size:10px;">⚽</span><span>México · 3 sedes (CDMX, GDL, MTY)</span></div>
+        <div class="row"><span style="display:inline-flex;width:16px;height:16px;background:#1a3a8a;color:#fff;border:1px solid #fff;border-radius:3px;align-items:center;justify-content:center;font-size:10px;">⚽</span><span>Estados Unidos · 11 sedes</span></div>
+        <div class="row"><span style="display:inline-flex;width:16px;height:16px;background:#a31a1a;color:#fff;border:1px solid #fff;border-radius:3px;align-items:center;justify-content:center;font-size:10px;">⚽</span><span>Canadá · 2 sedes (Toronto, Vancouver)</span></div>
       </div>
       <!-- Sección Rutas selecciones endémicas -->
       <div class="legend-section" data-legend-for="mundialRutas" style="display:none">
@@ -3111,18 +3111,10 @@
   const sedeIcon = (pais) => {
     const colores = { MX:'#0a6939', US:'#1a3a8a', CA:'#a31a1a' };
     const color = colores[pais] || '#5a5a5a';
-    // Ícono de estadio: elipse con líneas internas (estilo cancha)
     return L.divIcon({
       className: 'sede-icon',
-      html: `<div style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));">
-        <svg viewBox="0 0 28 28" width="26" height="26">
-          <ellipse cx="14" cy="14" rx="12" ry="8" fill="${color}" stroke="#fff" stroke-width="1.5"/>
-          <line x1="14" y1="6" x2="14" y2="22" stroke="#fff" stroke-width="1" opacity="0.85"/>
-          <circle cx="14" cy="14" r="2.5" fill="none" stroke="#fff" stroke-width="1" opacity="0.85"/>
-          <path d="M4 14 L7 14 M21 14 L24 14" stroke="#fff" stroke-width="1" opacity="0.85"/>
-        </svg>
-      </div>`,
-      iconSize: [26, 26], iconAnchor: [13, 13]
+      html: `<div style="width:24px;height:24px;background:${color};color:#fff;border:2px solid #fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;box-shadow:0 0 0 1px rgba(0,0,0,0.4),0 2px 4px rgba(0,0,0,0.3);">⚽</div>`,
+      iconSize: [24, 24], iconAnchor: [12, 12]
     });
   };
   const mundialSedesLayer = L.layerGroup();
