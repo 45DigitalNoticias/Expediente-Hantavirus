@@ -2184,6 +2184,17 @@
         </svg>
         <span>Rutas M26</span>
       </button>
+      <button class="layer-tab" data-layer="aficionados" title="Migración temporal de aficionados · 48 países origen → hub → sede">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="4" cy="6" r="1.5"/>
+          <circle cx="12" cy="12" r="1.5"/>
+          <circle cx="20" cy="18" r="1.5"/>
+          <path d="M4 7 Q8 9 12 12 Q16 15 20 17"/>
+          <circle cx="8" cy="9" r="3" fill="none" stroke-dasharray="1 1"/>
+          <circle cx="16" cy="15" r="3" fill="none" stroke-dasharray="1 1"/>
+        </svg>
+        <span>Aficionados</span>
+      </button>
 
       <div class="layer-tab-divider"></div>
 
@@ -3065,6 +3076,168 @@
     mundialRutasLayer.addLayer(linea);
   });
 
+  // ===========================================================================
+  // ---- CAPA 9: AFICIONADOS M26 · 48 países origen → hub → sede ----
+  // Ruta de hinchas/turistas/prensa desde su país hacia su primera sede del Mundial.
+  // Codificación: color por cepa endémica del país de origen. Hubs intermedios
+  // dibujados como puntos de interconexión donde se cruzan flujos de origen distinto.
+  // ===========================================================================
+  const COLOR_CEPA = {
+    'Andes':       '#c00',        // rojo intenso (severa, p-p)
+    'Juquitiba':   '#a8423a',     // rojo cono sur
+    'Lechiguanas': '#b86054',
+    'LagunaNegra': '#b85a3a',
+    'Choclo':      '#d4a017',     // dorado Centroamérica
+    'SinNombre':   '#1a3a8a',     // azul Norteamérica
+    'Puumala':     '#2a8c4e',     // verde Europa
+    'Hantaan':     '#7a4ea8',     // morado Asia
+    'NoEndemico':  '#888'         // gris países sin endémico documentado
+  };
+  // Grosor por categoría de turismo deportivo esperado (alto/medio/bajo)
+  const PESO = { alto: 4, medio: 2.5, bajo: 1.5 };
+
+  // Coordenadas de hubs principales (escalas frecuentes)
+  const HUBS = {
+    // Latinoamericanos
+    BOG: { c:[4.71,-74.07],  nombre:'Bogotá · El Dorado (BOG)' },
+    LIM: { c:[-12.04,-77.11], nombre:'Lima · Jorge Chávez (LIM)' },
+    PTY: { c:[9.07,-79.38],  nombre:'Ciudad de Panamá · Tocumen (PTY)' },
+    GRU: { c:[-23.43,-46.47], nombre:'São Paulo · Guarulhos (GRU)' },
+    SCL: { c:[-33.39,-70.79], nombre:'Santiago · Pudahuel (SCL)' },
+    // Estadounidenses puerta
+    MIA: { c:[25.79,-80.29],  nombre:'Miami International (MIA)' },
+    JFK: { c:[40.64,-73.78],  nombre:'New York · JFK' },
+    ATL: { c:[33.64,-84.43],  nombre:'Atlanta · Hartsfield-Jackson (ATL)' },
+    LAX: { c:[33.94,-118.41], nombre:'Los Ángeles · LAX' },
+    DFW: { c:[32.90,-97.04],  nombre:'Dallas / Fort Worth (DFW)' },
+    IAH: { c:[29.99,-95.34],  nombre:'Houston · IAH' },
+    // Europeos
+    FRA: { c:[50.04,8.56],    nombre:'Frankfurt (FRA)' },
+    CDG: { c:[49.01,2.55],    nombre:'París · Charles de Gaulle (CDG)' },
+    LHR: { c:[51.47,-0.45],   nombre:'Londres · Heathrow (LHR)' },
+    MAD: { c:[40.49,-3.57],   nombre:'Madrid · Barajas (MAD)' },
+    AMS: { c:[52.31,4.76],    nombre:'Ámsterdam · Schiphol (AMS)' },
+    LIS: { c:[38.77,-9.13],   nombre:'Lisboa (LIS)' },
+    IST: { c:[41.26,28.74],   nombre:'Estambul · IST' },
+    // Otros
+    DOH: { c:[25.27,51.61],   nombre:'Doha · Hamad (DOH)' },
+    NRT: { c:[35.77,140.39],  nombre:'Tokio · Narita (NRT)' },
+    ICN: { c:[37.46,126.44],  nombre:'Seúl · Incheon (ICN)' },
+    AKL: { c:[-37.01,174.79], nombre:'Auckland (AKL)' },
+    JNB: { c:[-26.13,28.24],  nombre:'Johannesburgo (JNB)' },
+    YYZ: { c:[43.68,-79.63],  nombre:'Toronto · Pearson (YYZ)' }
+  };
+
+  // Países clasificados con su primer partido conocido (algunos quedan con sede TBD)
+  const aficionados = [
+    // === Norteamérica · cepa Sin Nombre ===
+    { pais:'México',       coord:[19.43,-99.13],   cepa:'SinNombre', hub:null, sede:[19.30,-99.15], peso:'alto',  fecha:'11 jun', partido:'México vs Sudáfrica · Azteca, CDMX' },
+    { pais:'Estados Unidos', coord:[38.90,-77.04], cepa:'SinNombre', hub:null, sede:[33.95,-118.34], peso:'alto', fecha:'12 jun', partido:'USA vs Paraguay · SoFi, Los Ángeles' },
+    { pais:'Canadá',       coord:[45.42,-75.70],   cepa:'SinNombre', hub:null, sede:[49.28,-123.11], peso:'alto', fecha:'(Grupo B)', partido:'Canadá juega en Vancouver · primer rival por confirmar' },
+
+    // === Cono Sur · Andes, Juquitiba, Lechiguanas, Laguna Negra ===
+    { pais:'Argentina',    coord:[-34.61,-58.38],  cepa:'Andes',     hub:'LIM', sede:[39.05,-94.48], peso:'alto',   fecha:'16 jun', partido:'Argentina vs Argelia · Arrowhead, Kansas City' },
+    { pais:'Brasil',       coord:[-23.55,-46.63],  cepa:'Juquitiba', hub:null,  sede:[40.81,-74.07], peso:'alto',   fecha:'13 jun', partido:'Brasil vs Marruecos · MetLife, Nueva Jersey' },
+    { pais:'Uruguay',      coord:[-34.90,-56.16],  cepa:'Lechiguanas', hub:'GRU', sede:[25.96,-80.24], peso:'medio', fecha:'15 jun', partido:'Uruguay vs Arabia Saudí · Hard Rock, Miami' },
+    { pais:'Paraguay',     coord:[-25.30,-57.63],  cepa:'LagunaNegra', hub:'GRU', sede:[33.95,-118.34], peso:'medio', fecha:'12 jun', partido:'USA vs Paraguay · SoFi, Los Ángeles' },
+    { pais:'Colombia',     coord:[4.71,-74.07],    cepa:'NoEndemico', hub:null,  sede:[19.30,-99.15], peso:'alto',  fecha:'17 jun', partido:'Uzbekistán vs Colombia · Azteca, CDMX' },
+    { pais:'Ecuador',      coord:[-0.18,-78.47],   cepa:'NoEndemico', hub:'BOG', sede:[39.90,-75.17], peso:'medio', fecha:'14 jun', partido:'Costa de Marfil vs Ecuador · Lincoln, Filadelfia' },
+
+    // === Concacaf restantes ===
+    { pais:'Haití',        coord:[18.59,-72.31],   cepa:'NoEndemico', hub:'MIA', sede:[42.09,-71.26], peso:'bajo',  fecha:'13 jun', partido:'Haití vs Escocia · Gillette, Boston' },
+    { pais:'Panamá',       coord:[8.97,-79.53],    cepa:'Choclo',     hub:null,  sede:[43.63,-79.42], peso:'medio', fecha:'17 jun', partido:'Panamá vs Ghana · Toronto Stadium' },
+    { pais:'Curazao',      coord:[12.11,-68.93],   cepa:'NoEndemico', hub:'MIA', sede:[29.68,-95.41], peso:'bajo',  fecha:'(Grupo E)', partido:'Alemania vs Curazao · NRG, Houston' },
+
+    // === UEFA · Puumala/Dobrava/Seoul ===
+    { pais:'España',       coord:[40.42,-3.70],    cepa:'Puumala', hub:'MAD', sede:[33.76,-84.40], peso:'alto',  fecha:'15 jun', partido:'España vs Cabo Verde · Mercedes-Benz, Atlanta' },
+    { pais:'Inglaterra',   coord:[51.51,-0.13],    cepa:'Puumala', hub:'LHR', sede:[40.81,-74.07], peso:'alto',  fecha:'(Grupo L)', partido:'Inglaterra cierra grupo · sede por confirmar' },
+    { pais:'Francia',      coord:[48.86,2.35],     cepa:'Puumala', hub:'CDG', sede:[40.81,-74.07], peso:'alto',  fecha:'(Grupo I)', partido:'Francia vs Senegal · MetLife, Nueva Jersey' },
+    { pais:'Alemania',     coord:[52.52,13.40],    cepa:'Puumala', hub:'FRA', sede:[29.68,-95.41], peso:'alto',  fecha:'(Grupo E)', partido:'Alemania vs Curazao · NRG, Houston' },
+    { pais:'Países Bajos', coord:[52.37,4.90],     cepa:'Puumala', hub:'AMS', sede:[32.90,-97.04], peso:'alto',  fecha:'(Grupo F)', partido:'Países Bajos vs Japón · AT&T, Dallas' },
+    { pais:'Portugal',     coord:[38.72,-9.13],    cepa:'Puumala', hub:'LIS', sede:[29.68,-95.41], peso:'medio', fecha:'17 jun', partido:'Portugal vs RD Congo · NRG, Houston' },
+    { pais:'Bélgica',      coord:[50.85,4.35],     cepa:'Puumala', hub:'FRA', sede:[40.81,-74.07], peso:'medio', fecha:'(Grupo G)', partido:'Bélgica · sede por confirmar' },
+    { pais:'Suiza',        coord:[46.95,7.45],     cepa:'Puumala', hub:'FRA', sede:[40.81,-74.07], peso:'medio', fecha:'(grupo por confirmar)', partido:'Suiza · sede por confirmar' },
+    { pais:'Austria',      coord:[48.21,16.37],    cepa:'Puumala', hub:'FRA', sede:[32.75,-97.09], peso:'medio', fecha:'22 jun (2da fecha)', partido:'Argentina vs Austria · AT&T, Dallas' },
+    { pais:'Suecia',       coord:[59.33,18.06],    cepa:'Puumala', hub:'FRA', sede:[32.90,-97.04], peso:'medio', fecha:'(Grupo F)', partido:'Japón vs Suecia · AT&T, Dallas' },
+    { pais:'Noruega',      coord:[59.91,10.75],    cepa:'Puumala', hub:'FRA', sede:[40.81,-74.07], peso:'medio', fecha:'(grupo por confirmar)', partido:'Noruega · sede por confirmar' },
+    { pais:'Croacia',      coord:[45.81,15.98],    cepa:'Puumala', hub:'FRA', sede:[43.63,-79.42], peso:'medio', fecha:'23 jun (2da fecha)', partido:'Panamá vs Croacia · Toronto Stadium' },
+    { pais:'Rep. Checa',   coord:[50.08,14.43],    cepa:'Puumala', hub:'FRA', sede:[20.68,-103.46], peso:'medio', fecha:'24 jun (3era fecha)', partido:'Rep. Checa vs México · Azteca, CDMX' },
+    { pais:'Bosnia',       coord:[43.86,18.41],    cepa:'Puumala', hub:'IST', sede:[40.81,-74.07], peso:'bajo',  fecha:'(grupo por confirmar)', partido:'Bosnia · sede por confirmar' },
+    { pais:'Escocia',      coord:[55.95,-3.19],    cepa:'Puumala', hub:'LHR', sede:[42.09,-71.26], peso:'medio', fecha:'13 jun', partido:'Haití vs Escocia · Gillette, Boston' },
+    { pais:'Turquía',      coord:[41.00,28.98],    cepa:'NoEndemico', hub:'IST', sede:[37.40,-121.97], peso:'medio', fecha:'19 jun', partido:'Turquía vs Paraguay · Levi\'s, SF Bay' },
+
+    // === Asia ===
+    { pais:'Japón',        coord:[35.68,139.69],   cepa:'Hantaan', hub:'NRT', sede:[32.90,-97.04], peso:'medio', fecha:'(Grupo F)', partido:'Países Bajos vs Japón · AT&T, Dallas' },
+    { pais:'Corea del Sur',coord:[37.57,126.98],   cepa:'Hantaan', hub:'ICN', sede:[20.68,-103.46], peso:'medio', fecha:'18 jun', partido:'México vs Corea del Sur · Akron, Guadalajara' },
+    { pais:'Australia',    coord:[-35.28,149.13],  cepa:'NoEndemico', hub:'LAX', sede:[37.40,-121.97], peso:'medio', fecha:'25 jun (3era fecha)', partido:'Paraguay vs Australia · Levi\'s, SF Bay' },
+    { pais:'Irán',         coord:[35.69,51.39],    cepa:'NoEndemico', hub:'DOH', sede:[40.81,-74.07], peso:'bajo',  fecha:'(grupo por confirmar)', partido:'Irán · sede por confirmar' },
+    { pais:'Jordania',     coord:[31.95,35.93],    cepa:'NoEndemico', hub:'DOH', sede:[39.05,-94.48], peso:'bajo',  fecha:'27 jun (3era fecha)', partido:'Argentina vs Jordania · Arrowhead, Kansas' },
+    { pais:'Uzbekistán',   coord:[41.31,69.24],    cepa:'NoEndemico', hub:'IST', sede:[19.30,-99.15], peso:'bajo',  fecha:'17 jun', partido:'Uzbekistán vs Colombia · Azteca, CDMX' },
+    { pais:'Catar',        coord:[25.29,51.53],    cepa:'NoEndemico', hub:'DOH', sede:[40.81,-74.07], peso:'medio', fecha:'(grupo por confirmar)', partido:'Catar · sede por confirmar' },
+    { pais:'Arabia Saudí', coord:[24.71,46.68],    cepa:'NoEndemico', hub:'DOH', sede:[25.96,-80.24], peso:'medio', fecha:'15 jun', partido:'Uruguay vs Arabia Saudí · Hard Rock, Miami' },
+    { pais:'Iraq',         coord:[33.31,44.36],    cepa:'NoEndemico', hub:'IST', sede:[40.81,-74.07], peso:'bajo',  fecha:'(grupo por confirmar)', partido:'Iraq · sede por confirmar' },
+
+    // === Oceanía ===
+    { pais:'Nueva Zelanda',coord:[-41.29,174.78],  cepa:'NoEndemico', hub:'AKL', sede:[40.81,-74.07], peso:'bajo',  fecha:'(grupo por confirmar)', partido:'Nueva Zelanda · sede por confirmar' },
+
+    // === África ===
+    { pais:'Marruecos',    coord:[33.97,-6.85],    cepa:'NoEndemico', hub:'CDG', sede:[40.81,-74.07], peso:'medio', fecha:'13 jun', partido:'Brasil vs Marruecos · MetLife, Nueva Jersey' },
+    { pais:'Túnez',        coord:[36.81,10.18],    cepa:'NoEndemico', hub:'CDG', sede:[25.69,-100.24], peso:'medio', fecha:'(Grupo F)', partido:'Túnez vs Japón · Estadio BBVA, Monterrey' },
+    { pais:'Argelia',      coord:[36.75,3.06],     cepa:'NoEndemico', hub:'CDG', sede:[39.05,-94.48], peso:'medio', fecha:'16 jun', partido:'Argentina vs Argelia · Arrowhead, Kansas' },
+    { pais:'Egipto',       coord:[30.04,31.24],    cepa:'NoEndemico', hub:'DOH', sede:[40.81,-74.07], peso:'medio', fecha:'(grupo por confirmar)', partido:'Egipto · sede por confirmar' },
+    { pais:'Ghana',        coord:[5.61,-0.19],     cepa:'NoEndemico', hub:'CDG', sede:[43.63,-79.42], peso:'medio', fecha:'17 jun', partido:'Panamá vs Ghana · Toronto Stadium' },
+    { pais:'Cabo Verde',   coord:[14.93,-23.51],   cepa:'NoEndemico', hub:'LIS', sede:[33.76,-84.40], peso:'bajo',  fecha:'15 jun', partido:'España vs Cabo Verde · Mercedes-Benz, Atlanta' },
+    { pais:'Senegal',      coord:[14.71,-17.47],   cepa:'NoEndemico', hub:'CDG', sede:[40.81,-74.07], peso:'medio', fecha:'(Grupo I)', partido:'Francia vs Senegal · MetLife, Nueva Jersey' },
+    { pais:'Costa de Marfil', coord:[5.34,-4.03],  cepa:'NoEndemico', hub:'CDG', sede:[39.90,-75.17], peso:'medio', fecha:'14 jun', partido:'Costa de Marfil vs Ecuador · Lincoln, Filadelfia' },
+    { pais:'Sudáfrica',    coord:[-25.75,28.19],   cepa:'NoEndemico', hub:'JNB', sede:[19.30,-99.15], peso:'medio', fecha:'11 jun', partido:'México vs Sudáfrica · Azteca, CDMX' },
+    { pais:'RD Congo',     coord:[-4.32,15.32],    cepa:'NoEndemico', hub:'CDG', sede:[29.68,-95.41], peso:'medio', fecha:'17 jun', partido:'Portugal vs RD Congo · NRG, Houston (RDC tiene PHEIC ébola activa)' }
+  ];
+
+  const aficionadosLayer = L.layerGroup();
+  // Marcadores de hubs (los puntos de interconexión)
+  const hubsUsados = new Set();
+  aficionados.forEach(a => { if (a.hub) hubsUsados.add(a.hub); });
+  const hubIcon = L.divIcon({
+    className: 'hub-icon',
+    html: `<div style="width:14px;height:14px;background:#fff;border:2px solid #b8860b;border-radius:50%;box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 1px 3px rgba(0,0,0,0.3);"></div>`,
+    iconSize: [14, 14], iconAnchor: [7, 7]
+  });
+  hubsUsados.forEach(hubKey => {
+    const h = HUBS[hubKey];
+    if (!h) return;
+    const usadoPor = aficionados.filter(a => a.hub === hubKey).map(a => a.pais);
+    aficionadosLayer.addLayer(
+      L.marker(h.c, { icon: hubIcon }).bindPopup(
+        `<b>${h.nombre}</b><p><b>Hub de tránsito</b> para hinchas de ${usadoPor.length} selección${usadoPor.length>1?'es':''}: ${usadoPor.join(', ')}.</p><p style="font-size:11px;color:#5a6e8c"><em>Punto de interconexión: aquí se cruzan flujos de viajeros de origen distinto rumbo al Mundial 2026.</em></p>`
+      )
+    );
+  });
+
+  // Líneas país → (hub) → sede
+  aficionados.forEach(a => {
+    const color = COLOR_CEPA[a.cepa] || COLOR_CEPA.NoEndemico;
+    const weight = PESO[a.peso] || PESO.medio;
+    const opacity = a.cepa === 'NoEndemico' ? 0.35 : 0.65;
+    const tramos = a.hub
+      ? [[a.coord, HUBS[a.hub].c], [HUBS[a.hub].c, a.sede]]
+      : [[a.coord, a.sede]];
+    tramos.forEach((tramo, idx) => {
+      const linea = L.polyline(tramo, {
+        color: color,
+        weight: weight,
+        opacity: opacity,
+        dashArray: idx === 0 ? null : '5,4' // tramo final (hub→sede) punteado
+      });
+      const cepaLabel = a.cepa === 'NoEndemico'
+        ? 'Sin hantavirus endémico documentado'
+        : `cepa <b>${a.cepa}</b> endémica`;
+      linea.bindPopup(
+        `<b>${a.pais}</b> → ${a.partido}<p><b>Fecha:</b> ${a.fecha}</p><p><b>País de origen:</b> ${cepaLabel}.</p>${a.hub ? `<p><b>Hub de tránsito:</b> ${HUBS[a.hub].nombre}</p>` : '<p><em>Vuelo directo</em></p>'}<p><b>Volumen estimado de hinchas:</b> ${a.peso === 'alto' ? 'Alto · cientos de miles' : a.peso === 'medio' ? 'Medio · decenas de miles' : 'Bajo · unos pocos miles'}.</p>`
+      );
+      aficionadosLayer.addLayer(linea);
+    });
+  });
+
   // ---- CONTROL DE CAPAS — TOOLBAR HORIZONTAL ----
   const overlayMap = {
     ruta: rutaLayer,
@@ -3078,7 +3251,8 @@
     endemico: endemicoLayer,
     corredor: corredorLayer,
     mundialSedes: mundialSedesLayer,
-    mundialRutas: mundialRutasLayer
+    mundialRutas: mundialRutasLayer,
+    aficionados: aficionadosLayer
   };
 
   function toggleLayer(key, on) {
