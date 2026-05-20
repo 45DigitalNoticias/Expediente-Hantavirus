@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>PROTOTIPO E — El cauce del dinero sanitario 2003-2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  :root {
+    --navy: #072146;
+    --navy-oscuro: #04162e;
+    --cyan: #1973b8;
+    --cyan-claro: #2a8cd8;
+    --oro: #b8860b;
+    --oro-claro: #d4a017;
+    --rojo: #c00;
+    --verde: #2a8c4e;
+    --blanco: #ffffff;
+    --gris-claro: #f5f8fb;
+    --divisor: #cbd5e1;
+    --sepia: #5a6e8c;
+    --texto: #072146;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--navy-oscuro);
+    color: var(--blanco);
+  }
+  header {
+    padding: 12px 28px;
+    background: linear-gradient(180deg, var(--navy-oscuro) 0%, var(--navy) 100%);
+    border-bottom: 2px solid var(--oro);
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand .logo { background: var(--oro); color: var(--navy); font-size: 26px; font-weight: 700; padding: 6px 10px; border-radius: 2px; letter-spacing: -0.04em; }
+  .brand .wordmark .l1 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; }
+  .brand .wordmark .l2 { font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.5); margin-top: 3px; padding-top: 3px; border-top: 1px solid rgba(255,255,255,0.2); }
+  .header-title { flex: 1; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .header-title h1 { margin: 0 0 2px; font-size: 17px; font-weight: 600; }
+  .header-title p { margin: 0; font-size: 11.5px; color: rgba(255,255,255,0.7); }
+  .header-proto { font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--oro-claro); background: rgba(184,134,11,0.15); padding: 6px 12px; border: 1px solid var(--oro); border-radius: 2px; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    min-height: calc(100vh - 60px);
+  }
+
+  .sankey-area {
+    background: var(--navy-oscuro);
+    background-image:
+      radial-gradient(ellipse at 50% 50%, rgba(25,115,184,0.05) 0%, transparent 70%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .sankey-toolbar {
+    padding: 14px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(7,33,70,0.5);
+  }
+  .toolbar-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--oro-claro);
+  }
+  .legend { display: flex; gap: 14px; margin-left: auto; font-size: 11px; color: rgba(255,255,255,0.7); }
+  .legend .item { display: flex; align-items: center; gap: 6px; }
+  .legend .swatch { width: 16px; height: 4px; border-radius: 2px; }
+
+  .columnas-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 12px 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+  }
+  .col-titulo {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--oro-claro);
+    font-weight: 700;
+  }
+  .col-flecha {
+    font-size: 16px;
+    color: var(--cyan);
+    align-self: center;
+  }
+
+  .sankey-canvas {
+    /* Sin flex:1 — el canvas toma exactamente la altura natural del SVG (aspect ratio viewBox 1100×760).
+       Si el contenido excede el viewport, el body scrollea verticalmente; si excede horizontal,
+       este contenedor scrollea internamente. */
+    position: relative;
+    overflow: auto;
+    max-height: calc(100vh - 240px);
+    min-height: 480px;
+  }
+  .sankey-svg {
+    width: 100%;
+    height: auto;          /* mantiene proporción del viewBox */
+    max-width: 1400px;     /* tope superior para que no se infle en pantallas muy anchas */
+    min-width: 900px;      /* tope inferior — si la ventana es más chica, scroll horizontal */
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Boxes */
+  .nodo-financ rect { fill: var(--cyan); stroke: var(--oro-claro); stroke-width: 1.5; }
+  .nodo-farma rect { fill: var(--oro); stroke: var(--blanco); stroke-width: 1.5; }
+  /* Brotes ahora son el hub — visualmente más prominentes */
+  .nodo-brote rect {
+    fill: var(--rojo);
+    stroke: var(--oro-claro);
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 8px rgba(204,0,0,0.4));
+  }
+  .nodo-brote.economist rect {
+    fill: #800;
+    stroke: var(--oro-claro);
+    stroke-width: 3;
+    filter: drop-shadow(0 0 12px rgba(212,160,23,0.7));
+  }
+  .nodo-text {
+    fill: var(--blanco);
+    font-family: Georgia, serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-anchor: middle;
+    pointer-events: none;
+    dominant-baseline: middle;
+  }
+  .nodo-brote .nodo-text {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .nodo-sub {
+    fill: rgba(255,255,255,0.7);
+    font-family: Georgia, serif;
+    font-size: 9px;
+    text-anchor: middle;
+    pointer-events: none;
+    font-style: italic;
+  }
+  .nodo-brote .nodo-sub { fill: var(--oro-claro); }
+
+  /* Conexiones */
+  .conexion {
+    fill: none;
+    stroke-linecap: round;
+    cursor: pointer;
+    transition: all 0.25s;
+    mix-blend-mode: screen;
+  }
+  .conexion:hover { filter: brightness(1.6); }
+  .conexion.activa { filter: brightness(2) drop-shadow(0 0 10px rgba(212,160,23,0.8)); }
+
+  /* ===== Panel detalle ===== */
+  aside {
+    background: var(--blanco);
+    color: var(--texto);
+    border-left: 2px solid var(--oro);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .panel-head {
+    padding: 16px 22px;
+    background: linear-gradient(180deg, var(--gris-claro) 0%, var(--blanco) 100%);
+    border-bottom: 1px solid var(--divisor);
+  }
+  .panel-head .eyebrow {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--sepia);
+    margin-bottom: 4px;
+  }
+  .panel-head h2 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+  .panel-head .sub {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--sepia);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 22px;
+  }
+  .panel-section {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--divisor);
+  }
+  .panel-section:last-child { border-bottom: none; }
+  .panel-section-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--oro);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .panel-section-content { font-size: 12.5px; line-height: 1.55; }
+  .flow-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(25,115,184,0.1);
+    padding: 6px 10px;
+    border-radius: 14px;
+    border: 1px solid var(--cyan);
+    font-size: 11px;
+    color: var(--navy);
+    margin-bottom: 6px;
+    margin-right: 4px;
+  }
+  .monto-grande {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .significancia {
+    font-style: italic;
+    background: rgba(184,134,11,0.08);
+    border-left: 3px solid var(--oro);
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--navy);
+  }
+  .lectura {
+    padding: 14px 22px;
+    background: var(--navy);
+    color: var(--blanco);
+    font-size: 11.5px;
+    line-height: 1.55;
+    font-style: italic;
+    border-top: 1px solid var(--oro);
+  }
+  .lectura strong { color: var(--oro-claro); font-style: normal; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">45</div>
+    <div class="wordmark">
+      <div class="l1">Digital Noticias</div>
+      <div class="l2">Lectura sistémica</div>
+    </div>
+  </div>
+  <div class="header-title">
+    <h1>El cauce del dinero sanitario · 2003–2026</h1>
+    <p>Flujo financiero del capitalismo de preparación: financiadores → farmacéuticas → PHEIC</p>
+  </div>
+  <div class="header-proto">Prototipo E · Sankey</div>
+</header>
+
+<div class="layout">
+  <div class="sankey-area">
+    <div class="sankey-toolbar">
+      <span class="toolbar-label">Diagrama de flujo financiero · Sankey</span>
+      <div class="legend">
+        <div class="item"><div class="swatch" style="background:var(--cyan)"></div>Financiadores</div>
+        <div class="item"><div class="swatch" style="background:var(--oro)"></div>Farmacéuticas</div>
+        <div class="item"><div class="swatch" style="background:var(--rojo)"></div>Brote / PHEIC</div>
+        <div class="item"><div class="swatch" style="background:#800; border:1px solid var(--oro-claro)"></div>★ Portada Economist</div>
+      </div>
+    </div>
+
+    <div class="columnas-header" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="col-titulo">Financiadores</div>
+      <div class="col-titulo" style="color: var(--rojo);">★ Brotes / PHEIC ★</div>
+      <div class="col-titulo">Farma & Vacuna</div>
+    </div>
+
+    <div class="sankey-canvas">
+      <svg class="sankey-svg" viewBox="0 0 1100 760" preserveAspectRatio="xMidYMid meet" id="svg-sankey">
+        <g id="conexiones-layer"></g>
+        <g id="nodos-financ"></g>
+        <g id="nodos-brote"></g>
+        <g id="nodos-farma"></g>
+      </svg>
+    </div>
+
+    <div class="lectura">
+      <strong>Lectura:</strong> con las enfermedades al centro, lo que aparece a la vista es la reiteración. <strong>BARDA y CEPI</strong> (izquierda) financian doce brotes distintos. <strong>Moderna y Bavarian Nordic</strong> (derecha) reciben para ocho. Cada brote en el centro funciona como pretexto que conecta a los mismos actores estructurales. <strong>La diversidad biológica es escenografía. La concentración financiera es estructura.</strong>
+    </div>
+  </div>
+
+  <aside>
+    <div class="panel-head">
+      <div class="eyebrow">Conexión seleccionada</div>
+      <h2 id="d-titulo">Click en una banda del flujo</h2>
+      <div class="sub" id="d-sub">Hover sobre cualquier línea curva para ver financiador, farmacéutica y monto.</div>
+    </div>
+    <div class="panel-body" id="panel-body">
+      <div class="panel-section">
+        <div class="panel-section-label">Cómo leer este diagrama</div>
+        <div class="panel-section-content">
+          El <strong>grosor</strong> de cada banda es proporcional al monto del flujo. Las bandas más anchas son los grandes movimientos: <em>Tamiflu 2009 ($6.9B)</em>, <em>Operation Warp Speed COVID ($13B)</em>. Las más delgadas son las pre-financiaciones que activan después: <em>CEPI→Moderna Bundibugyo ($26.7M)</em>.
+        </div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-section-label">Patrón estructural</div>
+        <div class="significancia">
+          La diversidad de enfermedades en la columna derecha contrasta con la concentración de actores en las columnas izquierda y central. El sistema se ve diverso desde abajo (qué virus circula), uniforme desde arriba (quién cobra).
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script src="data-hitos.js"></script>
+<script>
+  // === Datos del flujo (FINANCIADOR → FARMA → BROTE) ===
+  const FLOWS = [
+    { fin: "Gobiernos (70+)", farma: "Roche", brote: "H1N1 Tamiflu 2009", monto: 6900, año: 2009, economist: true },
+    { fin: "BARDA (HHS)", farma: "Merck", brote: "Ébola WA 2014", monto: 214, año: 2014, economist: true },
+    { fin: "HHS / Obama", farma: "Inovio/Sanofi", brote: "Zika 2016", monto: 1800, año: 2016, economist: false },
+    { fin: "BARDA (HHS)", farma: "Moderna", brote: "COVID-19 2020", monto: 955, año: 2020, economist: true },
+    { fin: "HHS / DoD", farma: "Pfizer", brote: "COVID-19 2020", monto: 1950, año: 2020, economist: true },
+    { fin: "BARDA (HHS)", farma: "Bavarian Nordic", brote: "Mpox 2022", monto: 157, año: 2022, economist: false },
+    { fin: "BARDA (HHS)", farma: "Bavarian Nordic", brote: "Mpox 2024", monto: 200, año: 2024, economist: false },
+    { fin: "HERA (UE)", farma: "Bavarian Nordic", brote: "Mpox 2024", monto: 100, año: 2024, economist: false },
+    { fin: "BARDA (HHS)", farma: "Sabin", brote: "Marburg 2024", monto: 235, año: 2024, economist: false },
+    { fin: "BARDA (HHS)", farma: "Moderna", brote: "H5N1 (cancelado 2025)", monto: 766, año: 2025, economist: false },
+    { fin: "CEPI", farma: "Moderna", brote: "H5N1 relevo 2025", monto: 54, año: 2025, economist: false },
+    { fin: "CEPI", farma: "Moderna/Oxford", brote: "Bundibugyo 2026", monto: 27, año: 2026, economist: true }
+  ];
+
+  // Color por financiador
+  const COLOR_FIN = {
+    "BARDA (HHS)": "#1973b8",
+    "CEPI": "#2a8cd8",
+    "HHS / Obama": "#4a7ba6",
+    "HHS / DoD": "#5a8bb8",
+    "Gobiernos (70+)": "#7a9bc0",
+    "HERA (UE)": "#8aabd0"
+  };
+
+  // === Posicionamiento ===
+  // CAMBIO ARQUITECTÓNICO: BROTES al CENTRO (hub editorial).
+  // Financiadores izquierda, Farmacéuticas derecha. Las líneas convergen y divergen
+  // desde el brote, evidenciando la reiteración estructural.
+  const W = 1100, H = 760;
+  const colF = { x: 30, ancho: 180 };       // Financiadores (izquierda)
+  const colE = { x: 430, ancho: 240 };      // Brotes / PHEIC (CENTRO — el hub)
+  const colM = { x: 890, ancho: 190 };      // Farmacéuticas (derecha)
+
+  // Agrupar únicos
+  const financiadores = [...new Set(FLOWS.map(f => f.fin))];
+  const farmas = [...new Set(FLOWS.map(f => f.farma))];
+  const brotes = [...new Set(FLOWS.map(f => f.brote))];
+
+  // Sumar totales por nodo (para altura proporcional)
+  const totalPorFin = {};
+  financiadores.forEach(f => totalPorFin[f] = FLOWS.filter(x => x.fin === f).reduce((s,x) => s + x.monto, 0));
+  const totalPorFarma = {};
+  farmas.forEach(f => totalPorFarma[f] = FLOWS.filter(x => x.farma === f).reduce((s,x) => s + x.monto, 0));
+  const totalPorBrote = {};
+  brotes.forEach(f => totalPorBrote[f] = FLOWS.filter(x => x.brote === f).reduce((s,x) => s + x.monto, 0));
+
+  // Distribuir verticalmente con espacios entre cajas
+  function distribuirVertical(nodes, totalsMap, alturaUtil, gap = 10) {
+    const sumaTotal = nodes.reduce((s, n) => s + totalsMap[n], 0);
+    const totalGap = (nodes.length - 1) * gap;
+    const alturaPropor = alturaUtil - totalGap;
+    let cursor = 30;
+    const posiciones = {};
+    nodes.forEach(n => {
+      const altura = Math.max(28, (totalsMap[n] / sumaTotal) * alturaPropor);
+      posiciones[n] = { y: cursor, altura: altura };
+      cursor += altura + gap;
+    });
+    return posiciones;
+  }
+  // Ordenar brotes cronológicamente para que el centro lea como timeline vertical
+  brotes.sort((a, b) => {
+    const añoA = parseInt(a.match(/\d{4}/)?.[0] || "0", 10);
+    const añoB = parseInt(b.match(/\d{4}/)?.[0] || "0", 10);
+    return añoA - añoB;
+  });
+  const posF = distribuirVertical(financiadores, totalPorFin, H - 60, 18);
+  const posM = distribuirVertical(farmas, totalPorFarma, H - 60, 12);
+  const posE = distribuirVertical(brotes, totalPorBrote, H - 60, 8);
+
+  // Tracking: para cada nodo cuánto "ya se conectó" arriba (para apilar bandas)
+  // Ahora el brote (centro) tiene tracking de entrada (desde financiadores)
+  // y salida (hacia farmacéuticas)
+  const usadoF = {};
+  const usadoE_in = {}, usadoE_out = {};
+  const usadoM = {};
+  financiadores.forEach(f => usadoF[f] = 0);
+  brotes.forEach(b => { usadoE_in[b] = 0; usadoE_out[b] = 0; });
+  farmas.forEach(f => usadoM[f] = 0);
+
+  // === Renderizar nodos ===
+  const NS = "http://www.w3.org/2000/svg";
+  function dibujarNodo(parentId, nombre, pos, color, x, ancho, sublabel) {
+    const parent = document.getElementById(parentId);
+    const g = document.createElementNS(NS, "g");
+    const cls = parentId.replace("nodos-", "nodo-");
+    g.setAttribute("class", cls + (sublabel === "economist" ? " economist" : ""));
+    const rect = document.createElementNS(NS, "rect");
+    rect.setAttribute("x", x);
+    rect.setAttribute("y", pos.y);
+    rect.setAttribute("width", ancho);
+    rect.setAttribute("height", pos.altura);
+    rect.setAttribute("rx", 3);
+    g.appendChild(rect);
+    const tx = document.createElementNS(NS, "text");
+    tx.setAttribute("x", x + ancho / 2);
+    tx.setAttribute("y", pos.y + pos.altura / 2 - 4);
+    tx.setAttribute("class", "nodo-text");
+    tx.textContent = nombre;
+    g.appendChild(tx);
+    if (sublabel && sublabel !== "economist") {
+      const sb = document.createElementNS(NS, "text");
+      sb.setAttribute("x", x + ancho / 2);
+      sb.setAttribute("y", pos.y + pos.altura / 2 + 12);
+      sb.setAttribute("class", "nodo-sub");
+      sb.textContent = sublabel;
+      g.appendChild(sb);
+    }
+    parent.appendChild(g);
+  }
+
+  financiadores.forEach(f => {
+    dibujarNodo("nodos-financ", f, posF[f], COLOR_FIN[f] || "#1973b8", colF.x, colF.ancho, `$${formatMonto(totalPorFin[f])}`);
+  });
+  // Brotes ahora en el centro — son el hub editorial
+  brotes.forEach(b => {
+    const hasEcon = FLOWS.some(x => x.brote === b && x.economist);
+    dibujarNodo("nodos-brote", b, posE[b], "#c00", colE.x, colE.ancho, hasEcon ? "economist" : `$${formatMonto(totalPorBrote[b])}`);
+  });
+  farmas.forEach(f => {
+    dibujarNodo("nodos-farma", f, posM[f], "#b8860b", colM.x, colM.ancho, `$${formatMonto(totalPorFarma[f])}`);
+  });
+
+  function formatMonto(m) {
+    if (m >= 1000) return (m / 1000).toFixed(1) + " mil M";
+    return m + " M";
+  }
+
+  // === Renderizar conexiones (NUEVA LÓGICA: F → BROTE(centro) → M) ===
+  const conexLayer = document.getElementById("conexiones-layer");
+  FLOWS.sort((a, b) => b.monto - a.monto).forEach((flow, i) => {
+    // Grosor proporcional al log del monto
+    const grosor = Math.max(2, Math.log(flow.monto + 1) * 3);
+
+    // Tramo 1: Financiador (izquierda) → Brote (centro, entrada izquierda)
+    const posFin = posF[flow.fin];
+    const yF = posFin.y + usadoF[flow.fin] + grosor / 2;
+    usadoF[flow.fin] += grosor;
+
+    const posBrote = posE[flow.brote];
+    const yE_in = posBrote.y + usadoE_in[flow.brote] + grosor / 2;
+    usadoE_in[flow.brote] += grosor;
+
+    const x1 = colF.x + colF.ancho;        // salida del financiador
+    const x2 = colE.x;                      // entrada izquierda del brote
+    const ctrlX1 = x1 + (x2 - x1) * 0.5;
+    const ctrlX2 = x2 - (x2 - x1) * 0.5;
+    const path1 = document.createElementNS(NS, "path");
+    const d1 = `M ${x1} ${yF} C ${ctrlX1} ${yF}, ${ctrlX2} ${yE_in}, ${x2} ${yE_in}`;
+    path1.setAttribute("d", d1);
+    path1.setAttribute("class", "conexion");
+    path1.setAttribute("stroke", COLOR_FIN[flow.fin] || "#1973b8");
+    path1.setAttribute("stroke-width", grosor);
+    path1.setAttribute("opacity", 0.75);
+    path1.setAttribute("data-flow-idx", i);
+    path1.addEventListener("click", () => activarFlow(flow, i));
+    conexLayer.appendChild(path1);
+
+    // Tramo 2: Brote (centro, salida derecha) → Farmacéutica (derecha)
+    const yE_out = posBrote.y + usadoE_out[flow.brote] + grosor / 2;
+    usadoE_out[flow.brote] += grosor;
+    const posFarma = posM[flow.farma];
+    const yM = posFarma.y + usadoM[flow.farma] + grosor / 2;
+    usadoM[flow.farma] += grosor;
+
+    const x3 = colE.x + colE.ancho;        // salida derecha del brote
+    const x4 = colM.x;                      // entrada de la farmacéutica
+    const ctrlX3 = x3 + (x4 - x3) * 0.5;
+    const ctrlX4 = x4 - (x4 - x3) * 0.5;
+    const path2 = document.createElementNS(NS, "path");
+    const d2 = `M ${x3} ${yE_out} C ${ctrlX3} ${yE_out}, ${ctrlX4} ${yM}, ${x4} ${yM}`;
+    path2.setAttribute("d", d2);
+    path2.setAttribute("class", "conexion");
+    path2.setAttribute("stroke", "#b8860b");
+    path2.setAttribute("stroke-width", grosor);
+    path2.setAttribute("opacity", 0.75);
+    path2.setAttribute("data-flow-idx", i);
+    path2.addEventListener("click", () => activarFlow(flow, i));
+    conexLayer.appendChild(path2);
+  });
+
+  function activarFlow(flow, idx) {
+    document.querySelectorAll(".conexion").forEach(c => c.classList.remove("activa"));
+    document.querySelectorAll(`[data-flow-idx="${idx}"]`).forEach(c => c.classList.add("activa"));
+
+    document.getElementById("d-titulo").textContent = `${flow.fin} → ${flow.farma}`;
+    document.getElementById("d-sub").textContent = `Destino: ${flow.brote} · año ${flow.año}`;
+
+    const body = document.getElementById("panel-body");
+    body.innerHTML = `
+      <div class="panel-section">
+        <div class="panel-section-label">Monto del flujo</div>
+        <div class="monto-grande">$${flow.monto >= 1000 ? (flow.monto/1000).toFixed(2) + " mil millones" : flow.monto + " millones"}</div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-section-label">Trayectoria</div>
+        <div>
+          <span class="flow-pill">${flow.fin}</span>
+          <span style="color:var(--oro);font-weight:700;">→</span>
+          <span class="flow-pill" style="background:rgba(184,134,11,0.1);border-color:var(--oro);">${flow.farma}</span>
+          <span style="color:var(--rojo);font-weight:700;">→</span>
+          <span class="flow-pill" style="background:rgba(204,0,0,0.08);border-color:var(--rojo);color:var(--rojo);">${flow.brote}</span>
+        </div>
+      </div>
+      ${flow.economist ? `
+        <div class="panel-section">
+          <div class="panel-section-label">★ Vinculado a portada Economist</div>
+          <div class="panel-section-content">Este evento tiene cobertura editorial verificable en The Economist (portada o World Ahead).</div>
+        </div>
+      ` : ""}
+      <div class="panel-section">
+        <div class="panel-section-label">Lectura sistémica</div>
+        <div class="significancia">
+          Este flujo es uno de los <strong>${FLOWS.length}</strong> registrados entre 2003-2026. Suma con los demás de ${flow.farma}: <strong>$${formatMonto(totalPorFarma[flow.farma])}</strong> acumulados.
+        </div>
+      </div>
+    `;
+  }
+</script>
+
+</body>
+</html>

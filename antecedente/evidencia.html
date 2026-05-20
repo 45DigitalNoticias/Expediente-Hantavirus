@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>PROTOTIPO Evidencia — Tres charts del capitalismo de preparación pandémica</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  :root {
+    --navy: #072146;
+    --navy-oscuro: #04162e;
+    --cyan: #1973b8;
+    --cyan-claro: #2a8cd8;
+    --oro: #b8860b;
+    --oro-claro: #d4a017;
+    --rojo: #c00;
+    --verde: #2a8c4e;
+    --blanco: #ffffff;
+    --pergamino: #f5f8fb;
+    --divisor: #cbd5e1;
+    --sepia: #5a6e8c;
+    --texto: #072146;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--navy-oscuro);
+    background-image:
+      radial-gradient(ellipse at 50% 50%, rgba(25,115,184,0.05) 0%, transparent 70%);
+    color: var(--texto);
+    min-height: 100vh;
+  }
+
+  header {
+    padding: 14px 28px;
+    background: linear-gradient(180deg, var(--navy-oscuro) 0%, var(--navy) 100%);
+    border-bottom: 2px solid var(--oro);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    color: var(--blanco);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand .logo { background: var(--oro); color: var(--navy); font-size: 26px; font-weight: 700; padding: 6px 10px; border-radius: 2px; letter-spacing: -0.04em; }
+  .brand .wordmark .l1 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; }
+  .brand .wordmark .l2 { font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.5); margin-top: 3px; padding-top: 3px; border-top: 1px solid rgba(255,255,255,0.2); }
+  .header-title { flex: 1; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .header-title h1 { margin: 0 0 2px; font-size: 17px; font-weight: 600; }
+  .header-title p { margin: 0; font-size: 11.5px; color: rgba(255,255,255,0.7); font-style: italic; }
+  .header-proto { font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--oro-claro); background: rgba(184,134,11,0.15); padding: 6px 12px; border: 1px solid var(--oro); border-radius: 2px; }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 24px 48px;
+  }
+
+  .chart-card {
+    background: var(--blanco);
+    border-radius: 4px;
+    padding: 24px 28px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+    border-top: 4px solid var(--cyan);
+  }
+  .chart-card.argumento-fuerte { border-top-color: var(--rojo); }
+  .chart-card.argumento-medio { border-top-color: var(--oro); }
+  .chart-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--cyan);
+    margin-bottom: 6px;
+  }
+  .chart-card.argumento-fuerte .chart-eyebrow { color: var(--rojo); }
+  .chart-card.argumento-medio .chart-eyebrow { color: var(--oro); }
+  .chart-num {
+    background: var(--cyan);
+    color: var(--blanco);
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .chart-card.argumento-fuerte .chart-num { background: var(--rojo); }
+  .chart-card.argumento-medio .chart-num { background: var(--oro); }
+
+  .chart-titulo {
+    font-size: 22px;
+    color: var(--navy);
+    margin: 0 0 4px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .chart-bajada {
+    font-size: 12.5px;
+    color: var(--sepia);
+    font-style: italic;
+    margin-bottom: 18px;
+    line-height: 1.55;
+    max-width: 920px;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .chart-svg-wrap {
+    margin: 0 -4px;
+    background: var(--pergamino);
+    border-radius: 3px;
+    border: 1px solid var(--divisor);
+    padding: 14px 18px 6px;
+  }
+  .chart-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Estilo de ejes y marcas comunes */
+  .eje { stroke: var(--sepia); stroke-width: 1; }
+  .eje-tick { stroke: var(--sepia); stroke-width: 1; }
+  .eje-grid { stroke: var(--divisor); stroke-width: 0.8; stroke-dasharray: 2 4; }
+  .eje-label {
+    fill: var(--sepia);
+    font-family: Georgia, serif;
+    font-size: 10px;
+  }
+  .eje-titulo {
+    fill: var(--navy);
+    font-family: Georgia, serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  /* Chart 1: línea aceleración PHEIC */
+  .linea-pheic {
+    fill: none;
+    stroke: var(--rojo);
+    stroke-width: 2.5;
+    filter: drop-shadow(0 1px 3px rgba(204,0,0,0.3));
+  }
+  .punto-pheic {
+    fill: var(--rojo);
+    stroke: var(--blanco);
+    stroke-width: 2;
+    cursor: pointer;
+    transition: r 0.2s;
+  }
+  .punto-pheic:hover { r: 8; }
+  .punto-pheic.bundi {
+    fill: var(--oro);
+    stroke: var(--rojo);
+    stroke-width: 3;
+  }
+  .punto-anotacion {
+    fill: var(--navy);
+    font-family: Georgia, serif;
+    font-size: 10px;
+    font-style: italic;
+  }
+  .punto-cifra {
+    fill: var(--rojo);
+    font-family: Georgia, serif;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* Chart 2: barras horizontales */
+  .barra-actor {
+    fill: var(--cyan);
+    transition: fill 0.2s;
+    cursor: pointer;
+  }
+  .barra-actor:hover { fill: var(--cyan-claro); }
+  .barra-actor.dominante { fill: var(--oro); }
+  .barra-actor.dominante:hover { fill: var(--oro-claro); }
+  .barra-label {
+    fill: var(--navy);
+    font-family: Georgia, serif;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+  .barra-valor {
+    fill: var(--navy);
+    font-family: Georgia, serif;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .barra-detalle {
+    fill: var(--sepia);
+    font-family: Georgia, serif;
+    font-size: 9.5px;
+    font-style: italic;
+  }
+
+  /* Chart 5: scatter */
+  .scatter-punto {
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .scatter-punto circle {
+    fill: var(--cyan);
+    stroke: var(--navy);
+    stroke-width: 1.5;
+    opacity: 0.75;
+  }
+  .scatter-punto:hover circle {
+    opacity: 1;
+    stroke-width: 2.5;
+  }
+  .scatter-punto.alarma circle {
+    fill: var(--rojo);
+    stroke: var(--navy);
+  }
+  .scatter-label {
+    fill: var(--navy);
+    font-family: Georgia, serif;
+    font-size: 10px;
+    pointer-events: none;
+  }
+  .scatter-zona-anomalia {
+    fill: rgba(204,0,0,0.08);
+    stroke: var(--rojo);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+  }
+
+  /* Lectura inferior por chart */
+  .chart-lectura {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: rgba(184,134,11,0.06);
+    border-left: 3px solid var(--oro);
+    font-size: 12.5px;
+    line-height: 1.55;
+    font-style: italic;
+    color: var(--navy);
+    text-align: justify;
+    hyphens: auto;
+  }
+  .chart-lectura strong { color: var(--rojo); font-style: normal; letter-spacing: 0.02em; }
+  .chart-card.argumento-fuerte .chart-lectura {
+    background: rgba(204,0,0,0.06);
+    border-left-color: var(--rojo);
+  }
+
+  .leyenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 10.5px;
+    color: var(--sepia);
+  }
+  .leyenda .item { display: flex; align-items: center; gap: 6px; }
+  .leyenda .swatch { width: 14px; height: 8px; border-radius: 2px; }
+
+  /* Tooltip dinámico */
+  #tooltip {
+    position: absolute;
+    background: var(--navy);
+    color: var(--blanco);
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-size: 11px;
+    line-height: 1.4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    border: 1px solid var(--oro);
+    max-width: 240px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 100;
+  }
+  #tooltip strong { color: var(--oro-claro); }
+  #tooltip.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">45</div>
+    <div class="wordmark">
+      <div class="l1">Digital Noticias</div>
+      <div class="l2">Lectura sistémica</div>
+    </div>
+  </div>
+  <div class="header-title">
+    <h1>Evidencia · 3 charts del capitalismo de preparación pandémica</h1>
+    <p>Aceleración de emergencia · Concentración por actor · Letalidad vs financiamiento</p>
+  </div>
+  <div class="header-proto">Prototipo Evidencia · 3 charts</div>
+</header>
+
+<div id="tooltip"></div>
+
+<div class="container">
+
+  <!-- ========== CHART 1: Aceleración de emergencia ========== -->
+  <div class="chart-card argumento-fuerte">
+    <div class="chart-eyebrow"><span class="chart-num">01</span><span>Aceleración temporal</span></div>
+    <h2 class="chart-titulo">Días entre alerta y declaración de emergencia · 2003 → 2026</h2>
+    <p class="chart-bajada">El umbral político para declarar una emergencia sanitaria internacional se ha desplomado. La gripe A H1N1 tardó 83 días. El ébola Bundibugyo tardó 13. La fricción jurídica que protegía contra declaraciones precipitadas se evaporó después de la COVID.</p>
+
+    <div class="chart-svg-wrap">
+      <svg class="chart-svg" viewBox="0 0 1100 360" id="chart1">
+        <!-- Ejes -->
+        <line x1="80" y1="40" x2="80" y2="300" class="eje" />
+        <line x1="80" y1="300" x2="1060" y2="300" class="eje" />
+        <text x="40" y="38" class="eje-titulo">días</text>
+        <text x="1060" y="332" class="eje-titulo" text-anchor="end">año</text>
+
+        <g id="c1-grid"></g>
+        <g id="c1-ejes"></g>
+
+        <!-- Línea de tendencia y puntos -->
+        <path id="c1-linea" class="linea-pheic" d="" />
+        <g id="c1-puntos"></g>
+        <g id="c1-anotaciones"></g>
+      </svg>
+    </div>
+
+    <div class="chart-lectura">
+      <strong>Lectura:</strong> el punto más alto (Kivu 2018-2019, 350 días) y el más bajo (Bundibugyo 2026, 13 días) están separados por solo siete años. En 2018 la Organización Mundial de la Salud esperaba que las herramientas estuvieran listas antes de declarar. En 2026 declara con ocho casos y activa una línea farmacéutica que ya estaba pre-pagada desde enero. El criterio cambió porque <strong>la solución pasó de "esperar a tener vacuna" a "tener vacuna esperando declaración"</strong>.
+    </div>
+  </div>
+
+  <!-- ========== CHART 2: Concentración por actor ========== -->
+  <div class="chart-card argumento-medio">
+    <div class="chart-eyebrow"><span class="chart-num">02</span><span>Concentración estructural</span></div>
+    <h2 class="chart-titulo">Dinero recibido por farmacéutica · 2009 → 2026</h2>
+    <p class="chart-bajada">Monto acumulado de contratos pre-financiados o de reserva estratégica para cada farmacéutica, ordenado de mayor a menor. La barra muestra el dinero. El subtítulo de cada barra muestra cuántos patógenos distintos sustentan ese dinero. Dos patrones distintos conviven: el mega-contrato puntual y la presencia estructural recurrente.</p>
+
+    <div class="leyenda">
+      <div class="item"><div class="swatch" style="background:var(--oro)"></div>Presencia recurrente (5+ patógenos)</div>
+      <div class="item"><div class="swatch" style="background:var(--cyan)"></div>Mega-contrato puntual</div>
+      <div class="item" style="margin-left:auto;font-style:italic;">eje: monto absoluto en millones de USD (escala lineal)</div>
+    </div>
+
+    <div class="chart-svg-wrap">
+      <svg class="chart-svg" viewBox="0 0 1100 440" id="chart2">
+        <g id="c2-barras"></g>
+      </svg>
+    </div>
+
+    <div class="chart-lectura">
+      <strong>Lectura:</strong> los dos primeros lugares son mega-contratos puntuales sobre un único patógeno: <strong>Roche con Tamiflu para H1N1 (USD 6,900 millones)</strong> y <strong>Pfizer con la vacuna COVID (USD 1,950 millones)</strong>. El tercer lugar pertenece a <strong>Moderna</strong>, pero ahí la cifra cubre <strong>cinco patógenos distintos</strong> — COVID, H5N1 vía BARDA, H5N1 vía relevo CEPI, Bundibugyo, hantavirus en investigación temprana. La presencia estructural se reconoce ahí: una sola empresa recurrente en cinco brotes consecutivos. <strong>El sistema no diversifica receptores cuando diversifica brotes.</strong>
+    </div>
+  </div>
+
+  <!-- ========== CHART 5: Letalidad vs financiamiento ========== -->
+  <div class="chart-card argumento-fuerte">
+    <div class="chart-eyebrow"><span class="chart-num">05</span><span>Disociación letalidad ↔ dinero</span></div>
+    <h2 class="chart-titulo">Letalidad del patógeno vs financiamiento movilizado</h2>
+    <p class="chart-bajada">Si el dinero responde al riesgo epidemiológico real, los puntos deberían formar una diagonal: más letal igual a más financiamiento. Si forman una nube dispersa, el dinero responde a otra cosa.</p>
+
+    <div class="leyenda">
+      <div class="item"><div class="swatch" style="background:var(--rojo)"></div>Disociación marcada (baja letalidad y alto financiamiento)</div>
+      <div class="item"><div class="swatch" style="background:var(--cyan)"></div>Letalidad y financiamiento alineados</div>
+    </div>
+
+    <div class="chart-svg-wrap">
+      <svg class="chart-svg" viewBox="0 0 1100 460" id="chart5">
+        <!-- Zona de anomalía -->
+        <rect id="c5-zona-anomalia" class="scatter-zona-anomalia" x="0" y="0" width="0" height="0" />
+        <!-- Ejes -->
+        <line x1="80" y1="40" x2="80" y2="400" class="eje" />
+        <line x1="80" y1="400" x2="1060" y2="400" class="eje" />
+        <!-- Título eje Y rotado vertical, fuera del área de los puntos -->
+        <text class="eje-titulo" transform="rotate(-90 28 220)" x="28" y="220" text-anchor="middle">Financiamiento (escala logarítmica)</text>
+        <text x="1060" y="430" class="eje-titulo" text-anchor="end">Tasa de letalidad</text>
+
+        <g id="c5-grid"></g>
+        <g id="c5-ejes"></g>
+        <g id="c5-puntos"></g>
+      </svg>
+    </div>
+
+    <div class="chart-lectura">
+      <strong>Lectura:</strong> el cuadrante rojo (esquina inferior derecha) — <em>"baja letalidad, mucho dinero"</em> — está poblado por <strong>H1N1 (USD 6,900 millones, letalidad 0.02 %)</strong>, <strong>Zika (USD 1,800 millones, letalidad menor a 0.01 %)</strong> y <strong>Mpox 2022 (USD 157 millones, letalidad menor a 0.1 %)</strong>. Ébola Bundibugyo, con letalidad entre 25 y 40 %, recibió pre-financiamiento de apenas USD 26.7 millones antes de la declaración de emergencia. <strong>El dinero no sigue al cadáver. Sigue a la narrativa.</strong>
+    </div>
+  </div>
+
+  <p style="text-align:center;color:rgba(255,255,255,0.45);font-size:11px;font-style:italic;margin-top:30px;">
+    45 Digital Noticias · prototipo de la sub-pestaña "Evidencia" del Antecedente · datos verificables ✅ / ⚠️
+  </p>
+</div>
+
+<script src="data-hitos.js"></script>
+<script>
+  const tooltip = document.getElementById("tooltip");
+  function showTooltip(e, html) {
+    tooltip.innerHTML = html;
+    tooltip.classList.add("show");
+    tooltip.style.left = (e.pageX + 14) + "px";
+    tooltip.style.top = (e.pageY + 14) + "px";
+  }
+  function hideTooltip() { tooltip.classList.remove("show"); }
+  document.addEventListener("mousemove", (e) => {
+    if (tooltip.classList.contains("show")) {
+      tooltip.style.left = (e.pageX + 14) + "px";
+      tooltip.style.top = (e.pageY + 14) + "px";
+    }
+  });
+
+  // ========== CHART 1: ACELERACIÓN DE EMERGENCIA ==========
+  const C1_DATA = [
+    { año: 2009, dias: 83,  enfermedad: "Gripe A H1N1",       nota: "Emergencia declarada el 11 jun 2009" },
+    { año: 2014, dias: 244, enfermedad: "Ébola África Occ.",  nota: "Emergencia declarada el 8 ago 2014" },
+    { año: 2016, dias: 120, enfermedad: "Zika",               nota: "Emergencia declarada el 1 feb 2016 (vinculada a Juegos Olímpicos de Río)" },
+    { año: 2019, dias: 350, enfermedad: "Ébola Kivu",         nota: "Emergencia declarada el 17 jul 2019 (11 meses tras inicio del brote)" },
+    { año: 2020, dias: 30,  enfermedad: "COVID-19",           nota: "Emergencia declarada el 30 ene 2020" },
+    { año: 2022, dias: 75,  enfermedad: "Mpox (clado II)",    nota: "Emergencia declarada el 23 jul 2022" },
+    { año: 2024, dias: 250, enfermedad: "Mpox (clado Ib)",    nota: "Emergencia declarada el 14 ago 2024" },
+    { año: 2026, dias: 13,  enfermedad: "Ébola Bundibugyo",   nota: "Emergencia declarada el 17 may 2026 — récord absoluto",  bundi: true }
+  ];
+  const c1 = { x0: 80, x1: 1060, y0: 40, y1: 300, añoMin: 2007, añoMax: 2027, diasMax: 380 };
+  const c1xAño = (a) => c1.x0 + ((a - c1.añoMin) / (c1.añoMax - c1.añoMin)) * (c1.x1 - c1.x0);
+  const c1yDias = (d) => c1.y1 - (d / c1.diasMax) * (c1.y1 - c1.y0);
+  const NS = "http://www.w3.org/2000/svg";
+
+  // Grid horizontal (días)
+  const c1Grid = document.getElementById("c1-grid");
+  [50, 100, 200, 300].forEach(d => {
+    const ln = document.createElementNS(NS, "line");
+    ln.setAttribute("x1", c1.x0); ln.setAttribute("x2", c1.x1);
+    ln.setAttribute("y1", c1yDias(d)); ln.setAttribute("y2", c1yDias(d));
+    ln.setAttribute("class", "eje-grid");
+    c1Grid.appendChild(ln);
+    const lbl = document.createElementNS(NS, "text");
+    lbl.setAttribute("x", c1.x0 - 8); lbl.setAttribute("y", c1yDias(d) + 4);
+    lbl.setAttribute("class", "eje-label"); lbl.setAttribute("text-anchor", "end");
+    lbl.textContent = d + " d";
+    c1Grid.appendChild(lbl);
+  });
+  // Eje X (años)
+  const c1Ejes = document.getElementById("c1-ejes");
+  [2009, 2014, 2019, 2022, 2026].forEach(a => {
+    const tx = document.createElementNS(NS, "text");
+    tx.setAttribute("x", c1xAño(a)); tx.setAttribute("y", 318);
+    tx.setAttribute("class", "eje-label"); tx.setAttribute("text-anchor", "middle");
+    tx.textContent = a;
+    c1Ejes.appendChild(tx);
+  });
+
+  // Línea
+  let c1Path = "";
+  C1_DATA.forEach((d, i) => {
+    c1Path += (i === 0 ? "M" : " L") + ` ${c1xAño(d.año)} ${c1yDias(d.dias)}`;
+  });
+  document.getElementById("c1-linea").setAttribute("d", c1Path);
+
+  // Puntos
+  const c1Puntos = document.getElementById("c1-puntos");
+  C1_DATA.forEach(d => {
+    const cx = c1xAño(d.año), cy = c1yDias(d.dias);
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", cx); c.setAttribute("cy", cy); c.setAttribute("r", 6);
+    c.setAttribute("class", "punto-pheic" + (d.bundi ? " bundi" : ""));
+    c.addEventListener("mouseenter", (e) => showTooltip(e, `<strong>${d.año} · ${d.enfermedad}</strong><br>${d.nota}<br><em>${d.dias} días entre alerta y declaración</em>`));
+    c.addEventListener("mouseleave", hideTooltip);
+    c1Puntos.appendChild(c);
+    // Etiqueta inline (sólo en hitos destacados)
+    if (d.bundi || d.dias > 200 || d.año === 2020) {
+      const lbl = document.createElementNS(NS, "text");
+      lbl.setAttribute("x", cx); lbl.setAttribute("y", cy - 14);
+      lbl.setAttribute("class", "punto-cifra"); lbl.setAttribute("text-anchor", "middle");
+      lbl.textContent = d.dias + " días · " + d.enfermedad;
+      c1Puntos.appendChild(lbl);
+    }
+  });
+
+  // ========== CHART 2: CONCENTRACIÓN POR ACTOR ==========
+  // Datos ordenados por monto descendente
+  // La barra representa el monto absoluto · el subtítulo muestra cuántos patógenos
+  const C2_DATA = [
+    { actor: "Roche",            monto: 6900, patogenos: 1, detalle: "H1N1 — Tamiflu en setenta gobiernos · el mayor contrato sanitario pre-COVID" },
+    { actor: "Pfizer",           monto: 1950, patogenos: 1, detalle: "COVID-19 — compra anticipada de Operation Warp Speed" },
+    { actor: "Moderna",          monto: 1829, patogenos: 5, detalle: "COVID · H5N1 vía BARDA · H5N1 vía relevo CEPI · Bundibugyo · hantavirus en investigación temprana" },
+    { actor: "Bavarian Nordic",  monto: 457,  patogenos: 1, detalle: "Mpox 2022 · Mpox 2024 (BARDA) · Mpox 2024 (HERA-UE) — tres contratos sobre un mismo patógeno" },
+    { actor: "Sabin",            monto: 235,  patogenos: 1, detalle: "Marburg + Sudán Ébola — vacunas entregadas a Ruanda en 7 días en septiembre 2024" },
+    { actor: "Merck",            monto: 214,  patogenos: 1, detalle: "Ébola Zaire (Ervebo) — adquirido a NewLink Genetics en 2014, aprobado 2019" }
+  ];
+  const c2 = { x0: 200, x1: 800, y0: 30, alturaBarra: 36, gap: 18 };
+  const c2MaxMonto = Math.max(...C2_DATA.map(d => d.monto));
+  const c2Barras = document.getElementById("c2-barras");
+
+  function formatoMonto(m) {
+    if (m >= 1000) return "USD " + (m/1000).toFixed(2) + " mil millones";
+    return "USD " + m + " millones";
+  }
+
+  C2_DATA.forEach((d, i) => {
+    const y = c2.y0 + i * (c2.alturaBarra + c2.gap);
+    // Label izquierdo (nombre del actor)
+    const lblActor = document.createElementNS(NS, "text");
+    lblActor.setAttribute("x", c2.x0 - 14); lblActor.setAttribute("y", y + c2.alturaBarra / 2 + 4);
+    lblActor.setAttribute("class", "barra-label"); lblActor.setAttribute("text-anchor", "end");
+    lblActor.textContent = d.actor;
+    c2Barras.appendChild(lblActor);
+
+    // Barra (proporcional al monto)
+    const anchoMax = c2.x1 - c2.x0;
+    const ancho = Math.max(8, (d.monto / c2MaxMonto) * anchoMax);
+    const barra = document.createElementNS(NS, "rect");
+    barra.setAttribute("x", c2.x0); barra.setAttribute("y", y);
+    barra.setAttribute("width", ancho); barra.setAttribute("height", c2.alturaBarra);
+    barra.setAttribute("rx", 2);
+    barra.setAttribute("class", "barra-actor" + (d.patogenos >= 5 ? " dominante" : ""));
+    barra.addEventListener("mouseenter", (e) => showTooltip(e, `<strong>${d.actor}</strong><br>${formatoMonto(d.monto)}<br>${d.patogenos} patógeno${d.patogenos>1?"s":""} distinto${d.patogenos>1?"s":""}<br>${d.detalle}`));
+    barra.addEventListener("mouseleave", hideTooltip);
+    c2Barras.appendChild(barra);
+
+    // Valor monto (siempre visible, posicionado al final de la barra con margen)
+    const valTx = document.createElementNS(NS, "text");
+    valTx.setAttribute("x", c2.x0 + ancho + 12);
+    valTx.setAttribute("y", y + c2.alturaBarra / 2 + 4);
+    valTx.setAttribute("class", "barra-valor");
+    valTx.textContent = formatoMonto(d.monto);
+    c2Barras.appendChild(valTx);
+
+    // Subtítulo: cuántos patógenos
+    const subTx = document.createElementNS(NS, "text");
+    subTx.setAttribute("x", c2.x0 + ancho + 12);
+    subTx.setAttribute("y", y + c2.alturaBarra / 2 + 19);
+    subTx.setAttribute("class", "barra-detalle");
+    subTx.textContent = d.patogenos === 1
+      ? "un solo patógeno"
+      : d.patogenos + " patógenos distintos · presencia recurrente";
+    c2Barras.appendChild(subTx);
+
+    // Detalle abajo (siempre visible)
+    const detalleTx = document.createElementNS(NS, "text");
+    detalleTx.setAttribute("x", c2.x0); detalleTx.setAttribute("y", y + c2.alturaBarra + 13);
+    detalleTx.setAttribute("class", "barra-detalle");
+    const det = d.detalle.length > 110 ? d.detalle.substring(0, 105) + "…" : d.detalle;
+    detalleTx.textContent = det;
+    c2Barras.appendChild(detalleTx);
+  });
+
+  // ========== CHART 5: LETALIDAD vs FINANCIAMIENTO ==========
+  // Tasa de letalidad (%) vs financiamiento en USD (escala logarítmica)
+  const C5_DATA = [
+    { etiqueta: "H1N1 2009",        cfr: 0.02,  monto: 6900,  anomalia: true },
+    { etiqueta: "Zika 2016",        cfr: 0.005, monto: 1800,  anomalia: true },
+    { etiqueta: "Mpox II 2022",     cfr: 0.05,  monto: 157,   anomalia: true },
+    { etiqueta: "COVID-19 2020",    cfr: 1.5,   monto: 13000, anomalia: false },
+    { etiqueta: "Mpox Ib 2024",     cfr: 3.5,   monto: 200,   anomalia: false },
+    { etiqueta: "Marburg 2024",     cfr: 27,    monto: 235,   anomalia: false },
+    { etiqueta: "Ébola WA 2014",    cfr: 40,    monto: 214,   anomalia: false },
+    { etiqueta: "Bundibugyo 2026",  cfr: 32,    monto: 27,    anomalia: false },
+    { etiqueta: "Ébola Kivu 2019",  cfr: 66,    monto: 100,   anomalia: false },
+    { etiqueta: "H5N1 humano",      cfr: 50,    monto: 766,   anomalia: false }
+  ];
+
+  const c5 = { x0: 80, x1: 1060, y0: 40, y1: 400 };
+  // Escala X: tasa de letalidad de 0 a 70 %
+  const c5xCFR = (letalidad) => c5.x0 + (letalidad / 70) * (c5.x1 - c5.x0);
+  // Escala Y: monto log de 10M a 15000M
+  const c5yMonto = (m) => {
+    const logMin = Math.log10(10), logMax = Math.log10(15000);
+    const logM = Math.log10(Math.max(10, m));
+    return c5.y1 - ((logM - logMin) / (logMax - logMin)) * (c5.y1 - c5.y0);
+  };
+
+  // Zona de anomalía (letalidad baja, monto alto) — solo color, sin etiqueta interna
+  // La leyenda externa arriba del chart ya explica qué representa esta zona
+  const zona = document.getElementById("c5-zona-anomalia");
+  zona.setAttribute("x", c5.x0);
+  zona.setAttribute("y", c5.y0);
+  zona.setAttribute("width", c5xCFR(5) - c5.x0);
+  zona.setAttribute("height", c5yMonto(500) - c5.y0);
+
+  // Grid Y (monto log)
+  const c5Grid = document.getElementById("c5-grid");
+  [10, 100, 1000, 10000].forEach(m => {
+    const y = c5yMonto(m);
+    const ln = document.createElementNS(NS, "line");
+    ln.setAttribute("x1", c5.x0); ln.setAttribute("x2", c5.x1);
+    ln.setAttribute("y1", y); ln.setAttribute("y2", y);
+    ln.setAttribute("class", "eje-grid");
+    c5Grid.appendChild(ln);
+    const lbl = document.createElementNS(NS, "text");
+    lbl.setAttribute("x", c5.x0 - 8); lbl.setAttribute("y", y + 4);
+    lbl.setAttribute("class", "eje-label"); lbl.setAttribute("text-anchor", "end");
+    lbl.textContent = m >= 1000 ? `$${m/1000}B` : `$${m}M`;
+    c5Grid.appendChild(lbl);
+  });
+  // Grid X (tasa de letalidad)
+  [0, 10, 20, 30, 40, 50, 60].forEach(letalidad => {
+    const x = c5xCFR(letalidad);
+    const ln = document.createElementNS(NS, "line");
+    ln.setAttribute("x1", x); ln.setAttribute("x2", x);
+    ln.setAttribute("y1", c5.y0); ln.setAttribute("y2", c5.y1);
+    ln.setAttribute("class", "eje-grid");
+    c5Grid.appendChild(ln);
+    const lbl = document.createElementNS(NS, "text");
+    lbl.setAttribute("x", x); lbl.setAttribute("y", c5.y1 + 16);
+    lbl.setAttribute("class", "eje-label"); lbl.setAttribute("text-anchor", "middle");
+    lbl.textContent = letalidad + " %";
+    c5Grid.appendChild(lbl);
+  });
+
+  // Puntos
+  const c5Puntos = document.getElementById("c5-puntos");
+  C5_DATA.forEach(d => {
+    const cx = c5xCFR(d.cfr), cy = c5yMonto(d.monto);
+    const g = document.createElementNS(NS, "g");
+    g.setAttribute("class", "scatter-punto" + (d.anomalia ? " alarma" : ""));
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", cx); c.setAttribute("cy", cy);
+    // Radio proporcional al monto (log)
+    const r = 5 + Math.log10(Math.max(10, d.monto)) * 1.5;
+    c.setAttribute("r", r);
+    g.appendChild(c);
+    g.addEventListener("mouseenter", (e) => showTooltip(e, `<strong>${d.etiqueta}</strong><br>Letalidad: ${d.cfr} %<br>Financiamiento: USD ${d.monto >= 1000 ? (d.monto/1000).toFixed(1)+" mil millones" : d.monto+" millones"}${d.anomalia ? '<br><em style="color:#f88">⚠ Zona de disociación</em>' : ""}`));
+    g.addEventListener("mouseleave", hideTooltip);
+    c5Puntos.appendChild(g);
+
+    // Etiqueta
+    const lbl = document.createElementNS(NS, "text");
+    lbl.setAttribute("x", cx + r + 5); lbl.setAttribute("y", cy + 3);
+    lbl.setAttribute("class", "scatter-label");
+    lbl.textContent = d.etiqueta;
+    c5Puntos.appendChild(lbl);
+  });
+</script>
+
+</body>
+</html>

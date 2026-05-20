@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>PROTOTIPO H — El código del modelo · Doble hebra 2003-2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  :root {
+    --navy: #072146;
+    --navy-oscuro: #04162e;
+    --cyan: #1973b8;
+    --cyan-claro: #2a8cd8;
+    --oro: #b8860b;
+    --oro-claro: #d4a017;
+    --rojo: #c00;
+    --blanco: #ffffff;
+    --gris-claro: #f5f8fb;
+    --divisor: #cbd5e1;
+    --sepia: #5a6e8c;
+    --texto: #072146;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--navy-oscuro);
+    background-image:
+      radial-gradient(ellipse at 50% 50%, rgba(25,115,184,0.08) 0%, transparent 70%);
+    color: var(--blanco);
+  }
+  header {
+    padding: 12px 28px;
+    background: linear-gradient(180deg, var(--navy-oscuro) 0%, var(--navy) 100%);
+    border-bottom: 2px solid var(--oro);
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand .logo { background: var(--oro); color: var(--navy); font-size: 26px; font-weight: 700; padding: 6px 10px; border-radius: 2px; letter-spacing: -0.04em; }
+  .brand .wordmark .l1 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; }
+  .brand .wordmark .l2 { font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.5); margin-top: 3px; padding-top: 3px; border-top: 1px solid rgba(255,255,255,0.2); }
+  .header-title { flex: 1; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .header-title h1 { margin: 0 0 2px; font-size: 17px; font-weight: 600; }
+  .header-title p { margin: 0; font-size: 11.5px; color: rgba(255,255,255,0.7); font-style: italic; }
+  .header-proto { font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--oro-claro); background: rgba(184,134,11,0.15); padding: 6px 12px; border: 1px solid var(--oro); border-radius: 2px; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    min-height: calc(100vh - 60px);
+  }
+
+  /* === Canvas de la hélice === */
+  .helice-area {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .helice-toolbar {
+    padding: 10px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(7,33,70,0.5);
+    flex-wrap: wrap;
+  }
+  .toolbar-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--oro-claro); }
+  .hebra-info {
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+  }
+  .hebra-info .hebra {
+    display: flex; align-items: center; gap: 7px;
+  }
+  .hebra-info .marca {
+    width: 16px; height: 3px; border-radius: 2px;
+  }
+  .hebra-info .marca.legal { background: var(--cyan-claro); box-shadow: 0 0 6px var(--cyan-claro); }
+  .hebra-info .marca.financ { background: var(--oro-claro); box-shadow: 0 0 6px var(--oro-claro); }
+  .ctrl-area { margin-left: auto; display: flex; gap: 8px; }
+  .ctrl-btn {
+    background: var(--navy);
+    color: var(--oro-claro);
+    border: 1px solid var(--oro);
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: Georgia, serif;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: var(--oro); color: var(--navy); }
+  .ctrl-btn.paused { background: var(--oro); color: var(--navy); }
+
+  .helice-canvas {
+    flex: 1;
+    min-height: 480px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .helice-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4));
+  }
+
+  /* Estilos SVG */
+  .eje-tiempo { stroke: rgba(184,134,11,0.25); stroke-width: 1; stroke-dasharray: 4 6; }
+  .eje-año {
+    fill: rgba(255,255,255,0.5);
+    font-family: Georgia, serif;
+    font-size: 10px;
+    text-anchor: middle;
+    font-style: italic;
+  }
+  .eje-año.activo { fill: var(--oro-claro); font-size: 12px; font-weight: 700; font-style: normal; }
+  .eje-titulo-hebra {
+    font-family: Georgia, serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+
+  /* Hebras */
+  .hebra-segmento {
+    fill: none;
+    stroke-linecap: round;
+    transition: opacity 0.2s;
+  }
+
+  /* Par de bases (rung del hito) */
+  .rung {
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .rung-linea {
+    stroke: var(--oro-claro);
+    stroke-width: 2;
+    opacity: 0.6;
+    stroke-dasharray: 2 3;
+  }
+  .rung:hover .rung-linea {
+    opacity: 1;
+    stroke-width: 2.5;
+    stroke-dasharray: none;
+    filter: drop-shadow(0 0 4px var(--oro-claro));
+  }
+  .rung.activo .rung-linea {
+    opacity: 1;
+    stroke: var(--blanco);
+    stroke-width: 3;
+    stroke-dasharray: none;
+    filter: drop-shadow(0 0 8px var(--oro-claro));
+  }
+  .rung-nodo {
+    transition: all 0.2s;
+  }
+  .rung-nodo.legal {
+    fill: var(--cyan);
+    stroke: var(--blanco);
+    stroke-width: 2;
+  }
+  .rung-nodo.financ {
+    fill: var(--oro);
+    stroke: var(--blanco);
+    stroke-width: 2;
+  }
+  .rung:hover .rung-nodo { transform: scale(1.2); }
+  .rung.activo .rung-nodo {
+    stroke: var(--oro-claro);
+    stroke-width: 3;
+    filter: drop-shadow(0 0 8px var(--oro-claro));
+  }
+  .rung.economist .rung-linea {
+    stroke-dasharray: none;
+    stroke-width: 2.5;
+    opacity: 0.9;
+  }
+  /* Guías punteadas del rung a las etiquetas fijas — solo visibles si rung activo */
+  .rung-guia-label {
+    stroke: var(--oro);
+    stroke-width: 1;
+    stroke-dasharray: 2 5;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .rung.activo .rung-guia-label { opacity: 0.5; }
+
+  /* Halo pulsante alrededor de cada nodo (indicador visual de clicable) */
+  .rung-halo {
+    fill: none;
+    stroke: var(--oro-claro);
+    stroke-width: 1.5;
+    pointer-events: none;
+  }
+  .rung.economist .rung-halo {
+    stroke: var(--blanco);
+    stroke-width: 2;
+  }
+
+  /* Pista flotante que aparece al hover sobre el rung */
+  .rung-hint {
+    fill: var(--oro-claro);
+    font-size: 10px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    text-anchor: middle;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  }
+  .rung:hover .rung-hint { opacity: 1; }
+  .rung-linea { cursor: pointer; }
+
+  /* Indicador "pausa automática" cerca del toolbar */
+  .auto-pausa-indicador {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+  }
+  .auto-pausa-indicador .punto {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--sepia);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .auto-pausa-indicador.activo .punto {
+    background: var(--oro-claro);
+    box-shadow: 0 0 8px var(--oro-claro);
+  }
+  .auto-pausa-indicador.activo {
+    color: var(--oro-claro);
+  }
+
+  /* Etiquetas de hito */
+  .hito-label {
+    fill: var(--blanco);
+    font-family: Georgia, serif;
+    font-size: 11px;
+    text-anchor: middle;
+    font-weight: 600;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+  }
+  .hito-label.activo {
+    fill: var(--oro-claro);
+    font-size: 13px;
+  }
+  .hito-sublabel {
+    fill: rgba(255,255,255,0.55);
+    font-family: Georgia, serif;
+    font-size: 9px;
+    font-style: italic;
+    text-anchor: middle;
+    pointer-events: none;
+  }
+  .hito-sublabel.activo { fill: rgba(255,255,255,0.95); }
+  .hito-star {
+    fill: var(--oro-claro);
+    font-size: 11px;
+    text-anchor: middle;
+    pointer-events: none;
+    filter: drop-shadow(0 0 4px var(--oro-claro));
+  }
+
+  /* === Panel detalle === */
+  aside {
+    background: var(--blanco);
+    color: var(--texto);
+    border-left: 2px solid var(--oro);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: -4px 0 16px rgba(0,0,0,0.3);
+  }
+  .panel-head {
+    padding: 16px 22px;
+    background: linear-gradient(180deg, var(--gris-claro) 0%, var(--blanco) 100%);
+    border-bottom: 1px solid var(--divisor);
+  }
+  .panel-eyebrow {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--sepia);
+    margin-bottom: 4px;
+  }
+  .panel-año {
+    font-size: 44px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .panel-enfermedad {
+    font-size: 18px;
+    color: var(--cyan);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .panel-titulo {
+    font-size: 12.5px;
+    font-style: italic;
+    color: var(--sepia);
+    margin-top: 4px;
+  }
+
+  /* Visualización de las dos hebras en el panel */
+  .hebras-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--divisor);
+  }
+  .hebra-card {
+    padding: 9px 11px;
+    border-radius: 3px;
+    border-left: 4px solid;
+    background: var(--gris-claro);
+  }
+  .hebra-card.legal { border-left-color: var(--cyan); }
+  .hebra-card.financ { border-left-color: var(--oro); }
+  .hebra-card .label {
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--sepia);
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .hebra-card .contenido {
+    font-size: 11.5px;
+    color: var(--texto);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .panel-body { flex: 1; overflow-y: auto; padding: 14px 22px; }
+  .panel-section { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed var(--divisor); }
+  .panel-section:last-child { border-bottom: none; }
+  .panel-section-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--oro); font-weight: 700; margin-bottom: 6px; }
+  .panel-section-content { font-size: 12px; line-height: 1.55; color: var(--texto); }
+  .significancia { font-style: italic; background: rgba(184,134,11,0.08); border-left: 3px solid var(--oro); padding: 10px 12px; font-size: 12px; line-height: 1.55; color: var(--navy); }
+  .actores { display: flex; flex-wrap: wrap; gap: 4px; }
+  .actor-chip { padding: 2px 7px; background: var(--navy); color: var(--blanco); font-size: 10px; border-radius: 2px; }
+  .economist-card { background: linear-gradient(135deg, #e3120b 0%, #c00 100%); color: #fff; padding: 10px 12px; border-radius: 3px; }
+  .economist-card .head { font-size: 9px; letter-spacing: 0.18em; font-weight: 700; opacity: 0.85; }
+  .economist-card .mark { font-size: 13px; font-weight: 900; letter-spacing: 0.04em; }
+  .economist-card .titulo { font-size: 12px; font-weight: 600; line-height: 1.4; margin-top: 6px; }
+  .economist-card .meta { font-size: 10px; opacity: 0.9; margin-top: 4px; font-style: italic; }
+
+  .lectura-inferior {
+    padding: 12px 24px;
+    background: var(--navy);
+    color: var(--blanco);
+    font-size: 11.5px;
+    line-height: 1.6;
+    font-style: italic;
+    border-top: 1px solid var(--oro);
+    text-align: justify;
+    hyphens: auto;
+  }
+  .lectura-inferior strong { color: var(--oro-claro); font-style: normal; }
+
+  /* === Guía de lectura desplegable === */
+  .guia-lectura {
+    background: rgba(7,33,70,0.6);
+    border-bottom: 1px solid rgba(184,134,11,0.3);
+    color: var(--blanco);
+  }
+  .guia-lectura summary {
+    padding: 10px 28px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--oro-claro);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+  }
+  .guia-lectura summary::-webkit-details-marker { display: none; }
+  .guia-lectura summary::before {
+    content: "▸";
+    transition: transform 0.2s;
+    color: var(--oro);
+    font-size: 14px;
+  }
+  .guia-lectura[open] summary::before { transform: rotate(90deg); }
+  .guia-lectura-content {
+    padding: 0 28px 18px;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.92);
+    text-align: justify;
+    hyphens: auto;
+    columns: 2;
+    column-gap: 32px;
+    column-rule: 1px dashed rgba(184,134,11,0.3);
+  }
+  .guia-lectura-content p {
+    margin: 0 0 10px;
+    break-inside: avoid;
+  }
+  .guia-lectura-content strong {
+    color: var(--oro-claro);
+    font-weight: 600;
+  }
+  .guia-lectura-content em.azul {
+    color: var(--cyan-claro);
+    font-style: normal;
+    font-weight: 600;
+  }
+  .guia-lectura-content em.oro {
+    color: var(--oro-claro);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* === Mini-ficha (popover al hacer click en un punto) === */
+  .mini-ficha {
+    position: fixed;
+    background: var(--blanco);
+    color: var(--texto);
+    padding: 0;
+    border-radius: 4px;
+    border: 2px solid var(--oro);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+    z-index: 1000;
+    max-width: 340px;
+    min-width: 280px;
+    display: none;
+    font-family: Georgia, serif;
+  }
+  .mini-ficha.show { display: block; }
+  .mini-ficha-head {
+    padding: 10px 14px 9px;
+    border-bottom: 1px solid var(--divisor);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mini-ficha-head.legal { background: rgba(25,115,184,0.12); }
+  .mini-ficha-head.financ { background: rgba(184,134,11,0.12); }
+  .mini-ficha-eyebrow {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--sepia);
+    font-weight: 700;
+  }
+  .mini-cerrar {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: var(--sepia);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    font-family: inherit;
+  }
+  .mini-cerrar:hover { color: var(--rojo); }
+  .mini-ficha-body { padding: 12px 16px 16px; }
+  .mini-año-grande {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .mini-enfermedad-fila {
+    font-size: 14px;
+    color: var(--cyan);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .mini-tipo {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    margin-top: 10px;
+  }
+  .mini-tipo.legal { background: var(--cyan); color: var(--blanco); }
+  .mini-tipo.financ { background: var(--oro); color: var(--navy); }
+  .mini-contenido {
+    margin-top: 12px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--texto);
+    text-align: justify;
+    hyphens: auto;
+  }
+  .mini-contenido .pregunta {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--sepia);
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+  .mini-pista {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--divisor);
+    font-size: 11px;
+    font-style: italic;
+    color: var(--sepia);
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">45</div>
+    <div class="wordmark">
+      <div class="l1">Digital Noticias</div>
+      <div class="l2">Lectura sistémica</div>
+    </div>
+  </div>
+  <div class="header-title">
+    <h1>El código del modelo · Doble hebra 2003–2026</h1>
+    <p>Hebra legal + hebra financiera entrelazadas. Cada hito es un par de bases que las une.</p>
+  </div>
+  <div class="header-proto">Prototipo H · Hélice DNA</div>
+</header>
+
+<div class="layout">
+  <div class="helice-area">
+    <div class="helice-toolbar">
+      <span class="toolbar-label">Doble hebra 2003 → 2026</span>
+      <div class="hebra-info">
+        <div class="hebra"><div class="marca legal"></div>Hebra A · Marco legal (RSI · PHEIC · OMS)</div>
+        <div class="hebra"><div class="marca financ"></div>Hebra B · Financiamiento (BARDA · CEPI · farma)</div>
+      </div>
+      <div class="auto-pausa-indicador" id="auto-pausa-ind">
+        <div class="punto"></div>
+        <span id="auto-pausa-txt">pasa el cursor sobre un punto para pausar y leer</span>
+      </div>
+      <div class="ctrl-area">
+        <button class="ctrl-btn" id="btn-pausa">⏸ Pausar rotación</button>
+        <button class="ctrl-btn" id="btn-reset">↻ Reiniciar</button>
+      </div>
+    </div>
+
+    <details class="guia-lectura" open>
+      <summary>Cómo leer esta visualización</summary>
+      <div class="guia-lectura-content">
+        <p>Dos cintas serpentean horizontalmente en el tiempo. La de color <em class="azul">azul</em>, marcada arriba como <strong>Hebra A · Marco legal</strong>, representa lo que sucede en el plano normativo entre 2003 y 2026: reglamentos sanitarios internacionales, declaraciones de emergencia, criterios institucionales de la Organización Mundial de la Salud, decisiones jurídicas que obligan a los Estados.</p>
+        <p>La de color <em class="oro">dorado</em>, marcada abajo como <strong>Hebra B · Financiera</strong>, representa lo que sucede con el dinero en ese mismo periodo: agencias de financiamiento creadas, contratos firmados con farmacéuticas, sumas movilizadas, programas de stock estratégico, coaliciones multilaterales de pre-financiamiento.</p>
+        <p>Las dos cintas no son paralelas. Se <strong>entrelazan</strong>. En cada año señalado a lo largo del eje, una pequeña línea vertical conecta un punto azul de la hebra superior con un punto dorado de la hebra inferior. Cada una de esas líneas es <strong>un hito</strong>: el momento en que un avance legal y un avance financiero se anudaron explícitamente.</p>
+        <p>El <em class="azul">punto azul</em> de cada hito es el evento legal de ese año. El <em class="oro">punto dorado</em> es el evento financiero. La línea vertical entre ambos es el anudamiento. Click sobre cualquier punto abre una ficha breve con lo que pasó en esa hebra ese año. Click sobre la línea que los une abre la ficha completa del hito en el panel derecho.</p>
+        <p>La rotación de la animación no es decorativa. Las dos hebras giran juntas: si una se detuviera, la otra también. Ese es el mensaje primero — antes que cualquier frase — que la imagen pone sobre la mesa. <strong>Las dos partes no se pueden separar.</strong></p>
+      </div>
+    </details>
+
+    <div class="helice-canvas">
+      <svg class="helice-svg" viewBox="0 0 1200 540" id="svg-helice" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="grad-legal" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1973b8" stop-opacity="0.7" />
+            <stop offset="50%" stop-color="#2a8cd8" stop-opacity="1" />
+            <stop offset="100%" stop-color="#1973b8" stop-opacity="0.7" />
+          </linearGradient>
+          <linearGradient id="grad-financ" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#b8860b" stop-opacity="0.7" />
+            <stop offset="50%" stop-color="#d4a017" stop-opacity="1" />
+            <stop offset="100%" stop-color="#b8860b" stop-opacity="0.7" />
+          </linearGradient>
+        </defs>
+
+        <!-- Eje horizontal sutil -->
+        <line x1="60" y1="270" x2="1140" y2="270" class="eje-tiempo" />
+
+        <!-- Títulos de las hebras -->
+        <text x="60" y="40" class="eje-titulo-hebra" fill="var(--cyan-claro)">A · LEGAL</text>
+        <text x="60" y="510" class="eje-titulo-hebra" fill="var(--oro-claro)">B · FINANCIERA</text>
+
+        <!-- Capa: hebras atrás (z<0) -->
+        <g id="hebras-atras"></g>
+        <!-- Capa: rungs (pares de bases) -->
+        <g id="rungs"></g>
+        <!-- Capa: hebras frente (z>0) -->
+        <g id="hebras-frente"></g>
+        <!-- Capa: labels año -->
+        <g id="ejes-años"></g>
+        <!-- Capa: labels hitos -->
+        <g id="hitos-labels"></g>
+      </svg>
+    </div>
+
+    <div class="lectura-inferior">
+      <strong>Lectura del patrón.</strong> En 23 años no hay un solo hito donde una hebra avance sin que la otra se mueva con ella. 2003 SARS sin marco legal vinculante; 2005 nace el Reglamento Sanitario Internacional y al año siguiente nace la agencia BARDA. 2009 primera declaración de emergencia y al mismo tiempo el stock global de Tamiflu por seis mil novecientos millones de dólares. 2017 fundación de CEPI en Davos y revisión de criterios institucionales. 2020 declaración de emergencia por COVID-19 en treinta días y Operation Warp Speed con trece mil millones. 2026 declaración por Bundibugyo en trece días, después de que CEPI ya había puesto veintiséis millones cuatro meses antes. <strong>El código no admite una sola excepción. Y los modelos sin excepciones son los que mejor se reproducen.</strong>
+    </div>
+  </div>
+
+  <aside>
+    <div class="panel-head">
+      <div class="panel-eyebrow">Par de bases · hito</div>
+      <div class="panel-año" id="d-año">2003</div>
+      <div class="panel-enfermedad" id="d-enfermedad">SARS</div>
+      <div class="panel-titulo" id="d-titulo">Primer ensayo global</div>
+
+      <div class="hebras-detail">
+        <div class="hebra-card legal">
+          <div class="label">Hebra A · Legal</div>
+          <div class="contenido" id="d-legal">—</div>
+        </div>
+        <div class="hebra-card financ">
+          <div class="label">Hebra B · Financiera</div>
+          <div class="contenido" id="d-financ">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body" id="panel-body"></div>
+  </aside>
+</div>
+
+<!-- Mini-ficha popover: aparece al hacer click sobre un punto de cualquier hebra -->
+<div class="mini-ficha" id="mini-ficha">
+  <div class="mini-ficha-head" id="mini-head">
+    <span class="mini-ficha-eyebrow" id="mini-eyebrow">Punto · hebra</span>
+    <button class="mini-cerrar" id="mini-cerrar" aria-label="Cerrar">×</button>
+  </div>
+  <div class="mini-ficha-body">
+    <div class="mini-año-grande" id="mini-año">2003</div>
+    <div class="mini-enfermedad-fila" id="mini-enf">SARS</div>
+    <span class="mini-tipo" id="mini-tipo">Hebra A · Legal</span>
+    <div class="mini-contenido">
+      <div class="pregunta">¿Qué representa este punto?</div>
+      <div id="mini-texto"></div>
+      <div class="mini-pista" id="mini-pista"></div>
+    </div>
+  </div>
+</div>
+
+<script src="data-hitos.js"></script>
+<script>
+  const NS = "http://www.w3.org/2000/svg";
+
+  // === Datos editoriales de las dos hebras por hito ===
+  // Para cada hito, qué pasa en la hebra LEGAL y en la hebra FINANCIERA.
+  const DOBLE_HEBRA = [
+    { legal: "WHO sin marco legal vinculante", financ: "No hay BARDA aún · solo gobiernos puntuales" },                          // 2003 SARS
+    { legal: "RSI revisado · crea figura PHEIC", financ: "BARDA creada en 2006 (Project BioShield)" },                            // 2005 RSI
+    { legal: "Primer PHEIC declarado (jun 2009)", financ: "70 gobiernos compran Tamiflu · $6.9B" },                              // 2009 H1N1
+    { legal: "PHEIC tardío ago 2014", financ: "BARDA $214M → Merck (NewLink)" },                                                 // 2014 Ébola WA
+    { legal: "PHEIC ene 2016 · vinculado a JJOO Río", financ: "$1.8B Obama + $589M reasignados de ébola" },                      // 2016 Zika
+    { legal: "OMS coordina, declara endémico", financ: "CEPI fundado en Davos · $460M iniciales" },                              // 2017 CEPI
+    { legal: "PHEIC tardó 11 meses · ago 2018→jul 2019", financ: "Regeneron (Inmazeb) + Ridgeback (Ebanga) maduran" },           // 2019 Kivu
+    { legal: "PHEIC en 30 días (ene 2020)", financ: "Operation Warp Speed · $13B · Moderna+Pfizer" },                            // 2020 COVID
+    { legal: "PHEIC jul 2022 · revisión criterios", financ: "BARDA $156.8M → Bavarian Nordic" },                                 // 2022 Mpox
+    { legal: "PHEIC ago 2024 · segundo en 2 años", financ: "BARDA+HERA $300M · Sabin Marburg $235M" },                           // 2024 Mpox+Marburg
+    { legal: "HHS cancela · reorganización Trump", financ: "CEPI cubre con $54M (relevo)" },                                     // 2025 H5N1
+    { legal: "PHEIC en 13 días · récord absoluto", financ: "CEPI $26.7M pre-PHEIC (enero 2026)" }                                // 2026 Bundibugyo+Hanta
+  ];
+
+  // === Configuración de la hélice ===
+  const W = 1200, H = 540;
+  const xMin = 90, xMax = 1110;
+  const yCenter = H / 2;
+  const amplitudeY = 130;   // alcance vertical de las hebras
+  const numHitos = HITOS.length; // 12
+  // Frecuencia: una vuelta completa de la hélice cada 2 hitos = π por hito
+  const freq = numHitos * Math.PI;  // π · 12 ≈ 6 vueltas
+  // (Cada vuelta = 2π = 2 hitos. Total = 12 hitos = 6 vueltas)
+
+  // Posiciones FIJAS de las etiquetas (no oscilan con la animación)
+  const Y_LABEL_TOP = 40;
+  const Y_LABEL_BOTTOM = H - 20;
+
+  let phase = 0;
+  let rotando = true;
+  let activoIdx = 0;
+  let pausaTemporal = false; // se activa con hover sobre nodo/línea o ficha abierta
+
+  function xDeHito(i) {
+    return xMin + (i / (numHitos - 1)) * (xMax - xMin);
+  }
+
+  function yHebra(x, fase) {
+    const t = ((x - xMin) / (xMax - xMin)) * freq;
+    return yCenter - amplitudeY * Math.sin(t + fase);
+  }
+
+  // "Profundidad" simulada para hidden lines:
+  // sin(t+φ+π/2) = cos(t+φ). z>0 = al frente.
+  function zHebra(x, fase) {
+    const t = ((x - xMin) / (xMax - xMin)) * freq;
+    return Math.cos(t + fase);
+  }
+
+  // === Renderizado de hebras (segmentos) ===
+  const PUNTOS = 240;
+  const hebrasAtras = document.getElementById("hebras-atras");
+  const hebrasFrente = document.getElementById("hebras-frente");
+  const rungsLayer = document.getElementById("rungs");
+  const ejesAños = document.getElementById("ejes-años");
+  const hitosLabels = document.getElementById("hitos-labels");
+
+  // Pre-crear segmentos. En cada frame solo actualizo opacidad/grosor según profundidad.
+  function crearSegmentos(hebraId, fasOffset, colorClass) {
+    const segs = [];
+    for (let i = 0; i < PUNTOS; i++) {
+      const x1 = xMin + (i / PUNTOS) * (xMax - xMin);
+      const x2 = xMin + ((i + 1) / PUNTOS) * (xMax - xMin);
+      const path = document.createElementNS(NS, "path");
+      path.setAttribute("class", "hebra-segmento " + colorClass);
+      path.setAttribute("data-fase-offset", fasOffset);
+      path.setAttribute("data-x1", x1);
+      path.setAttribute("data-x2", x2);
+      segs.push(path);
+    }
+    return segs;
+  }
+
+  // Crear segmentos LEGAL (fase A = 0)
+  const segsLegal = crearSegmentos("legal", 0, "legal");
+  // Crear segmentos FINANC (fase B = π)
+  const segsFinanc = crearSegmentos("financ", Math.PI, "financ");
+
+  // Insertar todos (los re-ordenamos por profundidad en cada frame)
+  segsLegal.forEach(s => hebrasAtras.appendChild(s));
+  segsFinanc.forEach(s => hebrasAtras.appendChild(s));
+
+  function actualizarHebras() {
+    [...segsLegal, ...segsFinanc].forEach(seg => {
+      const x1 = parseFloat(seg.getAttribute("data-x1"));
+      const x2 = parseFloat(seg.getAttribute("data-x2"));
+      const fasOff = parseFloat(seg.getAttribute("data-fase-offset"));
+      const y1 = yHebra(x1, phase + fasOff);
+      const y2 = yHebra(x2, phase + fasOff);
+      const zMid = zHebra((x1 + x2) / 2, phase + fasOff);
+      seg.setAttribute("d", `M ${x1} ${y1} L ${x2} ${y2}`);
+
+      // Color por hebra
+      const colorBase = seg.classList.contains("legal") ? "var(--cyan-claro)" : "var(--oro-claro)";
+      seg.setAttribute("stroke", colorBase);
+
+      // Profundidad: z>0 = frente (más grueso, más opaco)
+      const opacidad = 0.25 + 0.75 * ((zMid + 1) / 2);
+      const grosor = 3.5 + 4 * ((zMid + 1) / 2);
+      seg.setAttribute("opacity", opacidad);
+      seg.setAttribute("stroke-width", grosor);
+
+      // Re-parent según profundidad para que el frente quede encima
+      if (zMid > 0 && seg.parentNode === hebrasAtras) {
+        hebrasFrente.appendChild(seg);
+      } else if (zMid <= 0 && seg.parentNode === hebrasFrente) {
+        hebrasAtras.appendChild(seg);
+      }
+    });
+
+    // Actualizar también rungs (pares de bases) — nodos, halos y línea
+    // Las etiquetas (año/enfermedad) quedan FIJAS arriba/abajo, no oscilan
+    // El halo pulsante usa el tiempo para escalar y desvanecer
+    const tHalo = performance.now() / 1000;
+    const cycleHalo = (tHalo % 2.4) / 2.4;
+    const sinPulso = Math.sin(cycleHalo * Math.PI);
+    const halo_rExtra = 8 * sinPulso;
+    const halo_op = 0.65 - 0.65 * sinPulso;
+    rungsArr.forEach((rung, i) => {
+      const x = xDeHito(i);
+      const yA = yHebra(x, phase);             // hebra LEGAL
+      const yB = yHebra(x, phase + Math.PI);   // hebra FINANC
+      rung.linea.setAttribute("x1", x);
+      rung.linea.setAttribute("y1", yA);
+      rung.linea.setAttribute("x2", x);
+      rung.linea.setAttribute("y2", yB);
+      rung.nodoA.setAttribute("cx", x);
+      rung.nodoA.setAttribute("cy", yA);
+      rung.nodoB.setAttribute("cx", x);
+      rung.nodoB.setAttribute("cy", yB);
+      // Halos pulsantes alrededor de cada nodo
+      const baseRHalo = rung.hito.economist.tiene ? 14 : 11;
+      const rHalo = baseRHalo + halo_rExtra;
+      if (rung.haloA) {
+        rung.haloA.setAttribute("cx", x);
+        rung.haloA.setAttribute("cy", yA);
+        rung.haloA.setAttribute("r", rHalo);
+        rung.haloA.setAttribute("opacity", halo_op);
+      }
+      if (rung.haloB) {
+        rung.haloB.setAttribute("cx", x);
+        rung.haloB.setAttribute("cy", yB);
+        rung.haloB.setAttribute("r", rHalo);
+        rung.haloB.setAttribute("opacity", halo_op);
+      }
+      // Hint flotante (click para ver detalle) sobre el rung
+      if (rung.hint) {
+        rung.hint.setAttribute("x", x);
+        rung.hint.setAttribute("y", Math.min(yA, yB) - 26);
+      }
+      // Guía punteada del rung a sus labels fijos (solo se ve si activo)
+      if (rung.guiaArriba) {
+        rung.guiaArriba.setAttribute("x1", x);
+        rung.guiaArriba.setAttribute("y1", Math.min(yA, yB) - 8);
+        rung.guiaArriba.setAttribute("x2", x);
+        rung.guiaArriba.setAttribute("y2", Y_LABEL_TOP + 14);
+      }
+      if (rung.guiaAbajo) {
+        rung.guiaAbajo.setAttribute("x1", x);
+        rung.guiaAbajo.setAttribute("y1", Math.max(yA, yB) + 8);
+        rung.guiaAbajo.setAttribute("x2", x);
+        rung.guiaAbajo.setAttribute("y2", Y_LABEL_BOTTOM - 14);
+      }
+    });
+  }
+
+  // Crear rungs (pares de bases / hitos)
+  const rungsArr = [];
+
+  // Helpers para activar pausa temporal al pasar el cursor por cualquier elemento interactivo
+  function activarPausa() {
+    pausaTemporal = true;
+    document.getElementById("auto-pausa-ind").classList.add("activo");
+    document.getElementById("auto-pausa-txt").textContent = "rotación pausada · puedes hacer click";
+  }
+  function desactivarPausa() {
+    // Solo desactivar si la mini-ficha no está abierta
+    if (!miniFicha.classList.contains("show")) {
+      pausaTemporal = false;
+      document.getElementById("auto-pausa-ind").classList.remove("activo");
+      document.getElementById("auto-pausa-txt").textContent = "pasa el cursor sobre un punto para pausar y leer";
+    }
+  }
+
+  HITOS.forEach((h, i) => {
+    const xHito = xDeHito(i);
+
+    const g = document.createElementNS(NS, "g");
+    g.setAttribute("class", "rung" + (h.economist.tiene ? " economist" : ""));
+    g.setAttribute("data-idx", i);
+    // Cuando el cursor entra a cualquier parte del rung, pausa temporal
+    g.addEventListener("mouseenter", activarPausa);
+    g.addEventListener("mouseleave", desactivarPausa);
+
+    const linea = document.createElementNS(NS, "line");
+    linea.setAttribute("class", "rung-linea");
+    // Click sobre la línea = activar hito en panel lateral
+    linea.addEventListener("click", (e) => { e.stopPropagation(); activar(i); ocultarMiniFicha(); });
+    g.appendChild(linea);
+
+    // Guías punteadas del rung a las etiquetas fijas (solo visibles si activo)
+    const guiaArriba = document.createElementNS(NS, "line");
+    guiaArriba.setAttribute("class", "rung-guia-label");
+    g.appendChild(guiaArriba);
+
+    const guiaAbajo = document.createElementNS(NS, "line");
+    guiaAbajo.setAttribute("class", "rung-guia-label");
+    g.appendChild(guiaAbajo);
+
+    // Halos pulsantes — indicador visual de "soy clicable"
+    const haloA = document.createElementNS(NS, "circle");
+    haloA.setAttribute("class", "rung-halo");
+    g.appendChild(haloA);
+
+    const haloB = document.createElementNS(NS, "circle");
+    haloB.setAttribute("class", "rung-halo");
+    g.appendChild(haloB);
+
+    const nodoA = document.createElementNS(NS, "circle");
+    nodoA.setAttribute("class", "rung-nodo legal");
+    nodoA.setAttribute("r", h.economist.tiene ? 8 : 6);
+    // Click sobre nodo legal → mini-ficha de la hebra A
+    nodoA.addEventListener("click", (e) => { e.stopPropagation(); mostrarMiniFicha(e, i, "legal"); });
+    g.appendChild(nodoA);
+
+    const nodoB = document.createElementNS(NS, "circle");
+    nodoB.setAttribute("class", "rung-nodo financ");
+    nodoB.setAttribute("r", h.economist.tiene ? 8 : 6);
+    // Click sobre nodo financiero → mini-ficha de la hebra B
+    nodoB.addEventListener("click", (e) => { e.stopPropagation(); mostrarMiniFicha(e, i, "financ"); });
+    g.appendChild(nodoB);
+
+    // Hint flotante "click para ver" — aparece al hover
+    const hint = document.createElementNS(NS, "text");
+    hint.setAttribute("class", "rung-hint");
+    hint.textContent = "click en cualquier punto para ver";
+    g.appendChild(hint);
+
+    rungsLayer.appendChild(g);
+
+    // === Etiquetas en POSICIÓN FIJA (no oscilan con la animación) ===
+    // Año arriba
+    const labelAño = document.createElementNS(NS, "text");
+    labelAño.setAttribute("class", "hito-label");
+    labelAño.setAttribute("data-idx-label", i);
+    labelAño.setAttribute("x", xHito);
+    labelAño.setAttribute("y", Y_LABEL_TOP);
+    labelAño.textContent = h.año;
+    hitosLabels.appendChild(labelAño);
+
+    // Enfermedad abajo (siempre visible, estable)
+    const labelSub = document.createElementNS(NS, "text");
+    labelSub.setAttribute("class", "hito-sublabel");
+    labelSub.setAttribute("data-idx-sub", i);
+    labelSub.setAttribute("x", xHito);
+    labelSub.setAttribute("y", Y_LABEL_BOTTOM);
+    const enfTxt = h.enfermedad.length > 24 ? h.enfermedad.substring(0, 22) + "…" : h.enfermedad;
+    labelSub.textContent = enfTxt;
+    hitosLabels.appendChild(labelSub);
+
+    // Star (portada Economist) — arriba del año
+    let star = null;
+    if (h.economist.tiene) {
+      star = document.createElementNS(NS, "text");
+      star.setAttribute("class", "hito-star");
+      star.setAttribute("x", xHito);
+      star.setAttribute("y", Y_LABEL_TOP - 14);
+      star.textContent = "★";
+      hitosLabels.appendChild(star);
+    }
+
+    rungsArr.push({ linea, nodoA, nodoB, haloA, haloB, hint, labelAño, labelSub, star, guiaArriba, guiaAbajo, hito: h });
+  });
+
+  // === Activar hito ===
+  function activar(idx) {
+    activoIdx = idx;
+    const h = HITOS[idx];
+    const par = DOBLE_HEBRA[idx];
+
+    document.querySelectorAll(".rung").forEach(r => r.classList.remove("activo"));
+    document.querySelector(`[data-idx="${idx}"]`).classList.add("activo");
+    document.querySelectorAll(".hito-label").forEach(e => e.classList.remove("activo"));
+    document.querySelector(`[data-idx-label="${idx}"]`).classList.add("activo");
+    document.querySelectorAll(".hito-sublabel").forEach(e => e.classList.remove("activo"));
+    document.querySelector(`[data-idx-sub="${idx}"]`).classList.add("activo");
+
+    document.getElementById("d-año").textContent = h.año;
+    document.getElementById("d-enfermedad").textContent = h.enfermedad;
+    document.getElementById("d-titulo").textContent = h.titulo;
+    document.getElementById("d-legal").textContent = par.legal;
+    document.getElementById("d-financ").textContent = par.financ;
+
+    const body = document.getElementById("panel-body");
+    body.innerHTML = `
+      <div class="panel-section">
+        <div class="panel-section-label">Hechos del año</div>
+        <div class="panel-section-content">${h.resumen}</div>
+      </div>
+      ${h.monto ? `<div class="panel-section">
+        <div class="panel-section-label">Financiamiento</div>
+        <div class="panel-section-content" style="font-size:14px;font-weight:600;color:var(--navy);">${h.monto}</div>
+      </div>` : ""}
+      <div class="panel-section">
+        <div class="panel-section-label">Actores</div>
+        <div class="actores">${h.actores.map(a => `<span class="actor-chip">${a}</span>`).join("")}</div>
+      </div>
+      ${h.economist.tiene ? `
+        <div class="panel-section">
+          <div class="panel-section-label">★ Portada Economist</div>
+          <div class="economist-card">
+            <div class="head">THE</div>
+            <div class="mark">ECONOMIST</div>
+            <div class="titulo">${h.economist.titulo_portada}</div>
+            <div class="meta">${h.economist.fecha || ""}${h.economist.ilustrador ? " · " + h.economist.ilustrador : ""}</div>
+          </div>
+        </div>
+      ` : ""}
+      <div class="panel-section">
+        <div class="panel-section-label">Lectura sistémica</div>
+        <div class="significancia">${h.significancia}</div>
+      </div>
+    `;
+  }
+
+  // Etiquetas de años en el eje (sutiles, en la base)
+  // Las posiciones de cada hito determinan dónde van los años
+  // (ya se renderizan vía rungs)
+
+  // === Loop de animación ===
+  let lastTime = performance.now();
+  function animar(now) {
+    const dt = (now - lastTime) / 1000;
+    lastTime = now;
+    // Rotar solo si está activa la rotación Y no hay pausa temporal por hover/ficha
+    if (rotando && !pausaTemporal) {
+      phase += dt * 0.3;
+    }
+    actualizarHebras();
+    requestAnimationFrame(animar);
+  }
+
+  // === Mini-ficha: click en cada punto de las hebras ===
+  const miniFicha = document.getElementById("mini-ficha");
+  const miniHead = document.getElementById("mini-head");
+  const miniEyebrow = document.getElementById("mini-eyebrow");
+  const miniAñoEl = document.getElementById("mini-año");
+  const miniEnf = document.getElementById("mini-enf");
+  const miniTipo = document.getElementById("mini-tipo");
+  const miniTexto = document.getElementById("mini-texto");
+  const miniPista = document.getElementById("mini-pista");
+
+  function mostrarMiniFicha(e, idx, hebra) {
+    const h = HITOS[idx];
+    const par = DOBLE_HEBRA[idx];
+    const esLegal = hebra === "legal";
+
+    miniHead.className = "mini-ficha-head " + (esLegal ? "legal" : "financ");
+    miniEyebrow.textContent = "Punto en la " + (esLegal ? "Hebra A · marco legal" : "Hebra B · financiera");
+    miniAñoEl.textContent = h.año;
+    miniEnf.textContent = h.enfermedad;
+    miniTipo.className = "mini-tipo " + (esLegal ? "legal" : "financ");
+    miniTipo.textContent = esLegal ? "Hebra A · Marco legal" : "Hebra B · Financiera";
+
+    if (esLegal) {
+      miniTexto.innerHTML = `<p style="margin:0;">Este punto azul marca lo que pasó en el plano <strong>legal</strong> en ${h.año}: ${par.legal}.</p>`;
+      miniPista.innerHTML = `Click sobre el punto <strong style="color:var(--oro);">dorado</strong> de este mismo hito para ver qué pasó en la hebra financiera ese año.`;
+    } else {
+      miniTexto.innerHTML = `<p style="margin:0;">Este punto dorado marca lo que pasó con el <strong>dinero</strong> en ${h.año}: ${par.financ}.</p>`;
+      miniPista.innerHTML = `Click sobre el punto <strong style="color:var(--cyan);">azul</strong> de este mismo hito para ver qué pasó en la hebra legal ese año.`;
+    }
+
+    // Posicionar cerca del click, sin salirse de la ventana
+    const x = e.clientX + 16;
+    const y = e.clientY + 16;
+    const maxX = window.innerWidth - 360;
+    const maxY = window.innerHeight - 320;
+    miniFicha.style.left = Math.min(Math.max(10, x), maxX) + "px";
+    miniFicha.style.top = Math.min(Math.max(10, y), maxY) + "px";
+    miniFicha.classList.add("show");
+    // Mantener pausa mientras la ficha esté abierta — la rotación distrae la lectura
+    pausaTemporal = true;
+    document.getElementById("auto-pausa-ind").classList.add("activo");
+    document.getElementById("auto-pausa-txt").textContent = "ficha abierta · rotación pausada";
+  }
+
+  function ocultarMiniFicha() {
+    miniFicha.classList.remove("show");
+    // Al cerrar la ficha, recuperar el estado normal
+    pausaTemporal = false;
+    document.getElementById("auto-pausa-ind").classList.remove("activo");
+    document.getElementById("auto-pausa-txt").textContent = "pasa el cursor sobre un punto para pausar y leer";
+  }
+
+  document.getElementById("mini-cerrar").addEventListener("click", ocultarMiniFicha);
+  // Click fuera de la mini-ficha o de un punto activo → cerrar
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".mini-ficha") && !e.target.closest(".rung-nodo")) {
+      ocultarMiniFicha();
+    }
+  });
+  // Escape cierra la ficha
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") ocultarMiniFicha();
+  });
+
+  // Controles
+  document.getElementById("btn-pausa").addEventListener("click", (e) => {
+    rotando = !rotando;
+    e.target.textContent = rotando ? "⏸ Pausa rotación" : "▶ Reanudar rotación";
+    e.target.classList.toggle("paused", !rotando);
+  });
+  document.getElementById("btn-reset").addEventListener("click", () => {
+    phase = 0;
+  });
+
+  // Init
+  activar(0);
+  requestAnimationFrame(animar);
+</script>
+
+</body>
+</html>

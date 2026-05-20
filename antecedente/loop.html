@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>PROTOTIPO F — El loop de la preparación · 2003 → 2026 → 2003</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  :root {
+    --navy: #072146;
+    --navy-oscuro: #04162e;
+    --cyan: #1973b8;
+    --cyan-claro: #2a8cd8;
+    --oro: #b8860b;
+    --oro-claro: #d4a017;
+    --rojo: #c00;
+    --blanco: #ffffff;
+    --gris-claro: #f5f8fb;
+    --divisor: #cbd5e1;
+    --sepia: #5a6e8c;
+    --texto: #072146;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--navy-oscuro);
+    color: var(--blanco);
+  }
+  header {
+    padding: 12px 28px;
+    background: linear-gradient(180deg, var(--navy-oscuro) 0%, var(--navy) 100%);
+    border-bottom: 2px solid var(--oro);
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand .logo { background: var(--oro); color: var(--navy); font-size: 26px; font-weight: 700; padding: 6px 10px; border-radius: 2px; letter-spacing: -0.04em; }
+  .brand .wordmark .l1 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; }
+  .brand .wordmark .l2 { font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.5); margin-top: 3px; padding-top: 3px; border-top: 1px solid rgba(255,255,255,0.2); }
+  .header-title { flex: 1; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .header-title h1 { margin: 0 0 2px; font-size: 17px; font-weight: 600; }
+  .header-title p { margin: 0; font-size: 11.5px; color: rgba(255,255,255,0.7); font-style: italic; }
+  .header-proto { font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--oro-claro); background: rgba(184,134,11,0.15); padding: 6px 12px; border: 1px solid var(--oro); border-radius: 2px; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 440px;
+    min-height: calc(100vh - 60px);
+  }
+
+  .mobius-area {
+    position: relative;
+    background:
+      radial-gradient(ellipse at center, rgba(25,115,184,0.1) 0%, transparent 60%),
+      var(--navy-oscuro);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .mobius-toolbar {
+    padding: 12px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(7,33,70,0.5);
+  }
+  .toolbar-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--oro-claro); }
+  .toolbar-meta { font-size: 11px; color: rgba(255,255,255,0.6); font-style: italic; flex: 1; }
+  .ctrl-btn {
+    background: var(--navy);
+    color: var(--oro-claro);
+    border: 1px solid var(--oro);
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: Georgia, serif;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: var(--oro); color: var(--navy); }
+
+  .mobius-canvas {
+    flex: 1;
+    min-height: 520px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mobius-svg {
+    width: 100%;
+    height: 100%;
+    max-width: 900px;
+    max-height: 100%;
+    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.5));
+  }
+
+  /* La banda */
+  .banda-fondo {
+    fill: none;
+    stroke: url(#gradiente-banda);
+    stroke-width: 60;
+    stroke-linecap: round;
+    opacity: 0.4;
+  }
+  .banda-borde {
+    fill: none;
+    stroke: var(--oro);
+    stroke-width: 1.5;
+    opacity: 0.6;
+  }
+  .banda-trayecto {
+    fill: none;
+    stroke: var(--cyan-claro);
+    stroke-width: 2;
+    stroke-dasharray: 6 8;
+    opacity: 0.5;
+  }
+  .banda-cruce {
+    fill: var(--navy-oscuro);
+    stroke: var(--oro);
+    stroke-width: 1;
+  }
+
+  /* Hitos sobre la banda */
+  .hito-banda {
+    cursor: pointer;
+  }
+  .hito-banda circle {
+    fill: var(--navy);
+    stroke: var(--oro-claro);
+    stroke-width: 2;
+    transition: fill 0.2s, stroke 0.2s, stroke-width 0.2s, filter 0.2s;
+  }
+  /* Hover: borde más grueso + glow dorado, sin mover el círculo */
+  .hito-banda:hover circle {
+    fill: var(--cyan);
+    stroke: var(--blanco);
+    stroke-width: 3.5;
+    filter: drop-shadow(0 0 10px var(--cyan-claro));
+  }
+  .hito-banda.activo circle {
+    fill: var(--oro);
+    stroke: var(--blanco);
+    stroke-width: 3;
+    filter: drop-shadow(0 0 12px var(--oro-claro));
+  }
+  .hito-banda.economist circle {
+    stroke-width: 3;
+    filter: drop-shadow(0 0 6px var(--oro-claro));
+  }
+  .hito-banda.economist:hover circle {
+    stroke-width: 4;
+    filter: drop-shadow(0 0 12px var(--oro-claro));
+  }
+  .hito-label {
+    fill: var(--blanco);
+    font-family: Georgia, serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-anchor: middle;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  }
+  .hito-label.activo { fill: var(--oro-claro); font-size: 14px; }
+  .hito-sublabel {
+    fill: rgba(255,255,255,0.65);
+    font-family: Georgia, serif;
+    font-size: 9px;
+    text-anchor: middle;
+    font-style: italic;
+    pointer-events: none;
+  }
+  .hito-sublabel.activo { fill: rgba(255,255,255,0.95); }
+
+  /* Punto viajero (animación) */
+  .viajero {
+    fill: var(--oro-claro);
+    filter: drop-shadow(0 0 8px var(--oro-claro));
+  }
+
+  /* Texto en el centro del bucle */
+  .centro-mensaje {
+    fill: var(--oro-claro);
+    font-family: Georgia, serif;
+    font-size: 14px;
+    font-style: italic;
+    text-anchor: middle;
+    letter-spacing: 0.08em;
+  }
+  .centro-mensaje-grande {
+    fill: var(--blanco);
+    font-family: Georgia, serif;
+    font-size: 18px;
+    text-anchor: middle;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== Panel detalle ===== */
+  aside {
+    background: var(--blanco);
+    color: var(--texto);
+    border-left: 2px solid var(--oro);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .panel-head {
+    padding: 18px 24px 14px;
+    background: linear-gradient(180deg, var(--gris-claro) 0%, var(--blanco) 100%);
+    border-bottom: 1px solid var(--divisor);
+  }
+  .panel-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--sepia); margin-bottom: 6px; }
+  .panel-año { font-size: 48px; font-weight: 600; color: var(--navy); line-height: 1; letter-spacing: -0.02em; }
+  .panel-enfermedad { font-size: 19px; color: var(--cyan); margin-top: 4px; font-weight: 600; }
+  .panel-titulo { font-size: 13px; font-style: italic; color: var(--sepia); margin-top: 4px; }
+
+  .panel-body { flex: 1; overflow-y: auto; padding: 18px 24px; }
+  .panel-section { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed var(--divisor); }
+  .panel-section:last-child { border-bottom: none; }
+  .panel-section-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--oro); font-weight: 700; margin-bottom: 6px; }
+  .panel-section-content { font-size: 12.5px; line-height: 1.55; }
+  .significancia { font-style: italic; background: rgba(184,134,11,0.08); border-left: 3px solid var(--oro); padding: 10px 12px; font-size: 12.5px; line-height: 1.55; color: var(--navy); }
+  .actores { display: flex; flex-wrap: wrap; gap: 4px; }
+  .actor-chip { padding: 2px 7px; background: var(--navy); color: var(--blanco); font-size: 10px; border-radius: 2px; }
+  .economist-card { background: linear-gradient(135deg, #e3120b 0%, #c00 100%); color: #fff; padding: 10px 12px; border-radius: 3px; }
+  .economist-card .head { font-size: 9px; letter-spacing: 0.18em; font-weight: 700; opacity: 0.85; }
+  .economist-card .mark { font-size: 13px; font-weight: 900; letter-spacing: 0.04em; }
+  .economist-card .titulo { font-size: 12.5px; font-weight: 600; line-height: 1.4; margin-top: 6px; }
+  .economist-card .meta { font-size: 10px; opacity: 0.9; margin-top: 4px; font-style: italic; }
+
+  .lectura-inferior {
+    padding: 14px 24px;
+    background: var(--navy);
+    color: var(--blanco);
+    font-size: 11.5px;
+    line-height: 1.55;
+    font-style: italic;
+    border-top: 1px solid var(--oro);
+  }
+  .lectura-inferior strong { color: var(--oro-claro); font-style: normal; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">45</div>
+    <div class="wordmark">
+      <div class="l1">Digital Noticias</div>
+      <div class="l2">Lectura sistémica</div>
+    </div>
+  </div>
+  <div class="header-title">
+    <h1>El loop de la preparación · 2003 → 2026 → 2003</h1>
+    <p>El sistema no avanza. Gira. La salida — "control" — es topológicamente inexistente.</p>
+  </div>
+  <div class="header-proto">Prototipo F · Möbius</div>
+</header>
+
+<div class="layout">
+  <div class="mobius-area">
+    <div class="mobius-toolbar">
+      <span class="toolbar-label">Banda de retorno · sin salida</span>
+      <span class="toolbar-meta">12 hitos distribuidos sobre la cinta · ★ portada Economist</span>
+      <button class="ctrl-btn" id="btn-play">▶ Recorrer el loop</button>
+      <button class="ctrl-btn" id="btn-stop">⏸</button>
+    </div>
+
+    <div class="mobius-canvas">
+      <svg class="mobius-svg" viewBox="0 0 900 600" id="svg-mobius">
+        <defs>
+          <linearGradient id="gradiente-banda" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#1973b8;stop-opacity:0.8" />
+            <stop offset="50%" style="stop-color:#b8860b;stop-opacity:0.8" />
+            <stop offset="100%" style="stop-color:#c00;stop-opacity:0.8" />
+          </linearGradient>
+        </defs>
+
+        <!-- Banda de fondo (lemniscata) -->
+        <path id="banda-fondo" class="banda-fondo" d="" />
+        <path id="banda-trayecto" class="banda-trayecto" d="" />
+        <path id="banda-borde" class="banda-borde" d="" />
+
+        <!-- Hitos sobre la banda -->
+        <g id="hitos-layer"></g>
+
+        <!-- Punto viajero -->
+        <circle id="viajero" class="viajero" cx="450" cy="300" r="0" />
+
+        <!-- Cruce central decorativo -->
+        <circle cx="450" cy="300" r="8" class="banda-cruce" />
+
+        <!-- Mensaje central -->
+        <text x="450" y="80" class="centro-mensaje">DOCTRINA DEL SHOCK</text>
+        <text x="450" y="540" class="centro-mensaje-grande">2003 → 2026 → 2003</text>
+        <text x="450" y="560" class="centro-mensaje">Naomi Klein · 2007</text>
+      </svg>
+    </div>
+
+    <div class="lectura-inferior">
+      <strong>Lectura:</strong> la cinta de Möbius es la superficie que solo tiene un lado. Lo que parece avance lineal (2003→2026) es la misma cara recorrida dos veces. Cada PHEIC <strong>no resuelve</strong> el ciclo — lo alimenta. Bundibugyo 2026 está en el mismo lado de la banda que SARS 2003. <strong>El sistema no busca salida — solo busca giro.</strong>
+    </div>
+  </div>
+
+  <aside>
+    <div class="panel-head">
+      <div class="panel-eyebrow">Punto en la banda</div>
+      <div class="panel-año" id="d-año">2003</div>
+      <div class="panel-enfermedad" id="d-enfermedad">SARS</div>
+      <div class="panel-titulo" id="d-titulo">Primer ensayo global</div>
+    </div>
+    <div class="panel-body" id="panel-body"></div>
+  </aside>
+</div>
+
+<script src="data-hitos.js"></script>
+<script>
+  // Lemniscata de Bernoulli — versión paramétrica
+  // x(t) = a * cos(t) / (1 + sin²(t))
+  // y(t) = a * sin(t) * cos(t) / (1 + sin²(t))
+  const cx = 450, cy = 300;
+  const A = 260;
+  const PUNTOS_BANDA = 200;
+
+  function lemniscataPunto(t) {
+    const denom = 1 + Math.pow(Math.sin(t), 2);
+    const x = cx + (A * Math.cos(t)) / denom;
+    const y = cy + (A * Math.sin(t) * Math.cos(t)) / denom;
+    return { x, y };
+  }
+
+  // Construir path SVG completo
+  let pathStr = "";
+  for (let i = 0; i <= PUNTOS_BANDA; i++) {
+    const t = (i / PUNTOS_BANDA) * 2 * Math.PI;
+    const p = lemniscataPunto(t);
+    pathStr += (i === 0 ? "M" : " L") + ` ${p.x.toFixed(2)} ${p.y.toFixed(2)}`;
+  }
+  pathStr += " Z";
+
+  document.getElementById("banda-fondo").setAttribute("d", pathStr);
+  document.getElementById("banda-trayecto").setAttribute("d", pathStr);
+  document.getElementById("banda-borde").setAttribute("d", pathStr);
+
+  // === DISTRIBUCIÓN EDITORIAL ===
+  // Los 11 hitos previos a 2026 se reparten alrededor del loop, evitando el centro.
+  // El hito 12 (2026, Bundibugyo + Hantavirus) se DESDOBLA en dos nodos
+  // ubicados en el centro (la convergencia editorial del relato).
+  const hitosLayer = document.getElementById("hitos-layer");
+
+  // Hitos a posicionar: los 11 primeros como están, más dos virtuales en el centro
+  const hito2026 = HITOS[HITOS.length - 1];
+  const hitoBundi = {
+    ...hito2026,
+    enfermedad: "Ébola Bundibugyo",
+    titulo: "PHEIC en 13 días",
+    resumen: "17 mayo 2026: la OMS declara Emergencia de Salud Pública de Importancia Internacional por Bundibugyo en RDC+Uganda. CEPI ya había otorgado $26.7M a Moderna+Oxford en enero 2026 para la vacuna multivalente que la incluye. 8 casos confirmados. 13 días entre alerta y PHEIC — el más rápido de la historia.",
+    monto: "$26.7M CEPI (pre-PHEIC)",
+    actores: ["Moderna", "Oxford", "CEPI", "OMS"],
+    significancia: "Una de las dos caras de la convergencia 2026. La cepa Bundibugyo, sin vacuna aprobada hasta enero 2026, se vuelve PHEIC apenas 4 meses después del primer contrato CEPI.",
+    economist: hito2026.economist,
+    _virtual: "bundi"
+  };
+  const hitoHanta = {
+    ...hito2026,
+    enfermedad: "Hantavirus Andes",
+    titulo: "Crucero MV Hondius",
+    resumen: "Mayo 2026: brote en el crucero MV Hondius (Ushuaia → Tenerife). Andes virus, capaz de transmisión persona-persona. 11 casos, 3 muertes, 41 personas monitoreadas en EE. UU. Moderna confirma I+D ARNm para hantavirus iniciada antes del cluster. La acción sube intradía $59.48 el 11 de mayo.",
+    monto: "Sin financiamiento PHEIC aún",
+    actores: ["Moderna", "CDC", "OMS", "ECDC"],
+    significancia: "La otra cara de la convergencia. El mismo actor (Moderna) está posicionado en ambos pánicos. Cuando ébola desplaza a hantavirus del news cycle (17 may), Moderna ya tenía la respuesta para ambos.",
+    economist: { tiene: false },
+    _virtual: "hanta"
+  };
+
+  // Lista para renderizado: 11 hitos previos + 2 virtuales en el centro
+  const renderList = HITOS.slice(0, -1).concat([hitoBundi, hitoHanta]);
+
+  // Dibujar línea punteada entre los dos nodos 2026 (la "convergencia")
+  const lineaConv = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  lineaConv.setAttribute("x1", cx);
+  lineaConv.setAttribute("y1", cy - 55);
+  lineaConv.setAttribute("x2", cx);
+  lineaConv.setAttribute("y2", cy + 55);
+  lineaConv.setAttribute("stroke", "var(--oro-claro)");
+  lineaConv.setAttribute("stroke-width", "1.8");
+  lineaConv.setAttribute("stroke-dasharray", "3 4");
+  lineaConv.setAttribute("opacity", "0.7");
+  hitosLayer.appendChild(lineaConv);
+
+  // Pequeño rótulo "convergencia 2026" sobre la línea
+  const rotuloConv = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  rotuloConv.setAttribute("x", cx - 90);
+  rotuloConv.setAttribute("y", cy + 3);
+  rotuloConv.setAttribute("fill", "var(--oro-claro)");
+  rotuloConv.setAttribute("font-family", "Georgia, serif");
+  rotuloConv.setAttribute("font-size", "10");
+  rotuloConv.setAttribute("font-style", "italic");
+  rotuloConv.setAttribute("text-anchor", "end");
+  rotuloConv.setAttribute("opacity", "0.8");
+  rotuloConv.textContent = "convergencia 2026 →";
+  hitosLayer.appendChild(rotuloConv);
+
+  // t-asignados manualmente para evitar centro en los primeros 11
+  // y poner los dos 2026 EN el centro (arriba y abajo del cruce)
+  const tAsignados = [
+    0,            // 0 · 2003 SARS - tip derecho
+    Math.PI * 0.18, // 1 · 2005 RSI
+    Math.PI * 0.34, // 2 · 2009 H1N1
+    Math.PI * 0.68, // 3 · 2014 Ébola WA (saltando centro π/2)
+    Math.PI * 0.84, // 4 · 2016 Zika
+    Math.PI,        // 5 · 2017 CEPI - tip izquierdo
+    Math.PI * 1.16, // 6 · 2019 Kivu
+    Math.PI * 1.32, // 7 · 2020 COVID (la torre)
+    Math.PI * 1.68, // 8 · 2022 Mpox (saltando centro 3π/2)
+    Math.PI * 1.82, // 9 · 2024 Marburg
+    Math.PI * 1.92, // 10 · 2025 H5N1
+    Math.PI * 0.5,  // 11 · 2026 Bundibugyo - PRIMER centro
+    Math.PI * 1.5   // 12 · 2026 Hantavirus - SEGUNDO centro
+  ];
+
+  renderList.forEach((h, i) => {
+    const t = tAsignados[i];
+    let p = lemniscataPunto(t);
+    // Los dos hitos 2026 se separan verticalmente del cruce central
+    // y se unen visualmente con una línea punteada (la "convergencia editorial")
+    if (h._virtual === "bundi") {
+      p = { x: cx, y: cy - 55 };  // claramente arriba del cruce
+    } else if (h._virtual === "hanta") {
+      p = { x: cx, y: cy + 55 };  // claramente abajo del cruce
+    }
+
+    // Posicionamiento de label
+    let xLabel, yLabel;
+    if (h._virtual === "bundi") {
+      // Bundibugyo: label a la derecha del nodo superior
+      xLabel = cx + 100;
+      yLabel = cy - 65;
+    } else if (h._virtual === "hanta") {
+      // Hantavirus: label a la derecha del nodo inferior
+      xLabel = cx + 100;
+      yLabel = cy + 65;
+    } else {
+      // Vector normal estándar para hitos sobre la curva
+      const dt = 0.01;
+      const p1 = lemniscataPunto(t - dt);
+      const p2 = lemniscataPunto(t + dt);
+      const tx = p2.x - p1.x;
+      const ty = p2.y - p1.y;
+      const tLen = Math.sqrt(tx*tx + ty*ty);
+      const nx = -ty / tLen;
+      const ny = tx / tLen;
+      const distLabel = 50;
+      const dirX = p.x - cx;
+      const dirY = p.y - cy;
+      const dot = dirX * nx + dirY * ny;
+      const signo = dot >= 0 ? 1 : -1;
+      xLabel = p.x + signo * nx * distLabel;
+      yLabel = p.y + signo * ny * distLabel;
+    }
+
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("class", "hito-banda" + (h.economist.tiene ? " economist" : ""));
+    g.setAttribute("data-idx", i);
+    g.addEventListener("click", () => activar(i));
+
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", p.x);
+    circle.setAttribute("cy", p.y);
+    circle.setAttribute("r", h.economist.tiene ? 11 : 8);
+    g.appendChild(circle);
+
+    // Año
+    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    label.setAttribute("x", xLabel);
+    label.setAttribute("y", yLabel + 4);
+    label.setAttribute("class", "hito-label");
+    label.setAttribute("data-idx-label", i);
+    label.textContent = (h.economist.tiene ? "★ " : "") + h.año;
+    g.appendChild(label);
+
+    // Enfermedad
+    const sub = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    sub.setAttribute("x", xLabel);
+    sub.setAttribute("y", yLabel + 17);
+    sub.setAttribute("class", "hito-sublabel");
+    sub.setAttribute("data-idx-sub", i);
+    const enfTxt = h.enfermedad.length > 20 ? h.enfermedad.substring(0, 18) + "…" : h.enfermedad;
+    sub.textContent = enfTxt;
+    g.appendChild(sub);
+
+    hitosLayer.appendChild(g);
+  });
+
+  function activar(idx) {
+    const h = renderList[idx];
+    document.querySelectorAll(".hito-banda").forEach(e => e.classList.remove("activo"));
+    document.querySelector(`[data-idx="${idx}"]`).classList.add("activo");
+    document.querySelectorAll(".hito-label").forEach(e => e.classList.remove("activo"));
+    document.querySelector(`[data-idx-label="${idx}"]`).classList.add("activo");
+    document.querySelectorAll(".hito-sublabel").forEach(e => e.classList.remove("activo"));
+    document.querySelector(`[data-idx-sub="${idx}"]`).classList.add("activo");
+
+    document.getElementById("d-año").textContent = h.año;
+    document.getElementById("d-enfermedad").textContent = h.enfermedad;
+    document.getElementById("d-titulo").textContent = h.titulo;
+
+    const body = document.getElementById("panel-body");
+    body.innerHTML = `
+      <div class="panel-section">
+        <div class="panel-section-label">Hechos del año</div>
+        <div class="panel-section-content">${h.resumen}</div>
+      </div>
+      ${h.monto ? `<div class="panel-section">
+        <div class="panel-section-label">Financiamiento</div>
+        <div class="panel-section-content" style="font-size:16px;font-weight:600;color:var(--navy);">${h.monto}</div>
+      </div>` : ""}
+      <div class="panel-section">
+        <div class="panel-section-label">Actores</div>
+        <div class="actores">${h.actores.map(a => `<span class="actor-chip">${a}</span>`).join("")}</div>
+      </div>
+      ${h.economist.tiene ? `
+        <div class="panel-section">
+          <div class="panel-section-label">★ Portada Economist</div>
+          <div class="economist-card">
+            <div class="head">THE</div>
+            <div class="mark">ECONOMIST</div>
+            <div class="titulo">${h.economist.titulo_portada}</div>
+            <div class="meta">${h.economist.fecha || ""}${h.economist.ilustrador ? " · " + h.economist.ilustrador : ""}</div>
+          </div>
+        </div>
+      ` : ""}
+      <div class="panel-section">
+        <div class="panel-section-label">Lectura sistémica</div>
+        <div class="significancia">${h.significancia}</div>
+      </div>
+    `;
+  }
+
+  // === Animación: punto viajero ===
+  const viajero = document.getElementById("viajero");
+  let animId = null;
+  let tActual = 0;
+  let actDuranteAnim = 0;
+
+  document.getElementById("btn-play").addEventListener("click", () => {
+    if (animId) return;
+    viajero.setAttribute("r", 7);
+    const inicio = performance.now();
+    function step(now) {
+      const elapsed = (now - inicio) / 1000;
+      const ciclo = 24; // segundos por vuelta
+      tActual = ((elapsed % ciclo) / ciclo) * 2 * Math.PI;
+      const p = lemniscataPunto(tActual);
+      viajero.setAttribute("cx", p.x);
+      viajero.setAttribute("cy", p.y);
+      // Activar hito más cercano por proximidad de t en renderList
+      let mejorDist = Infinity, idxCercano = 0;
+      for (let i = 0; i < tAsignados.length; i++) {
+        const diff = Math.abs(tAsignados[i] - tActual);
+        const distCircular = Math.min(diff, 2 * Math.PI - diff);
+        if (distCircular < mejorDist) {
+          mejorDist = distCircular;
+          idxCercano = i;
+        }
+      }
+      if (idxCercano !== actDuranteAnim) {
+        activar(idxCercano);
+        actDuranteAnim = idxCercano;
+      }
+      animId = requestAnimationFrame(step);
+    }
+    animId = requestAnimationFrame(step);
+  });
+  document.getElementById("btn-stop").addEventListener("click", () => {
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+      viajero.setAttribute("r", 0);
+    }
+  });
+
+  activar(0);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Antecedente · Capitalismo de preparación pandémica 2003–2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  :root {
+    --pergamino: #ffffff;
+    --pergamino-oscuro: #f5f8fb;
+    --tinta-naval: #072146;
+    --tinta-profunda: #04162e;
+    --bermellon: #b8860b;
+    --bermellon-claro: #d4a017;
+    --algamar: #1973b8;
+    --dorado: #b8860b;
+    --dorado-claro: #d4a017;
+    --sepia: #5a6e8c;
+    --tinta-texto: #072146;
+    --divisor: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--pergamino-oscuro);
+    color: var(--tinta-texto);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* === Intro compacta (sin header del expediente — ese vive afuera del iframe) === */
+  .antecedente-intro {
+    padding: 16px 24px 14px;
+    background: linear-gradient(180deg, var(--pergamino-oscuro) 0%, #fff 100%);
+    border-bottom: 1px solid var(--divisor);
+  }
+  .antecedente-intro .eyebrow {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--sepia);
+    margin-bottom: 4px;
+  }
+  .antecedente-intro h2 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--tinta-naval);
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+  .antecedente-intro .lead {
+    margin-top: 6px;
+    font-size: 12.5px;
+    color: var(--sepia);
+    font-style: italic;
+    max-width: 980px;
+    line-height: 1.55;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .antecedente-intro .lead strong { color: var(--tinta-naval); font-style: normal; }
+
+  /* === Sub-tabs === */
+  .subtabs {
+    display: flex;
+    gap: 0;
+    padding: 0 24px;
+    background: var(--pergamino-oscuro);
+    border-bottom: 2px solid var(--dorado);
+    flex-wrap: wrap;
+  }
+  .subtab {
+    padding: 12px 20px 11px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--divisor);
+    border-bottom: none;
+    color: var(--sepia);
+    font-family: Georgia, serif;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+    position: relative;
+    margin-right: 4px;
+    font-weight: 600;
+  }
+  .subtab .icon {
+    color: var(--bermellon);
+    margin-right: 6px;
+    font-size: 14px;
+  }
+  .subtab .badge {
+    margin-left: 8px;
+    font-size: 9px;
+    background: rgba(184,134,11,0.15);
+    color: var(--bermellon);
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .subtab:hover {
+    background: rgba(184,134,11,0.05);
+    color: var(--tinta-naval);
+  }
+  .subtab.active {
+    background: #fff;
+    color: var(--tinta-naval);
+    border-color: var(--dorado);
+    border-bottom: 2px solid #fff;
+    margin-bottom: -2px;
+    z-index: 2;
+  }
+  .subtab.active .icon { color: var(--algamar); }
+  .subtab.active .badge { background: var(--bermellon); color: #fff; }
+
+  /* === Contenido del sub-tab === */
+  .subtab-content {
+    flex: 1;
+    background: #fff;
+    display: none;
+    position: relative;
+    min-height: 680px;
+  }
+  .subtab-content.active { display: flex; flex-direction: column; }
+  .subtab-content iframe {
+    width: 100%;
+    flex: 1;
+    min-height: 680px;
+    border: none;
+    background: #04162e;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="antecedente-intro">
+  <div class="eyebrow">Antecedente · capitalismo de preparación pandémica</div>
+  <h2>23 años · 12 hitos · 4 lecturas</h2>
+  <p class="lead">Cuatro entradas a la misma data. <strong>Loop</strong> argumenta filosóficamente (Klein, Lakoff). <strong>Cauce</strong> evidencia estructuralmente (flujos financieros desde los brotes al centro). <strong>Evidencia</strong> cuantifica con tres gráficas. <strong>Código</strong> revela la doble hebra — marco legal + financiamiento — entrelazada. Cada vista responde una pregunta distinta sobre el mismo fenómeno.</p>
+</div>
+
+<div class="subtabs">
+  <button class="subtab active" data-vista="loop"><span class="icon">∞</span>Loop<span class="badge">Möbius</span></button>
+  <button class="subtab" data-vista="cauce"><span class="icon">⇉</span>Cauce<span class="badge">Sankey</span></button>
+  <button class="subtab" data-vista="evidencia"><span class="icon">▦</span>Evidencia<span class="badge">3 charts</span></button>
+  <button class="subtab" data-vista="codigo"><span class="icon">⌬</span>Código<span class="badge">DNA</span></button>
+</div>
+
+<div class="subtab-content active" data-vista="loop">
+  <iframe src="loop.html" title="Loop · cinta de Möbius" loading="lazy"></iframe>
+</div>
+
+<div class="subtab-content" data-vista="cauce">
+  <iframe src="cauce.html" title="Cauce · Sankey financiero" loading="lazy"></iframe>
+</div>
+
+<div class="subtab-content" data-vista="evidencia">
+  <iframe src="evidencia.html" title="Evidencia · 3 charts" loading="lazy"></iframe>
+</div>
+
+<div class="subtab-content" data-vista="codigo">
+  <iframe src="codigo.html" title="Código · doble hebra DNA" loading="lazy"></iframe>
+</div>
+
+<script>
+  document.querySelectorAll(".subtab").forEach(t => {
+    t.addEventListener("click", () => {
+      const vista = t.dataset.vista;
+      document.querySelectorAll(".subtab").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".subtab-content").forEach(c => c.classList.remove("active"));
+      t.classList.add("active");
+      document.querySelector(`.subtab-content[data-vista="${vista}"]`).classList.add("active");
+    });
+  });
+</script>
+
+</body>
+</html>
