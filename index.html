@@ -1494,6 +1494,70 @@
   }
   .legend::-webkit-scrollbar { width: 6px; }
   .legend::-webkit-scrollbar-thumb { background: var(--dorado); border-radius: 3px; }
+  /* ===== Selector maestro de brote (arriba del toolbar de capas) ===== */
+  .brote-selector {
+    position: absolute;
+    top: 14px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 501;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--tinta-naval);
+    background-image: linear-gradient(180deg, var(--tinta-profunda) 0%, var(--tinta-naval) 100%);
+    border: 1px solid var(--dorado);
+    border-radius: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 0 1px rgba(208,176,74,0.3) inset;
+    font-family: Georgia, serif;
+  }
+  .brote-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--dorado-claro);
+    font-weight: 700;
+    padding-right: 4px;
+    border-right: 1px solid rgba(208,176,74,0.3);
+    margin-right: 4px;
+  }
+  .brote-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    color: rgba(255,255,255,0.65);
+    font-family: Georgia, serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .brote-btn:hover {
+    background: rgba(208,176,74,0.1);
+    color: #fff;
+  }
+  .brote-btn.active {
+    background: rgba(208,176,74,0.18);
+    border-color: var(--dorado);
+    color: #fff;
+    box-shadow: 0 0 0 1px var(--dorado);
+  }
+  .brote-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1.5px #fff, 0 0 0 2.5px rgba(0,0,0,0.3);
+  }
+  .brote-dot-hanta { background: #4a7fa3; } /* azul · ruta MV Hondius */
+  .brote-dot-ebola { background: #c2410c; } /* naranja quemado · ébola Bundibugyo */
+  .brote-dot-ambos {
+    background: linear-gradient(135deg, #4a7fa3 0%, #4a7fa3 49%, #c2410c 51%, #c2410c 100%);
+  }
+  /* Mover el toolbar de capas abajo para no colisionar */
+  .layers-toolbar { top: 60px !important; }
+
   /* ===== Toolbar horizontal de capas (centrada arriba del mapa) ===== */
   .layers-toolbar {
     position: absolute;
@@ -2150,6 +2214,31 @@
         <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Detección por continente</div>
         <div class="row"><span class="dot" style="background:#5a6e8c"></span><span>Continente con casos/monitoreo</span></div>
       </div>
+      <!-- Sección Ébola Bundibugyo -->
+      <div class="legend-section" data-legend-for="ebolaCasos,focoIturi,zonaM23,evacEbola" style="display:none">
+        <div class="row" style="font-size:10px;color:#c2410c;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Ébola Bundibugyo 2026</div>
+        <div class="row"><span class="dot" style="background:#c2410c"></span><span>Caso confirmado / evento clínico</span></div>
+        <div class="row"><span class="dot" style="background:#c2410c;opacity:0.4"></span><span>Foco Ituri / Nord-Kivu (RDC)</span></div>
+        <div class="row"><span class="dot" style="background:#7c2d12;opacity:0.5"></span><span>Zona M23 (control armado · Goma)</span></div>
+        <div class="row"><span class="dash" style="border-top-color:#c2410c"></span><span>Ruta de evacuación a Alemania</span></div>
+      </div>
+    </div>
+
+    <!-- Selector maestro de brote (arriba del toolbar de capas) -->
+    <div class="brote-selector" id="broteSelector" role="radiogroup" aria-label="Brote activo">
+      <span class="brote-label">Brote activo:</span>
+      <button class="brote-btn" data-brote="hanta" role="radio" aria-checked="false">
+        <span class="brote-dot brote-dot-hanta"></span>
+        <span>Hantavirus</span>
+      </button>
+      <button class="brote-btn" data-brote="ebola" role="radio" aria-checked="false">
+        <span class="brote-dot brote-dot-ebola"></span>
+        <span>Ébola</span>
+      </button>
+      <button class="brote-btn active" data-brote="ambos" role="radio" aria-checked="true">
+        <span class="brote-dot brote-dot-ambos"></span>
+        <span>Ambos</span>
+      </button>
     </div>
 
     <!-- Toolbar de capas (centrada arriba del mapa) -->
@@ -2218,6 +2307,36 @@
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
         </svg>
         <span>Continentes</span>
+      </button>
+
+      <div class="layer-tab-divider"></div>
+
+      <!-- Bloque: Brote ébola Bundibugyo 2026 -->
+      <button class="layer-tab" data-layer="ebolaCasos" title="Casos ébola Bundibugyo · cronología">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2">
+          <circle cx="12" cy="12" r="3" fill="#c2410c"/>
+          <circle cx="12" cy="12" r="8"/>
+        </svg>
+        <span>Ébola · Casos</span>
+      </button>
+      <button class="layer-tab" data-layer="focoIturi" title="Foco Ituri / Nord-Kivu del brote">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2" stroke-dasharray="3,2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+        </svg>
+        <span>Foco Ituri</span>
+      </button>
+      <button class="layer-tab" data-layer="zonaM23" title="Zona controlada por el M23 (Nord-Kivu)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c2d12" stroke-width="2">
+          <polygon points="12,3 21,8 21,17 12,21 3,17 3,8"/>
+          <line x1="12" y1="3" x2="12" y2="21" stroke-dasharray="2,2"/>
+        </svg>
+        <span>Zona M23</span>
+      </button>
+      <button class="layer-tab" data-layer="evacEbola" title="Evacuación ébola RDC → Alemania">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2">
+          <path d="M21 16v-2l-8-5V3.5C13 2.67 12.33 2 11.5 2S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#c2410c" stroke="none"/>
+        </svg>
+        <span>Evac · Ébola</span>
       </button>
 
       <div class="layer-tab-divider"></div>
@@ -3321,6 +3440,72 @@
     });
   });
 
+  // ===========================================================================
+  // ---- CAPA 10: ÉBOLA BUNDIBUGYO 2026 · RDC + Uganda ----
+  // Brote declarado PHEIC el 17-may-2026 — récord de velocidad (13 días).
+  // Capa toggleable a través del selector maestro de brote.
+  // ===========================================================================
+  const eventosEbola = [
+    { n:'E1', day:35, date:'5-may',  type:'symptom',  coords:[1.94, 29.81],  place:'Mongbwalu, Ituri (RDC)', desc:'<b>Alerta inicial.</b> Personal sanitario reporta enfermedad desconocida en el área de Mongbwalu, provincia de Ituri. Primer cuadro clínico que terminará identificándose como ébola Bundibugyo.', v:'✅' },
+    { n:'E2', day:44, date:'14-may', type:'lab',      coords:[1.56, 30.24],  place:'Laboratorio · Bunia, Ituri', desc:'<b>Primer test positivo Bundibugyo.</b> Las primeras pruebas habían dado negativas porque solo detectaban la cepa Zaire. Al aplicar test específico de Bundibugyo se confirma el patógeno. Sesgo de detección: el brote pudo estar circulando semanas sin identificarse.', v:'✅' },
+    { n:'E3', day:46, date:'16-may', type:'lab',      coords:[46.20, 6.14],  place:'Ginebra · OMS — declaración PHEIC', desc:'<b>OMS declara Emergencia de Salud Pública de Importancia Internacional</b> por ébola Bundibugyo en RDC + Uganda. <b>Solo 13 días entre alerta y declaración</b> — récord absoluto histórico (compare con H1N1 2009 = 83 días, COVID-19 = 30 días, ébola Kivu 2018-19 = 11 meses). Apenas 8 casos confirmados al momento de la declaración. CEPI había otorgado USD 26.7M a Moderna+Oxford en enero 2026 para vacuna multivalente que incluye Bundibugyo.', v:'✅' },
+    { n:'E4', day:47, date:'17-may', type:'hospital', coords:[0.31, 32.58],  place:'Kampala, Uganda · 2 casos confirmados', desc:'<b>Casos confirmados en Uganda.</b> Dos personas que viajaban desde RDC dan positivo en Kampala. 1 fallecido. Sin propagación secundaria documentada al cierre.', v:'✅' },
+    { n:'E5', day:47, date:'17-may', type:'symptom',  coords:[-1.68, 29.22], place:'Goma, Nord-Kivu (RDC) · zona M23', desc:'<b>Caso confirmado en Goma</b> — capital de Nord-Kivu. La ciudad está bajo <b>control del M23</b>, grupo armado respaldado por Ruanda. MSF inicia negociaciones de acceso humanitario directamente con el M23, lo que de facto le otorga estatus de interlocutor sanitario. Mismo patrón documentado en Tigré 2021-2023.', v:'✅' },
+    { n:'E6', day:47, date:'17-may', type:'symptom',  coords:[-4.32, 15.32], place:'Kinshasa (RDC) · médico estadounidense positivo', desc:'<b>Primer caso estadounidense con Bundibugyo.</b> Un médico de EE.UU. expuesto durante atención de pacientes en RDC da positivo. Decisión: trasladarlo a Alemania para tratamiento (no a EE.UU., que tiene unidades de bioseguridad pero la logística de evacuación pasó por Europa).', v:'✅' },
+    { n:'E7', day:48, date:'18-may', type:'hospital', coords:[50.11, 8.68],  place:'Frankfurt, Alemania · evacuación estadounidense', desc:'<b>Evacuación a Alemania.</b> El médico estadounidense positivo es trasladado a centro de bioseguridad alemán para tratamiento. El cluster del ébola Bundibugyo alcanza así tres continentes (África, Norteamérica de origen, Europa de tratamiento) aunque sea por un solo paciente.', v:'✅' },
+    { n:'E8', day:48, date:'18-may', type:'lab',      coords:[38.92, -77.05], place:'Washington DC · CDC activa screening', desc:'<b>CDC anuncia screening de viajeros</b> en aeropuertos estadounidenses. Activa la infraestructura biométrica preexistente del programa Simplified Arrival con propósito sanitario explícito — la herramienta esperaba la crisis (lectura: doctrina del shock).', v:'✅' },
+    { n:'E9', day:49, date:'19-may', type:'lab',      coords:[33.75, -84.39], place:'Atlanta · CDC publica HAN 00530', desc:'<b>CDC publica Health Alert Network 00530</b> con guía clínica para sospecha de ébola Bundibugyo. Operacionaliza el protocolo nacional de respuesta.', v:'✅' },
+    { n:'E10', day:52, date:'22-may', type:'lab',     coords:[46.20, 6.14],  place:'Ginebra · Primera reunión Comité de Emergencia RSI', desc:'<b>Primera reunión del Comité de Emergencia del RSI (2005)</b> para el brote. OMS publica recomendaciones temporales. Al cierre: <b>64 casos confirmados en RDC + 2 en Uganda = 66 confirmados.</b> 6 muertes en RDC + 1 en Uganda. 650+ sospechosos. Brote en 11 zonas de salud entre Ituri y Nord-Kivu.', v:'✅' }
+  ];
+
+  // Icono ébola — naranja quemado con número
+  function ebolaIcon(label) {
+    return L.divIcon({
+      className: 'ebola-icon',
+      html: `<div style="width:30px;height:30px;background:#c2410c;color:#fff;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:11px;font-weight:700;line-height:1;box-shadow:0 0 0 1px rgba(0,0,0,0.4),0 2px 6px rgba(194,65,12,0.4);">${label}</div>`,
+      iconSize: [30, 30], iconAnchor: [15, 15]
+    });
+  }
+  const ebolaLayer = L.layerGroup();
+  eventosEbola.forEach(e => ebolaLayer.addLayer(
+    L.marker(e.coords, { icon: ebolaIcon(e.n) }).bindPopup(
+      `<span class="pop-date">${e.date} 2026 · ${e.v}</span><b>${e.place}</b><p>${e.desc}</p>`
+    )
+  ));
+
+  // ---- CAPA 11: Foco Ituri (polígono naranja sobre la provincia) ----
+  const focoIturiPoly = L.polygon([
+    [3.0, 28.5], [3.0, 31.0], [-1.5, 31.0], [-1.5, 28.5]
+  ], { color: '#c2410c', fillColor: '#c2410c', fillOpacity: 0.12, weight: 2, dashArray: '8,5' });
+  focoIturiPoly.bindPopup(
+    '<span class="pop-date">17-may-2026 (PHEIC)</span><b>Foco Ituri + Nord-Kivu (RDC)</b>' +
+    '<p>Provincia donde inició el brote de ébola Bundibugyo 2026. Cubre Mongbwalu (caso índice 5-may), Bunia (capital provincial donde se confirma cepa 14-may) y Goma (capital Nord-Kivu, zona M23). <b>11 zonas de salud activas al 22-may.</b></p>' +
+    '<p style="font-size:11px;color:#5a6e8c"><em>Fuente: OMS DON602 · CDC HAN 00530</em></p>'
+  );
+  const focoIturiLayer = L.layerGroup([focoIturiPoly]);
+
+  // ---- CAPA 12: Zona M23 (Nord-Kivu controlada) ----
+  const zonaM23Poly = L.polygon([
+    [-1.0, 28.5], [-1.0, 29.7], [-2.5, 29.7], [-2.5, 28.5]
+  ], { color: '#7c2d12', fillColor: '#7c2d12', fillOpacity: 0.18, weight: 2, dashArray: '4,4' });
+  zonaM23Poly.bindPopup(
+    '<span class="pop-date">may-2026</span><b>Zona controlada por el M23</b>' +
+    '<p>Territorio bajo control del <em>Mouvement du 23 mars</em> (M23), grupo armado respaldado por Ruanda. <b>Goma, capital de Nord-Kivu</b>, registró caso confirmado de ébola Bundibugyo el 17-may-2026. MSF negocia acceso humanitario directamente con el M23, lo que de facto otorga al grupo armado estatus de interlocutor sanitario. Patrón replicado del corredor humanitario de Tigré 2021-2023.</p>' +
+    '<p style="font-size:11px;color:#5a6e8c"><em>Lectura editorial: la salud como soberanía negociada · Cf. columna "Lo que también salió de Ushuaia"</em></p>'
+  );
+  const zonaM23Layer = L.layerGroup([zonaM23Poly]);
+
+  // ---- CAPA 13: Línea de evacuación RDC → Alemania ----
+  const evacEbolaLine = L.polyline([
+    [-4.32, 15.32],  // Kinshasa
+    [50.11, 8.68]    // Frankfurt
+  ], { color: '#c2410c', weight: 2.5, opacity: 0.75, dashArray: '6,5' });
+  evacEbolaLine.bindPopup(
+    '<b>Evacuación médica · RDC → Alemania</b>' +
+    '<p>Traslado aéreo del médico estadounidense positivo a Bundibugyo desde Kinshasa hacia centro de bioseguridad en Alemania (18-may-2026). El primer caso fuera de África del brote no se trató en EE.UU. — la logística se enrutó por Europa.</p>'
+  );
+  const evacEbolaLayer = L.layerGroup([evacEbolaLine]);
+
   // ---- CONTROL DE CAPAS — TOOLBAR HORIZONTAL ----
   const overlayMap = {
     ruta: rutaLayer,
@@ -3335,7 +3520,23 @@
     corredor: corredorLayer,
     mundialSedes: mundialSedesLayer,
     mundialRutas: mundialRutasLayer,
-    aficionados: aficionadosLayer
+    aficionados: aficionadosLayer,
+    ebolaCasos: ebolaLayer,
+    focoIturi: focoIturiLayer,
+    zonaM23: zonaM23Layer,
+    evacEbola: evacEbolaLayer
+  };
+
+  // Clasificación de cada capa por brote — usado por el selector maestro
+  const BROTE_DE_CAPA = {
+    // Hantavirus (MV Hondius)
+    ruta: 'hanta', casos: 'hanta', evac: 'hanta', preCruise: 'hanta',
+    endemico: 'hanta', corredor: 'hanta',
+    // Ébola Bundibugyo
+    ebolaCasos: 'ebola', focoIturi: 'ebola', zonaM23: 'ebola', evacEbola: 'ebola',
+    // Comunes (capitalismo de preparación · Mundial · contexto global)
+    vacunas: 'comun', financiamiento: 'comun', geopolitica: 'comun', continentes: 'comun',
+    mundialSedes: 'comun', mundialRutas: 'comun', aficionados: 'comun'
   };
 
   function toggleLayer(key, on) {
@@ -3371,6 +3572,50 @@
       toggleLayer(key, willBeActive);
     });
   });
+
+  // ===== Selector maestro de brote =====
+  // Modos: 'hanta' (solo hantavirus + comunes) · 'ebola' (solo ébola + comunes) · 'ambos' (todo)
+  function setModoBrote(modo) {
+    // Activar/desactivar capas según pertenencia al brote
+    document.querySelectorAll('.layer-tab[data-layer]').forEach(btn => {
+      const key = btn.dataset.layer;
+      const broteCapa = BROTE_DE_CAPA[key] || 'comun';
+      let activar;
+      if (broteCapa === 'comun') {
+        // Las capas comunes mantienen su estado actual (no las tocamos)
+        return;
+      } else if (modo === 'ambos') {
+        activar = true;
+      } else {
+        activar = (broteCapa === modo);
+      }
+      btn.classList.toggle('active', activar);
+      toggleLayer(key, activar);
+    });
+    // Estado visual del selector
+    document.querySelectorAll('.brote-btn').forEach(b => {
+      const esActivo = b.dataset.brote === modo;
+      b.classList.toggle('active', esActivo);
+      b.setAttribute('aria-checked', esActivo);
+    });
+    // Sincronizar URL para deep-linking
+    const url = new URL(window.location.href);
+    url.searchParams.set('brote', modo);
+    window.history.replaceState({}, '', url);
+  }
+
+  document.querySelectorAll('.brote-btn').forEach(btn => {
+    btn.addEventListener('click', () => setModoBrote(btn.dataset.brote));
+  });
+
+  // Inicializar desde URL si tiene parámetro ?brote=, sino "ambos" por default
+  const broteInicial = new URL(window.location.href).searchParams.get('brote');
+  if (broteInicial === 'hanta' || broteInicial === 'ebola') {
+    setModoBrote(broteInicial);
+  } else {
+    setModoBrote('ambos');
+  }
+
   // Inicializar leyenda al cargar — solo muestra las secciones de capas activas por default
   actualizarLeyenda();
 
