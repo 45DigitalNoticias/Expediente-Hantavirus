@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<title>Expediente Hantavirus 2026 — brote MV Hondius · 45 Digital Noticias</title>
+<title>Expediente Brotes 2026 — Hantavirus · Ébola · 45 Digital Noticias</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <!-- Metadata SEO -->
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:locale" content="es_MX" />
 <meta property="og:site_name" content="45 Digital Noticias" />
-<meta property="og:title" content="Expediente Hantavirus 2026 — brote MV Hondius" />
+<meta property="og:title" content="Expediente Brotes 2026 — Hantavirus · Ébola" />
 <meta property="og:description" content="Cronología, casos por país, declaraciones oficiales, columnas de opinión y fuentes verificables sobre el brote del MV Hondius. Lectura sistémica del expediente — 45 Digital Noticias." />
 <meta property="og:url" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/" />
 <meta property="og:image" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/og-default.png" />
@@ -31,7 +31,7 @@
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Expediente Hantavirus 2026 — brote MV Hondius" />
+<meta name="twitter:title" content="Expediente Brotes 2026 — Hantavirus · Ébola" />
 <meta name="twitter:description" content="Cronología, casos por país, declaraciones oficiales, columnas de opinión y fuentes verificables. 45 Digital Noticias — lectura sistémica." />
 <meta name="twitter:image" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/og-default.png" />
 <meta name="twitter:image:alt" content="Portada de The Economist — The World Ahead 2026" />
@@ -497,6 +497,16 @@
   .event-death { border-left-color: var(--tinta-profunda) !important; }
   .event-death .date { color: var(--tinta-profunda); }
 
+  /* Eventos del brote de Ébola — color naranja quemado #c2410c (coincide con marcadores del mapa) */
+  .event-ebola { border-left-color: #c2410c !important; }
+  .event-ebola .date { color: #c2410c; }
+  .event-ebola .num { background: #c2410c; color: #fff7ed; }
+  .event-ebola:hover { border-left-color: #c2410c; background: #fff7ed; }
+  .event-ebola.active {
+    background: linear-gradient(90deg, rgba(194, 65, 12, 0.10), transparent);
+    border-left-color: #c2410c;
+  }
+
   /* Casos por país */
   .country {
     padding: 14px 18px;
@@ -692,6 +702,14 @@
     font-weight: 600;
     letter-spacing: 0.08em;
   }
+  /* Pieza transversal: aparece en ambos arcos (Hantavirus + Ébola).
+     Degradado azul-naranja, coincide con los dots de los selectores. */
+  .column-card .meta .pill-transversal {
+    background: linear-gradient(90deg, #4a7fa3 0%, #c2410c 100%);
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
   .column-card h3 {
     margin: 0 0 6px;
     font-size: 16px;
@@ -865,6 +883,52 @@
   .reader-view.fullscreen .reader-glosario li { font-size: 13.5px; line-height: 1.65; }
   .reader-view.fullscreen .reader-divider { font-size: 18px; margin: 32px 0 24px; }
   .reader-view.fullscreen .reader-firma { font-size: 15px; }
+
+  /* Reader genérico para FAQ y Comparativo — ancho mayor para los gráficos */
+  .contenido-reader-wide .reader-article {
+    max-width: 1100px;
+    padding: 36px 40px 60px;
+  }
+  .contenido-reader-wide .reader-title {
+    font-size: 30px;
+    line-height: 1.18;
+    margin: 0 0 8px;
+    color: var(--tinta-naval);
+  }
+  /* En este reader genérico anulamos los estilos heredados del reader de
+     columnas que dan capitular y serifa especial — el FAQ se lee como prosa
+     informativa, no como columna de opinión. */
+  .contenido-reader-wide .reader-body p:first-of-type::first-letter,
+  .contenido-reader-wide #contenido-reader-inner p:first-of-type::first-letter {
+    font-size: inherit !important;
+    margin: 0 !important;
+    float: none !important;
+    font-weight: inherit !important;
+  }
+  .contenido-reader-wide .faq-item,
+  .contenido-reader-wide .comparativo-card {
+    max-width: 100%;
+  }
+  .contenido-reader-wide .comparativo-grid {
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .contenido-reader-wide .comparativo-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .contenido-reader-wide .comparativo-svg {
+    max-height: 380px;
+  }
+  /* El brote-selector dentro del reader genérico — más ancho, mejor aire */
+  .contenido-reader-wide .brote-selector[data-context] {
+    max-width: 480px;
+    margin: 10px 0 24px;
+  }
+  .contenido-reader-wide .guia-intro {
+    margin-bottom: 24px;
+  }
+
   .reader-eyebrow {
     font-size: 10px;
     text-transform: uppercase;
@@ -1494,8 +1558,10 @@
   }
   .legend::-webkit-scrollbar { width: 6px; }
   .legend::-webkit-scrollbar-thumb { background: var(--dorado); border-radius: 3px; }
-  /* ===== Selector maestro de brote (arriba del toolbar de capas) ===== */
-  .brote-selector {
+  /* ===== Selector maestro de brote (arriba del toolbar de capas) =====
+     OJO: usamos #broteSelector (ID único del master) en lugar de .brote-selector
+     para no chocar con los selectores duales contextuales de los paneles. */
+  #broteSelector {
     position: absolute;
     top: 14px; left: 50%;
     transform: translateX(-50%);
@@ -1510,6 +1576,11 @@
     border-radius: 24px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 0 1px rgba(208,176,74,0.3) inset;
     font-family: Georgia, serif;
+    /* Las reglas de .brote-selector más abajo NO se aplican porque el master
+       tiene ID y la cascada respeta el orden — pero por seguridad reset: */
+    margin: 0;
+    border-radius: 24px;
+    overflow: visible;
   }
   .brote-label {
     font-size: 10.5px;
@@ -1609,6 +1680,67 @@
     color: #fff;
     opacity: 1;
     box-shadow: 0 1px 3px rgba(0,0,0,0.25) inset;
+  }
+
+  /* ===== Selector dual de brote (segmented control en apartados contextuales) ===== */
+  /* Selector dual contextual (Hantavirus · Ébola) dentro de los paneles laterales.
+     Scopeado vía [data-context] para no colisionar con #broteSelector (master). */
+  .brote-selector[data-context] {
+    display: flex;
+    gap: 0;
+    margin: 0 0 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f8fafc;
+    box-shadow: 0 1px 2px rgba(11,31,63,0.06) inset;
+    position: static;
+    transform: none;
+    z-index: auto;
+    padding: 0;
+  }
+  .brote-tab {
+    flex: 1;
+    padding: 9px 12px;
+    background: transparent;
+    color: #5a6e8c;
+    border: none;
+    border-right: 1px solid #cbd5e1;
+    font-family: Georgia, serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .brote-tab:last-child { border-right: none; }
+  .brote-tab:hover {
+    background: rgba(11,31,63,0.04);
+    color: #072146;
+  }
+  .brote-tab.active {
+    background: #04162e;
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.22) inset;
+  }
+  .brote-tab .brote-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .brote-tab[data-brote="hantavirus"] .brote-dot { background: #4a7fa3; }
+  .brote-tab[data-brote="ebola"] .brote-dot { background: #c2410c; }
+  .brote-tab .brote-count {
+    font-size: 10px;
+    opacity: 0.75;
+    font-weight: 600;
+    letter-spacing: 0.04em;
   }
   .layer-tab svg {
     width: 18px; height: 18px;
@@ -1737,6 +1869,89 @@
     -webkit-hyphens: auto;
   }
   .guia-tip b { color: #072146; }
+
+  /* ===== Panel FAQ — Preguntas frecuentes por brote ===== */
+  .faq-item {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 18px 0;
+  }
+  .faq-item:first-of-type { padding-top: 8px; }
+  .faq-item:last-of-type { border-bottom: none; }
+  .faq-q {
+    font-size: 15px;
+    font-weight: 700;
+    color: #072146;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  .faq-a p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #5a6e8c;
+    margin: 0 0 10px;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+  .faq-a p:last-child { margin-bottom: 0; }
+  .faq-a p b { color: #072146; }
+
+  /* ===== Panel Comparativo — Gráficos lado a lado ===== */
+  .comparativo-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 8px;
+  }
+  .comparativo-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid #072146;
+    padding: 18px;
+    border-radius: 0 4px 4px 0;
+  }
+  .comparativo-titulo {
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #072146;
+    margin: 0 0 4px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .comparativo-subtitulo {
+    font-size: 12px;
+    color: #5a6e8c;
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .comparativo-svg {
+    width: 100%;
+    height: auto;
+    max-height: 280px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 3px;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .comparativo-pie {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #5a6e8c;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+  .comparativo-pie b { color: #072146; }
+  .comparativo-pie em {
+    display: block;
+    margin-top: 8px;
+    font-size: 10.5px;
+    color: #94a3b8;
+    font-style: italic;
+  }
 
   /* ===== Glosario del expediente (dentro del panel Guía) ===== */
   .guia-glosario-subtitle {
@@ -2075,8 +2290,8 @@
     </div>
   </div>
   <div class="header-center title">
-    <h1>Hantavirus 2026 — brote MV Hondius</h1>
-    <p>Cronología completa, casos por país y fuentes verificables — Andes virus (ANDV)</p>
+    <h1>Expediente Brotes 2026 — Hantavirus · Ébola</h1>
+    <p>MV Hondius (Andes virus) · Ébola Bundibugyo en RDC + Uganda — cronología, casos por país y fuentes verificables</p>
   </div>
   <div class="cutoff">
     <div class="label">Datos al</div>
@@ -2089,8 +2304,8 @@
   <!-- ============== SIDENAV — panel lateral izquierdo ============== -->
   <nav class="sidenav" role="navigation">
     <div class="sidenav-header">
-      <div class="eyebrow">Expediente</div>
-      <div class="nav-title">Hantavirus 2026<br/>MV Hondius</div>
+      <div class="eyebrow">Expediente Brotes</div>
+      <div class="nav-title">2026<br/>Hantavirus · Ébola</div>
     </div>
     <div class="nav-items">
       <div class="nav-item" data-tab="guia">
@@ -2124,7 +2339,17 @@
       <div class="nav-item" data-tab="vacunas">
         <span class="nav-icon">+</span>
         <span class="nav-label">Vacunas</span>
-        <span class="nav-meta">5</span>
+        <span class="nav-meta">8</span>
+      </div>
+      <div class="nav-item" data-tab="faq">
+        <span class="nav-icon">?</span>
+        <span class="nav-label">Preguntas frecuentes</span>
+        <span class="nav-meta">2 brotes</span>
+      </div>
+      <div class="nav-item" data-tab="comparativo">
+        <span class="nav-icon">▭</span>
+        <span class="nav-label">Comparativo</span>
+        <span class="nav-meta">3+3</span>
       </div>
       <div class="nav-item" data-tab="fuentes">
         <span class="nav-icon">❡</span>
@@ -2133,7 +2358,7 @@
       <div class="nav-item" data-tab="glosario">
         <span class="nav-icon">α</span>
         <span class="nav-label">Glosario</span>
-        <span class="nav-meta">30</span>
+        <span class="nav-meta">38</span>
       </div>
     </div>
     <div class="sidenav-footer">
@@ -2416,35 +2641,75 @@
 
     <!-- TAB: CRONOLOGÍA -->
     <div class="tab-panel active" id="panel-cronologia">
-      <div class="stats-box">
-        <div class="stat"><div class="n">11</div><div class="l">Casos cluster</div></div>
-        <div class="stat"><div class="n">9</div><div class="l">Confirmados</div></div>
-        <div class="stat"><div class="n">3</div><div class="l">Muertes</div></div>
-        <div class="stat"><div class="n">147</div><div class="l">Expuestos</div></div>
+      <div class="brote-selector" data-context="cronologia">
+        <button class="brote-tab active" data-brote="hantavirus"><span class="brote-dot"></span>Hantavirus <span class="brote-count">(24)</span></button>
+        <button class="brote-tab" data-brote="ebola"><span class="brote-dot"></span>Ébola <span class="brote-count">(5)</span></button>
       </div>
-      <div class="filters">
-        <span class="filter-chip active" data-f="all">Todos</span>
-        <span class="filter-chip" data-f="route">Ruta</span>
-        <span class="filter-chip" data-f="death">Muertes</span>
-        <span class="filter-chip" data-f="hospital">Hospitales</span>
-        <span class="filter-chip" data-f="lab">Institucional</span>
+
+      <div class="brote-content" data-brote="hantavirus">
+        <div class="stats-box">
+          <div class="stat"><div class="n">11</div><div class="l">Casos cluster</div></div>
+          <div class="stat"><div class="n">9</div><div class="l">Confirmados</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Muertes</div></div>
+          <div class="stat"><div class="n">147</div><div class="l">Expuestos</div></div>
+        </div>
+        <div class="filters">
+          <span class="filter-chip active" data-f="all">Todos</span>
+          <span class="filter-chip" data-f="route">Ruta</span>
+          <span class="filter-chip" data-f="death">Muertes</span>
+          <span class="filter-chip" data-f="hospital">Hospitales</span>
+          <span class="filter-chip" data-f="lab">Institucional</span>
+        </div>
+        <div id="timeline"></div>
       </div>
-      <div id="timeline"></div>
+
+      <div class="brote-content" data-brote="ebola" style="display:none">
+        <div class="stats-box">
+          <div class="stat"><div class="n">650+</div><div class="l">Sospechosos</div></div>
+          <div class="stat"><div class="n">64</div><div class="l">Confirmados</div></div>
+          <div class="stat"><div class="n">160+</div><div class="l">Muertes</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Países</div></div>
+        </div>
+        <div id="timeline-ebola"></div>
+      </div>
     </div>
 
     <!-- TAB: CASOS POR PAÍS -->
     <div class="tab-panel" id="panel-paises">
-      <div class="stats-box">
-        <div class="stat"><div class="n">11</div><div class="l">Países afectados</div></div>
-        <div class="stat"><div class="n">9</div><div class="l">Con casos</div></div>
-        <div class="stat"><div class="n">23</div><div class="l">Nacionalidades</div></div>
-        <div class="stat"><div class="n">42</div><div class="l">Días cuarentena</div></div>
+      <div class="brote-selector" data-context="paises">
+        <button class="brote-tab active" data-brote="hantavirus"><span class="brote-dot"></span>Hantavirus</button>
+        <button class="brote-tab" data-brote="ebola"><span class="brote-dot"></span>Ébola</button>
       </div>
-      <div id="countries"></div>
+
+      <div class="brote-content" data-brote="hantavirus">
+        <div class="stats-box">
+          <div class="stat"><div class="n">12</div><div class="l">Países afectados</div></div>
+          <div class="stat"><div class="n">6</div><div class="l">Con casos confirmados</div></div>
+          <div class="stat"><div class="n">23</div><div class="l">Nacionalidades</div></div>
+          <div class="stat"><div class="n">42</div><div class="l">Días cuarentena</div></div>
+        </div>
+        <div id="countries"></div>
+      </div>
+
+      <div class="brote-content" data-brote="ebola" style="display:none">
+        <div class="stats-box">
+          <div class="stat"><div class="n">2</div><div class="l">Países</div></div>
+          <div class="stat"><div class="n">650+</div><div class="l">Sospechosos</div></div>
+          <div class="stat"><div class="n">64</div><div class="l">Confirmados</div></div>
+          <div class="stat"><div class="n">160+</div><div class="l">Muertes</div></div>
+        </div>
+        <div id="countries-ebola"></div>
+      </div>
     </div>
 
     <!-- TAB: BOLETÍN DE DECLARACIONES -->
     <div class="tab-panel" id="panel-boletin">
+      <div class="brote-selector" data-context="boletin">
+        <button class="brote-tab active" data-brote="hantavirus"><span class="brote-dot"></span>Hantavirus</button>
+        <button class="brote-tab" data-brote="ebola"><span class="brote-dot"></span>Ébola</button>
+      </div>
+
+      <div class="brote-content" data-brote="hantavirus">
       <div class="panel-title">
         <div class="eyebrow">Cotejo institucional</div>
         <h2>Declaraciones recientes</h2>
@@ -2453,12 +2718,30 @@
         Comunicados, ruedas de prensa y posicionamientos oficiales — ordenados de lo más reciente a lo más antiguo. Cada entrada enlaza a la fuente verificable.
       </div>
       <div id="declaraciones-list"></div>
+      </div>
+
+      <div class="brote-content" data-brote="ebola" style="display:none">
+        <div class="panel-title">
+          <div class="eyebrow">Cotejo institucional</div>
+          <h2>Declaraciones recientes — Ébola</h2>
+        </div>
+        <div class="boletin-help">
+          Comunicados oficiales sobre el brote de Ébola Bundibugyo en RDC y Uganda, declarado PHEIC por la OMS el 17 de mayo de 2026.
+        </div>
+        <div id="declaraciones-list-ebola"></div>
+      </div>
     </div>
 
     <!-- TAB: COLUMNAS DE OPINIÓN -->
     <div class="tab-panel" id="panel-columnas">
       <!-- Vista 1: Índice -->
       <div id="columnas-index">
+        <div class="brote-selector" data-context="columnas">
+          <button class="brote-tab active" data-brote="hantavirus"><span class="brote-dot"></span>Hantavirus <span class="brote-count">(6)</span></button>
+          <button class="brote-tab" data-brote="ebola"><span class="brote-dot"></span>Ébola <span class="brote-count">(2)</span></button>
+        </div>
+
+        <div class="brote-content" data-brote="hantavirus">
         <div class="panel-title">
           <div class="eyebrow">Sala de lectura</div>
           <h2>Columnas de opinión</h2>
@@ -2467,6 +2750,18 @@
           Piezas editoriales vinculadas a este expediente. Haz clic en cualquier título para leer la columna completa.
         </div>
         <div id="columnas-list"></div>
+        </div>
+
+        <div class="brote-content" data-brote="ebola" style="display:none">
+          <div class="panel-title">
+            <div class="eyebrow">Sala de lectura</div>
+            <h2>Columnas de opinión — Ébola</h2>
+          </div>
+          <div class="columns-help">
+            Las columnas <b>transversales</b> (sobre la arquitectura institucional heredada del COVID y la doctrina del shock) aparecen también en esta vista — los marcos analíticos aplican a ambos brotes.
+          </div>
+          <div id="columnas-list-ebola"></div>
+        </div>
       </div>
 
     </div>
@@ -2501,6 +2796,9 @@
         <li><b>BARDA</b> — Biomedical Advanced Research and Development Authority. Agencia federal estadounidense bajo HHS/ASPR. Financia desarrollo de contramedidas médicas para emergencias.</li>
         <li><b>NIH</b> — National Institutes of Health. Principal agencia federal estadounidense de financiamiento biomédico. Sede en Bethesda, Maryland.</li>
         <li><b>CEPI</b> — Coalition for Epidemic Preparedness Innovations. Fundada en Davos en 2017. Sede en Oslo. Coalición público-privada que financia desarrollo de vacunas contra patógenos emergentes. Programa estrella: "100 Day Mission".</li>
+        <li><b>GAVI</b> — Global Alliance for Vaccines and Immunisation. Sede en Ginebra. Alianza público-privada (Estados, OMS, UNICEF, Banco Mundial, Fundación Gates) que compra y distribuye vacunas a países de ingreso bajo y medio. Custodia el <em>stockpile</em> global de Ervebo (cepa Zaire).</li>
+        <li><b>INRB</b> — Institut National de Recherche Biomédicale. Laboratorio nacional de referencia de la República Democrática del Congo, con sede en Kinshasa. Confirmó la cepa Bundibugyo del brote 2026 mediante secuenciación específica tras dos rondas iniciales negativas para Zaire.</li>
+        <li><b>MSF</b> — Médicos Sin Fronteras / <em>Médecins Sans Frontières</em>. Organización humanitaria médica fundada en 1971. Sede internacional en Ginebra. Su operación en Nord-Kivu negocia acceso humanitario directamente con el M23, lo que en la práctica le otorga al grupo armado estatus de interlocutor sanitario.</li>
       </ul>
 
       <div class="guia-glosario-subtitle">Enfermedad y agente</div>
@@ -2541,6 +2839,11 @@
         <li><b>PHEIC / Emergencia Internacional</b> — <em>Public Health Emergency of International Concern</em>. Figura jurídica creada por el RSI 2005. Su declaración por la OMS obliga a los 196 Estados firmantes a activar protocolos automáticos (vigilancia, restricciones, compras). Bundibugyo 2026 fue declarada en 13 días — récord absoluto.</li>
         <li><b>RSI 2005</b> — Reglamento Sanitario Internacional revisado tras el SARS de 2003. Aprobado por la 58ª Asamblea Mundial de la Salud en 2005, vigente desde 2007. Sin este documento, las pandemias modernas no tendrían palanca jurídica para movilizar reservas, contratos y restricciones.</li>
         <li><b>Operation Warp Speed</b> — Programa estadounidense lanzado en mayo de 2020 para acelerar la respuesta a COVID-19. Total comprometido: USD 13 mil millones. Moderna recibió 955M de BARDA; Pfizer firmó compra anticipada por 1,950M. Modelo de pre-financiamiento a escala que se vuelve infraestructura permanente.</li>
+        <li><b>M23</b> — <em>Mouvement du 23 mars</em>. Grupo armado que opera en Nord-Kivu (este de la RDC), reactivado en 2021 y reforzado militarmente desde 2022. Las Naciones Unidas y EE.UU. han documentado el respaldo del gobierno de Ruanda. Controla Goma desde inicios de 2025. En el brote de 2026, el M23 se convierte en interlocutor de hecho de MSF y de otros operadores humanitarios.</li>
+        <li><b>HAN 00530</b> — Health Alert Network notice 00530, emitido por el CDC el 19 de mayo de 2026 con guía clínica para sospecha y manejo de ébola Bundibugyo. Operacionaliza el protocolo nacional de respuesta estadounidense tras la PHEIC del 17 de mayo.</li>
+        <li><b>DON602</b> — <em>Disease Outbreak News 602</em> de la OMS sobre el brote de ébola Bundibugyo en RDC + Uganda. Documento de referencia para los flujos transfronterizos del brote.</li>
+        <li><b>100 Day Mission</b> — Iniciativa de CEPI lanzada en el G7 (Reino Unido, 2021) que se propone tener una vacuna lista para ensayo clínico en cien días tras la identificación de un nuevo patógeno. El brote de Bundibugyo 2026 es la primera prueba operativa real del programa.</li>
+        <li><b>Ervebo</b> — Vacuna recombinante rVSV-ZEBOV de Merck contra ébola cepa Zaire. Aprobada por FDA y EMA en 2019. Pre-calificada por la OMS. Custodia del stockpile global a cargo de GAVI. <b>No autorizada para cepa Bundibugyo</b>; su despliegue en el brote 2026 es a título de mitigación regional, no de cobertura específica.</li>
       </ul>
     </div>
 
@@ -2549,8 +2852,14 @@
       <iframe src="antecedente/embed.html" id="iframe-antecedente" title="Antecedente · 23 años de capitalismo de preparación pandémica" loading="lazy"></iframe>
     </div>
 
-    <!-- TAB: VACUNAS — Pipeline de I+D contra hantavirus -->
+    <!-- TAB: VACUNAS — Pipeline de I+D contra hantavirus y Ébola -->
     <div class="tab-panel" id="panel-vacunas">
+      <div class="brote-selector" data-context="vacunas">
+        <button class="brote-tab active" data-brote="hantavirus"><span class="brote-dot"></span>Hantavirus <span class="brote-count">(5)</span></button>
+        <button class="brote-tab" data-brote="ebola"><span class="brote-dot"></span>Ébola <span class="brote-count">(3)</span></button>
+      </div>
+
+      <div class="brote-content" data-brote="hantavirus">
       <div class="vacuna-intro">
         Apartado de seguimiento permanente del pipeline global de vacunas contra hantavirus. Se actualiza conforme aparecen anuncios oficiales. Cada entrada lleva atribución de fuente verificable; los datos no refrendados quedan marcados como <em>fuente pendiente</em>.
       </div>
@@ -2640,12 +2949,325 @@
       <div class="vacuna-note">
         <b>Honestidad de método.</b> Esta tabla solo registra programas con fuente verificable. Lo no refrendado queda como "fuente pendiente". Datos que circulan en redes pero no en prensa especializada o publicación científica (ej. supuesto programa Fase I de USAMRIID, ensilication de Bath) <b>no se publican</b> hasta que aparezca atribución sólida. El apartado se actualiza con cada anuncio oficial nuevo del pipeline.
       </div>
+      </div>
+
+      <div class="brote-content" data-brote="ebola" style="display:none">
+        <div class="vacuna-intro">
+          Pipeline de vacunas contra <b>Ébola</b>. A diferencia del hantavirus, hay una vacuna comercial aprobada — <b>Ervebo</b> de Merck — pero <b>únicamente para la cepa Zaire</b>. El brote actual en RDC/Uganda es por <b>cepa Bundibugyo</b>, para la que no hay vacuna autorizada todavía. CEPI y BARDA están acelerando candidatos.
+        </div>
+        <div class="vacuna-stats">
+          <div class="vacuna-stat"><div class="vacuna-stat-n">1</div><div class="vacuna-stat-l">Aprobada (cepa Zaire)</div></div>
+          <div class="vacuna-stat"><div class="vacuna-stat-n">2</div><div class="vacuna-stat-l">En desarrollo (Bundibugyo)</div></div>
+          <div class="vacuna-stat"><div class="vacuna-stat-n">PHEIC</div><div class="vacuna-stat-l">17-may-2026</div></div>
+        </div>
+
+        <div class="vacuna-card" style="border-left-color:#c2410c">
+          <div class="vacuna-card-titulo">Merck · Ervebo (rVSV-ZEBOV)</div>
+          <div class="vacuna-card-sede">Kenilworth, Nueva Jersey (EE.UU.)</div>
+          <div class="vacuna-card-rows">
+            <span class="vkey">Producto</span><span class="vval">Vacuna viva atenuada recombinante de virus de estomatitis vesicular (rVSV) que expresa glicoproteína del virus Ébola Zaire</span>
+            <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-3">Aprobada</span> por FDA (2019), EMA (2019), Health Canada y OMS prequalified</span>
+            <span class="vkey">Cobertura</span><span class="vval"><b>Solo cepa Zaire</b>. No autorizada para Bundibugyo (la del brote actual de RDC/Uganda 2026).</span>
+            <span class="vkey">Eficacia</span><span class="vval">~100% en estudio de campo Guinea 2015 (post Ébola occidental). En uso operativo desde brote RDC 2018-2020.</span>
+            <span class="vkey">Estatus 2026</span><span class="vval">Reserva global GAVI/OMS distribuida vía cinturón de respuesta. Inicialmente NO indicada para el brote actual por incompatibilidad de cepa.</span>
+            <span class="vkey">Fuente</span><span class="vval vfuente">FDA · EMA · OMS prequalification · Henao-Restrepo et al., The Lancet 2017</span>
+          </div>
+        </div>
+
+        <div class="vacuna-card" style="border-left-color:#c2410c">
+          <div class="vacuna-card-titulo">Johnson &amp; Johnson · Zabdeno + Mvabea (régimen heterólogo)</div>
+          <div class="vacuna-card-sede">New Brunswick, Nueva Jersey (EE.UU.)</div>
+          <div class="vacuna-card-rows">
+            <span class="vkey">Producto</span><span class="vval">Régimen de dos dosis: Zabdeno (Ad26.ZEBOV) + Mvabea (MVA-BN-Filo). Inmunidad de largo plazo.</span>
+            <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-3">Aprobada</span> EMA 2020 — autorización condicionada</span>
+            <span class="vkey">Cobertura</span><span class="vval">Principalmente cepa Zaire. <b>Posible inmunidad cruzada parcial</b> con otras especies de Orthoebolavirus (incluye Bundibugyo); pendiente de validación operativa para el brote actual.</span>
+            <span class="vkey">Estatus 2026</span><span class="vval">Stockpiles preposicionados. Bajo evaluación regulatoria para uso en brote Bundibugyo via mecanismos de emergencia.</span>
+            <span class="vkey">Fuente</span><span class="vval vfuente">EMA Conditional Marketing Authorisation 2020 · J&amp;J Press Releases</span>
+          </div>
+        </div>
+
+        <div class="vacuna-card" style="border-left-color:#7a4ea8">
+          <div class="vacuna-card-titulo">CEPI · Bundibugyo Acceleration Track</div>
+          <div class="vacuna-card-sede">Coalition for Epidemic Preparedness Innovations · Oslo, Noruega</div>
+          <div class="vacuna-card-rows">
+            <span class="vkey">Producto</span><span class="vval">Pista acelerada de desarrollo dentro del programa "100 Day Mission" para candidatos vacunales contra <b>Bundibugyo virus</b>.</span>
+            <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-pre">Programa</span> — sin candidato aprobado para Bundibugyo</span>
+            <span class="vkey">Inicio</span><span class="vval">Activación pública anunciada tras la declaración PHEIC del 17-may-2026. El brote de Bundibugyo es el primer test real del 100 Day Mission.</span>
+            <span class="vkey">Líder</span><span class="vval">Dr. Richard Hatchett · CEO de CEPI</span>
+            <span class="vkey">Financ.</span><span class="vval">Parte de los USD 2,500 millones pedidos en mayo. Refuerzos esperados de GAVI, Pandemic Fund, BARDA y socios soberanos.</span>
+            <span class="vkey">Fuente</span><span class="vval vfuente">CEPI press release post-PHEIC · The Hill Times (17-may-2026)</span>
+          </div>
+        </div>
+
+        <div class="vacuna-note">
+          <b>Asimetría clave entre los dos brotes.</b> Para Ébola Zaire hay vacuna aprobada con eficacia ~100% en campo. Para hantavirus no hay vacuna comercial — solo Fase 1 USAMRIID. Para Bundibugyo (la cepa del brote actual) tampoco hay autorización específica, pero la infraestructura de aceleración ya está montada (CEPI 100 Day Mission). Esa asimetría operativa es estructuralmente la diferencia entre los dos expedientes.
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: FAQ — Preguntas frecuentes sobre los dos brotes -->
+    <div class="tab-panel" id="panel-faq">
+      <div class="guia-intro">
+        Preguntas frecuentes sobre los dos brotes activos. Información clínica y epidemiológica verificable, con fuente al pie de cada respuesta. <b>No sustituye consulta médica.</b> Si tiene síntomas o ha viajado a una zona afectada, consulte a su autoridad sanitaria nacional.
+      </div>
+
+      <div class="brote-selector" data-context="faq">
+        <button class="brote-tab active" data-brote="hantavirus"><span class="brote-dot"></span>Hantavirus <span class="brote-count">(5)</span></button>
+        <button class="brote-tab" data-brote="ebola"><span class="brote-dot"></span>Ébola <span class="brote-count">(5)</span></button>
+      </div>
+
+      <div class="brote-content" data-brote="hantavirus">
+        <div class="faq-item">
+          <div class="faq-q">¿Cómo se contagia el hantavirus?</div>
+          <div class="faq-a">
+            <p>El virus circula entre roedores silvestres. Los seres humanos se infectan principalmente por <b>inhalación de aerosoles</b> generados al perturbar excrementos, orina o material de anidamiento del reservorio (en el caso del virus Andes, el ratón colilargo <em>Oligoryzomys longicaudatus</em>). Otras vías documentadas: contacto directo con el animal, mordedura, y consumo de alimentos contaminados.</p>
+            <p>La cepa <b>Andes</b> es la <b>única hantavirus del mundo con transmisión persona a persona documentada</b>, por contacto cercano y prolongado (familiares en mismo domicilio, parejas, personal de salud sin protección). El cluster del MV Hondius es consistente con este patrón — convivencia prolongada en espacio cerrado a bordo.</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: CDC Hantavirus Fact Sheet · Padula et al., Virology 1998 · OMS DON601 (mayo 2026)</em></p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué letalidad tiene el hantavirus?</div>
+          <div class="faq-a">
+            <p>La letalidad varía drásticamente según la cepa. <b>Virus Andes (ANDV)</b>: 30 % a 45 % histórico; en 2026 Chile reporta 33 % y Argentina entre 31 % y 39 % — por encima del promedio. <b>Sin Nombre virus (SNV)</b>, de América del Norte: 35-40 %. <b>Cepa Choclo (Panamá)</b>: baja, muchas infecciones asintomáticas. <b>Cepas euroasiáticas</b> (Hantaan, Seoul, Puumala): cuadros renales con letalidad mucho menor (0,1 % a 12 %).</p>
+            <p>En el cluster del MV Hondius la letalidad cruda al 22 de mayo es de 3 muertes sobre 11 casos confirmados ≈ <b>27 %</b>.</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: CDC · ECDC · Minsal Chile · Ministerio de Salud Argentina 2026</em></p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Hay vacuna o tratamiento aprobado?</div>
+          <div class="faq-a">
+            <p><b>No hay vacuna aprobada comercialmente</b> contra ningún hantavirus al cierre de mayo de 2026. La candidata más avanzada contra Andes es la vacuna DNA del USAMRIID (Hooper et al., 2023), que completó Fase 1 con perfil de seguridad aceptable. Moderna + Korea University trabajan en candidata ARNm, sin candidato clínico definido. UTMB-Bukreyev tiene candidata estancada por falta de financiamiento desde 2024.</p>
+            <p><b>No hay antiviral específico</b>. El tratamiento es de soporte: oxigenación, manejo hemodinámico, ECMO en casos críticos. La literatura señala que ECMO temprano puede dar hasta ~80 % de supervivencia en cuadros severos.</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: Hooper et al., Vaccines 2023 · CEPI · USAMRIID · ClinicalTrials.gov</em></p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Cuánto dura el periodo de incubación?</div>
+          <div class="faq-a">
+            <p>Entre <b>1 y 6 semanas</b>, con mediana de 2 a 3 semanas. La OMS estableció en mayo de 2026 una <b>cuarentena de 42 días</b> para los pasajeros del MV Hondius — el extremo superior del rango. Por eso los 147 expuestos del crucero permanecen en monitoreo hasta el 21 de junio (día cero: 10 de mayo, desembarque en Tenerife).</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: CDC · OMS DON601 · ECDC Surveillance Update 13-may-2026</em></p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Hay riesgo en México por el Mundial 2026?</div>
+          <div class="faq-a">
+            <p>México no tiene casos del cluster del MV Hondius en territorio nacional. La <b>Secretaría de Salud emitió el 11 de mayo de 2026 la primera Alerta Epidemiológica Nacional</b> por hantavirus en la historia del país. La alerta cita explícitamente la movilidad del Mundial 2026 como factor de riesgo adicional. CONAVE activa vigilancia en hospitales, laboratorios y unidades médicas para detección temprana.</p>
+            <p>El riesgo individual para el viajero es bajo. El riesgo sistémico —que el evento masivo amplifique cualquier brote emergente— está documentado en literatura epidemiológica (ej. estudios sobre eventos deportivos masivos y enfermedades respiratorias).</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: Aviso Epidemiológico Nacional, Secretaría de Salud México · CONAVE · ECDC mass gathering guidance</em></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="brote-content" data-brote="ebola" style="display:none">
+        <div class="faq-item">
+          <div class="faq-q">¿Cómo se contagia el ébola Bundibugyo?</div>
+          <div class="faq-a">
+            <p>El virus se transmite por <b>contacto directo con sangre o fluidos corporales</b> (saliva, vómito, heces, semen, sudor, leche materna) de una persona enferma o de un cadáver de víctima reciente. También por contacto con objetos contaminados (agujas, ropa de cama, instrumental médico sin esterilizar).</p>
+            <p><b>No se transmite por aire</b> en condiciones normales. El periodo infeccioso comienza con la aparición de síntomas — un asintomático no contagia. Los rituales funerarios sin protección y la atención médica sin equipo adecuado son los principales amplificadores documentados en brotes africanos previos.</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: OMS Ebola Disease Fact Sheet · CDC HAN 00530 · MSF Ebola Field Manual</em></p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué letalidad tiene el subtipo Bundibugyo?</div>
+          <div class="faq-a">
+            <p>El subtipo <b>Bundibugyo (BDBV)</b> tiene letalidad histórica entre <b>25 % y 40 %</b>, según datos de Médicos Sin Fronteras consolidados a partir de los brotes de Uganda 2007 (149 casos, 37 muertes ≈ 25 %) y RDC 2012 (52 casos, 25 muertes ≈ 48 %). Es <b>menos letal que el subtipo Zaire</b> (50-80 %) pero más que el Reston, que no causa enfermedad humana documentada.</p>
+            <p>En el brote actual (mayo 2026), la letalidad cruda preliminar reportada por el ECDC el 19 de mayo es de <b>~25-30 %</b>, dentro del rango histórico. La cifra es preliminar y sujeta a ajuste conforme se confirmen casos sospechosos.</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: MSF Operational Centre Brussels · CDC Filovirus Page · ECDC week 21 update 2026</em></p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Hay vacuna o tratamiento aprobado para Bundibugyo?</div>
+          <div class="faq-a">
+            <p><b>No hay vacuna autorizada específicamente para Bundibugyo.</b> La vacuna comercial existente —<b>Ervebo</b> de Merck (rVSV-ZEBOV)— cubre únicamente la cepa <b>Zaire</b>. Su despliegue en el brote actual es a título de mitigación regional, no de cobertura específica.</p>
+            <p>La candidata de Johnson &amp; Johnson (régimen heterólogo Zabdeno + Mvabea) tiene <b>posible inmunidad cruzada parcial</b> con Bundibugyo, pendiente de validación operativa. CEPI activó el 17 de mayo de 2026 la <b>Bundibugyo Acceleration Track</b> dentro del programa <em>100 Day Mission</em>; el brote es la primera prueba real del programa. En enero de 2026 —cuatro meses antes del brote— CEPI ya había asignado USD 26.7 M a Moderna + Oxford para una vacuna multivalente que incluye Bundibugyo.</p>
+            <p>Para tratamiento: hay dos anticuerpos monoclonales aprobados por FDA contra cepa Zaire (Inmazeb de Regeneron, Ebanga de Ridgeback). Su eficacia contra Bundibugyo no está autorizada, aunque hay datos preclínicos sugerentes.</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: FDA · EMA · CEPI press release post-PHEIC · Fierce Biotech</em></p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Cuánto dura el periodo de incubación?</div>
+          <div class="faq-a">
+            <p>Entre <b>2 y 21 días</b>, con mediana de 8 a 10 días. La cuarentena estándar bajo Reglamento Sanitario Internacional es de <b>21 días</b> desde la última exposición conocida.</p>
+            <p>El brote actual fue detectado tarde: el caso índice de Mongbwalu apareció el 5 de mayo, pero el sistema de salud aplicó inicialmente test rápido para cepa Zaire (negativo). Tomó nueve días aplicar test específico de Bundibugyo y confirmar el patógeno (14 de mayo). El sesgo de detección por cepa explica por qué el brote pudo circular semanas sin identificarse.</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: OMS DON602 · INRB Kinshasa · CDC HAN 00530</em></p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Por qué la declaración de emergencia internacional fue tan rápida?</div>
+          <div class="faq-a">
+            <p>La OMS declaró PHEIC el 17 de mayo de 2026, <b>trece días después</b> de la alerta inicial. Es la activación más rápida del Reglamento Sanitario Internacional 2005 jamás registrada. Para comparar: H1N1 2009 tardó 83 días, COVID-19 tardó 30 días, ébola Kivu 2018-2019 tardó once meses.</p>
+            <p>La velocidad no responde a una mutación viral inédita —Bundibugyo es un subtipo conocido desde 2007— sino a la <b>activación de un andamio institucional preexistente</b>: protocolos de notificación afinados tras COVID, comités de emergencia con cuórum permanente, stockpiles farmacéuticos preposicionados, financiamiento CEPI/BARDA ya canalizado. Estructura ya montada para funcionar así.</p>
+            <p>La <b>columna del 20 de mayo</b> (<em>Capitalismo de preparación pandémica</em>) analiza el patrón completo. La doctrina del shock de Naomi Klein no necesita teorías de conspiración: basta con notar que las soluciones esperan, listas, antes de que aparezca el problema.</p>
+            <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: OMS Director-General statement 17-may-2026 · GAO Pandemic Preparedness Reports · Klein 2007</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: COMPARATIVO — Gráficos lado a lado de los dos brotes -->
+    <div class="tab-panel" id="panel-comparativo">
+      <div class="guia-intro">
+        Tres gráficos por brote, comparativos a primera vista: <b>cifras al cierre del 22 de mayo de 2026</b>, <b>velocidad de respuesta institucional</b> y <b>arquitectura farmacéutica activada</b>. Visualizaciones en SVG nativo, sin librerías externas. <b>Las cifras se actualizan al ritmo de los boletines oficiales.</b>
+      </div>
+
+      <div class="comparativo-grid">
+        <!-- ====== Gráfico 1: Cifras crudas ====== -->
+        <div class="comparativo-card">
+          <h3 class="comparativo-titulo">1 · Cifras crudas al 22-may-2026</h3>
+          <div class="comparativo-subtitulo">Casos confirmados, muertes y letalidad cruda por brote</div>
+          <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" class="comparativo-svg" role="img" aria-label="Comparativo de cifras crudas al 22 de mayo de 2026">
+            <!-- Eje base -->
+            <line x1="40" y1="160" x2="310" y2="160" stroke="#cbd5e1" stroke-width="1"/>
+            <!-- Hantavirus -->
+            <text x="80" y="22" font-size="10" fill="#4a7fa3" font-weight="700" text-anchor="middle" letter-spacing="0.05em">HANTAVIRUS</text>
+            <rect x="50" y="120" width="20" height="40" fill="#4a7fa3"/>
+            <text x="60" y="115" font-size="11" fill="#4a7fa3" text-anchor="middle" font-weight="700">9</text>
+            <text x="60" y="172" font-size="8" fill="#5a6e8c" text-anchor="middle">conf.</text>
+            <rect x="80" y="135" width="20" height="25" fill="#991b1b"/>
+            <text x="90" y="130" font-size="11" fill="#991b1b" text-anchor="middle" font-weight="700">3</text>
+            <text x="90" y="172" font-size="8" fill="#5a6e8c" text-anchor="middle">muertes</text>
+            <rect x="110" y="100" width="20" height="60" fill="#d97706"/>
+            <text x="120" y="95" font-size="11" fill="#d97706" text-anchor="middle" font-weight="700">27%</text>
+            <text x="120" y="172" font-size="8" fill="#5a6e8c" text-anchor="middle">letalidad</text>
+            <!-- Separador -->
+            <line x1="170" y1="20" x2="170" y2="170" stroke="#cbd5e1" stroke-dasharray="3,3"/>
+            <!-- Ébola -->
+            <text x="245" y="22" font-size="10" fill="#c2410c" font-weight="700" text-anchor="middle" letter-spacing="0.05em">ÉBOLA BUNDIBUGYO</text>
+            <rect x="190" y="40" width="20" height="120" fill="#c2410c"/>
+            <text x="200" y="35" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">64</text>
+            <text x="200" y="172" font-size="8" fill="#5a6e8c" text-anchor="middle">conf.</text>
+            <rect x="220" y="35" width="20" height="125" fill="#7c2d12"/>
+            <text x="230" y="30" font-size="11" fill="#7c2d12" text-anchor="middle" font-weight="700">160+</text>
+            <text x="230" y="172" font-size="8" fill="#5a6e8c" text-anchor="middle">muertes</text>
+            <rect x="250" y="105" width="20" height="55" fill="#d97706"/>
+            <text x="260" y="100" font-size="11" fill="#d97706" text-anchor="middle" font-weight="700">25-30%</text>
+            <text x="260" y="172" font-size="8" fill="#5a6e8c" text-anchor="middle">letalidad</text>
+          </svg>
+          <div class="comparativo-pie">
+            Hantavirus: cluster cerrado (147 expuestos) en cuarentena de 42 días. Ébola: brote abierto, 650+ sospechosos en RDC + Uganda. La letalidad cruda del hantavirus es <b>mayor</b> (27 % vs 25-30 %) pese a su menor visibilidad mediática.<br/>
+            <em>Fuentes: OMS DON601 · ECDC week 21 2026 · MINSA RDC</em>
+          </div>
+        </div>
+
+        <!-- ====== Gráfico 2: Velocidad institucional ====== -->
+        <div class="comparativo-card">
+          <h3 class="comparativo-titulo">2 · Velocidad de respuesta institucional</h3>
+          <div class="comparativo-subtitulo">Días entre alerta inicial y declaración de Emergencia Internacional (PHEIC)</div>
+          <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" class="comparativo-svg" role="img" aria-label="Velocidad de respuesta PHEIC comparada con brotes históricos">
+            <!-- Filas horizontales -->
+            <g font-size="9" fill="#5a6e8c" text-anchor="end">
+              <text x="100" y="35">Ébola Kivu 2018</text>
+              <text x="100" y="60">H1N1 2009</text>
+              <text x="100" y="85">COVID-19 2020</text>
+              <text x="100" y="110">Hantavirus 2026*</text>
+              <text x="100" y="135">Ébola Bundibugyo 2026</text>
+            </g>
+            <!-- Barras (escala: 330 días = 200 px, max) -->
+            <rect x="105" y="27" width="200" height="14" fill="#94a3b8"/>
+            <text x="310" y="38" font-size="9" fill="#475569" font-weight="700">330 d</text>
+            <rect x="105" y="52" width="50" height="14" fill="#94a3b8"/>
+            <text x="160" y="63" font-size="9" fill="#475569" font-weight="700">83 d</text>
+            <rect x="105" y="77" width="18" height="14" fill="#94a3b8"/>
+            <text x="128" y="88" font-size="9" fill="#475569" font-weight="700">30 d</text>
+            <rect x="105" y="102" width="0" height="14" fill="#4a7fa3"/>
+            <text x="115" y="113" font-size="9" fill="#4a7fa3" font-weight="700">sin PHEIC</text>
+            <rect x="105" y="127" width="8" height="14" fill="#c2410c"/>
+            <text x="118" y="138" font-size="9" fill="#c2410c" font-weight="700">13 d · récord</text>
+            <text x="160" y="170" font-size="8" fill="#5a6e8c" text-anchor="middle" font-style="italic">* el cluster del MV Hondius mantuvo alerta sub-PHEIC pese a 11 casos y 3 muertes</text>
+            <text x="160" y="188" font-size="8" fill="#5a6e8c" text-anchor="middle">Eje horizontal aproximado · escala lineal</text>
+          </svg>
+          <div class="comparativo-pie">
+            La PHEIC del Ébola Bundibugyo se declaró en <b>13 días</b>: récord absoluto desde la entrada en vigor del Reglamento Sanitario Internacional 2005. Para el hantavirus —con cluster confirmado en crucero— la OMS mantuvo alerta sin PHEIC. <b>La asimetría en velocidad no responde al patógeno, sino al andamio institucional ya activo.</b><br/>
+            <em>Fuentes: OMS IHR archive · GAO Pandemic Reports · WHO Statements 2009, 2020, 2026</em>
+          </div>
+        </div>
+
+        <!-- ====== Gráfico 3: Arquitectura farmacéutica ====== -->
+        <div class="comparativo-card">
+          <h3 class="comparativo-titulo">3 · Arquitectura farmacéutica activada</h3>
+          <div class="comparativo-subtitulo">Estado de la pipeline de vacunas e infraestructura financiera por brote</div>
+          <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" class="comparativo-svg" role="img" aria-label="Arquitectura farmacéutica comparada entre los dos brotes">
+            <!-- Encabezados de columna -->
+            <text x="160" y="20" font-size="10" fill="#4a7fa3" font-weight="700" text-anchor="middle" letter-spacing="0.05em">HANTAVIRUS</text>
+            <text x="260" y="20" font-size="10" fill="#c2410c" font-weight="700" text-anchor="middle" letter-spacing="0.05em">ÉBOLA BUNDIBUGYO</text>
+            <line x1="200" y1="30" x2="200" y2="210" stroke="#cbd5e1" stroke-dasharray="3,3"/>
+            <!-- Filas -->
+            <g font-size="9" fill="#475569">
+              <text x="10" y="50">Vacuna aprobada</text>
+              <circle cx="160" cy="47" r="6" fill="#dc2626"/>
+              <text x="160" y="50" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">×</text>
+              <circle cx="260" cy="47" r="6" fill="#f59e0b"/>
+              <text x="260" y="51" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">~</text>
+            </g>
+            <g font-size="9" fill="#475569">
+              <text x="10" y="80">Fase clínica avanzada</text>
+              <circle cx="160" cy="77" r="6" fill="#f59e0b"/>
+              <text x="160" y="81" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">1</text>
+              <circle cx="260" cy="77" r="6" fill="#16a34a"/>
+              <text x="260" y="81" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">3</text>
+            </g>
+            <g font-size="9" fill="#475569">
+              <text x="10" y="110">Financiamiento CEPI activo</text>
+              <circle cx="160" cy="107" r="6" fill="#16a34a"/>
+              <text x="160" y="111" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">✓</text>
+              <circle cx="260" cy="107" r="6" fill="#16a34a"/>
+              <text x="260" y="111" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">✓</text>
+            </g>
+            <g font-size="9" fill="#475569">
+              <text x="10" y="140">Stockpile preposicionado</text>
+              <circle cx="160" cy="137" r="6" fill="#dc2626"/>
+              <text x="160" y="140" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">×</text>
+              <circle cx="260" cy="137" r="6" fill="#16a34a"/>
+              <text x="260" y="141" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">✓</text>
+            </g>
+            <g font-size="9" fill="#475569">
+              <text x="10" y="170">Antiviral específico</text>
+              <circle cx="160" cy="167" r="6" fill="#dc2626"/>
+              <text x="160" y="170" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">×</text>
+              <circle cx="260" cy="167" r="6" fill="#f59e0b"/>
+              <text x="260" y="171" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">~</text>
+            </g>
+            <g font-size="9" fill="#475569">
+              <text x="10" y="200">100 Day Mission activado</text>
+              <circle cx="160" cy="197" r="6" fill="#dc2626"/>
+              <text x="160" y="200" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">×</text>
+              <circle cx="260" cy="197" r="6" fill="#16a34a"/>
+              <text x="260" y="201" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">✓</text>
+            </g>
+            <!-- Leyenda chiquita -->
+            <g font-size="7" fill="#5a6e8c">
+              <circle cx="20" cy="218" r="3" fill="#16a34a"/><text x="28" y="221">✓ activo</text>
+              <circle cx="80" cy="218" r="3" fill="#f59e0b"/><text x="88" y="221">~ parcial</text>
+              <circle cx="150" cy="218" r="3" fill="#dc2626"/><text x="158" y="221">× ausente</text>
+            </g>
+          </svg>
+          <div class="comparativo-pie">
+            <b>La asimetría operativa</b> entre los dos brotes es estructural, no clínica. Para Ébola hay vacuna comercial (parcial), tres candidatos en fase 3, stockpile listo y 100 Day Mission activado en 24 horas. Para hantavirus —con letalidad mayor— solo hay candidatas en Fase 1 sin financiamiento sostenido. <b>La preparación farmacéutica selecciona qué brotes se vuelven gestionables y cuáles permanecen como riesgo abierto.</b><br/>
+            <em>Fuentes: FDA · EMA · CEPI portfolio · USAMRIID · ClinicalTrials.gov</em>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- TAB: GUÍA — Cómo leer este mapa -->
     <div class="tab-panel" id="panel-guia">
       <div class="guia-intro">
-        El mapa interactivo del Expediente Hantavirus 2026 reúne datos verificables del brote del MV Hondius en un solo plano editorial. No es ilustración: es una herramienta de lectura sistémica. Cada elemento es atribuible a una fuente y puede aislarse o combinarse con otros.
+        El mapa interactivo del <b>Expediente Brotes 2026</b> reúne datos verificables de dos brotes simultáneos —<b>hantavirus Andes</b> (MV Hondius, abril–mayo) y <b>ébola Bundibugyo</b> (RDC + Uganda, mayo)— en un solo plano editorial. No es ilustración: es una herramienta de lectura sistémica. Cada elemento es atribuible a una fuente y puede aislarse o combinarse con otros.
+      </div>
+
+      <div class="guia-section">
+        <h3>Dos brotes, un expediente</h3>
+        <p>La arquitectura del sitio permite alternar entre los dos brotes desde el selector dual <b>Hantavirus · Ébola</b> que aparece en cada apartado contextual (Cronología, Casos por país, Boletín, Columnas, Vacunas). Las secciones <em>Cómo leer este mapa</em>, <em>Glosario</em> y <em>Fuentes</em> son compartidas — los marcos analíticos y los organismos sanitarios aplican a ambos.</p>
+        <p>El <b>selector maestro del mapa</b> (arriba a la izquierda de la barra de capas) permite tres modos: <b>solo hantavirus</b>, <b>solo ébola</b>, <b>ambos</b>. El estado se guarda en la URL via <code>?brote=hanta</code> · <code>?brote=ebola</code> · <code>?brote=ambos</code> para compartir vistas con un enlace.</p>
+        <p><b>Columnas transversales.</b> Las piezas marcadas como <span class="pill pill-transversal" style="font-size:9px;padding:2px 7px;border-radius:8px;letter-spacing:0.08em;">Transversal</span> aparecen en ambas vistas — su marco analítico (la doctrina del shock, la arquitectura heredada del COVID, el capitalismo de preparación pandémica) aplica a cualquiera de los dos brotes.</p>
       </div>
 
       <div class="guia-section">
@@ -2735,6 +3357,36 @@
       </div>
 
       <div class="guia-section">
+        <h3>Las cuatro capas del brote Ébola Bundibugyo</h3>
+        <ul class="guia-layers">
+          <li>
+            <span class="guia-layer-color" style="background:#c2410c"></span>
+            <div class="guia-text">
+              <b>Ébola · casos</b> — Marcadores naranja quemado con código E1, E2, E3… en orden cronológico. Cubren Mongbwalu (caso índice, 5 may), Bunia (confirmación de cepa, 14 may), declaración PHEIC en Ginebra (16 may), Kampala (Uganda, 17 may), Goma (zona M23, 17 may), Kinshasa (médico estadounidense positivo, 17 may), Frankfurt (evacuación, 18 may), Washington (screening CDC, 18 may), Atlanta (HAN 00530, 19 may) y Ginebra (Comité de Emergencia RSI, 22 may).
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-color" style="background:#c2410c;opacity:0.4"></span>
+            <div class="guia-text">
+              <b>Foco Ituri</b> — Polígono naranja semitransparente sobre la provincia de Ituri + Nord-Kivu (noreste de la RDC), zona donde inició el brote y donde se concentran las once zonas de salud activas al 22 de mayo.
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-color" style="background:#7c2d12"></span>
+            <div class="guia-text">
+              <b>Zona M23</b> — Polígono ocre oscuro sobre el territorio bajo control del <em>Mouvement du 23 mars</em> en Nord-Kivu. Goma —capital provincial— registró caso confirmado de Bundibugyo el 17 de mayo. MSF negocia acceso humanitario directamente con el M23, lo que de facto le otorga estatus de interlocutor sanitario. Patrón documentado en Tigré 2021-2023.
+            </div>
+          </li>
+          <li>
+            <span class="guia-layer-dash" style="border-top-color:#c2410c"></span>
+            <div class="guia-text">
+              <b>Evacuación a Alemania</b> — Línea punteada naranja Kinshasa → Frankfurt. Traslado aéreo del médico estadounidense positivo a un centro de bioseguridad alemán. El primer caso fuera de África no se trató en EE.UU.: la logística pasó por Europa.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="guia-section">
         <h3>Cómo interactuar</h3>
         <p>• <b>Click en cualquier marcador</b> abre un popup con la información completa de ese evento o nodo, incluida la fuente verificable.</p>
         <p>• <b>Click en una línea</b> (ruta marítima o pre-crucero) también abre popup descriptivo.</p>
@@ -2761,8 +3413,11 @@
 
       <div class="guia-section">
         <h3>Lectura editorial</h3>
-        <p>Este mapa no es ilustración. Es una herramienta de lectura sistémica. Cada vez que prendes o apagas una capa, propones una hipótesis: <em>¿qué muestra el brote si lo lees solo con el pipeline de vacunas activado? ¿qué dibujan los nodos de financiamiento cuando los superpones con la ruta marítima? ¿qué cambia si activas la capa geopolítica y observas que Argentina abandonó la OMS quince días antes de que el barco zarpara de su puerto?</em></p>
-        <p>El expediente está pensado para ser <b>interrogado</b>, no consumido. Las <b>seis columnas del arco</b> (8 – 19 de mayo) leen el brote desde ángulos distintos: la arquitectura institucional que el COVID dejó montada (Klein), el capitalismo del desastre (Klein), la economía de la atención (Crary), los rostros públicos como <em>frontstage</em> goffmaniano (Goffman / Jung), la decisión soberana en clave schmittiana (Schmitt), y el ajuste espacial en Ushuaia (Harvey). Cada una se publica en la pestaña <i>Columnas</i> del panel.</p>
+        <p>Este mapa no es ilustración. Es una herramienta de lectura sistémica. Cada vez que prendes o apagas una capa, propones una hipótesis: <em>¿qué muestra el brote del MV Hondius si lo lees solo con el pipeline de vacunas activado? ¿qué dibujan los nodos de financiamiento cuando los superpones con la ruta marítima? ¿qué cambia si activas la capa geopolítica y observas que Argentina abandonó la OMS quince días antes de que el barco zarpara de su puerto? ¿qué emerge cuando superpones el foco de Ébola en Ituri con la zona M23 y con la ruta de evacuación a Frankfurt en lugar de a Estados Unidos?</em></p>
+        <p>El expediente está pensado para ser <b>interrogado</b>, no consumido. Las <b>columnas transversales</b> leen los dos brotes desde marcos analíticos comunes: la arquitectura institucional que el COVID dejó montada (Klein), el capitalismo del desastre (Klein), la economía de la atención (Crary), los rostros públicos como <em>frontstage</em> goffmaniano (Goffman / Jung), la decisión soberana en clave schmittiana (Schmitt), el ajuste espacial en Ushuaia (Harvey) y el capitalismo de preparación pandémica (Lakoff). Cada pieza se publica en la pestaña <i>Columnas</i> del panel y se filtra por brote para hacer visible la doble pertenencia.</p>
+        <div class="guia-tip">
+          <b>Por qué dos brotes a la vez.</b> El expediente sostiene una hipótesis editorial sin enfoque conspirativo: la activación simultánea de dos PHEIC (hantavirus en estudio + ébola Bundibugyo declarada) en el mismo trimestre, con farmacéuticas y financiadores ya en posición —Moderna, J&amp;J, Merck; CEPI, BARDA, GAVI— es una <em>correlación</em> observable. El sitio deja los hilos visibles para que el lector los siga. La lectura crítica es responsabilidad del lector.
+        </div>
       </div>
     </div>
   </aside>
@@ -2782,6 +3437,25 @@
     <div class="reader-back" id="reader-back-btn">Volver al mapa</div>
   </div>
   <div class="reader-article" id="reader-content"></div>
+</div>
+
+<!-- Lector genérico para FAQ y Comparativo — mismo patrón fullscreen.
+     El contenido se inyecta en runtime desde panel-faq / panel-comparativo. -->
+<div id="contenido-reader" class="reader-view contenido-reader-wide">
+  <div class="reader-topbar">
+    <div class="reader-topbar-left">
+      <div class="logo-mark">45</div>
+      <div class="topbar-title">
+        Digital Noticias
+        <small id="contenido-reader-subtitle">Expediente Brotes 2026</small>
+      </div>
+    </div>
+    <div class="reader-back" id="contenido-reader-back-btn">Volver al mapa</div>
+  </div>
+  <div class="reader-article">
+    <h1 class="reader-title" id="contenido-reader-title">—</h1>
+    <div id="contenido-reader-inner"></div>
+  </div>
 </div>
 
 <div class="timebar">
@@ -2858,6 +3532,9 @@
     { n:28, day:45, date:'15-may', type:'hospital', coords:[48.86,2.35], place:'París — Bichat · cuidados paliativos', desc:'La paciente francesa del Hospital Bichat (65 años, pasajera del MV Hondius) <b>pasa formalmente a cuidados paliativos</b>. Tras la "fase terminal del soporte" anunciada el 13 de mayo, el cuadro cardiopulmonar no remite. Continúa con ECMO (oxigenación extracorpórea) en la UCI. La UE descartó mutaciones del virus tras secuenciación independiente — la cepa coincide sin variaciones con la del cono sur. <b>26 contactos cercanos PCR-negativos pero en cuarentena.</b> Es el cuadro vivo más grave del cluster. Fuentes: Diario en Positivo, RPP, Mundiario.', v:'✅' },
     { n:29, day:49, date:'19-may', type:'death', coords:[39.32,-104.97], place:'Douglas County, Colorado, EE.UU. — Sin Nombre virus (no MV Hondius)', desc:'<b>Adulto residente de Douglas County, Colorado, fallece por hantavirus.</b> Autoridades sanitarias estadounidenses confirman: <b>cepa Sin Nombre virus (SNV)</b>, endémica de América del Norte, transmitida por contacto con excrementos u orina del ratón ciervo. <b>Descartado oficialmente cualquier vínculo con el MV Hondius</b> — son cepas distintas (SNV vs. Andes). EE.UU. registra históricamente 20-40 casos anuales de Sin Nombre virus; este caso aparece en titulares por el contexto del brote internacional, no por excepcionalidad clínica. Fuentes: Infobae EE.UU., El Mañana, TV Azteca BC.', v:'✅' }
   ];
+
+  // (La cronología de Ébola usa el arreglo `eventosEbola` definido más abajo
+  //  junto con los marcadores del mapa — fuente única de verdad.)
 
   // Mapeo día → fecha legible
   const dayToDate = {
@@ -3656,6 +4333,38 @@
     tl.appendChild(div);
   });
 
+  // ----- Panel cronología — ÉBOLA -----
+  // Usa el arreglo `eventosEbola` definido junto con los marcadores del mapa.
+  // Click: enciende la capa Ébola si está apagada y vuela al marcador.
+  const tlEbola = document.getElementById('timeline-ebola');
+  if (tlEbola && typeof eventosEbola !== 'undefined') {
+    eventosEbola.forEach(e => {
+      const div = document.createElement('div');
+      div.className = 'event event-ebola';
+      div.dataset.n = e.n;
+      div.dataset.type = e.type;
+      div.innerHTML = `
+        <div class="date">${e.date}</div>
+        <div>
+          <span class="num">${e.n}</span><span class="place">${e.place}</span><span class="verif">${e.v}</span>
+          <div class="desc">${e.desc}</div>
+        </div>
+      `;
+      div.addEventListener('click', () => {
+        document.querySelectorAll('.event-ebola').forEach(x => x.classList.remove('active'));
+        div.classList.add('active');
+        // Si la capa Ébola está apagada, la encendemos para que el marcador sea visible
+        const btnCapa = document.querySelector('.layer-tab[data-layer="ebolaCasos"]');
+        if (btnCapa && !btnCapa.classList.contains('active')) {
+          btnCapa.classList.add('active');
+          toggleLayer('ebolaCasos', true);
+        }
+        map.flyTo(e.coords, Math.max(map.getZoom(), 5), { duration: 0.8 });
+      });
+      tlEbola.appendChild(div);
+    });
+  }
+
   // ----- Filtros -----
   document.querySelectorAll('.filter-chip').forEach(chip => {
     chip.addEventListener('click', () => {
@@ -3674,21 +4383,131 @@
     });
   });
 
+  // ----- Recálculo dinámico de los contadores del selector dual -----
+  // En lugar de hardcodear (24)/(5) en el HTML, se cuentan en runtime
+  // según los arreglos cargados — así no quedan desfasados al añadir piezas.
+  function actualizarContadoresBrote() {
+    const setCount = (context, brote, n) => {
+      const sel = document.querySelector(`.brote-selector[data-context="${context}"]`);
+      if (!sel) return;
+      const tab = sel.querySelector(`.brote-tab[data-brote="${brote}"] .brote-count`);
+      if (tab) tab.textContent = `(${n})`;
+    };
+    // Cronología
+    setCount('cronologia', 'hantavirus', events.length);
+    if (typeof eventosEbola !== 'undefined') setCount('cronologia', 'ebola', eventosEbola.length);
+    // Boletín
+    setCount('boletin', 'hantavirus', declaraciones.length);
+    setCount('boletin', 'ebola', declaracionesEbola.length);
+    // Columnas
+    const nHanta = columnas.filter(c => perteneceAlArco(c, 'hantavirus')).length;
+    const nEbola = columnas.filter(c => perteneceAlArco(c, 'ebola')).length;
+    setCount('columnas', 'hantavirus', nHanta);
+    setCount('columnas', 'ebola', nEbola);
+  }
+
+  // ----- Selector dual de brote (Hantavirus / Ébola) en apartados contextuales -----
+  // Click en una pestaña del segmented control: oculta el .brote-content del brote
+  // contrario dentro del mismo panel y marca la pestaña como activa. Cada panel
+  // mantiene su propio estado independiente (cronología y vacunas pueden estar
+  // en hantavirus mientras columnas en ébola, etc.).
+  document.querySelectorAll('.brote-selector .brote-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const selector = tab.closest('.brote-selector');
+      const broteElegido = tab.dataset.brote;
+      // Tabs: marca el activo dentro de este selector
+      selector.querySelectorAll('.brote-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.brote === broteElegido);
+      });
+      // Content: muestra el contenido del brote elegido y oculta el otro
+      const panel = selector.closest('.tab-panel');
+      if (!panel) return;
+      panel.querySelectorAll(':scope > .brote-content, :scope > #columnas-index > .brote-content').forEach(c => {
+        c.style.display = c.dataset.brote === broteElegido ? '' : 'none';
+      });
+    });
+  });
+
   // ----- Sidenav -----
+  // Tabs que se abren en pantalla completa (no en el aside lateral) porque
+  // su contenido necesita más ancho (gráficos comparativos · FAQ con cuerpo
+  // de prosa). Reusan la infraestructura del reader de columnas.
+  const TABS_FULLSCREEN = new Set(['faq', 'comparativo']);
+  const TABS_FULLSCREEN_META = {
+    faq: {
+      titulo: 'Preguntas frecuentes',
+      subtitulo: 'Hantavirus · Ébola — información clínica y epidemiológica verificable'
+    },
+    comparativo: {
+      titulo: 'Comparativo Hantavirus · Ébola',
+      subtitulo: 'Tres gráficos por brote — cifras, velocidad institucional, arquitectura farmacéutica'
+    }
+  };
+  const contenidoReader = document.getElementById('contenido-reader');
+  const contenidoReaderInner = document.getElementById('contenido-reader-inner');
+  const contenidoReaderTitle = document.getElementById('contenido-reader-title');
+  const contenidoReaderSubtitle = document.getElementById('contenido-reader-subtitle');
+
+  function abrirContenidoFullscreen(tab) {
+    const panel = document.getElementById('panel-' + tab);
+    if (!panel || !contenidoReader) return;
+    const meta = TABS_FULLSCREEN_META[tab] || { titulo: '', subtitulo: 'Expediente Brotes 2026' };
+    contenidoReaderTitle.textContent = meta.titulo;
+    if (contenidoReaderSubtitle) contenidoReaderSubtitle.textContent = meta.subtitulo;
+    // Inyectamos el HTML del panel (sin clonar nodos para no duplicar IDs)
+    contenidoReaderInner.innerHTML = panel.innerHTML;
+    // Re-enganchamos los handlers del selector dual dentro del reader
+    contenidoReaderInner.querySelectorAll('.brote-selector .brote-tab').forEach(tabBtn => {
+      tabBtn.addEventListener('click', () => {
+        const selector = tabBtn.closest('.brote-selector');
+        const broteElegido = tabBtn.dataset.brote;
+        selector.querySelectorAll('.brote-tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.brote === broteElegido);
+        });
+        contenidoReaderInner.querySelectorAll(':scope > .brote-content').forEach(c => {
+          c.style.display = c.dataset.brote === broteElegido ? '' : 'none';
+        });
+      });
+    });
+    contenidoReader.classList.add('fullscreen');
+    document.body.style.overflow = 'hidden';
+    contenidoReader.scrollTop = 0;
+  }
+
+  function cerrarContenidoFullscreen() {
+    contenidoReader.classList.remove('fullscreen');
+    document.body.style.overflow = '';
+    // Limpiamos el contenido para no dejar elementos huérfanos en el DOM
+    contenidoReaderInner.innerHTML = '';
+  }
+
+  if (document.getElementById('contenido-reader-back-btn')) {
+    document.getElementById('contenido-reader-back-btn').addEventListener('click', cerrarContenidoFullscreen);
+  }
+
   document.querySelectorAll('.nav-item').forEach(t => {
     t.addEventListener('click', () => {
+      const tab = t.dataset.tab;
+      // Para FAQ y Comparativo: abrir en pantalla completa, no cambiar aside
+      if (TABS_FULLSCREEN.has(tab)) {
+        abrirContenidoFullscreen(tab);
+        return;
+      }
       document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
       t.classList.add('active');
-      document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+      document.getElementById('panel-' + tab).classList.add('active');
       // Modo Antecedente: el iframe ocupa todo el espacio central (oculta mapa + ensancha aside)
       const layout = document.querySelector('.layout');
-      if (layout) layout.classList.toggle('modo-antecedente', t.dataset.tab === 'antecedente');
-      // Cerrar el lector fullscreen si estaba abierto
+      if (layout) layout.classList.toggle('modo-antecedente', tab === 'antecedente');
+      // Cerrar los lectores fullscreen si estaban abiertos
       const reader = document.getElementById('columnas-reader');
       if (reader && reader.classList.contains('fullscreen')) {
         reader.classList.remove('fullscreen');
         document.body.style.overflow = '';
+      }
+      if (contenidoReader && contenidoReader.classList.contains('fullscreen')) {
+        cerrarContenidoFullscreen();
       }
     });
   });
@@ -3814,6 +4633,40 @@
     ctn.appendChild(div);
   });
 
+  // =================================================================
+  //  ÉBOLA 2026 — Países afectados (RDC + Uganda)
+  // =================================================================
+  const countriesEbola = [
+    { flag:'🇨🇩', name:'República Democrática del Congo', hosp:'Ituri (epicentro) · Goma, North Kivu', conf:64, prob:586, deaths:'160+', coords:[1.5, 30.1],
+      note:'Brote epicentro en Provincia de Ituri (noreste). Caso secundario en Goma (North Kivu, ~2 millones de habitantes — urbano). Contexto: insurgencia M23, crisis humanitaria activa, alta movilidad transfronteriza, red de centros de salud informales.', v:'✅' },
+    { flag:'🇺🇬', name:'Uganda', hosp:'Mbarara y áreas fronterizas con RDC', conf:2, prob:0, deaths:0, coords:[0.3, 32.6],
+      note:'Dos casos importados confirmados desde RDC. Ministerio de Salud de Uganda activa protocolos de vigilancia transfronteriza. Uganda tiene experiencia operativa de brotes previos de Bundibugyo (2007 y 2012).', v:'✅' }
+  ];
+
+  const ctnEbola = document.getElementById('countries-ebola');
+  if (ctnEbola) {
+    countriesEbola.forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'country';
+      div.innerHTML = `
+        <div>
+          <div class="flag">${c.flag} ${c.name} <span class="verif" style="font-size:10px">${c.v}</span></div>
+          <div class="hosp">${c.hosp}</div>
+          <div class="country-note">${c.note}</div>
+        </div>
+        <div class="num-cases">
+          ${c.conf ? `<div><b>${c.conf}</b> conf.</div>` : ''}
+          ${c.prob ? `<div>${c.prob} prob.</div>` : ''}
+          ${c.deaths ? `<div class="death">† ${c.deaths}</div>` : ''}
+        </div>
+      `;
+      div.addEventListener('click', () => {
+        map.flyTo(c.coords, Math.max(map.getZoom(), 4), { duration: 0.8 });
+      });
+      ctnEbola.appendChild(div);
+    });
+  }
+
   // ----- Fuentes -----
   const sources = [
     { group:'Organismos oficiales (sanitarios)', tag:'tag-oficial', items:[
@@ -3852,6 +4705,18 @@
       { t:'CNN Español — Evacúan a tres personas', url:'https://cnnespanol.cnn.com/2026/05/05/mundo/crucero-hantavirus-oms-sospecha-transmision-personas-trax' },
       { t:'El Imparcial — Vigilancia podría extenderse 42 días', url:'https://www.elimparcial.com/mundo/2026/05/11/oms-advierte-que-podrian-aparecer-mas-casos-de-hantavirus-tras-brote-en-crucero-vigilancia-podria-extenderse-hasta-42-dias/' },
       { t:'Wikipedia (español) — Brote de hantavirus en el MV Hondius', url:'https://es.wikipedia.org/wiki/Brote_de_hantavirus_en_el_MV_Hondius' }
+    ]},
+    { group:'Brote de Ébola Bundibugyo 2026 (RDC + Uganda)', tag:'tag-oficial', items:[
+      { t:'OMS — DON602 (informe oficial del brote Bundibugyo)', url:'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON602' },
+      { t:'OMS — Declaración PHEIC, Dr. Tedros (17 de mayo)', url:'https://www.who.int/news/item/17-05-2026-who-director-general-declares-the-bundibugyo-ebola-outbreak-a-pheic' },
+      { t:'OMS — Statement of the IHR Emergency Committee (22 de mayo)', url:'https://www.who.int/news/item/22-05-2026-statement-on-the-meeting-of-the-international-health-regulations-emergency-committee' },
+      { t:'ECDC — Communicable Disease Threats Report, week 21 (19 de mayo)', url:'https://www.ecdc.europa.eu/en/news-events/communicable-disease-threats-report-week-21-2026' },
+      { t:'CDC — Health Alert Network HAN 00530 (guía clínica Bundibugyo)', url:'https://www.cdc.gov/han/php/notices/han00530.html' },
+      { t:'MINSA RDC — Comunicado del 15 de mayo (confirmación INRB)', url:'https://www.minisanterdc.cd/communique-15-mai-2026-ebola-ituri' },
+      { t:'Ministerio de Salud Uganda — Casos importados desde RDC (20 de mayo)', url:'https://www.health.go.ug/2026/05/20/uganda-confirms-imported-ebola-cases/' },
+      { t:'Al Jazeera — India aplaza Cumbre India-África (21 de mayo)', url:'https://www.aljazeera.com/news/2026/5/21/india-postpones-africa-summit-ebola-outbreak' },
+      { t:'CEPI — Press release post-PHEIC sobre 100 Day Mission Bundibugyo', url:'https://cepi.net/news_cepi/cepi-response-bundibugyo-ebola-pheic-2026/' },
+      { t:'ReliefWeb — Boletín humanitario Nord-Kivu / Ituri (semana 20)', url:'https://reliefweb.int/disaster/ep-2026-000074-cod' }
     ]},
     { group:'Trackers y dashboards', tag:'tag-tracker', items:[
       { t:'ArcGIS Dashboard — ANDV Hantavirus 2026 (institucional, basado en ESRI)', url:'https://www.arcgis.com/apps/dashboards/5c68442d2afc42d7ba2696e4cd393729' },
@@ -4096,6 +4961,93 @@
   });
 
   // =================================================================
+  //  BOLETÍN ÉBOLA — declaraciones y comunicados oficiales
+  //  Brote de Bundibugyo en RDC + Uganda (mayo 2026)
+  // =================================================================
+  const declaracionesEbola = [
+    {
+      fecha: '2026-05-22',
+      fechaLegible: '22 may 2026',
+      fuente: 'OMS',
+      tagClass: 'fuente-oms',
+      vocero: 'Comité de Emergencia del Reglamento Sanitario Internacional',
+      cita: 'El Comité de Emergencia, reunido en sesión extraordinaria, ratifica la calificación de Emergencia de Salud Pública de Importancia Internacional para el brote de ébola Bundibugyo en la República Democrática del Congo y Uganda. Cifras consolidadas: <b>650 casos sospechosos, 64 confirmados, más de 160 muertes</b>. Se emiten recomendaciones temporales bajo el RSI 2005: vigilancia transfronteriza reforzada, despliegue del stockpile global de Ervebo (Merck) y aceleración del ensayo de J&J Bundibugyo a través de la plataforma CEPI.',
+      contexto: 'Ratificación formal de la PHEIC declarada el 17 de mayo. Es la reunión que activa, de manera operativa, el andamio financiero internacional para respuesta a brotes: stockpile farmacéutico + ensayos clínicos de emergencia + protocolos transfronterizos. Mismo manual aplicado al COVID-19, ahora compactado en trece días.',
+      url: 'https://www.who.int/news/item/22-05-2026-statement-on-the-meeting-of-the-international-health-regulations-emergency-committee'
+    },
+    {
+      fecha: '2026-05-21',
+      fechaLegible: '21 may 2026',
+      fuente: 'Al Jazeera',
+      tagClass: 'fuente-medio',
+      vocero: 'Gobierno de India — Ministerio de Relaciones Exteriores',
+      cita: 'Por consideraciones sanitarias derivadas del brote de Ébola en África Central, India anuncia el aplazamiento de la Cumbre India-África prevista para finales de mayo en Nueva Delhi. La decisión se adopta tras consulta con la OMS y con las cancillerías africanas participantes. Se reagendará oportunamente.',
+      contexto: 'Primer evento internacional de alto perfil cancelado por el brote. Señal temprana de que la PHEIC ya está produciendo efectos económico-diplomáticos más allá del cerco sanitario. Patrón conocido del COVID-19: la cancelación de eventos masivos suele anteceder en semanas a las restricciones generales de movilidad.',
+      url: 'https://www.aljazeera.com/news/2026/5/21/india-postpones-africa-summit-ebola-outbreak'
+    },
+    {
+      fecha: '2026-05-20',
+      fechaLegible: '20 may 2026',
+      fuente: 'Ministerio de Salud — Uganda',
+      tagClass: 'fuente-oficial',
+      vocero: 'Dra. Jane Ruth Aceng Ocero, Ministra de Salud de Uganda',
+      cita: 'Confirmamos dos casos importados de ébola Bundibugyo en el distrito de Mbarara, ambos con historial de viaje reciente desde la Provincia de Ituri en la República Democrática del Congo. Se activan los protocolos nacionales de respuesta y vigilancia transfronteriza. Uganda cuenta con experiencia operativa en brotes previos de Bundibugyo (2007 y 2012) y mantiene un sistema robusto de rastreo de contactos.',
+      contexto: 'Uganda fue históricamente la cuna del subtipo Bundibugyo — identificado por primera vez en el distrito que le da nombre en 2007. La activación temprana del Ministerio ugandés contrasta con la fragilidad institucional del lado congoleño, marcada por la insurgencia M23 y el desplazamiento humanitario.',
+      url: 'https://www.health.go.ug/2026/05/20/uganda-confirms-imported-ebola-cases/'
+    },
+    {
+      fecha: '2026-05-19',
+      fechaLegible: '19 may 2026',
+      fuente: 'ECDC',
+      tagClass: 'fuente-medio',
+      vocero: 'Centro Europeo para la Prevención y el Control de Enfermedades',
+      cita: 'Actualización epidemiológica del brote de ébola Bundibugyo en África Central. Cifras al cierre del 19 de mayo: aproximadamente 500 casos sospechosos, 30 confirmados por PCR, alrededor de 130 muertes acumuladas. <b>Letalidad cruda preliminar entre 25 % y 30 %</b>, dentro del rango histórico del subtipo. Riesgo para la Unión Europea y el Espacio Económico Europeo evaluado como bajo, condicionado a la rapidez del cerco epidemiológico en RDC.',
+      contexto: 'La letalidad de Bundibugyo (~25-40 % histórica) es significativamente menor a la de Zaire ebolavirus (~50-80 %), pero aun así muy superior al Andes hantavirus (~30-45 %). El ECDC modula su evaluación de riesgo en función de la capacidad operativa del cerco sanitario en zonas con conflicto activo.',
+      url: 'https://www.ecdc.europa.eu/en/news-events/communicable-disease-threats-report-week-21-2026'
+    },
+    {
+      fecha: '2026-05-17',
+      fechaLegible: '17 may 2026',
+      fuente: 'OMS',
+      tagClass: 'fuente-oms',
+      vocero: 'Dr. Tedros Adhanom Ghebreyesus, Director General de la OMS',
+      cita: 'Tras consulta con el Comité de Emergencia del Reglamento Sanitario Internacional, declaro <b>Emergencia de Salud Pública de Importancia Internacional</b> por el brote de ébola Bundibugyo en la República Democrática del Congo y Uganda. La velocidad de respuesta —trece días entre la alerta inicial y la presente declaración— refleja la madurez del sistema multilateral heredado del COVID-19. Se activan protocolos automáticos en los 196 Estados firmantes del RSI.',
+      contexto: 'Activación más rápida de una PHEIC en la historia del Reglamento Sanitario Internacional 2005. Para comparar: el brote de ébola en Kivu (2018-2019) tardó once meses en alcanzar la misma figura legal. La compactación del ciclo no responde a una mutación viral inédita — Bundibugyo es un subtipo conocido desde 2007 — sino a la activación de un andamio institucional preexistente.',
+      url: 'https://www.who.int/news/item/17-05-2026-who-director-general-declares-the-bundibugyo-ebola-outbreak-a-pheic'
+    },
+    {
+      fecha: '2026-05-15',
+      fechaLegible: '15 may 2026',
+      fuente: 'MINSA RDC',
+      tagClass: 'fuente-oficial',
+      vocero: 'Ministerio de Salud Pública de la República Democrática del Congo',
+      cita: 'El Instituto Nacional de Investigación Biomédica (INRB) confirma la presencia del virus del Ébola, subtipo Bundibugyo, en muestras de pacientes de la Provincia de Ituri. Se activa el sistema nacional de respuesta a brotes y se notifica formalmente a la Organización Mundial de la Salud bajo el Reglamento Sanitario Internacional.',
+      contexto: 'Primera confirmación oficial del brote. La Provincia de Ituri se encuentra en el noreste de la RDC, en una zona afectada por la insurgencia M23 y con una red sanitaria precaria. Es el primer brote confirmado de Bundibugyo desde 2012. El subtipo fue identificado originalmente en Uganda en 2007.',
+      url: 'https://www.minisanterdc.cd/communique-15-mai-2026-ebola-ituri'
+    }
+  ];
+
+  const declaracionesContainerEbola = document.getElementById('declaraciones-list-ebola');
+  if (declaracionesContainerEbola) {
+    const declaracionesEbolaSorted = [...declaracionesEbola].sort((a, b) => b.fecha.localeCompare(a.fecha));
+    declaracionesEbolaSorted.forEach(d => {
+      const div = document.createElement('div');
+      div.className = 'declaracion';
+      div.innerHTML = `
+        <div class="declaracion-meta">
+          <span class="declaracion-fecha">${d.fechaLegible}</span>
+          <span class="declaracion-fuente ${d.tagClass}">${d.fuente}</span>
+        </div>
+        <div class="declaracion-vocero">${d.vocero}</div>
+        <blockquote class="declaracion-cita">${d.cita}</blockquote>
+        <div class="declaracion-contexto">${d.contexto}</div>
+        <a class="declaracion-link" href="${d.url}" target="_blank" rel="noopener">Fuente verificable</a>
+      `;
+      declaracionesContainerEbola.appendChild(div);
+    });
+  }
+
+  // =================================================================
   //  COLUMNAS DE OPINIÓN VINCULADAS — agregar entradas aquí
   //  Plantilla:
   //  {
@@ -4120,7 +5072,8 @@
       fechaPublicacion: '2026-05-20',
       fechaLegible: '20 de mayo de 2026',
       serie: null,
-      etiqueta: 'Columna',
+      etiqueta: 'Transversal',
+      arcoEditorial: ['hantavirus', 'ebola'],
       conceptoEje: 'Andrew Lakoff — <em>Unprepared</em> (Univ. California Press, 2017) · Naomi Klein — <em>La doctrina del shock</em> (2007) · David Harvey — <em>El nuevo imperialismo</em> (2003)',
       resumen: 'Trece días entre alerta y emergencia internacional para una cepa que llevaba catorce años fuera del radar. Cuatro meses antes, CEPI ya había firmado el contrato. Veintitrés años de andamio legal y financiero hacen visible un patrón: la pandemia siguiente ya está financiada. Séptima pieza del Expediente Hantavirus 2026.',
       bajada: 'Trece días entre alerta y emergencia internacional para una cepa que llevaba catorce años fuera del radar. Cuatro meses antes, CEPI ya había firmado el contrato. El virus no es el accidente del sistema — es su materia prima.',
@@ -4396,7 +5349,8 @@
       fechaPublicacion: '2026-05-08',
       fechaLegible: '8 de mayo de 2026',
       serie: null,
-      etiqueta: 'Antecedente',
+      etiqueta: 'Antecedente · Transversal',
+      arcoEditorial: ['hantavirus', 'ebola'],
       conceptoEje: 'Naomi Klein — <em>La doctrina del shock</em> (2007), aplicada al saldo institucional del COVID-19',
       resumen: 'No es la pandemia lo que vuelve. Es la maquinaria de respuesta a la pandemia la que nunca se desmontó. Operation Warp Speed, autorización de emergencia, inmunidad civil, financiamiento pandémico permanente — los cinco mecanismos heredados del COVID que hoy están listos para reactivarse.',
       bajada: 'No es la pandemia lo que vuelve. Es la maquinaria de respuesta a la pandemia la que nunca se desmontó. Y eso, en mayo de 2026, conviene mirarlo con cuidado.',
@@ -4466,6 +5420,8 @@
       fechaPublicacion: '2026-05-13',
       fechaLegible: '13 de mayo de 2026',
       serie: null, // Pieza independiente
+      etiqueta: 'Transversal',
+      arcoEditorial: ['hantavirus', 'ebola'],
       conceptoEje: 'Naomi Klein — <em>La doctrina del shock</em> (2007)',
       resumen: 'Del COVID al MV Hondius — el manual que se repite, los actores que ya estaban en posición, y la portada de <em>The Economist</em> que lo anunció seis meses antes.',
       bajada: 'Del COVID al MV Hondius — el manual que se repite, los actores que ya estaban en posición, y la portada que lo dijo seis meses antes.',
@@ -4521,44 +5477,77 @@
 
   // ---------- Renderizado del ÍNDICE ----------
   const columnasContainer = document.getElementById('columnas-list');
+  const columnasContainerEbola = document.getElementById('columnas-list-ebola');
   const columnasIndex = document.getElementById('columnas-index');
   const columnasReader = document.getElementById('columnas-reader');
   const readerContent = document.getElementById('reader-content');
 
+  // Helper: ¿esta columna pertenece al arco editorial elegido?
+  // Convención: si no declara arcoEditorial, se asume sólo hantavirus
+  // (por compatibilidad con las columnas previas al desdoblamiento).
+  function perteneceAlArco(c, brote) {
+    const arco = c.arcoEditorial || ['hantavirus'];
+    return arco.includes(brote);
+  }
+
+  function buildCard(c) {
+    const card = document.createElement('div');
+    card.className = 'column-card';
+    const serieTag = c.serie ? `<span class="pill">${c.serie.titulo} · Parte ${c.serie.orden} de ${c.serie.total}</span>` : '';
+    const transversal = c.arcoEditorial && c.arcoEditorial.length > 1;
+    const etiquetaClase = transversal ? 'pill pill-transversal' : 'pill pill-antecedente';
+    const etiquetaTag = c.etiqueta ? `<span class="${etiquetaClase}">${c.etiqueta}</span>` : '';
+    card.innerHTML = `
+      <div class="meta">
+        <span class="fecha">${c.fechaLegible}</span>
+        ${etiquetaTag}
+        ${serieTag}
+        ${c.tiempoLectura ? `<span class="pill">${c.tiempoLectura} de lectura</span>` : ''}
+      </div>
+      <h3>${c.titulo}</h3>
+      <p class="resumen">${c.resumen}</p>
+      ${c.conceptoEje ? `<div class="concepto">Concepto eje: ${c.conceptoEje}</div>` : ''}
+      <a class="read-btn" data-id="${c.id}">Leer columna</a>
+    `;
+    card.querySelector('.read-btn').addEventListener('click', e => {
+      e.preventDefault();
+      abrirLector(c.id);
+    });
+    return card;
+  }
+
   function renderColumnasIndex() {
+    // Hantavirus
     columnasContainer.innerHTML = '';
-    if (columnas.length === 0) {
+    const hanta = columnas
+      .filter(c => perteneceAlArco(c, 'hantavirus'))
+      .sort((a, b) => b.fechaPublicacion.localeCompare(a.fechaPublicacion));
+    if (hanta.length === 0) {
       columnasContainer.innerHTML = `
         <div class="columns-empty">
           <div class="icon">§</div>
           <div><b>Sin columnas vinculadas todavía.</b></div>
         </div>`;
-      return;
+    } else {
+      hanta.forEach(c => columnasContainer.appendChild(buildCard(c)));
     }
-    const sorted = [...columnas].sort((a, b) => b.fechaPublicacion.localeCompare(a.fechaPublicacion));
-    sorted.forEach(c => {
-      const card = document.createElement('div');
-      card.className = 'column-card';
-      const serieTag = c.serie ? `<span class="pill">${c.serie.titulo} · Parte ${c.serie.orden} de ${c.serie.total}</span>` : '';
-      const etiquetaTag = c.etiqueta ? `<span class="pill pill-antecedente">${c.etiqueta}</span>` : '';
-      card.innerHTML = `
-        <div class="meta">
-          <span class="fecha">${c.fechaLegible}</span>
-          ${etiquetaTag}
-          ${serieTag}
-          ${c.tiempoLectura ? `<span class="pill">${c.tiempoLectura} de lectura</span>` : ''}
-        </div>
-        <h3>${c.titulo}</h3>
-        <p class="resumen">${c.resumen}</p>
-        ${c.conceptoEje ? `<div class="concepto">Concepto eje: ${c.conceptoEje}</div>` : ''}
-        <a class="read-btn" data-id="${c.id}">Leer columna</a>
-      `;
-      card.querySelector('.read-btn').addEventListener('click', e => {
-        e.preventDefault();
-        abrirLector(c.id);
-      });
-      columnasContainer.appendChild(card);
-    });
+
+    // Ébola (sólo si el contenedor existe en el DOM)
+    if (columnasContainerEbola) {
+      columnasContainerEbola.innerHTML = '';
+      const ebola = columnas
+        .filter(c => perteneceAlArco(c, 'ebola'))
+        .sort((a, b) => b.fechaPublicacion.localeCompare(a.fechaPublicacion));
+      if (ebola.length === 0) {
+        columnasContainerEbola.innerHTML = `
+          <div class="columns-empty">
+            <div class="icon">§</div>
+            <div><b>Sin columnas Ébola todavía.</b> Las columnas transversales aparecerán aquí en cuanto exista una pieza específica del brote.</div>
+          </div>`;
+      } else {
+        ebola.forEach(c => columnasContainerEbola.appendChild(buildCard(c)));
+      }
+    }
   }
 
   // ---------- Renderizado del LECTOR ----------
@@ -4688,11 +5677,14 @@
         cerrarLightbox();
       } else if (columnasReader.classList.contains('fullscreen')) {
         volverAlMapa();
+      } else if (contenidoReader && contenidoReader.classList.contains('fullscreen')) {
+        cerrarContenidoFullscreen();
       }
     }
   });
 
   renderColumnasIndex();
+  actualizarContadoresBrote();
 
   // -------- Handler de ?col= en URL: abrir columna específica al cargar --------
   (function abrirColumnaDesdeURL() {
