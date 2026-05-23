@@ -3235,61 +3235,72 @@
         <!-- ====== Gráfico 3: Arquitectura farmacéutica ====== -->
         <div class="comparativo-card">
           <h3 class="comparativo-titulo">3 · Arquitectura farmacéutica activada</h3>
-          <div class="comparativo-subtitulo">Estado de la pipeline de vacunas e infraestructura financiera por brote</div>
-          <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" class="comparativo-svg" role="img" aria-label="Arquitectura farmacéutica comparada entre los dos brotes">
-            <!-- Encabezados de columna -->
-            <text x="160" y="20" font-size="10" fill="#4a7fa3" font-weight="700" text-anchor="middle" letter-spacing="0.05em">HANTAVIRUS</text>
-            <text x="260" y="20" font-size="10" fill="#c2410c" font-weight="700" text-anchor="middle" letter-spacing="0.05em">ÉBOLA BUNDIBUGYO</text>
-            <line x1="200" y1="30" x2="200" y2="210" stroke="#cbd5e1" stroke-dasharray="3,3"/>
-            <!-- Filas -->
-            <g font-size="9" fill="#475569">
-              <text x="10" y="50">Vacuna aprobada</text>
-              <circle cx="160" cy="47" r="6" fill="#dc2626"/>
-              <text x="160" y="50" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">×</text>
-              <circle cx="260" cy="47" r="6" fill="#f59e0b"/>
-              <text x="260" y="51" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">~</text>
-            </g>
-            <g font-size="9" fill="#475569">
-              <text x="10" y="80">Fase clínica avanzada</text>
-              <circle cx="160" cy="77" r="6" fill="#f59e0b"/>
-              <text x="160" y="81" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">1</text>
-              <circle cx="260" cy="77" r="6" fill="#16a34a"/>
-              <text x="260" y="81" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">3</text>
-            </g>
-            <g font-size="9" fill="#475569">
-              <text x="10" y="110">Financiamiento CEPI activo</text>
-              <circle cx="160" cy="107" r="6" fill="#16a34a"/>
-              <text x="160" y="111" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">✓</text>
-              <circle cx="260" cy="107" r="6" fill="#16a34a"/>
-              <text x="260" y="111" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">✓</text>
-            </g>
-            <g font-size="9" fill="#475569">
-              <text x="10" y="140">Stockpile preposicionado</text>
-              <circle cx="160" cy="137" r="6" fill="#dc2626"/>
-              <text x="160" y="140" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">×</text>
-              <circle cx="260" cy="137" r="6" fill="#16a34a"/>
-              <text x="260" y="141" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">✓</text>
-            </g>
-            <g font-size="9" fill="#475569">
-              <text x="10" y="170">Antiviral específico</text>
-              <circle cx="160" cy="167" r="6" fill="#dc2626"/>
-              <text x="160" y="170" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">×</text>
-              <circle cx="260" cy="167" r="6" fill="#f59e0b"/>
-              <text x="260" y="171" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">~</text>
-            </g>
-            <g font-size="9" fill="#475569">
-              <text x="10" y="200">100 Day Mission activado</text>
-              <circle cx="160" cy="197" r="6" fill="#dc2626"/>
-              <text x="160" y="200" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">×</text>
-              <circle cx="260" cy="197" r="6" fill="#16a34a"/>
-              <text x="260" y="201" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">✓</text>
-            </g>
-            <!-- Leyenda chiquita -->
-            <g font-size="7" fill="#5a6e8c">
-              <circle cx="20" cy="218" r="3" fill="#16a34a"/><text x="28" y="221">✓ activo</text>
-              <circle cx="80" cy="218" r="3" fill="#f59e0b"/><text x="88" y="221">~ parcial</text>
-              <circle cx="150" cy="218" r="3" fill="#dc2626"/><text x="158" y="221">× ausente</text>
-            </g>
+          <div class="comparativo-subtitulo">Estado de la pipeline de vacunas e infraestructura financiera por brote — tabla comparativa</div>
+          <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" class="comparativo-svg" role="img" aria-label="Arquitectura farmacéutica comparada entre los dos brotes">
+            <!-- Encabezados de columna con chips coloreadas por brote -->
+            <rect x="180" y="8" width="95" height="22" fill="#4a7fa3" rx="3"/>
+            <text x="228" y="23" font-size="10" fill="#fff" font-weight="700" text-anchor="middle" letter-spacing="0.06em">HANTAVIRUS</text>
+
+            <rect x="320" y="8" width="95" height="22" fill="#c2410c" rx="3"/>
+            <text x="368" y="23" font-size="10" fill="#fff" font-weight="700" text-anchor="middle" letter-spacing="0.06em">ÉBOLA</text>
+
+            <!-- Separador encabezado/filas -->
+            <line x1="10" y1="38" x2="410" y2="38" stroke="#cbd5e1" stroke-width="1"/>
+
+            <!-- ===== Fila 1: Vacuna aprobada ===== -->
+            <text x="10" y="62" font-size="11" fill="#0f172a" font-weight="600">Vacuna aprobada</text>
+            <rect x="180" y="50" width="95" height="20" fill="#fee2e2" stroke="#dc2626" stroke-width="1" rx="3"/>
+            <text x="228" y="64" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">No</text>
+            <rect x="320" y="50" width="95" height="20" fill="#fef3c7" stroke="#d97706" stroke-width="1" rx="3"/>
+            <text x="368" y="64" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">Sólo Zaire</text>
+
+            <!-- ===== Fila 2: Fase clínica avanzada ===== -->
+            <text x="10" y="100" font-size="11" fill="#0f172a" font-weight="600">Fase clínica avanzada</text>
+            <rect x="180" y="88" width="95" height="20" fill="#fef3c7" stroke="#d97706" stroke-width="1" rx="3"/>
+            <text x="228" y="102" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">Fase 1</text>
+            <rect x="320" y="88" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
+            <text x="368" y="102" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Fase 3</text>
+
+            <!-- ===== Fila 3: Financiamiento CEPI ===== -->
+            <text x="10" y="138" font-size="11" fill="#0f172a" font-weight="600">Financiamiento CEPI activo</text>
+            <rect x="180" y="126" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
+            <text x="228" y="140" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Sí</text>
+            <rect x="320" y="126" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
+            <text x="368" y="140" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Sí</text>
+
+            <!-- ===== Fila 4: Stockpile preposicionado ===== -->
+            <text x="10" y="176" font-size="11" fill="#0f172a" font-weight="600">Stockpile preposicionado</text>
+            <rect x="180" y="164" width="95" height="20" fill="#fee2e2" stroke="#dc2626" stroke-width="1" rx="3"/>
+            <text x="228" y="178" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">No</text>
+            <rect x="320" y="164" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
+            <text x="368" y="178" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Sí</text>
+
+            <!-- ===== Fila 5: Antiviral específico ===== -->
+            <text x="10" y="214" font-size="11" fill="#0f172a" font-weight="600">Antiviral específico</text>
+            <rect x="180" y="202" width="95" height="20" fill="#fee2e2" stroke="#dc2626" stroke-width="1" rx="3"/>
+            <text x="228" y="216" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">No</text>
+            <rect x="320" y="202" width="95" height="20" fill="#fef3c7" stroke="#d97706" stroke-width="1" rx="3"/>
+            <text x="368" y="216" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">Sólo Zaire</text>
+
+            <!-- ===== Fila 6: 100 Day Mission ===== -->
+            <text x="10" y="252" font-size="11" fill="#0f172a" font-weight="600">100 Day Mission activado</text>
+            <rect x="180" y="240" width="95" height="20" fill="#fee2e2" stroke="#dc2626" stroke-width="1" rx="3"/>
+            <text x="228" y="254" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">No</text>
+            <rect x="320" y="240" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
+            <text x="368" y="254" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Sí</text>
+
+            <!-- Separador pie -->
+            <line x1="10" y1="270" x2="410" y2="270" stroke="#e2e8f0" stroke-width="1"/>
+
+            <!-- Leyenda al pie -->
+            <rect x="10" y="280" width="14" height="12" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="2"/>
+            <text x="30" y="290" font-size="9" fill="#166534" font-weight="600">Activo</text>
+
+            <rect x="115" y="280" width="14" height="12" fill="#fef3c7" stroke="#d97706" stroke-width="1" rx="2"/>
+            <text x="135" y="290" font-size="9" fill="#92400e" font-weight="600">Parcial</text>
+
+            <rect x="225" y="280" width="14" height="12" fill="#fee2e2" stroke="#dc2626" stroke-width="1" rx="2"/>
+            <text x="245" y="290" font-size="9" fill="#991b1b" font-weight="600">Ausente</text>
           </svg>
           <div class="comparativo-pie">
             <b>La asimetría operativa</b> entre los dos brotes es estructural, no clínica. Para Ébola hay vacuna comercial (parcial), tres candidatos en fase 3, stockpile listo y 100 Day Mission activado en 24 horas. Para hantavirus —con letalidad mayor— solo hay candidatas en Fase 1 sin financiamiento sostenido. <b>La preparación farmacéutica selecciona qué brotes se vuelven gestionables y cuáles permanecen como riesgo abierto.</b><br/>
