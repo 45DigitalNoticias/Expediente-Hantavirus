@@ -312,11 +312,21 @@
     border: 1px solid rgba(212, 160, 23, 0.18);
   }
 
-  /* Ejes y gridlines */
-  .eje, .eje-tick { stroke: rgba(232, 238, 245, 0.4); }
+  /* Ejes y gridlines — labels de ejes con mayor contraste y peso */
+  .eje, .eje-tick { stroke: rgba(232, 238, 245, 0.45); }
   .eje-grid { stroke: rgba(232, 238, 245, 0.10); }
-  .eje-label { fill: rgba(232, 238, 245, 0.6); }
-  .eje-titulo { fill: rgba(232, 238, 245, 0.85); }
+  .eje-label {
+    fill: rgba(232, 238, 245, 0.78) !important;
+    font-weight: 500 !important;
+  }
+  /* Títulos de ejes ("días", "año") — protagonistas en ámbar */
+  .eje-titulo {
+    fill: var(--oro-claro) !important;
+    font-weight: 700 !important;
+    font-size: 12.5px !important;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+  }
 
   /* Chart 1 — línea PHEIC: rojo → ámbar para alta visibilidad sobre navy */
   .linea-pheic {
