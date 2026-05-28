@@ -1835,64 +1835,122 @@
   .leaflet-bottom.leaflet-left .leaflet-control-zoom {
     margin-left: 290px;
   }
+  /* === Markers de Leaflet (divIcon) — polish editorial sobre tile dark === */
+  .leaflet-marker-icon > div,
+  .event-marker > div,
+  .pre-cruise-start > div,
+  .pre-cruise-stop > div {
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.18s ease,
+                filter 0.18s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
+  }
+  .leaflet-marker-icon:hover {
+    z-index: 10000 !important;
+  }
+  .leaflet-marker-icon:hover > div {
+    transform: scale(1.18);
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 12px rgba(212, 160, 23, 0.4));
+  }
+  /* Marker de inicio del pre-crucero — pulso sutil */
+  .pre-cruise-start > div {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.4),
+      0 0 0 0 rgba(212, 160, 23, 0.55),
+      0 2px 6px rgba(0, 0, 0, 0.5) !important;
+    animation: markerPulse 2.4s ease-out infinite;
+  }
+  @keyframes markerPulse {
+    0%   { box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 0 0 0 rgba(212, 160, 23, 0.55), 0 2px 6px rgba(0,0,0,0.5); }
+    70%  { box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 0 0 14px rgba(212, 160, 23, 0), 0 2px 6px rgba(0,0,0,0.5); }
+    100% { box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 0 0 0 rgba(212, 160, 23, 0), 0 2px 6px rgba(0,0,0,0.5); }
+  }
+
+  /* === Leyenda flotante — dark navy con blur, estilo CTA del cine === */
   .legend {
-    position: absolute; bottom: 14px; left: 14px;
-    background: var(--pergamino-claro);
-    background-image: linear-gradient(180deg, var(--pergamino-claro), var(--pergamino));
-    padding: 12px 16px;
-    border: 1px solid var(--tinta-naval);
-    border-radius: 2px;
-    font-size: 12px;
-    font-family: var(--font-display);
-    color: var(--tinta-naval);
-    box-shadow: 0 2px 8px rgba(28, 58, 92, 0.15), 0 0 0 1px var(--dorado) inset;
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    background: rgba(2, 16, 30, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 14px 16px 12px;
+    border: 1px solid rgba(212, 160, 23, 0.32);
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-family: var(--font-body);
+    color: rgba(232, 238, 245, 0.85);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(212, 160, 23, 0.15) inset;
     z-index: 500;
-    line-height: 1.7;
+    line-height: 1.65;
+    max-height: calc(100vh - 280px);
+    overflow-y: auto;
+    max-width: 260px;
   }
   .legend::before {
     content: "LEYENDA";
     display: block;
+    font-family: var(--font-mono);
     font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--sepia);
-    border-bottom: 1px solid var(--divisor);
-    padding-bottom: 4px;
-    margin-bottom: 6px;
+    letter-spacing: 0.28em;
+    color: var(--bermellon-claro);
+    border-bottom: 1px solid rgba(212, 160, 23, 0.22);
+    padding-bottom: 7px;
+    margin-bottom: 9px;
     font-weight: 600;
   }
-  .legend .row { display: flex; align-items: center; gap: 8px; }
+  .legend .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1px 0;
+  }
   .legend .dot {
-    width: 12px; height: 12px; border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
   }
   .legend .line {
-    width: 18px; height: 0;
-    border-top: 3px solid #4a7fa3;
+    width: 20px;
+    height: 0;
+    border-top: 2.5px solid #5ba8f0;
+    flex-shrink: 0;
   }
   .legend .dash {
-    width: 18px; height: 0;
-    border-top: 2px dashed #4b5563;
+    width: 20px;
+    height: 0;
+    border-top: 2px dashed rgba(232, 238, 245, 0.7);
+    flex-shrink: 0;
   }
   .legend .dash-amber {
-    width: 18px; height: 0;
-    border-top: 2px dashed #d4a017;
+    width: 20px;
+    height: 0;
+    border-top: 2px dashed var(--dorado);
+    flex-shrink: 0;
   }
-  /* Secciones de leyenda dinámica — separadas por línea cuando aparecen varias */
+  /* Secciones de leyenda dinámica — separadas por línea sutil */
   .legend-section + .legend-section {
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px dashed var(--divisor);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(232, 238, 245, 0.12);
   }
-  /* Limitar altura para que no crezca infinitamente cuando se activan muchas capas */
-  .legend {
-    max-height: calc(100vh - 280px);
-    overflow-y: auto;
-    max-width: 280px;
+  /* Headers de sección dentro de la leyenda (cuando aplique) */
+  .legend strong, .legend b {
+    color: var(--bermellon-claro);
+    font-weight: 600;
   }
-  .legend::-webkit-scrollbar { width: 6px; }
-  .legend::-webkit-scrollbar-thumb { background: var(--dorado); border-radius: 3px; }
+  /* Scrollbar custom para look editorial */
+  .legend::-webkit-scrollbar { width: 5px; }
+  .legend::-webkit-scrollbar-track { background: transparent; }
+  .legend::-webkit-scrollbar-thumb {
+    background: rgba(212, 160, 23, 0.4);
+    border-radius: 3px;
+  }
+  .legend::-webkit-scrollbar-thumb:hover { background: var(--dorado); }
   /* ===== Selector maestro de brote (arriba del toolbar de capas) =====
      OJO: usamos #broteSelector (ID único del master) en lugar de .brote-selector
      para no chocar con los selectores duales contextuales de los paneles. */
@@ -4156,16 +4214,15 @@
   const evacLayer = L.layerGroup(evacuationPolylines).addTo(map);
 
   // Marcadores numerados (casos / eventos del brote)
-  // Paleta diferenciada por categoría (no atada a la paleta original
-  // del sitio; busca contraste alto entre tipos para legibilidad).
+  // Paleta vibrante sobre tile dark — mejor contraste y diferenciación.
   const markers = {};
   const numberedMarkersList = [];
   const colors = {
-    route:    '#4a7fa3',  // cyan steel — waypoints de la ruta del crucero
-    symptom:  '#d97706',  // mostaza naranja — síntoma detectado
-    death:    '#991b1b',  // rojo vino — muerte confirmada
-    hospital: '#0d9488',  // teal — hospital de destino
-    lab:      '#15803d'   // verde forest — laboratorio / institucional
+    route:    '#5ba8f0',  // cyan brillante — waypoints de la ruta
+    symptom:  '#f59e0b',  // ámbar vibrante — síntoma detectado
+    death:    '#ef4444',  // coral rojo — muerte confirmada (alto contraste)
+    hospital: '#14b8a6',  // teal brillante — hospital de destino
+    lab:      '#22c55e'   // verde vibrante — laboratorio / institucional
   };
 
   events.forEach(e => {
