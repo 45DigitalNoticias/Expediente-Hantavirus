@@ -2737,6 +2737,103 @@
     .cutoff .label { display: none; } /* sólo la fecha en móvil chico */
   }
 
+  /* ════════════════════════════════════════════════════════════════
+     FIX MOBILE — header denso, layer tabs cortadas, leyenda apretada
+     Reporte del usuario: en celular se ve apilado y se cortan elementos.
+     ════════════════════════════════════════════════════════════════ */
+  @media (max-width: 600px) {
+    /* Header: simplificar drásticamente. Ocultar subtítulo largo (rebota). */
+    header .title p {
+      display: none;  /* el subtítulo se hereda del contexto, no es crítico en mobile */
+    }
+    header .title h1 {
+      font-size: 14px;
+      line-height: 1.2;
+      letter-spacing: -0.005em;
+    }
+    .cutoff {
+      padding: 4px 10px;
+      align-self: center;
+    }
+
+    /* Layer tabs: scrolleables horizontalmente con tabs compactas */
+    .layers-toolbar {
+      top: 10px !important;
+      left: 10px !important;
+      right: 10px !important;
+      transform: none !important;
+      max-width: none !important;
+      width: calc(100vw - 20px);
+      padding: 5px 4px;
+      gap: 2px;
+      border-radius: 6px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+    .layer-tab {
+      padding: 5px 8px 4px !important;
+      min-width: 56px !important;
+      flex-shrink: 0;
+    }
+    .layer-tab svg { width: 14px !important; height: 14px !important; }
+    .layer-tab .layer-label {
+      font-size: 8.5px !important;
+      letter-spacing: 0.02em;
+    }
+
+    /* Brote selector arriba del mapa: ajustar tamaño */
+    #broteSelector {
+      top: 56px !important;
+      padding: 5px 10px !important;
+      font-size: 9.5px !important;
+      gap: 6px !important;
+    }
+    /* Mover layers-toolbar a un poco más arriba en mobile (más espacio) */
+    .layers-toolbar { top: 10px !important; }
+
+    /* Leyenda flotante: oculta por defecto en mobile (ocupa demasiado espacio).
+       Se puede mostrar tapping un nuevo botón si quisiéramos exponerla. */
+    .legend {
+      max-width: calc(100vw - 24px);
+      max-height: 38vh;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      padding: 10px 12px 8px;
+      font-size: 10.5px;
+    }
+    .legend::before { font-size: 8.5px; letter-spacing: 0.22em; }
+  }
+
+  @media (max-width: 414px) {
+    /* En el caso del Galaxy S20+ / iPhone Pro: nav-label muy chico */
+    .topnav-item {
+      padding: 0 12px;
+      font-size: 11px;
+    }
+    .topnav-item .topnav-meta {
+      font-size: 9px;
+      padding: 1px 5px;
+    }
+    .layer-tab { min-width: 52px !important; padding: 4px 6px !important; }
+    .layer-tab .layer-label { font-size: 8px !important; }
+  }
+
+  @media (max-width: 400px) {
+    /* iPhone SE / pequeños — más agresivo */
+    .layer-tab { min-width: 44px !important; padding: 3px 5px !important; }
+    .legend {
+      bottom: 4px;
+      max-height: 30vh;
+    }
+    /* Cutoff sólo muestra la fecha (sin label "DATOS AL") */
+    .cutoff { padding: 3px 8px; }
+    .cutoff .label { display: none; }
+    .cutoff .date { font-size: 11px; white-space: nowrap; }
+    /* Brote-selector más compacto */
+    #broteSelector { font-size: 9px !important; padding: 4px 8px !important; }
+  }
+
   /* ── Botón "Volver al cine" — pill discreto en la izquierda del header ── */
   .back-cine {
     display: inline-flex;
