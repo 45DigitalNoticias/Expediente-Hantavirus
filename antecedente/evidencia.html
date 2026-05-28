@@ -351,6 +351,28 @@
   /* Header — ya estaba navy, alineamos al embed */
   header { border-bottom: 1px solid rgba(212, 160, 23, 0.25); }
   .header-title h1 { font-size: 16px; }
+
+  /* ── Fixes textos hundidos sobre navy ── */
+  .chart-titulo,
+  .chart-lectura { color: #e8eef5 !important; }
+  .chart-bajada { color: rgba(232, 238, 245, 0.72) !important; }
+
+  /* "Lectura:" y annotations: rojo profundo → coral vibrante */
+  .chart-lectura strong { color: #ff8a7a !important; }
+  .chart-lectura {
+    background: rgba(212, 160, 23, 0.08);
+    border-left: 3px solid #ff6b6b !important;
+    color: rgba(232, 238, 245, 0.88) !important;
+  }
+
+  /* Punto-cifra (etiquetas "350 días", "13 días") → ámbar legible */
+  .punto-cifra { fill: var(--oro-claro) !important; }
+  .punto-anotacion { fill: rgba(232, 238, 245, 0.9) !important; }
+
+  /* Anotaciones críticas que estaban en rojo → coral */
+  .anotacion-critica,
+  .anotacion-rojo,
+  text.cifra-rojo { fill: #ff8a7a !important; }
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a4de56a9a4564d0ea0f4e0259af8bc7a"}'></script><!-- End Cloudflare Web Analytics -->
 </head>

@@ -265,6 +265,40 @@
 
   /* Header */
   header { border-bottom: 1px solid rgba(212, 160, 23, 0.25); }
+
+  /* ── Fixes textos hundidos sobre navy (color: var(--navy) → ink claro) ── */
+  .intro h2,
+  .intro p strong,
+  .card-titulo,
+  .card-lectura,
+  .tabla-cepas .pais,
+  .tabla-cepas td { color: #e8eef5 !important; }
+
+  .intro p,
+  .card-bajada,
+  .tabla-cepas .pp-no,
+  .tabla-cepas .let-baja,
+  .leyenda { color: rgba(232, 238, 245, 0.72) !important; }
+
+  /* "Lectura:" y highlights: rojo profundo → coral vibrante */
+  .card-lectura strong,
+  .tabla-cepas .pp-si,
+  .tabla-cepas .let-alta,
+  .card-lectura { border-left-color: #ff6b6b !important; }
+  .card-lectura strong,
+  .tabla-cepas .pp-si,
+  .tabla-cepas .let-alta { color: #ff8a7a !important; }
+
+  /* Tablas con bg claro → bg navy */
+  .tabla-cepas { background: rgba(255,255,255,0.02); }
+  .tabla-cepas th { color: var(--oro-claro); border-color: rgba(212,160,23,0.25); }
+  .tabla-cepas td { border-color: rgba(232,238,245,0.08); }
+
+  /* card-lectura: fondo ámbar tenue para destacar el bloque */
+  .card-lectura {
+    background: rgba(212, 160, 23, 0.08);
+    color: rgba(232, 238, 245, 0.88) !important;
+  }
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a4de56a9a4564d0ea0f4e0259af8bc7a"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
