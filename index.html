@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Expediente Brotes 2026 — Modo cine · 45 Digital Noticias</title>
+<title>Expediente Brotes 2026 · 45 Digital Noticias</title>
 
 <!-- Metadata SEO -->
 <meta name="description" content="El expediente del hantavirus Andes y el ébola Bundibugyo en mayo 2026, contado en tres actos: la hélice de 23 años de preparación pandémica, el mundo del MV Hondius y los 16 nodos del sistema, la biblioteca interpretativa por concepto eje. Lectura sistémica — 45 Digital Noticias." />
 <meta name="author" content="45 Digital Noticias" />
-<meta name="keywords" content="hantavirus, MV Hondius, ébola Bundibugyo, BARDA, CEPI, Naomi Klein, doctrina del shock, modo cine, expediente editorial, 45 Digital Noticias" />
+<meta name="keywords" content="hantavirus, MV Hondius, ébola Bundibugyo, BARDA, CEPI, Naomi Klein, doctrina del shock, expediente editorial, 45 Digital Noticias" />
 <meta name="theme-color" content="#02101e" />
 
 <!-- Favicon -->
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:locale" content="es_MX" />
 <meta property="og:site_name" content="45 Digital Noticias" />
-<meta property="og:title" content="Expediente Brotes 2026 — Modo cine" />
+<meta property="og:title" content="Expediente Brotes 2026" />
 <meta property="og:description" content="Tres actos cinematográficos sobre el expediente Brotes 2026: la hélice de 23 años, el mundo del MV Hondius, la biblioteca interpretativa. Lectura sistémica — 45 Digital Noticias." />
 <meta property="og:url" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/" />
 <meta property="og:image" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/og-default.png" />
@@ -28,7 +28,7 @@
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Expediente Brotes 2026 — Modo cine" />
+<meta name="twitter:title" content="Expediente Brotes 2026" />
 <meta name="twitter:description" content="Tres actos cinematográficos sobre el expediente Brotes 2026. Lectura sistémica — 45 Digital Noticias." />
 <meta name="twitter:image" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/og-default.png" />
 
@@ -1295,6 +1295,78 @@
     gap: 18px;
   }
 
+  /* ─── CTA flotante "Mapa interactivo" — acceso persistente al dashboard ─── */
+  .cta-mapa {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 22px 13px 18px;
+    background: rgba(2, 16, 30, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 160, 23, 0.4);
+    border-radius: 999px;
+    color: var(--amber-br);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(212, 160, 23, 0.15);
+    transition: background 0.3s ease, color 0.3s ease, gap 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: ctaFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards;
+  }
+  .cta-mapa:hover {
+    background: rgba(212, 160, 23, 0.92);
+    color: var(--bg-deep);
+    gap: 18px;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(212, 160, 23, 0.4);
+  }
+  .cta-mapa .cta-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cta-mapa .cta-icon svg { width: 16px; height: 16px; fill: currentColor; }
+  .cta-mapa .cta-arrow {
+    font-size: 13px;
+    opacity: 0.7;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .cta-mapa:hover .cta-arrow { transform: translateX(2px); opacity: 1; }
+  @keyframes ctaFadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Labels del CTA: por default sólo se ve el "full"; en breakpoints rota */
+  .cta-mapa .cta-label-short,
+  .cta-mapa .cta-label-mini { display: none; }
+  @media (max-width: 900px) {
+    .cta-mapa {
+      bottom: 18px;
+      right: 18px;
+      padding: 11px 18px 11px 14px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+    }
+    .cta-mapa .cta-label-full { display: none; }
+    .cta-mapa .cta-label-short { display: inline; }
+  }
+  @media (max-width: 380px) {
+    .cta-mapa .cta-label-short { display: none; }
+    .cta-mapa .cta-label-mini { display: inline; }
+    .cta-mapa { padding: 10px 14px; }
+  }
+
   @media (max-width: 900px) {
     .lectura-bridge .bridge-titulo { font-size: 56px; }
     .lectura-bridge .bridge-claim { font-size: 16px; }
@@ -1327,6 +1399,117 @@
     .col-card.no-image { padding: 32px 24px; }
     .col-titulo, .col-card.no-image .col-titulo { font-size: 24px; }
   }
+
+  /* ══════════════════════════════════════════════════════════════
+     RESPONSIVE EXTRA — móviles (≤600px) y móviles pequeños (≤380px)
+     Tweaks puntuales sobre los 3 actos + CTA flotante. Mantiene el
+     ritmo cinematográfico sin que el contenido se desborde en pantallas chicas.
+     ══════════════════════════════════════════════════════════════ */
+  @media (max-width: 600px) {
+    /* TOP HINT — ocupa demasiado espacio en móvil */
+    .top-hint {
+      top: 14px;
+      left: 14px;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+    }
+    .top-hint span { font-size: 9px; letter-spacing: 0.10em; }
+
+    /* ACTO I — Hélice */
+    .helix-panel { padding: 20px 18px; }
+    .helix-panel .panel-titulo { font-size: 22px; line-height: 1.15; }
+    .helix-panel .panel-resumen { font-size: 14px; }
+    .helix-panel .panel-sig { font-size: 14px; padding-left: 12px; }
+    .helix-panel .panel-enf { font-size: 12px; }
+    .helix-panel .panel-eyebrow { font-size: 9px; letter-spacing: 0.22em; }
+    .helix-panel .panel-counter { font-size: 10px; }
+
+    /* ACTO II — Mundo */
+    .mundo-panel { padding: 20px 18px; }
+    .mundo-panel .panel-titulo { font-size: 22px; line-height: 1.15; }
+    .mundo-panel .panel-resumen { font-size: 14px; line-height: 1.6; }
+    .mundo-panel .panel-sig { font-size: 14px; padding-left: 12px; }
+    .mundo-panel .panel-sub { font-size: 11px; letter-spacing: 0.16em; }
+    .mundo-panel .panel-fecha { font-size: 12px; }
+    .mundo-panel .panel-act { font-size: 10px; }
+    .mundo-panel .panel-eyebrow { font-size: 9px; letter-spacing: 0.22em; }
+    .mundo-panel .panel-counter { font-size: 10px; }
+    /* Estrellas un poco más pequeñas en móvil */
+    .marker { width: 11px; height: 11px; }
+    .marker.active { transform: translate(-50%, -50%) scale(1.4); }
+    .marker.active.critical { transform: translate(-50%, -50%) scale(1.6); }
+    @keyframes pulseCritical {
+      0%, 100% { transform: translate(-50%, -50%) scale(1.6); }
+      50%      { transform: translate(-50%, -50%) scale(1.8); }
+    }
+    /* Tour controls compactos */
+    .tour-controls {
+      gap: 10px;
+      padding: 8px 14px 8px 10px;
+      bottom: 18px;
+    }
+    .tour-progress { width: 130px; }
+    .tour-label { min-width: 44px; font-size: 9px; }
+    .tour-btn { width: 26px; height: 26px; }
+    .tour-btn svg { width: 11px; height: 11px; }
+
+    /* DIVISORES ENTRE ACTOS */
+    .acto-divider { height: 44vh; }
+    .acto-divider .acto-num { font-size: 10px; letter-spacing: 0.3em; }
+    .acto-divider .acto-nombre { font-size: 30px; }
+    .acto-divider .acto-claim { font-size: 12.5px; padding: 0 18px; }
+
+    /* BRIDGE INTRO Acto III */
+    .lectura-bridge { min-height: 88vh; }
+    .lectura-bridge .bridge-content { padding: 0 24px; }
+    .lectura-bridge .bridge-eyebrow { font-size: 9px; letter-spacing: 0.32em; }
+    .lectura-bridge .bridge-titulo { font-size: 42px; margin-bottom: 22px; }
+    .lectura-bridge .bridge-claim { font-size: 14px; line-height: 1.55; }
+    .lectura-bridge .bridge-scroll { font-size: 9px; letter-spacing: 0.24em; }
+
+    /* CLUSTER HERO */
+    .cluster { margin-bottom: 56px; }
+    .cluster-portrait-wrap { aspect-ratio: 4 / 3; }
+    .cluster-meta { padding: 24px 18px; }
+    .cluster-meta .cluster-eyebrow { font-size: 9px; letter-spacing: 0.26em; }
+    .cluster-meta .cluster-author { font-size: 32px; }
+    .cluster-meta .cluster-obra { font-size: 14px; }
+    .cluster-meta .cluster-tesis { font-size: 13.5px; line-height: 1.6; }
+    .cluster-meta .cluster-count { font-size: 10px; }
+
+    /* CARDS de columnas */
+    .col-card { padding: 20px; gap: 18px; }
+    .col-card.no-image { padding: 24px 20px; }
+    .col-titulo, .col-card.no-image .col-titulo { font-size: 21px; line-height: 1.18; }
+    .col-bajada { font-size: 14px; padding-left: 12px; }
+    .col-tag { font-size: 8px; letter-spacing: 0.22em; }
+    .col-fecha { font-size: 10px; }
+    .col-link { font-size: 10px; letter-spacing: 0.18em; }
+
+    /* CIERRE Acto III */
+    .lectura-cierre { padding: 0 24px; margin-top: 56px; }
+    .lectura-cierre .cierre-texto { font-size: 15px; line-height: 1.55; }
+    .lectura-cierre .cierre-dashboard { font-size: 10px; padding: 12px 18px; }
+  }
+
+  @media (max-width: 380px) {
+    .top-hint { display: none; } /* en móviles muy chicos prioriza la lectura */
+    .helix-panel .panel-titulo,
+    .mundo-panel .panel-titulo { font-size: 19px; }
+    .helix-panel .panel-resumen,
+    .mundo-panel .panel-resumen { font-size: 13px; }
+    .acto-divider .acto-nombre { font-size: 26px; }
+    .lectura-bridge .bridge-titulo { font-size: 34px; }
+    .cluster-meta .cluster-author { font-size: 26px; }
+    .tour-progress { width: 100px; }
+    .tour-label { min-width: 36px; }
+  }
+
+  /* Viewport pequeño con barras móviles dinámicas: usar svh donde se puede */
+  @supports (height: 100svh) {
+    .helix-viewport,
+    .mundo-viewport { height: 100svh; }
+  }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1335,9 +1518,20 @@
 <body>
 
 <div class="top-hint">
-  Expediente · Modo cine
+  Expediente Brotes 2026
   <span id="act-label">Acto I — El código del modelo</span>
 </div>
+
+<!-- CTA flotante persistente: acceso al dashboard interactivo -->
+<a class="cta-mapa" href="expediente.html" aria-label="Ir al mapa interactivo y dashboard completo del expediente">
+  <span class="cta-icon" aria-hidden="true">
+    <svg viewBox="0 0 16 16"><path d="M8 1.5C5 1.5 3 4 3 6.5c0 3.5 5 7.5 5 7.5s5-4 5-7.5c0-2.5-2-5-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+  </span>
+  <span class="cta-label-full">Mapa interactivo · dashboard</span>
+  <span class="cta-label-short">Mapa interactivo</span>
+  <span class="cta-label-mini">Mapa</span>
+  <span class="cta-arrow" aria-hidden="true">→</span>
+</a>
 
 <section class="helix-section" id="helix">
   <div class="helix-viewport">
