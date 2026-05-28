@@ -208,7 +208,7 @@
   .layout {
     display: grid;
     grid-template-columns: 220px 1fr 420px;
-    height: calc(100vh - 76px - 78px);
+    height: calc(100vh - 76px - 130px); /* timebar ahora con doble pista (hantavirus + ébola) + holgura inferior */
   }
   #map { width: 100%; height: 100%; border-left: 1px solid var(--divisor); border-right: 1px solid var(--divisor); }
 
@@ -1379,11 +1379,11 @@
     background-image: linear-gradient(0deg, var(--pergamino-oscuro) 0%, var(--pergamino-claro) 100%);
     border-top: 2px solid var(--tinta-naval);
     box-shadow: 0 -1px 0 var(--dorado) inset, 0 -2px 8px rgba(28, 58, 92, 0.06);
-    padding: 14px 28px;
+    padding: 16px 28px 24px;  /* extra padding inferior para que las etiquetas no toquen el borde */
     display: flex;
     align-items: center;
     gap: 18px;
-    height: 78px;
+    min-height: 130px;
   }
   .play-btn {
     width: 42px; height: 42px;
@@ -1443,6 +1443,58 @@
   }
   .slider-label.is-start .slider-label-tick { left: 0; transform: none; }
   .slider-label.is-end   .slider-label-tick { left: 100%; transform: translateX(-100%); }
+
+  /* ---------- Pista ÉBOLA (segunda fila, debajo del slider) ---------- */
+  .slider-labels-bottom {
+    position: relative;
+    height: 30px;
+    margin-top: 4px;
+    margin-bottom: 0;
+    font-family: Georgia, serif;
+  }
+  .slider-labels-bottom .slider-label {
+    position: absolute;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.15;
+    padding-top: 8px; /* deja espacio para el tick que sale hacia arriba */
+  }
+  .slider-labels-bottom .slider-label.is-end {
+    transform: translateX(-100%);
+    text-align: right;
+  }
+  .slider-labels-bottom .slider-label-day {
+    display: block;
+    font-weight: 700;
+    font-size: 10.5px;
+    color: #c2410c;        /* naranja quemado · ébola Bundibugyo */
+    letter-spacing: 0.02em;
+  }
+  .slider-labels-bottom .slider-label-event {
+    display: block;
+    font-size: 8.5px;
+    color: #c2410c;
+    opacity: 0.78;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 1px;
+  }
+  .slider-labels-bottom .slider-label-tick {
+    position: absolute;
+    top: 0;                /* el tick sale hacia ARRIBA del label */
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 6px;
+    background: #c2410c;
+    opacity: 0.55;
+  }
+  .slider-labels-bottom .slider-label.is-end .slider-label-tick {
+    left: 100%;
+    transform: translateX(-100%);
+  }
   .slider {
     width: 100%;
     -webkit-appearance: none;
@@ -2259,7 +2311,9 @@
     }
     .play-btn { width: 36px; height: 36px; align-self: center; }
     .current-date { width: auto; }
-    .slider-labels { font-size: 9px; }
+    .slider-labels,
+    .slider-labels-bottom { font-size: 9px; }
+    .slider-labels-bottom .slider-label { padding-top: 6px; }
 
     .legend {
       font-size: 10px;
@@ -2396,19 +2450,15 @@
         <div class="row"><span style="display:inline-flex;width:16px;height:16px;background:#0a6939;color:#fff;border:1px solid #fff;border-radius:3px;align-items:center;justify-content:center;font-size:10px;">⚽</span><span>México · 3 sedes (CDMX, GDL, MTY)</span></div>
         <div class="row"><span style="display:inline-flex;width:16px;height:16px;background:#1a3a8a;color:#fff;border:1px solid #fff;border-radius:3px;align-items:center;justify-content:center;font-size:10px;">⚽</span><span>Estados Unidos · 11 sedes</span></div>
         <div class="row"><span style="display:inline-flex;width:16px;height:16px;background:#a31a1a;color:#fff;border:1px solid #fff;border-radius:3px;align-items:center;justify-content:center;font-size:10px;">⚽</span><span>Canadá · 2 sedes (Toronto, Vancouver)</span></div>
+        <div class="row" style="font-size:9px;color:#5a6e8c;margin-top:6px;font-style:italic;">Para ver el viaje completo (país origen → hub → sedes), activá también la capa <b>Flujos M26</b>.</div>
       </div>
-      <!-- Sección Rutas selecciones endémicas -->
-      <div class="legend-section" data-legend-for="mundialRutas" style="display:none">
-        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Rutas de selecciones endémicas</div>
-        <div class="row"><span class="dash" style="border-top-color:#5a8bb8"></span><span>Argentina (Andes)</span></div>
-        <div class="row"><span class="dash" style="border-top-color:#1a8f4a"></span><span>Brasil (Juquitiba)</span></div>
-        <div class="row"><span class="dash" style="border-top-color:#7ab0d8"></span><span>Uruguay (Lechiguanas)</span></div>
-        <div class="row"><span class="dash" style="border-top-color:#b85a3a"></span><span>Paraguay (Laguna Negra)</span></div>
-        <div class="row"><span class="dash" style="border-top-color:#c00"></span><span>Panamá (Choclo)</span></div>
-      </div>
-      <!-- Sección Aficionados -->
-      <div class="legend-section" data-legend-for="aficionados" style="display:none">
-        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Aficionados · 48 países → hub → sede</div>
+      <!-- Sección Flujos M26 (fusión Rutas + Aficionados, 24-may-2026) -->
+      <div class="legend-section" data-legend-for="flujosM26" style="display:none">
+        <div class="row" style="font-size:10px;color:#b8860b;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Flujos M26 — viaje completo</div>
+        <div class="row" style="font-size:9px;color:#5a6e8c;margin-bottom:6px;font-style:italic;">País origen → hub aeroportuario → sedes consecutivas. Color por cepa endémica del país.</div>
+        <div class="row"><span class="dash" style="border-top-style:dashed;border-top-color:#888"></span><span><b>Punteado</b> · flujo de aficionados (decenas de miles, mass flow)</span></div>
+        <div class="row"><span class="dash" style="border-top-style:solid;border-top-color:#888;border-top-width:2px"></span><span><b>Sólido</b> · trayectoria de la selección (50-100 personas, evento mediático)</span></div>
+        <div class="row" style="margin-top:6px;font-size:9px;color:#5a6e8c;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">Cepas (color)</div>
         <div class="row"><span class="dot" style="background:#c00"></span><span>Cepa Andes / Juquitiba (cono sur severo)</span></div>
         <div class="row"><span class="dot" style="background:#1a3a8a"></span><span>Cepa Sin Nombre (Norteamérica)</span></div>
         <div class="row"><span class="dot" style="background:#2a8c4e"></span><span>Cepa Puumala/Dobrava (Europa)</span></div>
@@ -2416,8 +2466,6 @@
         <div class="row"><span class="dot" style="background:#d4a017"></span><span>Cepa Choclo (Panamá)</span></div>
         <div class="row"><span class="dot" style="background:#888"></span><span>Sin endémico documentado</span></div>
         <div class="row"><span class="dot" style="background:#fff;border:2px solid #b8860b;width:10px;height:10px"></span><span>Hub aeroportuario (escala)</span></div>
-        <div class="row"><span class="line" style="border-top:2px solid #888;border-top-style:solid"></span><span>Tramo origen → hub (sólido)</span></div>
-        <div class="row"><span class="line" style="border-top:2px dashed #888"></span><span>Tramo hub → sede (punteado)</span></div>
       </div>
       <!-- Sección Geopolítica -->
       <div class="legend-section" data-legend-for="geopolitica" style="display:none">
@@ -2446,6 +2494,14 @@
         <div class="row"><span class="dot" style="background:#c2410c;opacity:0.4"></span><span>Foco Ituri / Nord-Kivu (RDC)</span></div>
         <div class="row"><span class="dot" style="background:#7c2d12;opacity:0.5"></span><span>Zona M23 (control armado · Goma)</span></div>
         <div class="row"><span class="dash" style="border-top-color:#c2410c"></span><span>Ruta de evacuación a Alemania</span></div>
+      </div>
+      <!-- Nota permanente sobre el marcado de fuentes (siempre visible) -->
+      <div class="legend-meta" style="margin-top:10px;padding-top:8px;border-top:1px dashed #cbd5e1;font-size:10px;color:#5a6e8c;line-height:1.4;">
+        <div style="font-weight:700;color:#072146;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px;">Sobre el marcado de fuentes</div>
+        <div style="margin-bottom:3px;"><b style="color:#15803d">✅ Verificado</b> — primaria oficial directa (OMS, CDC, ECDC, Min. Salud, RIVM, etc.) con link, o convergencia de 2+ fuentes trusted independientes.</div>
+        <div style="margin-bottom:3px;"><b style="color:#b8860b">⚠️ Parcial</b> — cobertura periodística trusted única, o secundarias que citan a primaria sin verificación directa, o dato pendiente de boletín oficial.</div>
+        <div><b style="color:#7c2d12">❓ No confirmado</b> — fuente débil, dato disputado o sin contrastar.</div>
+        <div style="margin-top:6px;font-style:italic;font-size:9px;">Auditoría completa de fuentes realizada el 24-may-2026 bajo protocolo de jerarquía primaria/trusted/débil. Cada `desc:` de evento cita explícitamente su(s) fuente(s).</div>
       </div>
     </div>
 
@@ -2596,25 +2652,16 @@
         </svg>
         <span>Sedes M26</span>
       </button>
-      <button class="layer-tab" data-layer="mundialRutas" title="Rutas de selecciones endémicas en el Mundial 2026">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="5" cy="6" r="2"/>
-          <circle cx="19" cy="6" r="2"/>
-          <circle cx="12" cy="18" r="2"/>
-          <path d="M5 8 L19 6 L12 16 L5 8" stroke-dasharray="3 2"/>
-        </svg>
-        <span>Rutas M26</span>
-      </button>
-      <button class="layer-tab" data-layer="aficionados" title="Migración temporal de aficionados · 48 países origen → hub → sede">
+      <button class="layer-tab" data-layer="flujosM26" title="Flujos M26 · viaje completo: país origen → hub aeroportuario → sedes consecutivas. Punteado = aficionados (mass flow); sólido = selección (movimiento interno).">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="4" cy="6" r="1.5"/>
-          <circle cx="12" cy="12" r="1.5"/>
-          <circle cx="20" cy="18" r="1.5"/>
-          <path d="M4 7 Q8 9 12 12 Q16 15 20 17"/>
-          <circle cx="8" cy="9" r="3" fill="none" stroke-dasharray="1 1"/>
-          <circle cx="16" cy="15" r="3" fill="none" stroke-dasharray="1 1"/>
+          <circle cx="12" cy="6" r="1.5"/>
+          <circle cx="20" cy="6" r="1.5"/>
+          <circle cx="12" cy="18" r="1.5"/>
+          <path d="M4 6 L12 6" stroke-dasharray="2 2"/>
+          <path d="M12 6 L20 6 L12 18 Z"/>
         </svg>
-        <span>Aficionados</span>
+        <span>Flujos M26</span>
       </button>
 
       <div class="layer-tab-divider"></div>
@@ -2884,11 +2931,12 @@
         <div class="vacuna-card-sede">Cambridge, MA (EE.UU.) + Seúl, Corea del Sur</div>
         <div class="vacuna-card-rows">
           <span class="vkey">Producto</span><span class="vval">Vacuna mRNA contra <em>virus Andes</em> (ANDV)</span>
-          <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-pre">Preclínico</span> — ratones, feb-2025</span>
-          <span class="vkey">Inicio</span><span class="vval">Programa <em>mRNA Access</em> · acuerdo firmado entre 2023 y 2024 según fuente</span>
+          <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-1">Fase 1 reportada (may-2026)</span> — well-tolerated, sin señales serias de seguridad, respuestas de anticuerpos robustas en todos los niveles de dosis (datos anunciados durante el brote MV Hondius)</span>
+          <span class="vkey">Inicio</span><span class="vval">Programa <em>mRNA Access</em> · colaboración con Vaccine Innovation Center of Korea University desde 2023</span>
           <span class="vkey">Líder</span><span class="vval">Prof. Park Man-sung · Korea University College of Medicine</span>
           <span class="vkey">Financ.</span><span class="vval">Programa <em>mRNA Access</em> de Moderna · contribución privada con socio académico</span>
-          <span class="vkey">Fuente</span><span class="vval vfuente">Korea Biomedical Review (feb-2025) · The Microbiologist · EurekAlert</span>
+          <span class="vkey">Impacto bursátil</span><span class="vval">Stock Moderna (MRNA) subió a USD 59.48 intradía el 11-may-2026 con noticia hantavirus, cerró USD 52.39 (-3.6%); extendió ganancias la siguiente semana con datos Phase 1 ANDV y resultados Phase 3 de mRNA-1010 (gripe estacional). Fuente: Investing.com, Yahoo Finance, CNBC.</span>
+          <span class="vkey">Fuente</span><span class="vval vfuente">Korea Biomedical Review (feb-2025) · Moderna press release (may-2026) · The Microbiologist · EurekAlert · Investing.com (may-2026)</span>
         </div>
       </div>
 
@@ -2994,8 +3042,22 @@
             <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-pre">Programa</span> — sin candidato aprobado para Bundibugyo</span>
             <span class="vkey">Inicio</span><span class="vval">Activación pública anunciada tras la declaración PHEIC del 17-may-2026. El brote de Bundibugyo es el primer test real del 100 Day Mission.</span>
             <span class="vkey">Líder</span><span class="vval">Dr. Richard Hatchett · CEO de CEPI</span>
-            <span class="vkey">Financ.</span><span class="vval">Parte de los USD 2,500 millones pedidos en mayo. Refuerzos esperados de GAVI, Pandemic Fund, BARDA y socios soberanos.</span>
-            <span class="vkey">Fuente</span><span class="vval vfuente">CEPI press release post-PHEIC · The Hill Times (17-may-2026)</span>
+            <span class="vkey">Financ.</span><span class="vval">Parte de los USD 2,500 millones pedidos en mayo. <b>Refuerzo confirmado 19-may:</b> UE €73.7M + Singapur USD 12M comprometidos con CEPI.</span>
+            <span class="vkey">Fuente</span><span class="vval vfuente">CEPI press release post-PHEIC + comunicado UE-Singapur del 19-may · The Hill Times (17-may-2026) · Time (19-may-2026)</span>
+          </div>
+        </div>
+
+        <div class="vacuna-card" style="border-left-color:#c2410c">
+          <div class="vacuna-card-titulo">Mapp Biopharmaceutical · MBP134 (BARDA contract, 20-may-2026)</div>
+          <div class="vacuna-card-sede">San Diego, California (EE.UU.)</div>
+          <div class="vacuna-card-rows">
+            <span class="vkey">Producto</span><span class="vval">Cóctel bi-específico de anticuerpos monoclonales contra filovirus. Hecho de <b>dos anticuerpos aislados de sangre de un sobreviviente de ébola</b>. Diseñado para neutralizar <b>tres cepas a la vez: Zaire, Sudán y Bundibugyo</b>.</span>
+            <span class="vkey">Fase</span><span class="vval"><span class="vacuna-fase fase-pre">Preclínico</span> con datos en primates · uso compasivo activado bajo Expanded Access del programa BARDA</span>
+            <span class="vkey">Eficacia preclínica</span><span class="vval">Protegió a <b>5 de 6 monos</b> infectados con dosis letal de Bundibugyo.</span>
+            <span class="vkey">Estatus 2026</span><span class="vval"><b>Tratamiento experimental dado al Dr. Peter Stafford</b> en el Berlin Charité (ver E7). BARDA y Mapp coordinan suministro a alto riesgo en EE.UU. y Europa.</span>
+            <span class="vkey">Antecedente</span><span class="vval">Mapp es la misma biotech que desarrolló <b>ZMapp</b> durante el brote África Occidental 2014-2016 (tratamiento dado al misionero Kent Brantly). Doce años después, mismo perfil, misma BARDA, misma biotech, distinta cepa.</span>
+            <span class="vkey">Financ.</span><span class="vval">BARDA · "longstanding public-private partnership" (contrato sin monto público al cierre)</span>
+            <span class="vkey">Fuente</span><span class="vval vfuente">Fierce Biotech · Bloomberg (vía KFGO, 20-may) · Medical Dialogues · US News (22-may). Comunicado BARDA primario no localizado como URL pública.</span>
           </div>
         </div>
 
@@ -3514,76 +3576,106 @@
 <div class="timebar">
   <button class="play-btn" id="play">▶</button>
   <div class="slider-wrap">
+    <!-- Pista superior · Hantavirus (MV Hondius) — etiquetas en azul navy -->
     <div class="slider-labels">
       <span class="slider-label is-start" style="left:0%">
         <span class="slider-label-day">1 abr</span>
         <span class="slider-label-event">Ushuaia · Zarpe</span>
         <span class="slider-label-tick"></span>
       </span>
-      <span class="slider-label" style="left:34%">
+      <span class="slider-label" style="left:29%">
         <span class="slider-label-day">17 abr</span>
         <span class="slider-label-event">Primer caso</span>
         <span class="slider-label-tick"></span>
       </span>
-      <span class="slider-label" style="left:66%">
+      <span class="slider-label" style="left:56%">
         <span class="slider-label-day">2 may</span>
         <span class="slider-label-event">OMS notif.</span>
         <span class="slider-label-tick"></span>
       </span>
-      <span class="slider-label" style="left:74%">
+      <span class="slider-label" style="left:64%">
         <span class="slider-label-day">6 may</span>
         <span class="slider-label-event">Andes virus</span>
         <span class="slider-label-tick"></span>
       </span>
-      <span class="slider-label" style="left:85%">
+      <span class="slider-label" style="left:73%">
         <span class="slider-label-day">11 may</span>
         <span class="slider-label-event">CONAVE · MX</span>
         <span class="slider-label-tick"></span>
       </span>
-      <span class="slider-label is-end" style="left:100%">
+      <span class="slider-label" style="left:86%">
         <span class="slider-label-day">18 may</span>
         <span class="slider-label-event">Rotterdam</span>
         <span class="slider-label-tick"></span>
       </span>
     </div>
-    <input type="range" min="1" max="50" value="50" class="slider" id="slider" style="--pct:100%" />
+    <input type="range" min="1" max="56" value="56" class="slider" id="slider" style="--pct:100%" />
+    <!-- Pista inferior · Ébola Bundibugyo (RDC + Uganda) — etiquetas en naranja quemado -->
+    <div class="slider-labels-bottom">
+      <span class="slider-label" style="left:62%">
+        <span class="slider-label-tick"></span>
+        <span class="slider-label-day">5 may</span>
+        <span class="slider-label-event">Mongbwalu · alerta</span>
+      </span>
+      <span class="slider-label" style="left:78%">
+        <span class="slider-label-tick"></span>
+        <span class="slider-label-day">14 may</span>
+        <span class="slider-label-event">Bunia · Bundibugyo</span>
+      </span>
+      <span class="slider-label" style="left:84%">
+        <span class="slider-label-tick"></span>
+        <span class="slider-label-day">17 may</span>
+        <span class="slider-label-event">PHEIC · OMS</span>
+      </span>
+      <span class="slider-label" style="left:93%">
+        <span class="slider-label-tick"></span>
+        <span class="slider-label-day">22 may</span>
+        <span class="slider-label-event">Comité RSI</span>
+      </span>
+      <span class="slider-label is-end" style="left:100%">
+        <span class="slider-label-tick"></span>
+        <span class="slider-label-day">26 may</span>
+        <span class="slider-label-event">IMSS · Mundial</span>
+      </span>
+    </div>
   </div>
-  <div class="current-date" id="current-date">13 may</div>
+  <div class="current-date" id="current-date">26 may</div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
   // ----- Datos cronológicos (n=día desde 1-abr) -----
   const events = [
-    { n:1,  day:1,  date:'1-abr',  type:'route',    coords:[-54.81,-68.30], place:'Ushuaia, Argentina', desc:'Zarpa el MV Hondius con 175 personas (pasajeros + tripulación) a bordo. Operador: Oceanwide Expeditions.', v:'✅' },
-    { n:2,  day:6,  date:'6-abr',  type:'symptom',  coords:[-64.50,-62.00], place:'Mar de Drake / Antártida', desc:'Primer síntoma reportado: hombre holandés de 70 años. Sin alarma epidemiológica inicial.', v:'✅' },
-    { n:3,  day:11, date:'11-abr', type:'death',    coords:[-50.00,-30.00], place:'A bordo, Atlántico Sur', desc:'Primera muerte: holandés de 70 años. Atribuida inicialmente a causas naturales — esto retrasa 21 días la alerta sanitaria.', v:'✅' },
-    { n:4,  day:14, date:'13-15 abr', type:'route', coords:[-37.10,-12.28], place:'Tristán da Cunha', desc:'Escala. 1 caso probable se quedó en la isla (estable al cierre).', v:'✅' },
-    { n:5,  day:24, date:'24-abr', type:'route',    coords:[-15.92,-5.72],  place:'Santa Helena', desc:'Escala. 30 pasajeros desembarcan aquí — punto clave para rastreo posterior.', v:'✅' },
-    { n:6,  day:26, date:'26-abr', type:'death',    coords:[-26.20,28.04],  place:'Johannesburgo, Sudáfrica', desc:'Segunda muerte: esposa del primer fallecido, holandesa de 69 años. Evacuada por aire desde el barco al Charlotte Maxeke Hospital.', v:'✅' },
-    { n:7,  day:32, date:'2-may',  type:'death',    coords:[-10.00,-20.00], place:'A bordo, Atlántico Sur', desc:'Tercera muerte: mujer alemana. Ese mismo día el brote es notificado oficialmente a la OMS.', v:'✅' },
-    { n:8,  day:33, date:'3-may',  type:'route',    coords:[14.93,-23.51],  place:'Praia, Cabo Verde', desc:'El barco fondea fuera de puerto. Cabo Verde niega atraque por riesgo sanitario.', v:'✅' },
-    { n:9,  day:34, date:'4-may',  type:'lab',     coords:[14.93,-23.51],  place:'Laboratorio de referencia', desc:'Secuenciación genética identifica el patógeno: hantavirus Andes (ANDV). Primer caso confirmado por PCR.', v:'✅' },
-    { n:10, day:36, date:'6-may',  type:'hospital', coords:[47.37,8.54],    place:'Zúrich, Suiza', desc:'Gobierno suizo confirma 1 paciente tratado en Zúrich. Total acumulado: 8 casos.', v:'✅' },
-    { n:11, day:37, date:'7-may',  type:'lab',      coords:[46.20,6.14],    place:'Ginebra — OMS', desc:'OMS publica respuesta oficial. Dr. Tedros: virus Andes conocido, no nueva cepa, riesgo pandémico bajo.', v:'✅' },
-    { n:12, day:38, date:'8-may',  type:'lab',      coords:[28.46,-16.25],  place:'Tenerife, Canarias', desc:'CDC despliega equipo de epidemiólogos en las Canarias para evaluar exposición de pasajeros estadounidenses.', v:'✅' },
-    { n:13, day:40, date:'10-may', type:'route',    coords:[28.10,-16.49],  place:'Puerto de Granadilla, Tenerife', desc:'MV Hondius atraca tras 40 días en el mar. España fija ese día como "día cero" de la cuarentena oficial.', v:'✅' },
-    { n:14, day:41, date:'11-may', type:'route',    coords:[28.10,-16.49],  place:'Tenerife — desembarque', desc:'Desembarque completo de 147 personas. Repatriaciones por vuelos medicalizados a múltiples países.', v:'✅' },
-    { n:15, day:41, date:'11-may', type:'hospital', coords:[41.12,-95.92],  place:'Offutt AFB / Nebraska, EEUU', desc:'17 estadounidenses aterrizan en Offutt Air Force Base; trasladados a la Nebraska Biocontainment Unit. 1 positivo, 1 con síntomas leves.', v:'✅' },
-    { n:16, day:42, date:'12-may', type:'hospital', coords:[40.41,-3.74],   place:'Madrid — Hospital Gómez Ulla', desc:'14 españoles en cuarentena 42 días en el Hospital Central de Defensa Gómez Ulla. 1 positivo leve, estable.', v:'✅' },
-    { n:17, day:42, date:'12-may', type:'hospital', coords:[48.86,2.35],    place:'Hospital Bichat, París — caso crítico', desc:'Mujer francesa en sus 60 años, pasajera del MV Hondius, hospitalizada en el Hospital Bichat de París en estado crítico. Cuadro pulmonar más severo del brote. Comorbilidades documentadas: asma y otras afecciones previas. Atendida por el Dr. Xavier Lescure, infectólogo. Conectada a oxigenación extracorpórea (ECMO). Pronóstico vital comprometido según el parte médico oficial. Su muestra fue secuenciada en Francia y la cepa coincide sin mutaciones con la del cono sur sudamericano. La literatura sobre hantavirus severo señala que el ECMO temprano puede dar hasta ~80% de supervivencia en casos críticos.', v:'✅' },
+    { n:1,  day:1,  date:'1-abr',  type:'route',    coords:[-54.81,-68.30], place:'Ushuaia, Argentina', desc:'Zarpa el MV Hondius con <b>147 personas</b> a bordo (86 pasajeros + 61 tripulantes, de 23 nacionalidades). Operador: Oceanwide Expeditions, buque holandés. <b>Audit trail:</b> versión inicial decía "175 personas" — corregido a 147 por convergencia de CDC HAN 00528 + WHO DON600/601 + ECDC Threat Assessment, y por consistencia con n:14 del propio expediente. <b>Fuente primaria:</b> <a href="https://www.cdc.gov/han/php/notices/han00528.html" target="_blank" rel="noopener">CDC HAN 00528 — 2026 Multi-country Hantavirus Cluster Linked to Cruise Ship</a>.', v:'✅' },
+    { n:2,  day:6,  date:'6-abr',  type:'symptom',  coords:[-64.50,-62.00], place:'Mar de Drake / Antártida', desc:'Primer síntoma reportado: hombre holandés de 70 años (luego identificado como caso índice). Sin alarma epidemiológica inicial. <b>Fuente primaria:</b> <a href="https://www.cdc.gov/han/php/notices/han00528.html" target="_blank" rel="noopener">CDC HAN 00528</a> (cronología del cluster) + <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON601" target="_blank" rel="noopener">WHO DON601</a>.', v:'✅' },
+    { n:3,  day:11, date:'11-abr', type:'death',    coords:[-50.00,-30.00], place:'A bordo, Atlántico Sur', desc:'Primera muerte: holandés de 70 años. Atribuida inicialmente a causas naturales — esto retrasa 21 días la alerta sanitaria. <b>Fuente primaria:</b> <a href="https://www.cdc.gov/han/php/notices/han00528.html" target="_blank" rel="noopener">CDC HAN 00528</a> (cronología del cluster).', v:'✅' },
+    { n:4,  day:14, date:'13-15 abr', type:'route', coords:[-37.10,-12.28], place:'Tristán da Cunha', desc:'Escala. 1 caso probable se quedó en la isla (estable al cierre). <b>Fuente:</b> escala como puerto de tránsito documentada en <a href="https://www.cdc.gov/han/php/notices/han00528.html" target="_blank" rel="noopener">CDC HAN 00528</a>. <i>El detalle del caso probable retenido en la isla proviene de cobertura trusted (BBC, Reuters); comunicado primario del St Helena Govt / Tristan da Cunha Administrator no localizado al cierre.</i>', v:'⚠️' },
+    { n:5,  day:24, date:'24-abr', type:'route',    coords:[-15.92,-5.72],  place:'Santa Helena', desc:'Escala. 30 pasajeros desembarcan aquí — punto clave para rastreo posterior. <b>Fuente:</b> escala documentada en <a href="https://www.cdc.gov/han/php/notices/han00528.html" target="_blank" rel="noopener">CDC HAN 00528</a>. <i>La cifra específica de 30 desembarques proviene de cobertura trusted convergente (BBC, Reuters); comunicado primario del St Helena Government no localizado directamente al cierre.</i>', v:'⚠️' },
+    { n:6,  day:26, date:'26-abr', type:'death',    coords:[-26.20,28.04],  place:'Johannesburgo, Sudáfrica', desc:'Segunda muerte: esposa del primer fallecido, holandesa de 69 años. Evacuada por aire desde el barco al Charlotte Maxeke Hospital. <b>Fuente primaria:</b> <a href="https://www.cdc.gov/han/php/notices/han00528.html" target="_blank" rel="noopener">CDC HAN 00528</a> (cronología cluster) + cobertura trusted convergente (BBC, Reuters, AFP, El País).', v:'✅' },
+    { n:7,  day:32, date:'2-may',  type:'death',    coords:[-10.00,-20.00], place:'A bordo, Atlántico Sur', desc:'Tercera muerte a bordo (mujer alemana). Ese mismo día el brote es notificado oficialmente a la OMS. <b>Fuente primaria:</b> <a href="https://www.who.int/news/item/07-05-2026-who-s-response-to-hantavirus-cases-linked-to-a-cruise-ship" target="_blank" rel="noopener">WHO news del 7-may-2026 — Respuesta de la OMS al cluster en crucero</a> (confirma fecha de notificación 2-may).', v:'✅' },
+    { n:8,  day:33, date:'3-may',  type:'route',    coords:[14.93,-23.51],  place:'Praia, Cabo Verde', desc:'El barco fondea fuera de puerto. Cabo Verde niega atraque por riesgo sanitario. <b>Fuente primaria:</b> escala/rechazo de atraque documentada en <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON600" target="_blank" rel="noopener">WHO DON600</a> (cronología cluster) + <a href="https://www.cdc.gov/han/php/notices/han00528.html" target="_blank" rel="noopener">CDC HAN 00528</a>. <i>Detalles del rechazo del Ministério da Saúde de Cabo Verde reportados por cobertura trusted convergente (Reuters, BBC, AFP).</i>', v:'✅' },
+    { n:9,  day:34, date:'4-may',  type:'lab',     coords:[14.93,-23.51],  place:'Laboratorio de referencia', desc:'Secuenciación genética identifica el patógeno: <b>hantavirus Andes (ANDV)</b>. Primer caso confirmado por PCR. Secuenciación posterior (ECDC + UE) confirma que la cepa coincide con las que circulan en el cono sur sudamericano — no es nueva variante. <b>Fuente primaria:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON601" target="_blank" rel="noopener">WHO DON601</a> + <a href="https://www.cdc.gov/han/php/notices/han00528.html" target="_blank" rel="noopener">CDC HAN 00528</a>.', v:'✅' },
+    { n:10, day:36, date:'6-may',  type:'hospital', coords:[47.37,8.54],    place:'Zúrich, Suiza', desc:'Gobierno suizo confirma 1 paciente tratado en Zúrich. Total acumulado: 8 casos. <i>Cobertura trusted convergente (BBC, Reuters, El País, Le Monde) citando al BAG suizo; comunicado oficial Bundesamt für Gesundheit no localizado directamente al cierre.</i>', v:'⚠️' },
+    { n:11, day:37, date:'7-may',  type:'lab',      coords:[46.20,6.14],    place:'Ginebra — OMS', desc:'OMS publica respuesta oficial. Dr. Tedros (conferencia de prensa 7-may): virus Andes conocido, no nueva cepa, riesgo de salud pública bajo. Comunica el despliegue de 2,500 kits diagnósticos desde Argentina a laboratorios en cinco países. <b>Fuente primaria:</b> <a href="https://www.who.int/news/item/07-05-2026-who-s-response-to-hantavirus-cases-linked-to-a-cruise-ship" target="_blank" rel="noopener">WHO news 7-may-2026 — Respuesta de la OMS al cluster en crucero</a>.', v:'✅' },
+    { n:12, day:38, date:'8-may',  type:'lab',      coords:[28.46,-16.25],  place:'Tenerife, Canarias', desc:'CDC publica HAN 00528 e informa el despliegue de equipo de epidemiólogos en las Canarias para evaluar exposición de pasajeros estadounidenses. Cluster sigue concentrado en pasajeros del MV Hondius, sin contagio secundario en residentes locales. <b>Fuente primaria:</b> <a href="https://www.cdc.gov/han/php/notices/han00528.html" target="_blank" rel="noopener">CDC HAN 00528 — Multi-country Hantavirus Cluster (8-may-2026)</a>.', v:'✅' },
+    { n:13, day:40, date:'10-may', type:'route',    coords:[28.10,-16.49],  place:'Puerto de Granadilla, Tenerife', desc:'MV Hondius atraca tras 40 días en el mar. España fija ese día como "día cero" de la cuarentena oficial — referencia para los plazos de 42 días aplicados a contactos y tripulación. <b>Fuente primaria:</b> <a href="https://www.who.int/publications/m/item/who-technical-note-for-the-disembarkation-and-onward-management-of-passengers-and-crew-in-the-context-of-an-andes-virus-associated-cluster-mv-hondius-cruise-ship" target="_blank" rel="noopener">WHO Technical note — Desembarque y manejo posterior MV Hondius</a>. <i>Cobertura trusted convergente: El País, ABC, La Vanguardia, Reuters.</i>', v:'✅' },
+    { n:14, day:41, date:'11-may', type:'route',    coords:[28.10,-16.49],  place:'Tenerife — desembarque', desc:'Desembarque completo de 147 personas. Repatriaciones por vuelos medicalizados a múltiples países. <b>Fuente primaria:</b> <a href="https://www.who.int/publications/m/item/who-technical-note-for-the-disembarkation-and-onward-management-of-passengers-and-crew-in-the-context-of-an-andes-virus-associated-cluster-mv-hondius-cruise-ship" target="_blank" rel="noopener">WHO Technical note — Desembarque y manejo posterior de pasajeros/tripulación MV Hondius</a>.', v:'✅' },
+    { n:15, day:41, date:'11-may', type:'hospital', coords:[41.12,-95.92],  place:'Offutt AFB / Nebraska, EEUU', desc:'17 estadounidenses aterrizan en Offutt Air Force Base; trasladados a la Nebraska Biocontainment Unit. 1 positivo, 1 con síntomas leves. <b>Fuente primaria:</b> <a href="https://www.cdc.gov/han/php/notices/han00529.html" target="_blank" rel="noopener">CDC HAN 00529 — 2026 Hantavirus Outbreak: Testing for Potential Infection</a>.', v:'✅' },
+    { n:16, day:42, date:'12-may', type:'hospital', coords:[40.41,-3.74],   place:'Madrid — Hospital Gómez Ulla', desc:'14 españoles en cuarentena 42 días en el Hospital Central de Defensa Gómez Ulla. 1 positivo leve, estable. <i>Convergencia trusted (El País, ABC, La Vanguardia, Reuters); comunicado primario del Ministerio de Sanidad o del propio Hospital Central de Defensa Gómez Ulla no localizado directamente al cierre.</i>', v:'⚠️' },
+    { n:17, day:42, date:'12-may', type:'hospital', coords:[48.86,2.35],    place:'Hospital Bichat, París — caso crítico', desc:'Mujer francesa en sus 60 años, pasajera del MV Hondius, hospitalizada en el Hospital Bichat de París en estado crítico. Cuadro pulmonar más severo del brote. Comorbilidades documentadas: asma y otras afecciones previas. Atendida por el Dr. Xavier Lescure, infectólogo. Conectada a oxigenación extracorpórea (ECMO). Pronóstico vital comprometido según el parte médico oficial. Su muestra fue secuenciada en Francia y la cepa coincide sin mutaciones con la del cono sur sudamericano. La literatura sobre hantavirus severo señala que el ECMO temprano puede dar hasta ~80% de supervivencia en casos críticos. <i>Convergencia trusted (Le Monde, Le Figaro, AFP, France24); parte médico oficial del Hospital Bichat citado por la cobertura, no localizado como documento público directo.</i>', v:'⚠️' },
     { n:18, day:42, date:'12-may', type:'hospital', coords:[41.90,12.50],   place:'Roma — análisis ISS', desc:'Italiano joven de Calabria asintomático; muestras enviadas al Instituto Superior de Salud (ISS) en Roma para confirmación.', v:'⚠️' },
-    { n:19, day:42, date:'12-may', type:'lab',      coords:[46.20,6.14],    place:'OMS — comunicado oficial', desc:'OMS actualiza: 11 casos en total (9 confirmados, 2 probables), 3 muertes. Riesgo poblacional bajo.', v:'✅' },
-    { n:20, day:41, date:'11-may', type:'lab', coords:[19.43,-99.13], place:'México — Aviso Epidemiológico Nacional', desc:'La Secretaría de Salud de México emite la PRIMERA Alerta Epidemiológica Nacional por hantavirus en la historia del país. Cero casos en territorio, pero activa vigilancia en hospitales, laboratorios y unidades médicas. El aviso cita explícitamente la movilidad del Mundial 2026 como factor de riesgo adicional.', v:'✅' },
-    { n:21, day:42, date:'12-may', type:'hospital', coords:[51.81,5.84], place:'Radboudumc Nijmegen — fallo de protocolo', desc:'El Hospital Universitario Radboudumc (Países Bajos) pone en cuarentena preventiva de 6 semanas a 12 trabajadores sanitarios. Procesaron muestras de sangre y desecharon orina de un paciente positivo con protocolo estándar en lugar del estricto requerido. Paciente admitido 7-may; fallo detectado sábado 10-may.', v:'✅' },
-    { n:22, day:43, date:'13-may', type:'lab', coords:[59.33,18.06], place:'ECDC — Estocolmo (DON601 / Surveillance Update)', desc:'ECDC actualiza cifras del cluster: 9 confirmados (+2 desde el 11-may), 2 probables, 3 muertes. Letalidad 27%. La OMS publica DON601: hipótesis de transmisión humano-humano a bordo se convierte en working hypothesis institucional. Riesgo UE/EEE sigue muy bajo.', v:'✅' },
-    { n:23, day:43, date:'13-may', type:'hospital', coords:[48.86,2.35], place:'París — Bichat · fase terminal del soporte', desc:'La paciente francesa (65 años, Hospital Bichat) entra en lo que el Dr. Xavier Lescure describe como "fase terminal del cuidado de soporte" en parte médico oficial. Sigue conectada a ECMO (pulmón artificial) para oxigenación extracorpórea. Es el caso vivo más grave del cluster del MV Hondius. Las próximas horas se anuncian como determinantes para el pronóstico vital.', v:'✅' },
-    { n:24, day:48, date:'18-may', type:'route', coords:[51.92,4.48], place:'Rotterdam — atraque, testeo RIVM y desinfección', desc:'MV Hondius atraca en el Puerto de Rotterdam a las <b>10:30 AM</b> del lunes 18 de mayo. A bordo: 25 personas asintomáticas (23 tripulantes + 2 funcionarios sanitarios holandeses). El <b>RIVM</b> (Instituto Nacional de Salud Pública neerlandés) testea a las 25 personas al desembarcar — <b>todas dan negativo a virus Andes</b>. Es decir: <b>cero transmisión secundaria a la tripulación durante 40+ días a bordo</b>. El brote queda confinado al núcleo original de pasajeros expuestos al caso índice. Cuarentena diferenciada: los 2 tripulantes holandeses van a cuarentena domiciliaria; el resto (mayormente filipinos) se aloja en 25 contenedores blancos instalados a lo largo del muelle, equipados con internet satelital y catering. Cuarentena de 42 días hasta el 21 de junio (desde el día cero del 10-may). Desglose por nacionalidad: 17 filipinos, 4 holandeses (2 tripulantes + 2 sanitarios), 4 ucranianos, 1 ruso, 1 polaco.', v:'✅' },
-    { n:25, day:48, date:'18-25 may', type:'lab', coords:[51.91,4.46], place:'Rotterdam — desinfección RIVM en curso', desc:'Inicia la desinfección profunda del MV Hondius por una empresa especializada bajo protocolo del RIVM. Plazo estimado: hasta una semana. Procedimiento: trajes de protección personal, limpieza de todas las superficies + sistemas de ventilación, evaluación cuarto por cuarto. Es la primera operación de desinfección de un buque de expedición por brote de hantavirus en aguas neerlandesas.', v:'✅' },
-    { n:26, day:37, date:'7-may',  type:'lab', coords:[-38.74,-72.59], place:'Chile — situación endémica 2026 (contexto, no MV Hondius)', desc:'<b>Contexto endémico paralelo.</b> Chile reporta al cierre del 7 de mayo <b>39 casos confirmados de hantavirus en 2026</b>, con <b>13 fallecidos</b> y una <b>letalidad del 33 %</b>. Contagios en 9 de las 16 regiones del país, principalmente zona central y austral. <b>Estos casos no están vinculados al cluster del MV Hondius</b> — son del reservorio endémico del virus Andes. La letalidad histórica del Andes en Chile oscila ~22%; este año está significativamente por encima. Fuentes: BioBioChile, swissinfo, Minsal Chile.', v:'✅' },
-    { n:27, day:37, date:'7-may',  type:'lab', coords:[-41.13,-71.31], place:'Argentina — situación endémica 2026 (contexto, no MV Hondius)', desc:'<b>Contexto endémico paralelo.</b> Argentina reporta <b>41 casos confirmados de hantavirus en 2026</b>, con <b>tasa de letalidad entre 31 % y 39 %</b>, muy por encima del promedio histórico (~22 %). Circulación viral por arriba del umbral de brote en zonas endémicas (Patagonia y noroeste). <b>Estos casos no están vinculados al cluster del MV Hondius</b>. Es el reservorio activo del virus Andes en niveles atípicos. El brote del crucero es la versión turística/internacional de algo que ya ocurría en territorio argentino. Fuentes: Ministerio de Salud Argentina, UPI, gentedehoy.', v:'✅' },
-    { n:28, day:45, date:'15-may', type:'hospital', coords:[48.86,2.35], place:'París — Bichat · cuidados paliativos', desc:'La paciente francesa del Hospital Bichat (65 años, pasajera del MV Hondius) <b>pasa formalmente a cuidados paliativos</b>. Tras la "fase terminal del soporte" anunciada el 13 de mayo, el cuadro cardiopulmonar no remite. Continúa con ECMO (oxigenación extracorpórea) en la UCI. La UE descartó mutaciones del virus tras secuenciación independiente — la cepa coincide sin variaciones con la del cono sur. <b>26 contactos cercanos PCR-negativos pero en cuarentena.</b> Es el cuadro vivo más grave del cluster. Fuentes: Diario en Positivo, RPP, Mundiario.', v:'✅' },
-    { n:29, day:49, date:'19-may', type:'death', coords:[39.32,-104.97], place:'Douglas County, Colorado, EE.UU. — Sin Nombre virus (no MV Hondius)', desc:'<b>Adulto residente de Douglas County, Colorado, fallece por hantavirus.</b> Autoridades sanitarias estadounidenses confirman: <b>cepa Sin Nombre virus (SNV)</b>, endémica de América del Norte, transmitida por contacto con excrementos u orina del ratón ciervo. <b>Descartado oficialmente cualquier vínculo con el MV Hondius</b> — son cepas distintas (SNV vs. Andes). EE.UU. registra históricamente 20-40 casos anuales de Sin Nombre virus; este caso aparece en titulares por el contexto del brote internacional, no por excepcionalidad clínica. Fuentes: Infobae EE.UU., El Mañana, TV Azteca BC.', v:'✅' }
+    { n:19, day:42, date:'12-may', type:'lab',      coords:[46.20,6.14],    place:'OMS — comunicado oficial', desc:'OMS actualiza: 11 casos en total (9 confirmados, 2 probables), 3 muertes. Riesgo poblacional bajo. Misma cifra confirmada por ECDC al 13-may. <b>Fuente primaria:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON601" target="_blank" rel="noopener">WHO DON601 — Hantavirus cluster linked to cruise ship travel (13-may)</a>.', v:'✅' },
+    { n:20, day:41, date:'11-may', type:'lab', coords:[19.43,-99.13], place:'México — Aviso Epidemiológico Nacional', desc:'La Secretaría de Salud de México (CONAVE) emite la PRIMERA Alerta Epidemiológica Nacional por hantavirus en la historia del país. Cero casos en territorio, pero activa vigilancia en hospitales, laboratorios y unidades médicas. El aviso cita explícitamente la movilidad del Mundial 2026 como factor de riesgo adicional. <b>Fuente:</b> Comunicado SSA/CONAVE del 11-may-2026 (referenciado por <a href="https://politica.expansion.mx/mexico/2026/05/12/mexico-emite-aviso-epidemiologico-hantavirus" target="_blank" rel="noopener">Expansión Política</a> y N+, cobertura trusted convergente). Documento PDF oficial CONAVE no localizado directamente en gob.mx al cierre.', v:'⚠️' },
+    { n:21, day:42, date:'12-may', type:'hospital', coords:[51.81,5.84], place:'Radboudumc Nijmegen — fallo de protocolo', desc:'El Hospital Universitario Radboudumc (Países Bajos) pone en cuarentena preventiva de 6 semanas a 12 trabajadores sanitarios. Procesaron muestras de sangre y desecharon orina de un paciente positivo con protocolo estándar en lugar del estricto requerido. Paciente admitido 7-may; fallo detectado sábado 10-may. <b>Fuente:</b> Comunicado del propio Radboudumc + cobertura trusted convergente (NL Times, NRC, AD). <i>Comunicado primario del Radboudumc no localizado directamente al cierre como URL pública verificable.</i>', v:'⚠️' },
+    { n:22, day:43, date:'13-may', type:'lab', coords:[59.33,18.06], place:'ECDC — Estocolmo (DON601 / Surveillance Update)', desc:'ECDC actualiza cifras del cluster: 9 confirmados (+2 desde el 11-may), 2 probables, 3 muertes. Letalidad 27%. La OMS publica DON601: hipótesis de transmisión humano-humano a bordo se convierte en working hypothesis institucional. Riesgo UE/EEE sigue muy bajo. <b>Fuentes primarias:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON601" target="_blank" rel="noopener">WHO DON601</a> + <a href="https://www.ecdc.europa.eu/en/publications-data/hantavirus-associated-cluster-illness-cruise-ship-ecdc-assessment-and" target="_blank" rel="noopener">ECDC Threat Assessment Brief</a>.', v:'✅' },
+    { n:23, day:43, date:'13-may', type:'hospital', coords:[48.86,2.35], place:'París — Bichat · fase terminal del soporte', desc:'La paciente francesa (65 años, Hospital Bichat) entra en lo que el Dr. Xavier Lescure describe como "fase terminal del cuidado de soporte" en parte médico oficial. Sigue conectada a ECMO (pulmón artificial) para oxigenación extracorpórea. Es el caso vivo más grave del cluster del MV Hondius. Las próximas horas se anuncian como determinantes para el pronóstico vital. <i>Convergencia trusted (Le Monde, Le Figaro, AFP, France24); parte médico oficial del Hospital Bichat citado por la cobertura, no localizado como documento público directo.</i>', v:'⚠️' },
+    { n:24, day:48, date:'18-may', type:'route', coords:[51.92,4.48], place:'Rotterdam — atraque, testeo RIVM y desinfección', desc:'MV Hondius atraca en el Puerto de Rotterdam a las <b>10:30 AM</b> del lunes 18 de mayo. A bordo: 25 personas asintomáticas (23 tripulantes + 2 funcionarios sanitarios holandeses). El <b>RIVM</b> (Instituto Nacional de Salud Pública neerlandés) testea a las 25 personas al desembarcar — <b>todas dan negativo a virus Andes en ese momento</b>. El brote queda confinado al núcleo original de pasajeros expuestos al caso índice (estado al 18-may; ver n:30 para evolución posterior). Cuarentena diferenciada: los 2 tripulantes holandeses van a cuarentena domiciliaria; el resto (mayormente filipinos) se aloja en 25 contenedores blancos instalados a lo largo del muelle, equipados con internet satelital y catering. Cuarentena de 42 días hasta el 21 de junio (desde el día cero del 10-may). Desglose por nacionalidad: 17 filipinos, 4 holandeses (2 tripulantes + 2 sanitarios), 4 ucranianos, 1 ruso, 1 polaco. <b>Fuentes primarias:</b> <a href="https://www.rivm.nl/en/hantavirus/current-information" target="_blank" rel="noopener">RIVM — Current information about hantavirus</a> + <a href="https://www.cdc.gov/media/releases/2026/2026-cdc-provides-update-on-hantavirus-outbreak-linked-to-m-v-hondius-cruise-ship.html" target="_blank" rel="noopener">CDC Newsroom — Update on hantavirus MV Hondius</a>.', v:'✅' },
+    { n:25, day:48, date:'18-25 may', type:'lab', coords:[51.91,4.46], place:'Rotterdam — desinfección RIVM en curso', desc:'Inicia la desinfección profunda del MV Hondius por una empresa especializada bajo protocolo del RIVM. Plazo estimado: hasta una semana. Procedimiento: trajes de protección personal, limpieza de todas las superficies + sistemas de ventilación, evaluación cuarto por cuarto. Es la primera operación de desinfección de un buque de expedición por brote de hantavirus en aguas neerlandesas. <b>Fuente primaria:</b> <a href="https://www.rivm.nl/en/hantavirus/current-information" target="_blank" rel="noopener">RIVM — Current information about hantavirus</a>. <i>Detalles operativos reportados por cobertura trusted (NL Times, NRC, Reuters).</i>', v:'✅' },
+    { n:26, day:37, date:'7-may',  type:'lab', coords:[-38.74,-72.59], place:'Chile — situación endémica 2026 (contexto, no MV Hondius)', desc:'<b>Contexto endémico paralelo.</b> Chile reporta al cierre del 7 de mayo <b>39 casos confirmados de hantavirus en 2026</b>, con <b>13 fallecidos</b> y una <b>letalidad del 33 %</b>. Contagios en 9 de las 16 regiones del país, principalmente zona central y austral. <b>Estos casos no están vinculados al cluster del MV Hondius</b> — son del reservorio endémico del virus Andes. La letalidad histórica del Andes en Chile oscila ~22%; este año está significativamente por encima. <b>Fuente primaria:</b> ISP Chile / Minsal Chile (informes epidemiológicos semanales). <i>Cobertura trusted convergente: La Tercera, BioBioChile, swissinfo.</i>', v:'⚠️' },
+    { n:27, day:37, date:'7-may',  type:'lab', coords:[-41.13,-71.31], place:'Argentina — situación endémica 2026 (contexto, no MV Hondius)', desc:'<b>Contexto endémico paralelo.</b> Argentina reporta <b>41 casos confirmados de hantavirus en 2026</b>, con <b>tasa de letalidad entre 31 % y 39 %</b>, muy por encima del promedio histórico (~22 %). Circulación viral por arriba del umbral de brote en zonas endémicas (Patagonia y noroeste). <b>Estos casos no están vinculados al cluster del MV Hondius</b>. Es el reservorio activo del virus Andes en niveles atípicos. El brote del crucero es la versión turística/internacional de algo que ya ocurría en territorio argentino. <b>Fuente primaria:</b> Ministerio de Salud Argentina (Boletín Epidemiológico Nacional, SE 17). <i>Cobertura trusted: La Nación, Clarín, Página/12, UPI.</i>', v:'⚠️' },
+    { n:28, day:45, date:'15-may', type:'hospital', coords:[48.86,2.35], place:'París — Bichat · cuidados paliativos', desc:'La paciente francesa del Hospital Bichat (65 años, pasajera del MV Hondius) <b>pasa formalmente a cuidados paliativos</b>. Tras la "fase terminal del soporte" anunciada el 13 de mayo, el cuadro cardiopulmonar no remite. Continúa con ECMO (oxigenación extracorpórea) en la UCI. La UE descartó mutaciones del virus tras secuenciación independiente — la cepa coincide sin variaciones con la del cono sur. <b>26 contactos cercanos PCR-negativos pero en cuarentena.</b> Es el cuadro vivo más grave del cluster. <i>Cobertura periodística: Diario en Positivo, RPP, Mundiario (sin comunicado primario del Hospital Bichat o del Ministère de la Santé francés localizado al cierre).</i>', v:'⚠️' },
+    { n:29, day:49, date:'19-may', type:'death', coords:[39.32,-104.97], place:'Douglas County, Colorado, EE.UU. — Sin Nombre virus (no MV Hondius)', desc:'<b>Adulto residente de Douglas County, Colorado, fallece por hantavirus.</b> Autoridades sanitarias estadounidenses confirman: <b>cepa Sin Nombre virus (SNV)</b>, endémica de América del Norte, transmitida por contacto con excrementos u orina del ratón ciervo. <b>Descartado oficialmente cualquier vínculo con el MV Hondius</b> — son cepas distintas (SNV vs. Andes). EE.UU. registra históricamente 20-40 casos anuales de Sin Nombre virus; este caso aparece en titulares por el contexto del brote internacional, no por excepcionalidad clínica. <i>Cobertura: Infobae EE.UU., El Mañana, TV Azteca BC (sin comunicado primario del Colorado Dept. of Public Health & Environment localizado al cierre).</i>', v:'⚠️' },
+    { n:30, day:52, date:'22-may', type:'hospital', coords:[51.92,4.48], place:'Rotterdam — nuevo caso confirmado en tripulante', desc:'<b>Nuevo caso de hantavirus confirmado en un tripulante del MV Hondius en cuarentena en Rotterdam.</b> Es el primer caso confirmado entre la tripulación tras el atraque del 18-may, en el que las 25 personas a bordo dieron negativo. Eleva el total del cluster a 12 casos (10 confirmados + 2 probables) y mantiene 3 muertes. <b>Implicación:</b> el brote NO quedó confinado al núcleo original de pasajeros; la transmisión a tripulación durante la travesía (período de incubación largo del Andes virus) se confirma. <i>Convergencia trusted:</i> <a href="https://www.manilatimes.net/2026/05/22/world/who-says-new-hantavirus-case-among-hondius-ships-crew/2350248" target="_blank" rel="noopener">Manila Times (22-may)</a> y <a href="https://nltimes.nl/2026/05/23/new-hantavirus-infection-confirmed-hondius-crew-member-isolated-netherlands" target="_blank" rel="noopener">NL Times (23-may)</a> citando a la OMS. Verificación directa pendiente con comunicado RIVM/OMS de la fecha.', v:'⚠️' }
   ];
 
   // (La cronología de Ébola usa el arreglo `eventosEbola` definido más abajo
@@ -3594,7 +3686,8 @@
     1:'1 abr', 6:'6 abr', 11:'11 abr', 14:'14 abr', 24:'24 abr', 26:'26 abr',
     32:'2 may', 33:'3 may', 34:'4 may', 36:'6 may', 37:'7 may', 38:'8 may',
     40:'10 may', 41:'11 may', 42:'12 may', 43:'13 may', 45:'15 may',
-    48:'18 may', 49:'19 may', 50:'20 may', 55:'25 may'
+    48:'18 may', 49:'19 may', 50:'20 may', 51:'21 may', 52:'22 may',
+    55:'25 may', 56:'26 may'
   };
   function dayLabel(d) {
     if (dayToDate[d]) return dayToDate[d];
@@ -3771,7 +3864,7 @@
       fuente: 'University of Bath · fuente primaria pendiente' },
     { coords: [59.91, 10.75], offset: [61.0, 12.5], inst: 'CEPI · Coalition for Epidemic Preparedness Innovations',
       desc: 'Oslo, Noruega. Programa <strong>"100 Day Mission"</strong> (vacuna lista en cien días). CEO Richard Hatchett pidió $2,500M USD el 17-may-2026 usando el brote del Hondius como argumento.',
-      fuente: 'The Hill Times (17-may-2026) · CEPI' }
+      fuente: 'Primaria: CEPI (declaración Richard Hatchett, 17-may-2026) · Cobertura: The Hill Times' }
   ];
   const vacunasLayer = L.layerGroup();
   vacunas.forEach(v => addNodeToLayer(vacunasLayer, v, vaccineIcon,
@@ -3823,23 +3916,23 @@
     { coords: [40, -100], label: 'Norteamérica',
       titulo: 'América del Norte',
       desc: '<b>1 caso confirmado por laboratorio</b> vinculado al MV Hondius: Dr. Stephen Kornfeld (oncólogo), en biocontención en el University of Nebraska Medical Center, Omaha. EE.UU.: 41 personas en monitoreo. Canadá: 26 contactos por exposición de bajo riesgo. Nodo federal de coordinación: USAMRIID (Frederick, Maryland) + National Quarantine Unit Nebraska.',
-      fuente: 'CDC HAN 00528 · CNN · CBC' },
+      fuente: 'Primaria: CDC HAN 00528 · Cobertura: CNN, CBC' },
     { coords: [52, 15], label: 'Europa',
       titulo: 'Europa',
       desc: '<b>5 casos confirmados</b> distribuidos en seis países. Concentración principal de pasajeros del MV Hondius: Reino Unido, Países Bajos, Alemania, Francia, España, Suiza. Turquía: contactos.<br><br><b>Países Bajos · Rotterdam</b>: el barco atracó el 18-may-2026 para desinfección. 25 contenedores blancos instalados en el muelle para cuarentena de 42 días, con internet satelital y catering. Tripulación restante: 17 filipinos, 4 holandeses, 4 ucranianos, 1 ruso, 1 polaco.<br><br><b>Francia</b>: mujer en sus 60 años (asma + comorbilidades) en estado crítico en el Hospital Bichat, París, bajo ECMO; atendida por el Dr. Xavier Lescure (infectología). Caso pulmonar más severo del cluster.<br><br><b>España</b>: paciente estable en el Hospital Central de Defensa Gómez Ulla, Madrid.',
-      fuente: 'ECDC · OMS DON601 · NL Times · France24 · Al Jazeera · NPR · PBS · Infobae · El País' },
+      fuente: 'Primarias: ECDC, OMS DON601 · Cobertura: NL Times, France24, Al Jazeera, NPR, PBS, Infobae, El País' },
     { coords: [0, 20], label: 'África',
       titulo: 'África',
       desc: '<b>1 muerte confirmada del brote</b>: la viuda neerlandesa (segunda víctima del matrimonio embarcado) falleció en <b>Johannesburgo, Sudáfrica</b>, tras ser evacuada desde Santa Helena el 3 de mayo de 2026. Santa Helena: puerto de tránsito y desembarque sanitario británico durante la travesía del Hondius.',
-      fuente: 'OMS DON601 · CNN · El País' },
+      fuente: 'Primaria: OMS DON601 · Cobertura: CNN, El País' },
     { coords: [15, 100], label: 'Asia',
       titulo: 'Asia',
       desc: '<b>2 residentes en cuarentena</b>, sin casos confirmados al 17-may-2026. Singapur: dos pasajeros del MV Hondius fueron trasladados al Centro Nacional de Enfermedades Infecciosas y permanecen aislados al menos un mes.',
-      fuente: 'Ministerio de Salud de Singapur · CNA' },
+      fuente: 'Primaria: Ministerio de Salud de Singapur · Cobertura: CNA' },
     { coords: [-25, 135], label: 'Oceanía',
       titulo: 'Oceanía',
       desc: '<b>Pasajeros del MV Hondius en monitoreo</b>, sin casos confirmados al 17-may-2026. Australia: residentes que viajaban en el crucero están bajo seguimiento epidemiológico activo del Departamento de Salud federal.',
-      fuente: 'Cobertura prensa internacional' }
+      fuente: 'Cobertura prensa internacional (sin comunicado primario localizado del Depto. Salud federal australiano al cierre)' }
   ];
   const continentesLayer = L.layerGroup();
   continentes.forEach(c => {
@@ -3855,10 +3948,10 @@
   const geopoliticos = [
     { coords: [38.92, -77.05], offset: [36.8, -80.2], fecha: '22-ene-2026', titulo: 'Estados Unidos abandona la OMS',
       desc: 'Washington DC. La salida formal entra en vigor el 22 de enero de 2026 tras el período de un año reglamentario desde la firma de la Orden Ejecutiva 14155 por Donald Trump el 20 de enero de 2025 (su primer día como Presidente). <b>Impacto financiero:</b> EE.UU. aportaba aproximadamente <b>USD 681 millones anuales</b> a la OMS — cuota evaluada de USD 111M más contribuciones voluntarias de ~USD 570M. Era <b>el 12-15% del presupuesto total</b> de la organización entre 2022 y 2023, su mayor donante histórico. <b>Consecuencia inmediata:</b> la OMS enfrenta un <b>déficit de USD 1,900 millones</b> en el presupuesto 2026-2027 — el 45% del presupuesto ya reducido a USD 4,200M. Crisis presupuestaria descrita por Health Policy Watch como "más grande de lo previsto".',
-      fuente: 'HHS Fact Sheet · Health Policy Watch · CGD · NPR · CRS Report' },
-    { coords: [-34.62, -58.36], fecha: '17-mar-2026', titulo: 'Argentina concreta su salida de la OMS',
-      desc: 'Buenos Aires. La salida se concreta el 17 de marzo de 2026 por aplicación del Convenio de Viena, un año exacto después de la notificación formal del gobierno Milei al SG de la ONU el 17-mar-2025. Quince días antes del zarpe del MV Hondius desde Ushuaia. <b>Impacto financiero:</b> Argentina aportaba aproximadamente <b>USD 1.13 millones anuales</b> a la OMS (cuota equivalente a 1,248 millones de pesos argentinos según la previsión presupuestaria 2024), más USD 369,500 a la OPS. Cifra <b>financieramente marginal</b> frente a los USD 681M estadounidenses — el acto argentino es <b>simbólico-político</b>, no presupuestal. <b>Diferencia clave:</b> Argentina <b>permanece como miembro de la OPS</b> (oficina regional de las Américas), por lo que mantiene acceso a cooperación técnica regional. La salida es de la OMS global, no de la red continental sanitaria.',
-      fuente: 'Página/12 · Infobae · Chequeado · La Nación · El Cronista · Min. Salud Argentina (Lugones)' },
+      fuente: 'Primaria: HHS Fact Sheet · Análisis institucional: CGD, CRS Report · Cobertura: Health Policy Watch, NPR' },
+    { coords: [-34.62, -58.36], fecha: '17-mar-2026 · ratificada 22-may-2026 (WHA79)', titulo: 'Argentina concreta su salida de la OMS · ratificada WHA79',
+      desc: 'Buenos Aires. La salida se concreta el 17 de marzo de 2026 por aplicación del Convenio de Viena, un año exacto después de la notificación formal del gobierno Milei al SG de la ONU el 17-mar-2025. Quince días antes del zarpe del MV Hondius desde Ushuaia. <b>Audit trail · ratificación 22-may:</b> tras controversia inicial donde Tedros declaró que "la pretendida notificación de retiro de Argentina no debería ser aceptada como efectiva", la <b>Asamblea Mundial de la Salud 79</b> aprobó <b>unánimamente el viernes 22 de mayo de 2026</b> el retiro definitivo de Argentina, con efecto legal inmediato retroactivo al 17-mar. El Comité Ejecutivo OMS ya había firmado resolución preparatoria el 6-feb-2026. <b>Coincidencia editorial del 22-may:</b> ese mismo día se reunió por primera vez el Comité de Emergencia del RSI por ébola Bundibugyo (ver E10). <b>Impacto financiero:</b> Argentina aportaba aproximadamente <b>USD 1.13 millones anuales</b> a la OMS más USD 369,500 a la OPS. Cifra <b>financieramente marginal</b> frente a los USD 681M estadounidenses — el acto argentino es <b>simbólico-político</b>, no presupuestal. <b>Diferencia clave:</b> Argentina <b>permanece como miembro de la OPS</b>, por lo que mantiene acceso a cooperación técnica regional. La salida es de la OMS global, no de la red continental sanitaria.',
+      fuente: 'Primaria: Min. Salud Argentina (declaración Quirno + Lugones) + OMS WHA79 resolución 22-may + comunicado Comité Ejecutivo OMS del 6-feb-2026 · Cobertura: Euronews, Buenos Aires Times, Filo News, Chequeado, La Nación, Perfil, Think Global Health' },
     { coords: [38.91, -77.06], offset: [40.6, -79.5], fecha: '19-dic-2025', titulo: 'OPS emite alerta epidemiológica regional por hantavirus',
       desc: 'Washington DC, sede de la <b>OPS</b> (Organización Panamericana de la Salud, brazo regional de la OMS para las Américas, fundada en 1902). En 2025, hasta la semana epidemiológica 47, se reportaron en el cono sur <b>229 casos confirmados</b> y <b>59 muertes</b> en 8 países — aproximadamente <b>cuatro veces la media histórica anual</b> de la región (~50-60 casos/año). El virus Andes es endémico desde 1993-1995 en Argentina y Chile. La alerta se emitió tres meses antes de la salida formal de Argentina de la OMS, y casi cuatro meses antes del zarpe del MV Hondius desde Ushuaia.',
       fuente: 'OPS / Boletín Epidemiológico Regional' }
@@ -3878,19 +3971,19 @@
       fuente: 'BEN Argentina SE 17 · argentina.gob.ar' },
     { coords: [-33.45, -70.66], fecha: '2026 al 7 mayo', titulo: 'Chile · virus Andes',
       desc: '<b>Cepa:</b> virus Andes (ANDV). Vigilancia desde 1995. <b>2026 al 7 de mayo (5 meses):</b> 39 casos confirmados, <b>13 muertes, letalidad 33%</b>. <b>Histórico:</b> 2025 entero: 44 casos, 8 muertes, letalidad 18%. 2020-2024: 30-70 casos/año, letalidad promedio 26%. Pico de la década: 91 casos en 2017. <b>1995-2025 acumulado:</b> 1,461 casos y 458 fallecidos. En cinco meses de 2026 Chile ya superó las muertes de todo 2025 y la letalidad casi duplicó la de 2025.',
-      fuente: 'ISP Chile · BioBioChile · La Tercera' },
+      fuente: 'Primaria: ISP Chile · Cobertura: BioBioChile, La Tercera' },
     { coords: [-16.5, -68.1], fecha: '2026 al 11 mayo', titulo: 'Bolivia · variantes locales (no Andes)',
       desc: '<b>Cepa:</b> variantes locales del hantavirus — la cepa Andes <b>NO circula en Bolivia</b> según epidemiólogo del Sedes. Reservorio: <i>Oligoryzomys longicaudatus</i> (ratón orejudo). <b>2026 al 11 de mayo:</b> 18 casos, 5 muertes. Distribución: La Paz 13, Tarija 4, Beni 1, Santa Cruz 0. <b>Histórico:</b> 2025 al 15 nov: 48 casos y 11 muertes (duplicó promedio 2023-2024 de ~24/año). 2018 brote en Santa Cruz: 40 casos. <b>Crecimiento +64% en 3 semanas</b> (11 casos al 18 abril → 18 al 11 mayo).',
-      fuente: 'Sedes Bolivia · Brújula Digital · Unitel · OPS' },
+      fuente: 'Primarias: Sedes Bolivia, OPS · Cobertura: Brújula Digital, Unitel' },
     { coords: [-22.3, -60.1], fecha: '2026 al SE 16', titulo: 'Paraguay · virus Laguna Negra',
       desc: '<b>Cepa:</b> virus Laguna Negra (circulando desde 2012). Sin transmisión persona-persona. <b>2026 al SE 16:</b> 3 casos confirmados (todos varones — 2 Boquerón, 1 Presidente Hayes). <b>Histórico:</b> 2013-2020 = 90 casos · promedio 11/año. 2020-2025 = 110 casos · <b>73% en Boquerón</b> (Chaco). Letalidad acumulada 14%. 2013-2026 SE16 total acumulado: 196 casos. OPS identifica a Paraguay con "aumento significativo de incidencia" en 2025-2026, asociado a brote laboral.',
       fuente: 'MSPBS Paraguay · DGVS · OPS' },
     { coords: [-30.0, -53.0], fecha: '2026 al 11 mayo', titulo: 'Brasil · cepa Juquitiba / Castelo dos Sonhos',
       desc: '<b>Cepas:</b> Juquitiba, Castelo dos Sonhos, Araraquara. Sin transmisión persona-persona. <b>2026 al 11 de mayo:</b> 7-8 casos confirmados, 1 muerte (Antônio Prado, Paulo Bento en Río Grande do Sul). 11 casos más bajo investigación en Paraná. <b>Histórico:</b> 2007-2015 = 1,060 casos y 410 muertes (letalidad 39%). 2025 entero: 35 casos, 15 muertes (OPS reportó letalidad regional 55%, la más alta). <b>Paradoja brasileña:</b> menos casos pero más letales — incidencia decreciente, letalidad creciente. Confirmado oficialmente: ningún caso brasileño 2026 tiene relación con la cepa Andes del MV Hondius.',
-      fuente: 'Ministério da Saúde · Sec. Salud RS · CNN Brasil · PubMed 2018' },
+      fuente: 'Primarias: Ministério da Saúde, Sec. Salud RS, PubMed (paper 2018) · Cobertura: CNN Brasil' },
     { coords: [-34.9, -56.2], fecha: '2026', titulo: 'Uruguay · cepa Lechiguanas',
       desc: '<b>Cepa:</b> virus Lechiguanas (no Andes). Reservorio: <i>Oligoryzomys flavescens</i>. Sin transmisión persona-persona documentada. <b>2024:</b> 11 casos. <b>2025:</b> 7 casos, al menos 1 muerte. <b>2026:</b> 0 casos vinculados al MV Hondius. <b>Histórico:</b> vigilancia desde 1997; 1997-2019 acumulado de 271 casos; letalidad histórica alta (~50% en años iniciales). Concentración geográfica: sur del Río Negro — Montevideo, Canelones, Colonia. <b>MSP Uruguay descartó vínculos epidemiológicos con MV Hondius:</b> los pasajeros holandeses transitaron Uruguay pero los síntomas iniciaron días después de dejar el país.',
-      fuente: 'MSP Uruguay · Montevideo Portal · Diario La R' },
+      fuente: 'Primaria: MSP Uruguay · Cobertura: Montevideo Portal, Diario La R' },
     { coords: [-7.8, -80.4], fecha: '2026 al SE 15', titulo: 'Panamá · cepa Choclo',
       desc: '<b>Cepa:</b> Choclo orthohantavirus (CHOV) — cepa diferente al resto de Sudamérica. Reservorio: <i>Oligoryzomys costaricensis</i>. <b>2026 al SE 15:</b> 8 casos confirmados. <b>Histórico:</b> primer brote 1999-2000 en Los Santos (11 casos, 3 fatales). 2018: 103 casos mixtos (48 HPS + 51 fiebre sin síndrome pulmonar, 4 muertes). Distribución acumulada 1999-2019: Los Santos 77.4% (n=550), Veraguas 84, Coclé 49, Herrera 22. <b>Letalidad considerablemente menor</b> que las cepas del cono sur — muchas infecciones asintomáticas o sin síndrome pulmonar. Sin transmisión persona-persona.',
       fuente: 'MINSA Panamá · Emerging Infectious Diseases (CDC) · OPS' }
@@ -3979,6 +4072,7 @@
   // Líneas que conectan los partidos consecutivos de cada selección endémica
   // ===========================================================================
   const rutasEndemicas = [
+    // === SUDAMÉRICA — cepa Andes y variantes (cono sur, severas, p-p Andes) ===
     { selec:'Argentina', cepa:'Andes', color:'#5a8bb8', sedes: [
       [39.05,-94.48], [32.75,-97.09], [32.75,-97.09] // Kansas → Dallas → Dallas
     ]},
@@ -3991,16 +4085,44 @@
     { selec:'Paraguay', cepa:'Laguna Negra', color:'#b85a3a', sedes: [
       [33.95,-118.34], [37.40,-121.97], [37.40,-121.97] // LA → SF Bay → SF Bay
     ]},
-    { selec:'Panamá', cepa:'Choclo', color:'#c00', sedes: [
+    // === CENTROAMÉRICA — cepa Choclo (Panamá) ===
+    { selec:'Panamá', cepa:'Choclo', color:'#d4a017', sedes: [
       [43.63,-79.42], [43.63,-79.42], [40.81,-74.07] // Toronto → Toronto → NJ
+    ]},
+    // === ÁFRICA CENTRAL — ébola Bundibugyo (PHEIC activa 17-may-2026) ===
+    { selec:'RD Congo', cepa:'ébola Bundibugyo', color:'#c2410c', sedes: [
+      [29.68,-95.41], [20.68,-103.46] // Houston (vs Portugal 17-jun) → Guadalajara (vs Colombia 23-jun)
+    ]},
+    // === NORTEAMÉRICA — anfitrión, cepa Sin Nombre ===
+    { selec:'México', cepa:'Sin Nombre (anfitrión)', color:'#1a3a8a', sedes: [
+      [19.30,-99.15], [20.68,-103.46], [19.30,-99.15] // CDMX (vs Sudáfrica 11-jun) → Guadalajara (vs Corea 18-jun) → CDMX (vs Rep. Checa 24-jun)
+    ]},
+    // === ASIA — cepa Hantaan ===
+    { selec:'Corea del Sur', cepa:'Hantaan', color:'#7a4ea8', sedes: [
+      [20.68,-103.46], [25.69,-100.24] // Guadalajara (vs México 18-jun) → Monterrey (vs Sudáfrica)
+    ]},
+    { selec:'Japón', cepa:'Hantaan', color:'#9a6ec8', sedes: [
+      [25.69,-100.24], [32.75,-97.09] // Monterrey (vs Túnez) → Dallas (vs Suecia)
+    ]},
+    // === EUROPA — cepa Puumala ===
+    { selec:'España', cepa:'Puumala', color:'#2a8c4e', sedes: [
+      [33.76,-84.40], [33.76,-84.40], [20.68,-103.46] // Atlanta (vs Cabo Verde 15-jun) → Atlanta (vs Arabia Saudí 21-jun) → Guadalajara (vs Uruguay 26-jun)
+    ]},
+    // Suecia, Rep. Checa, Inglaterra — selecciones endémicas con datos visibles
+    // de UN SOLO partido al cierre del calendario público. No generan ruta entre sedes;
+    // se podrán incorporar cuando la FIFA confirme partidos adicionales para esos países.
+    // === ÁFRICA — sin endémico documentado de hantavirus pero contextual ===
+    { selec:'Sudáfrica', cepa:'No endémico documentado', color:'#888', sedes: [
+      [19.30,-99.15], [25.69,-100.24] // CDMX (vs México 11-jun) → Monterrey (vs Corea del Sur)
     ]}
   ];
-  const mundialRutasLayer = L.layerGroup();
-  rutasEndemicas.forEach(r => {
-    const linea = L.polyline(r.sedes, { color: r.color, weight: 3, opacity: 0.75, dashArray: '6,5' });
-    linea.bindPopup(`<b>${r.selec} · ${r.cepa}</b><p>Trayectoria de la selección durante la fase de grupos del Mundial 2026, partido a partido.</p>`);
-    mundialRutasLayer.addLayer(linea);
-  });
+  // mundialRutasLayer se elimina como capa independiente (24-may-2026).
+  // Las rutas internas de selección se fusionan en flujosM26Layer (ver más abajo),
+  // dibujadas como tramos SÓLIDOS (movimiento interno del torneo) en contraste con
+  // los tramos PUNTEADOS del flujo internacional (origen del fan → primera sede).
+  // Mapa de búsqueda rápida: selección → array de sedes consecutivas de la fase de grupos.
+  const RUTA_INTERNA_SELECCION = {};
+  rutasEndemicas.forEach(r => { RUTA_INTERNA_SELECCION[r.selec] = r.sedes; });
 
   // ===========================================================================
   // ---- CAPA 9: AFICIONADOS M26 · 48 países origen → hub → sede ----
@@ -4119,7 +4241,8 @@
     { pais:'RD Congo',     coord:[-4.32,15.32],    cepa:'NoEndemico', hub:'CDG', sede:[29.68,-95.41], peso:'medio', fecha:'17 jun', partido:'Portugal vs RD Congo · NRG, Houston (RDC tiene PHEIC ébola activa)' }
   ];
 
-  const aficionadosLayer = L.layerGroup();
+  const flujosM26Layer = L.layerGroup();
+  const aficionadosLayer = flujosM26Layer; // alias por retrocompatibilidad interna
   // Marcadores de hubs (los puntos de interconexión)
   const hubsUsados = new Set();
   aficionados.forEach(a => { if (a.hub) hubsUsados.add(a.hub); });
@@ -4145,29 +4268,58 @@
     );
   });
 
-  // Líneas país → (hub) → sede
+  // ============================================================
+  // Dibujo del flujo completo país → (hub) → sede1 → sede2 → sede3
+  // Dos estilos dentro de la MISMA capa:
+  //  - Tramo INTERNACIONAL (origen → hub → primera sede): PUNTEADO, fino-medio
+  //    representa el flujo de aficionados/turistas/prensa (mass flow, sin vigilancia)
+  //  - Tramo INTERNO (sedes consecutivas de la selección): SÓLIDO, más grueso
+  //    representa el movimiento de la selección durante la fase de grupos
+  // ============================================================
   aficionados.forEach(a => {
     const color = COLOR_CEPA[a.cepa] || COLOR_CEPA.NoEndemico;
     const weight = PESO[a.peso] || PESO.medio;
     const opacity = a.cepa === 'NoEndemico' ? 0.35 : 0.65;
-    const tramos = a.hub
-      ? [[a.coord, HUBS[a.hub].c], [HUBS[a.hub].c, a.sede]]
-      : [[a.coord, a.sede]];
-    tramos.forEach((tramo, idx) => {
+
+    // Si la selección tiene ruta interna documentada, su primera sede se usa como
+    // destino del flujo internacional (sobrescribe a.sede si difiere por inconsistencia).
+    const rutaInterna = RUTA_INTERNA_SELECCION[a.pais];
+    const primeraSede = rutaInterna ? rutaInterna[0] : a.sede;
+
+    // ---- Tramo internacional (PUNTEADO) ----
+    const tramosIntl = a.hub
+      ? [[a.coord, HUBS[a.hub].c], [HUBS[a.hub].c, primeraSede]]
+      : [[a.coord, primeraSede]];
+    const cepaLabel = a.cepa === 'NoEndemico'
+      ? 'Sin hantavirus endémico documentado'
+      : `cepa <b>${a.cepa}</b> endémica`;
+    tramosIntl.forEach((tramo) => {
       const linea = L.polyline(tramo, {
         color: color,
         weight: weight,
         opacity: opacity,
-        dashArray: idx === 0 ? null : '5,4' // tramo final (hub→sede) punteado
+        dashArray: '5,4'  // TODO el flujo de aficionados es punteado
       });
-      const cepaLabel = a.cepa === 'NoEndemico'
-        ? 'Sin hantavirus endémico documentado'
-        : `cepa <b>${a.cepa}</b> endémica`;
       linea.bindPopup(
-        `<b>${a.pais}</b> → ${a.partido}<p><b>Fecha:</b> ${a.fecha}</p><p><b>País de origen:</b> ${cepaLabel}.</p>${a.hub ? `<p><b>Hub de tránsito:</b> ${HUBS[a.hub].nombre}</p>` : '<p><em>Vuelo directo</em></p>'}<p><b>Volumen estimado de hinchas:</b> ${a.peso === 'alto' ? 'Alto · cientos de miles' : a.peso === 'medio' ? 'Medio · decenas de miles' : 'Bajo · unos pocos miles'}.</p>`
+        `<b>${a.pais}</b> · Flujo de aficionados → ${a.partido}<p><b>Primer partido:</b> ${a.fecha}</p><p><b>País de origen:</b> ${cepaLabel}.</p>${a.hub ? `<p><b>Hub de tránsito:</b> ${HUBS[a.hub].nombre}</p>` : '<p><em>Vuelo directo</em></p>'}<p><b>Volumen estimado de hinchas:</b> ${a.peso === 'alto' ? 'Alto · cientos de miles' : a.peso === 'medio' ? 'Medio · decenas de miles' : 'Bajo · unos pocos miles'}.</p>`
       );
-      aficionadosLayer.addLayer(linea);
+      flujosM26Layer.addLayer(linea);
     });
+
+    // ---- Tramo interno de la selección (SÓLIDO) ----
+    if (rutaInterna && rutaInterna.length > 1) {
+      const lineaInterna = L.polyline(rutaInterna, {
+        color: color,
+        weight: weight + 1,           // un poco más gruesa
+        opacity: Math.min(opacity + 0.2, 0.9),
+        // sin dashArray → línea sólida
+      });
+      const cepaSelec = (rutasEndemicas.find(r => r.selec === a.pais) || {}).cepa || a.cepa;
+      lineaInterna.bindPopup(
+        `<b>${a.pais} · Trayectoria de la selección</b><p><b>Cepa endémica del país:</b> ${cepaSelec}.</p><p>Movimiento entre sedes durante la fase de grupos del Mundial 2026, partido a partido. Esta es la pista <b>simbólica/mediática</b> del flujo — el equipo y prensa oficial (~50-100 personas). La pista del flujo <b>estructural/sanitario</b> —decenas de miles de aficionados— es la línea punteada que termina aquí.</p>`
+      );
+      flujosM26Layer.addLayer(lineaInterna);
+    }
   });
 
   // ===========================================================================
@@ -4176,16 +4328,23 @@
   // Capa toggleable a través del selector maestro de brote.
   // ===========================================================================
   const eventosEbola = [
-    { n:'E1', day:35, date:'5-may',  type:'symptom',  coords:[1.94, 29.81],  place:'Mongbwalu, Ituri (RDC)', desc:'<b>Alerta inicial.</b> Personal sanitario reporta enfermedad desconocida en el área de Mongbwalu, provincia de Ituri. Primer cuadro clínico que terminará identificándose como ébola Bundibugyo.', v:'✅' },
-    { n:'E2', day:44, date:'14-may', type:'lab',      coords:[1.56, 30.24],  place:'Laboratorio · Bunia, Ituri', desc:'<b>Primer test positivo Bundibugyo.</b> Las primeras pruebas habían dado negativas porque solo detectaban la cepa Zaire. Al aplicar test específico de Bundibugyo se confirma el patógeno. Sesgo de detección: el brote pudo estar circulando semanas sin identificarse.', v:'✅' },
-    { n:'E3', day:46, date:'16-may', type:'lab',      coords:[46.20, 6.14],  place:'Ginebra · OMS — declaración PHEIC', desc:'<b>OMS declara Emergencia de Salud Pública de Importancia Internacional</b> por ébola Bundibugyo en RDC + Uganda. <b>Solo 13 días entre alerta y declaración</b> — récord absoluto histórico (compare con H1N1 2009 = 83 días, COVID-19 = 30 días, ébola Kivu 2018-19 = 11 meses). Apenas 8 casos confirmados al momento de la declaración. CEPI había otorgado USD 26.7M a Moderna+Oxford en enero 2026 para vacuna multivalente que incluye Bundibugyo.', v:'✅' },
-    { n:'E4', day:47, date:'17-may', type:'hospital', coords:[0.31, 32.58],  place:'Kampala, Uganda · 2 casos confirmados', desc:'<b>Casos confirmados en Uganda.</b> Dos personas que viajaban desde RDC dan positivo en Kampala. 1 fallecido. Sin propagación secundaria documentada al cierre.', v:'✅' },
-    { n:'E5', day:47, date:'17-may', type:'symptom',  coords:[-1.68, 29.22], place:'Goma, Nord-Kivu (RDC) · zona M23', desc:'<b>Caso confirmado en Goma</b> — capital de Nord-Kivu. La ciudad está bajo <b>control del M23</b>, grupo armado respaldado por Ruanda. MSF inicia negociaciones de acceso humanitario directamente con el M23, lo que de facto le otorga estatus de interlocutor sanitario. Mismo patrón documentado en Tigré 2021-2023.', v:'✅' },
-    { n:'E6', day:47, date:'17-may', type:'symptom',  coords:[-4.32, 15.32], place:'Kinshasa (RDC) · médico estadounidense positivo', desc:'<b>Primer caso estadounidense con Bundibugyo.</b> Un médico de EE.UU. expuesto durante atención de pacientes en RDC da positivo. Decisión: trasladarlo a Alemania para tratamiento (no a EE.UU., que tiene unidades de bioseguridad pero la logística de evacuación pasó por Europa).', v:'✅' },
-    { n:'E7', day:48, date:'18-may', type:'hospital', coords:[50.11, 8.68],  place:'Frankfurt, Alemania · evacuación estadounidense', desc:'<b>Evacuación a Alemania.</b> El médico estadounidense positivo es trasladado a centro de bioseguridad alemán para tratamiento. El cluster del ébola Bundibugyo alcanza así tres continentes (África, Norteamérica de origen, Europa de tratamiento) aunque sea por un solo paciente.', v:'✅' },
-    { n:'E8', day:48, date:'18-may', type:'lab',      coords:[38.92, -77.05], place:'Washington DC · CDC activa screening', desc:'<b>CDC anuncia screening de viajeros</b> en aeropuertos estadounidenses. Activa la infraestructura biométrica preexistente del programa Simplified Arrival con propósito sanitario explícito — la herramienta esperaba la crisis (lectura: doctrina del shock).', v:'✅' },
-    { n:'E9', day:49, date:'19-may', type:'lab',      coords:[33.75, -84.39], place:'Atlanta · CDC publica HAN 00530', desc:'<b>CDC publica Health Alert Network 00530</b> con guía clínica para sospecha de ébola Bundibugyo. Operacionaliza el protocolo nacional de respuesta.', v:'✅' },
-    { n:'E10', day:52, date:'22-may', type:'lab',     coords:[46.20, 6.14],  place:'Ginebra · Primera reunión Comité de Emergencia RSI', desc:'<b>Primera reunión del Comité de Emergencia del RSI (2005)</b> para el brote. OMS publica recomendaciones temporales. Al cierre: <b>64 casos confirmados en RDC + 2 en Uganda = 66 confirmados.</b> 6 muertes en RDC + 1 en Uganda. 650+ sospechosos. Brote en 11 zonas de salud entre Ituri y Nord-Kivu.', v:'✅' }
+    { n:'E1', day:35, date:'5-may',  type:'symptom',  coords:[1.94, 29.81],  place:'Mongbwalu, Ituri (RDC)', desc:'<b>Alerta inicial.</b> Personal sanitario reporta enfermedad desconocida en el área de Mongbwalu, provincia de Ituri. Primer cuadro clínico que terminará identificándose como ébola Bundibugyo. <b>Fuente primaria:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON602" target="_blank" rel="noopener">WHO DON602 — Ebola disease caused by Bundibugyo virus, DRC & Uganda</a> + <a href="https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation" target="_blank" rel="noopener">WHO Weekly External Sitrep 01</a>.', v:'✅' },
+    { n:'E2', day:44, date:'14-may', type:'lab',      coords:[1.56, 30.24],  place:'Laboratorio · Bunia, Ituri', desc:'<b>Primer test positivo Bundibugyo</b> en el laboratorio INRB de Bunia. Las primeras pruebas habían dado negativas porque solo detectaban la cepa Zaire. Al aplicar test específico de Bundibugyo se confirma el patógeno. Sesgo de detección: el brote pudo estar circulando semanas sin identificarse. <b>Fuente primaria:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON602" target="_blank" rel="noopener">WHO DON602</a>.', v:'✅' },
+    { n:'E3', day:46, date:'16-may', type:'lab',      coords:[46.20, 6.14],  place:'Ginebra · OMS — declaración PHEIC', desc:'<b>OMS declara Emergencia de Salud Pública de Importancia Internacional</b> por ébola Bundibugyo en RDC + Uganda. <b>Solo 13 días entre alerta y declaración</b> — récord absoluto histórico (compare con H1N1 2009 = 83 días, COVID-19 = 30 días, ébola Kivu 2018-19 = 11 meses). Apenas 8 casos confirmados al momento de la declaración. CEPI había otorgado USD 26.7M a Moderna+Oxford en enero 2026 para vacuna multivalente que incluye Bundibugyo. <b>Fuente primaria:</b> <a href="https://www.who.int/news/item/17-05-2026-epidemic-of-ebola-disease-in-the-democratic-republic-of-the-congo-and-uganda-determined-a-public-health-emergency-of-international-concern" target="_blank" rel="noopener">WHO PHEIC declaration (17-may-2026)</a>.', v:'✅' },
+    { n:'E4', day:47, date:'17-may', type:'hospital', coords:[0.31, 32.58],  place:'Kampala, Uganda · casos confirmados con viajeros desde RDC', desc:'<b>Casos confirmados en Uganda.</b> Inicialmente dos personas que viajaban desde RDC dieron positivo en Kampala (1 fallecido). <b>Actualización al 23-may:</b> el Ministerio de Salud de Uganda anunció 3 casos adicionales confirmados, elevando el total a <b>5 confirmados en Kampala con 1 muerte confirmada</b>, todos con vínculo epidemiológico claro a la RDC. Sin transmisión local secundaria al cierre. <b>Audit trail del cambio:</b> versión previa decía 2 confirmados con fuente Sitrep 01 (18-may); actualizado a 5 con fuente posterior (Min Salud Uganda 23-may, cobertura trusted convergente NBC News + CBS News). <b>Fuentes:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON603" target="_blank" rel="noopener">WHO DON603 (21-may rev. 25-may)</a>; cobertura trusted del comunicado Min Salud Uganda del 23-may.', v:'✅' },
+    { n:'E5', day:47, date:'17-may', type:'symptom',  coords:[-1.68, 29.22], place:'Goma, Nord-Kivu (RDC) · zona M23', desc:'<b>Caso confirmado en Goma</b> — capital de Nord-Kivu. La ciudad está bajo <b>control del M23</b>, grupo armado respaldado por Ruanda. MSF inicia negociaciones de acceso humanitario directamente con el M23, lo que de facto le otorga estatus de interlocutor sanitario. Mismo patrón documentado en Tigré 2021-2023. <b>Fuente primaria:</b> <a href="https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation" target="_blank" rel="noopener">WHO Weekly External Sitrep 01</a> (mención de Goma + Nord-Kivu).', v:'✅' },
+    { n:'E6', day:47, date:'17-may', type:'symptom',  coords:[-4.32, 15.32], place:'Kinshasa (RDC) · médico estadounidense positivo', desc:'<b>Primer caso estadounidense con Bundibugyo.</b> Dr. Peter Stafford (Serge, Pennsylvania), expuesto durante atención de pacientes en el Hospital Nyankunde cerca de Bunia, da positivo. <b>Decisión: traslado a Alemania</b> (Berlin Charité, ver E7) en lugar de a EE.UU. — la Casa Blanca habría resistido el retorno según reportes posteriores (Washington Post). <i>Convergencia trusted: NBC News, Washington Post, CBS News, ABC News, Euronews, Today (19-22 may). Comunicado primario del Departamento de Estado de EE.UU. o de Serge International no localizado al cierre.</i>', v:'⚠️' },
+    { n:'E7', day:49, date:'19-may', type:'hospital', coords:[52.52, 13.40],  place:'Berlín, Alemania · Charité (evacuación familia Stafford)', desc:'<b>Evacuación al Hospital Charité de Berlín</b> (Sonderisolierstation / Specialized Isolation Service, mismo centro que trató casos de ébola en 2014-2016). El médico misionero estadounidense <b>Dr. Peter Stafford (39)</b>, infectado mientras atendía pacientes en el Hospital Nyankunde cerca de Bunia desde 2019 (organización Serge, Pennsylvania), es trasladado por aire al aeropuerto de Berlín-Brandenburgo el 19-may y transferido bajo convoy policial al Charité. <b>Su esposa Dra. Rebekah Stafford (38) — también médica que atendió al mismo paciente índice — y sus cuatro hijos ingresan al mismo centro</b>, asintomáticos, en aislamiento monitoreado. Síntomas Peter Stafford: inicio 16-may, confirmación laboratorio 20-may, tratamiento intravenoso experimental en curso. <b>Actualización al 26-may:</b> Stafford "<i>steadily recovering</i>" según Serge / Decision Magazine; "<i>critically ill but not acutely deteriorating</i>"; comenzó a ingerir alimentos en pequeñas cantidades; labs "<i>trending slightly in the right direction</i>"; recibió dos tratamientos intravenosos diseñados para mejorar outcomes (MBP134 atribuido por Fierce Biotech + Bloomberg, no nombrado explícitamente por Serge). <b>Detalle clínico operativo:</b> los equipos médicos alemanes rotan en turnos de 3 horas por la obligación de usar traje de bioseguridad full-body durante la atención. <b>Esposa Dra. Rebekah Stafford y los cuatro hijos:</b> ingresaron al Charité, asignados a espacio separado dentro del hospital, PCR negativos, asintomáticos en aislamiento monitoreado. <b>Cobertura trusted del 28-may (Time, ABC News, WORLD, CBS, OAN, Decision):</b> el titular del expediente periodístico se desplaza hacia "American missionary survives Bundibugyo Ebola after Congo evacuation" — el patrón Brantly 2014 → Stafford 2026 se cierra mediáticamente con segunda supervivencia documentada. <b>Controversia documentada:</b> según Washington Post (20-may) la Casa Blanca habría inicialmente resistido el retorno del paciente a EE.UU.; portavoz Kush Desai negó la versión. <b>Fuentes primarias:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON603" target="_blank" rel="noopener">WHO DON603</a> (confirma evacuación de "an American surgical worker" a Alemania) + Bundesgesundheitsministerium vía cobertura. <b>Cobertura trusted convergente:</b> NBC News, Washington Post, CBS News, ABC News, Euronews, DER SPIEGEL, Charité press release. <b>Audit trail:</b> versión inicial del expediente decía "Frankfurt" sin primaria; primera corrección a Berlín Charité (23-may) sin verificación directa; versión actual confirmada por WHO DON603 (21-may rev. 25-may) que cita explícitamente la evacuación a Alemania.', v:'✅' },
+    { n:'E8', day:48, date:'18-may', type:'lab',      coords:[38.92, -77.05], place:'Washington DC · CDC activa screening', desc:'<b>CDC anuncia screening de viajeros</b> en aeropuertos estadounidenses. Activa la infraestructura biométrica preexistente del programa Simplified Arrival con propósito sanitario explícito — la herramienta esperaba la crisis (lectura: doctrina del shock). <b>Fuente primaria:</b> <a href="https://www.cdc.gov/media/releases/2026/cdc-mobilizes-international-ebola-response.html" target="_blank" rel="noopener">CDC Newsroom — Mobilizes International Response Following Ebola Disease Outbreak</a>.', v:'✅' },
+    { n:'E9', day:49, date:'19-may', type:'lab',      coords:[33.75, -84.39], place:'Atlanta · CDC publica HAN 00530', desc:'<b>CDC publica Health Alert Network 00530</b> con guía clínica para sospecha de ébola Bundibugyo. Operacionaliza el protocolo nacional de respuesta. <b>Fuente primaria:</b> <a href="https://www.cdc.gov/han/php/notices/han00530.html" target="_blank" rel="noopener">CDC HAN 00530 — Ebola Disease Outbreak in DRC and Uganda</a>.', v:'✅' },
+    { n:'E10', day:52, date:'22-may', type:'lab',     coords:[46.20, 6.14],  place:'Ginebra · Primera reunión Comité de Emergencia RSI + escalada brote', desc:'<b>Primera reunión del Comité de Emergencia del RSI (2005)</b> para el brote. OMS publica <a href="https://www.who.int/news/item/22-05-2026-first-meeting-of-the-ihr-emergency-committee-regarding-the-epidemic-of-ebola-bundibugyo-virus-disease-in-the-democratic-republic-of-the-congo-and-uganda-2026-temporary-recommendations" target="_blank" rel="noopener">recomendaciones temporales</a>. <b>Datos primarios consolidados — actualización 26-may:</b> según <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON603" target="_blank" rel="noopener">WHO DON603 (publicado 21-may, revisado 25-may)</a>: <b>83 confirmados DRC + 2 Uganda (al 21-may)</b>; 9 muertes confirmadas DRC + 1 Uganda (CFR confirmados 11%); 746 sospechosos DRC + 176 muertes sospechosas; <b>4 trabajadores sanitarios fallecidos</b>; brote en 15 zonas de salud (Mongbwalu + Rwampara + Bunia concentran 96% sospechosos y 79% confirmados); 4 clusters de exposición transfronteriza en distrito ugandés de Ntoroko. <b>Actualización CDC al 24-may:</b> 101 confirmados + 904 sospechosos = 1,005 casos DRC; 10 conf + 119 sosp = 129 muertes DRC; Uganda elevada a 5 confirmados (3 nuevos anunciados 23-may por Min Salud Uganda). <b>Actualización al 26-may (Min Salud DRC vía JHU Hub + ECDC):</b> <b>121 confirmados + 17 muertes confirmadas en DRC</b>; <b>1,077 sospechosos + 238 muertes sospechosas</b>; Uganda subió a <b>7 confirmados + 1 muerte</b> (3 de los confirmados Uganda vinculados a viaje desde DRC). Ritmo de duplicación de confirmados cada ~5 días sostenido desde el PHEIC. <b>Audit trail del cambio:</b> versión previa citaba Sitrep 01 (al 18-may) con 51 confirmados; superseded por DON603 (21-may rev. 25-may) que reporta 85 totales confirmados, y por CDC update (24-may) que eleva a 106 totales. La trayectoria DON600→DON601 (hantavirus)→DON602 (Bundibugyo PHEIC)→DON603 muestra escalada en seis días desde la firma del PHEIC.', v:'✅' },
+    { n:'E11', day:49, date:'19-may', type:'hospital', coords:[20.66, -103.40], place:'Guadalajara, Jalisco · protocolo Mundial activado', desc:'<b>Secretaría de Salud Jalisco activa protocolo especial</b> ante la llegada de la selección de la República Democrática del Congo al Mundial 2026. Áreas de aislamiento y personal capacitado preparados para casos sospechosos de ébola en el Estadio Akron y zonas de entrenamiento. <i>Según reportó Infobae (19-may-2026, secundaria); sin comunicado oficial de Sec. Salud Jalisco localizado al cierre.</i> <b>Dato contextual (Infobae 21-may):</b> reporta aumento de llegadas de ciudadanos del Congo a México; sin pronunciamiento del INM ni cifra oficial confirmada. <b>CERO casos confirmados o sospechosos en territorio mexicano al cierre.</b> Cruce explícito por primera vez entre el corredor del Mundial 2026 y el expediente del brote Bundibugyo.', v:'⚠️' },
+    { n:'E12', day:50, date:'20-may', type:'symptom', coords:[-2.51, 28.85], place:'Sud-Kivu (RDC) · expansión geográfica del brote', desc:'<b>Primer caso confirmado en Sud-Kivu</b>, provincia al sureste del foco original. La persona contagiada viajó desde la provincia de <b>Tshopo</b> (noreste de la RDC). <b>El brote rompe el corredor original Ituri-Uganda</b> y se desplaza hacia la frontera con Rwanda, Burundi y Tanzania. Implicación: ampliación del perímetro de vigilancia transfronteriza. <b>Fuente primaria:</b> <a href="https://www.who.int/news-room/speeches/item/who-director-general-s-opening-remarks-at-the-media-briefing-on-ebola-outbreak-in-drc-and-uganda-20-may-2026" target="_blank" rel="noopener">WHO Director-General — opening remarks at media briefing, 20-may-2026</a>.', v:'✅' },
+    { n:'E13', day:51, date:'21-may', type:'hospital', coords:[50.10, 14.45], place:'Praga, Chequia · Bulovka Hospital (segundo americano en monitoreo)', desc:'<b>Segundo estadounidense vinculado al brote evacuado a Europa.</b> <b>Dr. Patrick LaRochelle (46)</b>, expuesto a un segundo paciente con Bundibugyo, es trasladado al <b>Hospital Bulovka de Praga</b> (centro checo con instalaciones especializadas para infecciones de alta peligrosidad, según el Ministerio de Salud checo). <b>Asintomático al traslado</b>, en monitoreo. La evacuación a Chequia (no a Alemania ni EE.UU.) muestra el reparto operativo de capacidad de bioseguridad de alto nivel en Europa central. <b>Detalle clínico operativo (al 24-may):</b> LaRochelle aislado en una <b>BioBox chamber</b> tras exposición de alto riesgo, sigue asintomático. Pertenece al <b>Centre Médical Évangelique Bunia (CME-Nyankunde)</b> — el mismo hospital donde trabaja Stafford; eran colegas, no solo paisanos. <b>Cobertura trusted convergente:</b> NBC News, Washington Post, Time, Serge press release. Comunicado primario del Ministerio de Salud checo no localizado directamente al cierre, pero confirmado por múltiples trusted independientes.', v:'⚠️' },
+    { n:'E14', day:56, date:'26-may', type:'hospital', coords:[19.43, -99.13], place:'México · IMSS activa vigilancia Mundial 2026', desc:'<b>IMSS activa formalmente respuesta sanitaria para el Mundial 2026</b> ante la llegada de visitantes internacionales y vigilancia específica por ébola, según anuncio del 26 de mayo. Edomex y otras entidades federativas blindan dispositivo sanitario en aeropuertos, sedes mundialistas y puntos de concentración masiva. Secretario de Salud federal Kershenobich: protocolos activos para detección temprana, aislamiento inmediato y búsqueda intencionada de antecedentes de viaje en caso sospechoso. <b>CERO casos confirmados o sospechosos en territorio mexicano al cierre del 27-may</b>, tanto de ébola Bundibugyo como de hantavirus Andes. <b>Actualización al 27-may (Infobae + DDT + PorEsto + Excélsior + MiMorelia + Capital México):</b> IMSS reporta <b>10 eventos de capacitación realizados con 1,301 profesionales de salud participantes</b>. <b>Triage clínico definido</b>: fiebre superior a 38.6°C + síntomas compatibles + historial de viaje de los 21 días previos a zona de brote. Mensaje institucional: "vigilancia preventiva, no hay caso confirmado". <b>Fuentes:</b> primaria — comunicados IMSS / SSA (vía Excélsior y La Jornada del 20 y 26 may); cobertura trusted: <a href="https://www.elimparcial.com/mexico/2026/05/26/imss-alista-respuesta-sanitaria-para-el-mundial-2026-y-activa-vigilancia-por-ebola-ante-la-llegada-de-visitantes-internacionales-a-mexico/" target="_blank" rel="noopener">El Imparcial</a>, La Jornada, Excélsior, DigitalMex, Record. Comunicado oficial IMSS no localizado directamente como URL pública al cierre.', v:'⚠️' },
+    { n:'E15', day:50, date:'20-may', type:'lab', coords:[32.81, -117.13], place:'San Diego, EE.UU. · Mapp Biopharmaceutical · BARDA contrata MBP134', desc:'<b>BARDA contrata a Mapp Biopharmaceutical</b> (San Diego, CA) para suministrar <b>MBP134</b>, cóctel bi-específico de anticuerpos diseñado contra tres cepas de filovirus: <b>Zaire, Sudán y Bundibugyo</b>. Mapp es la misma biotech que desarrolló ZMapp durante el brote de ébola África Occidental 2014-2016 (tratamiento dado al misionero estadounidense Kent Brantly). MBP134 está hecho de dos anticuerpos aislados de sangre de un sobreviviente de ébola. <b>Datos preclínicos:</b> protegió a 5 de 6 monos infectados con dosis letal de Bundibugyo. <b>Es el tratamiento que está recibiendo Peter Stafford en Berlin Charité (ver E7).</b> <b>Patrón estructural:</b> doce años después de ZMapp, la misma biotech tiene la solución preclínica al patógeno exacto del brote actual — el "kit BARDA" que la pieza <em>Capitalismo de preparación pandémica</em> (20-may) describe. <b>Fuentes:</b> Fierce Biotech (20-may), Bloomberg vía KFGO (20-may), Medical Dialogues, US News (22-may). Comunicado primario BARDA no localizado directamente como URL pública al cierre — el contrato fue reportado por Bloomberg como noticia exclusiva.', v:'⚠️' },
+    { n:'E16', day:49, date:'19-may', type:'lab', coords:[59.91, 10.75], place:'Oslo, Noruega · CEPI · UE + Singapur comprometen €85M+ adicionales', desc:'<b>CEPI recibe compromisos financieros nuevos:</b> <b>Unión Europea €73.7 millones</b> + <b>Singapur USD 12 millones</b> para apoyar el programa "100 Day Mission" y la respuesta a brotes simultáneos hantavirus + Bundibugyo. Anunciado el 19-may en sede CEPI Oslo. Según el comunicado oficial CEPI: "Los brotes simultáneos de hantavirus y ébola Bundibugyo son un recordatorio crudo de que la brecha entre las amenazas y nuestra preparación sigue siendo peligrosamente amplia". CEO Richard Hatchett había pedido USD 2,500M en total el 17-may (ver pieza <em>Quince días antes de Ushuaia</em>). <b>Fuente primaria:</b> <a href="https://cepi.net/european-union-and-singapore-back-cepis-plan-boost-global-defences-against-epidemic-and-pandemic" target="_blank" rel="noopener">CEPI press release (19-may)</a>. Cobertura trusted: Time (<em>Behind the Mission to Stop Viral Outbreaks Within 100 Days</em>, 19-may), The Hill Times (17-may).', v:'✅' },
+    { n:'E17', day:55, date:'25-may', type:'lab', coords:[46.20, 6.14], place:'Ginebra · OMS · Virtual Ministerial Briefing + UN News alerta "outpacing"', desc:'<b>Tedros encabeza un Virtual Ministerial Briefing</b> específico sobre el brote Bundibugyo con ministros de salud de la región y socios multilaterales. Es la segunda comparecencia formal del DG sobre el brote en una semana (la primera fue la sesión de Estados Miembros del 22-may, ver E10). <b>Ese mismo período UN News titula:</b> <em>"Ebola epidemic spreading rapidly and outpacing containment efforts"</em> — primera vez que la cobertura ONU oficial reconoce explícitamente que la respuesta va atrás del brote. <b>Cuadro al 26-may consolidado por DRC Min Salud:</b> 121 confirmados + 17 muertes confirmadas; 1,077 sospechosos + 238 muertes sospechosas; Uganda con 7 confirmados. <b>Implicación operativa:</b> el ritmo de duplicación de confirmados (~5 días) sostenido desde el PHEIC ya supera la capacidad de contact tracing en Ituri, Nord-Kivu y Sud-Kivu, con tres provincias activas y red sanitaria precaria. <b>Fuentes primarias:</b> <a href="https://www.who.int/news-room/speeches/item/who-director-general-s-remarks-at-the-virtual-ministerial-briefing-on-the-bundibugyo-ebola-outbreak-25-may-2026" target="_blank" rel="noopener">WHO DG remarks 25-may</a> + <a href="https://news.un.org/en/story/2026/05/1167584" target="_blank" rel="noopener">UN News (25-26 may)</a> + Min Salud DRC bulletin (vía ECDC).', v:'✅' }
   ];
 
   // Icono ébola — naranja quemado con número
@@ -4197,11 +4356,14 @@
     });
   }
   const ebolaLayer = L.layerGroup();
-  eventosEbola.forEach(e => ebolaLayer.addLayer(
-    L.marker(e.coords, { icon: ebolaIcon(e.n) }).bindPopup(
+  const markersEbola = {}; // referenciados individualmente para que el slider los pueda revelar/ocultar
+  eventosEbola.forEach(e => {
+    const m = L.marker(e.coords, { icon: ebolaIcon(e.n) }).bindPopup(
       `<span class="pop-date">${e.date} 2026 · ${e.v}</span><b>${e.place}</b><p>${e.desc}</p>`
-    )
-  ));
+    );
+    markersEbola[e.n] = m;
+    ebolaLayer.addLayer(m);
+  });
 
   // ---- CAPA 11: Foco Ituri (polígono naranja sobre la provincia) ----
   const focoIturiPoly = L.polygon([
@@ -4249,8 +4411,7 @@
     endemico: endemicoLayer,
     corredor: corredorLayer,
     mundialSedes: mundialSedesLayer,
-    mundialRutas: mundialRutasLayer,
-    aficionados: aficionadosLayer,
+    flujosM26: flujosM26Layer,
     ebolaCasos: ebolaLayer,
     focoIturi: focoIturiLayer,
     zonaM23: zonaM23Layer,
@@ -4266,7 +4427,7 @@
     ebolaCasos: 'ebola', focoIturi: 'ebola', zonaM23: 'ebola', evacEbola: 'ebola',
     // Comunes (capitalismo de preparación · Mundial · contexto global)
     vacunas: 'comun', financiamiento: 'comun', geopolitica: 'comun', continentes: 'comun',
-    mundialSedes: 'comun', mundialRutas: 'comun', aficionados: 'comun'
+    mundialSedes: 'comun', flujosM26: 'comun'
   };
 
   function toggleLayer(key, on) {
@@ -4574,7 +4735,7 @@
 
   function applyTimeFilter(day) {
     currentDateLabel.textContent = dayLabel(day);
-    const pct = ((day - 1) / 47) * 100;
+    const pct = ((day - 1) / 55) * 100;
     slider.style.setProperty('--pct', pct + '%');
     // Dim events posteriores
     document.querySelectorAll('.event').forEach(ev => {
@@ -4582,10 +4743,17 @@
       if (d > day) ev.classList.add('dimmed');
       else ev.classList.remove('dimmed');
     });
-    // Ocultar/mostrar marcadores
+    // Ocultar/mostrar marcadores HANTAVIRUS (MV Hondius)
     events.forEach(e => {
       if (e.day > day) map.removeLayer(markers[e.n]);
       else markers[e.n].addTo(map);
+    });
+    // Ocultar/mostrar marcadores ÉBOLA (E1–E10) — sólo afecta al layer interno;
+    // si el usuario tiene la capa "ebolaCasos" desactivada, ebolaLayer no está
+    // en el mapa y nada se ve. Si está activada, el slider los revela en orden.
+    eventosEbola.forEach(e => {
+      if (e.day > day) ebolaLayer.removeLayer(markersEbola[e.n]);
+      else ebolaLayer.addLayer(markersEbola[e.n]);
     });
   }
 
@@ -4602,10 +4770,10 @@
       playing = true;
       playBtn.textContent = '⏸';
       let d = parseInt(slider.value);
-      if (d >= 48) { d = 1; slider.value = 1; }
+      if (d >= 56) { d = 1; slider.value = 1; }
       playInterval = setInterval(() => {
         d += 1;
-        if (d > 48) {
+        if (d > 56) {
           clearInterval(playInterval);
           playBtn.textContent = '▶';
           playing = false;
@@ -5119,6 +5287,176 @@
   //  El contenido completo se renderiza en el lector.
   // =================================================================
   const columnas = [
+    {
+      id: 'la-biotech-que-ya-tenia-la-receta',
+      titulo: 'La biotech que ya tenía la receta',
+      fechaPublicacion: '2026-05-28',
+      fechaLegible: '28 de mayo de 2026',
+      serie: null,
+      etiqueta: 'Bloque ébola · cierre',
+      arcoEditorial: ['hantavirus', 'ebola'],
+      conceptoEje: 'Naomi Klein — <em>La doctrina del shock</em> (Paidós, 2007 / orig. <em>The Shock Doctrine</em>, Knopf Canada, 2007). Capitalismo del desastre: las soluciones están listas <strong>antes de que la pregunta tenga nombre público</strong>. No requiere conspiración; requiere infraestructura permanente y memoria institucional.',
+      resumen: 'Doce años entre dos escenas paralelas: Kent Brantly (Liberia 2014, ZMapp / sobreviviente) y Peter Stafford (Bunia 2026, MBP134 / steadily recovering al 26-may). Misma biotech: Mapp Biopharmaceutical, San Diego. Misma agencia financiadora: BARDA. Mismo perfil del rostro. Distinta cepa. Cero aprobaciones comerciales en doce años. Lo que se aprueba es el ciclo. Sexta pieza del bloque ébola, opera como cierre Klein del expediente: lo que las piezas hantavirus describieron como "doctrina del shock aplicada al COVID y al MV Hondius" se vuelve aquí "doctrina del shock aplicada al ciclo Mapp 2014→2026".',
+      bajada: 'Doce años, misma biotech de San Diego, misma BARDA, distinta cepa. Lo que se aprueba es el ciclo.',
+      tiempoLectura: '8 min',
+      imagen: null,
+      imagenCaption: null,
+      imagenInsertarDespuesParrafo: null,
+      parrafos: [
+        'Conviene fijar dos escenas separadas por doce años.',
+        '<strong>Julio de 2014. Liberia.</strong> El doctor Kent Brantly, médico misionero estadounidense de 33 años de la organización cristiana Samaritan\'s Purse, atiende pacientes de ébola en el Hospital ELWA de Monrovia. Contrae el virus. Es evacuado por aire al Emory University Hospital de Atlanta, primera evacuación por ébola hacia EE.UU. en la historia. Recibe, a título de uso compasivo, un tratamiento experimental llamado <strong>ZMapp</strong>: un cóctel de tres anticuerpos monoclonales contra el filovirus, desarrollado por una biotech pequeña de San Diego llamada <strong>Mapp Biopharmaceutical</strong>. Brantly sobrevive. La biotech se vuelve momentáneamente célebre. ZMapp termina las pruebas con resultados modestos, no se aprueba comercialmente, y Mapp regresa a su discreción habitual. La cobertura de portada pasa al siguiente brote.',
+        '<strong>Mayo de 2026. Bunia, Ituri.</strong> El doctor Peter Stafford, médico misionero estadounidense de 39 años de la organización cristiana Serge, atiende pacientes en el Hospital Nyankunde, en la frontera congoleña con Uganda. Contrae ébola Bundibugyo. Es evacuado por aire al Hospital Charité de Berlín — la unidad de bioseguridad alta más antigua de Europa continental. Su esposa, también médica, y sus cuatro hijos lo acompañan. Recibe, a título de uso compasivo bajo el programa Expanded Access de la <strong>BARDA</strong> estadounidense, un tratamiento experimental llamado <strong>MBP134</strong>: un cóctel bi-específico de dos anticuerpos contra filovirus, diseñado para cubrir las tres cepas patógenas — Zaire, Sudán y Bundibugyo. La biotech que lo fabricó es <strong>Mapp Biopharmaceutical</strong>, San Diego, California.',
+        'Doce años. Mismo perfil. Misma biotech. Misma agencia financiadora. Distinta cepa. La portada cambió de continente — del Charlotte Maxeke Hospital de Atlanta al Charité de Berlín —, pero la sala detrás del laboratorio sigue siendo la misma.',
+        '<strong>La estructura, no la coincidencia.</strong> En 2007, la periodista canadiense Naomi Klein publicó <em>La doctrina del shock: el auge del capitalismo del desastre</em>. Su tesis es seca y a menudo malinterpretada: no es que las crisis sean fabricadas. Es que <strong>las soluciones están listas antes de que la pregunta tenga nombre público</strong>, y la crisis sirve de palanca para escalarlas. La velocidad de despliegue es el indicador estructural.',
+        'Aplicado al caso Mapp Biopharmaceutical, la línea temporal es la pista.',
+        'ZMapp se desarrolló entre 2003 y 2014 con financiamiento incremental de <strong>BARDA</strong> —la <em>Biomedical Advanced Research and Development Authority</em> del Departamento de Salud estadounidense, creada en 2006 precisamente para subsidiar la fase de "valle de la muerte" entre investigación y producto. ZMapp existía antes del brote de África Occidental, no fue una respuesta improvisada al brote; fue una respuesta esperando un brote. Cuando llegó el brote, en marzo de 2014, los anticuerpos estaban en frigoríficos del laboratorio de Mapp, esperando. Brantly los recibió en julio. Para entonces ya había datos preclínicos en primates.',
+        'MBP134 se desarrolló entre 2017 y 2025 con financiamiento BARDA, sobre el mismo principio. Los datos en monos infectados con Bundibugyo letal — protección de cinco de seis — están publicados desde 2024. Cuando llegó el brote, en mayo de 2026, los anticuerpos estaban en frigoríficos del laboratorio de Mapp, esperando. Stafford los recibió diez días después de la declaración PHEIC.',
+        '<strong>El intervalo entre brote y tratamiento experimental se redujo de cuatro meses (2014) a diez días (2026).</strong> El virus es real. El brote es real. La muerte de personas en Ituri es real. Lo que está prefabricado no es la crisis; es <strong>la velocidad con que la respuesta se monetiza, se mediatiza, se simboliza</strong>.',
+        '<strong>El patrón del rostro.</strong> Hay un detalle del campo periodístico —que la pieza editorial del 24 de mayo, en clave Bourdieu, ya describió— que aquí se vuelve estructural. La biotech de San Diego es invisible para la cobertura mediática general. El rostro es <strong>el misionero blanco estadounidense que contrae el virus tratando africanos</strong>.',
+        'En 2014, Kent Brantly fue el rostro. <em>Time</em> lo nombró Persona del Año, en categoría compartida con los trabajadores sanitarios occidentales del brote. La portada cargaba la solución antes de que el tratamiento estuviera aprobado.',
+        'En 2026, Peter Stafford es el rostro. NBC News, Washington Post, CBS News, Euronews — todos publican su historia con la misma estructura narrativa: doctor misionero, esposa también médica, niños asintomáticos, evacuación a Europa, "cautiously optimistic". La portada vuelve a cargar la solución antes de que el tratamiento esté aprobado. <strong>Y al cierre del 26 de mayo, Serge confirma que Stafford está <em>"steadily recovering"</em></strong> — comiendo de a poco, labs <em>"trending slightly in the right direction"</em>, esposa y cuatro hijos PCR negativos. El patrón se cierra: doce años después, <strong>mismo rostro, mismo desenlace mediático</strong>. Y, doce años después, <strong>la solución sigue siendo experimental</strong> — Mapp no ha aprobado comercialmente ni ZMapp ni MBP134. Lo que ha aprobado es <strong>el ciclo</strong>.',
+        '<strong>El día pivote del 22 de mayo.</strong> Hay una fecha en este expediente que conviene rescatar para entender qué cambió. <strong>El 22 de mayo de 2026</strong> ocurrieron, en menos de veinticuatro horas, cinco eventos institucionales paralelos: WHA79 ratificó la salida de Argentina de la OMS, se reunió por primera vez el Comité de Emergencia del RSI para Bundibugyo, OMS publicó DON603 con cifras actualizadas, Tedros dirigió una sesión sobre <strong>ambos brotes simultáneos</strong>, y RIVM+Erasmus MC confirmaron el primer caso positivo entre la tripulación del MV Hondius en cuarentena. En esa misma semana se anunció el contrato BARDA-Mapp por MBP134.',
+        'No es coincidencia editorial. Es <strong>el momento donde dos brotes —uno con vacuna comercial pero para la cepa equivocada, otro con dos cepas endémicas en alta letalidad— se alinean</strong> con la salida formal del segundo país sudamericano de la arquitectura multilateral. La biotech de San Diego que ya tenía la receta no es la noticia. Es el síntoma. <em>La constelación del 22 de mayo</em> —pieza editorial del 27 de mayo— recoge ese cuadro en clave Walter Benjamin.',
+        '<strong>Lo que el patrón cuesta nombrar.</strong> Klein, en 2007, escribió que el capitalismo del desastre <strong>no es un complot, es una racionalidad de gobierno</strong>. Andrew Lakoff lo precisó en 2017 con el término <em>preparedness</em>: una infraestructura permanente que convierte la incertidumbre futura en flujo continuo de inversión.',
+        'Aplicado a Mapp: doce años de financiamiento BARDA sostenido. Cero aprobaciones comerciales. Dos cócteles de anticuerpos esperando en frigoríficos. Cuando llega el brote correspondiente, se activan bajo uso compasivo, se mediatizan, se reciclan en informes anuales como "lecciones aprendidas". El siguiente ciclo arranca el día después.',
+        'El virus —y esto conviene fijarlo con honestidad editorial— <strong>no se inventa</strong>. La cepa Bundibugyo existió antes de Mapp, antes de BARDA, antes de Brantly y antes de Stafford. Lo que se construye, con presupuesto público estadounidense, año tras año, es <strong>la posición operativa para que cada vez que el virus aparezca, la misma biotech tenga la misma receta lista para el mismo rostro</strong>.',
+        'Esa es la cosa que el campo periodístico no cubre. Porque no es noticia — es estructura.'
+      ],
+      firma: '45 Digital Noticias.',
+      fuentes: [
+        { texto: '<b>Klein, Naomi.</b> <em>La doctrina del shock: el auge del capitalismo del desastre.</em> Paidós, Barcelona, 2007. Original inglés: <em>The Shock Doctrine: The Rise of Disaster Capitalism.</em> Knopf Canada, 2007. ISBN 978-8449320422.' },
+        { texto: '<b>Lakoff, Andrew.</b> <em>Unprepared: Global Health in a Time of Emergency.</em> University of California Press, Oakland, 2017. ISBN 978-0520295766.' },
+        { texto: '<b>Fierce Biotech</b> (20 mayo 2026). <em>US taps small San Diego biotech for experimental Ebola treatment as epidemic worsens.</em>', url: 'https://www.fiercebiotech.com/biotech/us-taps-small-san-diego-biotech-experimental-ebola-treatment-epidemic-worsens' },
+        { texto: '<b>Bloomberg</b> vía <b>KFGO</b> (20 mayo 2026). <em>US working with small biotech firm on experimental Ebola treatment.</em>', url: 'https://kfgo.com/2026/05/20/us-working-with-small-biotech-firm-on-experimental-ebola-treatment-bloomberg-news-reports/' },
+        { texto: '<b>Medical Dialogues</b> (mayo 2026). <em>US, Mapp Biopharma Collaborate on Experimental Ebola Therapy as Congo Cases Rise.</em>', url: 'https://medicaldialogues.in/news/industry/pharma/us-mapp-biopharma-collaborate-on-experimental-ebola-therapy-as-congo-cases-rise-171326' },
+        { texto: '<b>US News</b> (22 mayo 2026). <em>Experimental Treatments Could Help US Ebola Patient.</em>', url: 'https://www.usnews.com/news/top-news/articles/2026-05-22/experimental-treatments-could-help-us-ebola-patient' },
+        { texto: '<b>Mapp Biopharmaceutical.</b> Información corporativa: San Diego, California. Historial ZMapp 2014-2016.', url: 'https://www.mappbio.com/' },
+        { texto: '<b>Serge</b> (26 mayo 2026). Declaración pública: Peter Stafford "steadily recovering". Vía Billy Graham Decision Magazine, CBS News.' },
+        { texto: '<b>OMS</b> (21 mayo 2026, revisado 25 mayo). <em>Disease Outbreak News 603.</em>', url: 'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON603' },
+        { texto: '<b>OMS</b> (22 mayo 2026). <em>Director-General\'s opening remarks at the Member State information session on outbreaks of Ebola and hantavirus.</em>', url: 'https://www.who.int/news-room/speeches/item/who-director-general-s-opening-remarks-at-the-member-state-information-session-on-outbreaks-of-ebola-and-hantavirus-22-may-2026' },
+        { texto: '<b>Asamblea Mundial de la Salud 79ª sesión</b> (22 mayo 2026). Ratificación unánime de la salida de Argentina de la OMS. Cobertura: Buenos Aires Times, Filo News, Chequeado, Euronews.' },
+        { texto: '<b>CEPI</b> (19 mayo 2026). <em>European Union and Singapore Back CEPI\'s Plan to Boost Global Defences.</em>', url: 'https://cepi.net/european-union-and-singapore-back-cepis-plan-boost-global-defences-against-epidemic-and-pandemic' },
+        { texto: 'Piezas vinculadas del programa: <em>Capitalismo de preparación pandémica</em> (20-may), <em>Guadalajara, 23 de junio</em> (21-may), <em>El subsuelo del brote</em> (22-may), <em>El virus equivocado en portada</em> (24-may), <em>La constelación del 22 de mayo</em> (27-may).' }
+      ]
+    },
+    {
+      id: 'la-constelacion-del-22-de-mayo',
+      titulo: 'La constelación del 22 de mayo',
+      fechaPublicacion: '2026-05-27',
+      fechaLegible: '27 de mayo de 2026',
+      serie: null,
+      etiqueta: 'Bloque ébola · síntesis',
+      arcoEditorial: ['hantavirus', 'ebola'],
+      conceptoEje: 'Walter Benjamin — <em>Tesis sobre la filosofía de la historia</em> (1940), tesis V y XVII. La <strong>constelación</strong> (<em>Konstellation</em>): configuración donde elementos dispersos en el tiempo se iluminan mutuamente en un instante histórico.',
+      resumen: 'Cinco actos institucionales escenificados en menos de 24 horas el 22 de mayo de 2026 — WHA79 ratifica salida de Argentina + primer Comité RSI Bundibugyo + DON603 + sesión Tedros sobre ambos brotes + RIVM confirma positivo en tripulante MV Hondius — más dos antecedentes inmediatos: contrato BARDA-Mapp por MBP134 y €85.7M UE+Singapur a CEPI. Walter Benjamin lo nombró en 1940: constelación. La pieza recapitula los siete teóricos del expediente como "luces" que iluminan distintos ángulos del mismo astro. Quinta pieza del bloque ébola.',
+      bajada: 'Cinco actos en 24 horas que pertenecen unos a otros sin haber sido coordinados. La pandemia siguiente no será un evento; será una cita acordada. No firmada, pero acordada.',
+      tiempoLectura: '8 min',
+      imagen: null,
+      imagenCaption: null,
+      imagenInsertarDespuesParrafo: null,
+      parrafos: [
+        'Conviene fijar la fecha. <strong>Viernes 22 de mayo de 2026.</strong> En las últimas tres semanas este expediente ha sido un cuaderno de anotaciones cronológicas: brote del MV Hondius, PHEIC de ébola Bundibugyo, salidas de Argentina y Estados Unidos de la OMS, Mundial de Futbol como nodo de aterrizaje. Cada pieza editorial se construyó alrededor de un acto puntual. La constelación del 22 de mayo es otra cosa. No es un acto — son cinco actos, escenificados en menos de veinticuatro horas, <strong>que pertenecen unos a otros sin haber sido coordinados explícitamente</strong>.',
+        'Vamos a listarlos antes de nombrar el concepto.',
+        '<strong>Acto uno.</strong> En Ginebra, la Asamblea Mundial de la Salud, en su 79ª sesión, ratifica por unanimidad la salida de Argentina de la OMS. El director general Tedros Adhanom Ghebreyesus había declarado meses antes que la pretendida notificación argentina "no debería ser aceptada como efectiva". La Asamblea, ese viernes, votó lo contrario. Efecto legal retroactivo al 17 de marzo, día en que Argentina ya había salido por aplicación del Convenio de Viena.',
+        '<strong>Acto dos.</strong> En la misma Ginebra, el Comité de Emergencia del Reglamento Sanitario Internacional se reúne por primera vez para el brote de ébola Bundibugyo declarado PHEIC el 17 de mayo. Publica recomendaciones temporales. Confirma el régimen de excepción sanitaria global sobre el brote.',
+        '<strong>Acto tres.</strong> La OMS publica el <em>Disease Outbreak News</em> número 603. Cifras actualizadas: 83 confirmados en la República Democrática del Congo, 2 en Uganda, 9 muertes confirmadas, 746 sospechosos, 176 muertes sospechosas, cuatro trabajadores sanitarios fallecidos. El cuadro sale del laboratorio a la diplomacia.',
+        '<strong>Acto cuatro.</strong> El propio director general Tedros encabeza una sesión de información para los Estados Miembros, en la sede ginebrina, sobre <strong>los dos brotes simultáneos</strong>: hantavirus Andes en el MV Hondius y ébola Bundibugyo en África Central. Es la primera vez que la OMS los presenta como un solo cuadro institucional.',
+        '<strong>Acto cinco.</strong> En Rotterdam, el Instituto Holandés para la Salud Pública (RIVM) y el Erasmus Medical Center confirman por laboratorio el primer caso positivo de hantavirus entre la tripulación del MV Hondius en cuarentena. El cluster del crucero, que parecía cerrado el 18 de mayo cuando atracó, demuestra que no lo está.',
+        'A esos cinco actos hay que sumar dos antecedentes inmediatos de la misma semana: el <strong>contrato de la BARDA estadounidense con la biotech Mapp Biopharmaceutical de San Diego para suministrar el cóctel experimental MBP134</strong> (cubre las tres cepas de filovirus, incluida Bundibugyo) y <strong>el compromiso de 73.7 millones de euros de la Unión Europea más 12 millones de dólares de Singapur</strong> al programa "100 Day Mission" de la coalición CEPI.',
+        'Eso es el cuadro. Y eso es lo que hay que nombrar con cuidado.',
+        '<strong>La constelación de Benjamin.</strong> En el invierno de 1940, mientras huía de la Gestapo por el sur de Francia hacia un puerto que no alcanzaría, <strong>Walter Benjamin</strong> escribió la última versión de sus <em>Tesis sobre la filosofía de la historia</em>. En la tesis V acuña una idea que vale la pena traer textualmente: <em>"Articular históricamente el pasado no significa conocerlo como verdaderamente ha sido. Significa apoderarse de un recuerdo en el instante de un peligro"</em>. Y más adelante, en la tesis XVII, propone la herramienta operativa: la <strong>imagen dialéctica</strong>, una <strong>constelación</strong> donde un instante del presente y elementos dispersos del pasado se iluminan mutuamente.',
+        'No es metáfora poética — es categoría analítica. Benjamin discute con el historicismo del siglo XIX, que pretendía narrar el pasado como una sucesión causal. Frente a esa pretensión, propone leer el momento histórico como <strong>configuración</strong>: no porque las cosas estén conectadas por causalidad lineal, sino porque <strong>se iluminan unas a otras al ser colocadas juntas en el instante adecuado</strong>.',
+        'El 22 de mayo de 2026 es exactamente eso. Una constelación.',
+        'Argentina sale de la OMS el mismo día en que la OMS declara régimen de excepción sobre Bundibugyo. La biotech de San Diego que tenía la receta antes del brote firma contrato el mismo día en que el brote alcanza categoría oficial de pandemia. La Unión Europea refuerza el presupuesto del programa de "vacuna en cien días" el mismo día en que se reúne el Comité que activará ese programa. El crucero que se creyó cerrado se reabre como cluster activo el mismo día en que el sistema global se reorganiza para responder a otro brote.',
+        'No hubo coordinación. <strong>Sí hubo configuración</strong>. Y la configuración tiene autor estructural: la infraestructura de preparación pandémica que se construyó entre 2003 y 2026 con dinero público estadounidense, europeo y multilateral. Cuando un brote llega al umbral, las piezas se activan en sincronía porque llevan años en posición.',
+        '<strong>Las siete luces del cuadro.</strong> Este expediente ha invocado, en sus piezas previas, herramientas teóricas que iluminan distintos ángulos de la misma constelación. <strong>Schmitt</strong> (1932) ofrece el decisionismo simultáneo de excepción. <strong>Klein</strong> (2007) la temporalidad de soluciones listas antes de la pregunta. <strong>Lakoff</strong> (2017) la racionalidad de gobierno preparedness. <strong>Jung</strong> (1952) la categoría descriptiva de sincronicidad. <strong>Beck</strong> (1986) la escala de riesgo mundial que excede a los Estados. <strong>Bourdieu</strong> (1996) el campo periodístico que comprime y jerarquiza. <strong>Harvey</strong> (2003) el ajuste temporal del capital. Cada autor ilumina un ángulo del astro. Ninguno por sí solo basta. Esa es exactamente la idea de Benjamin: la constelación <strong>se vuelve legible por superposición de luces</strong>.',
+        '<strong>Lo que la constelación nos dice.</strong> Tres cosas conviene fijar editorialmente.',
+        '<strong>Primera.</strong> El 22 de mayo no fue una coincidencia ni una conspiración. Fue <strong>la activación sincrónica de una infraestructura que llevaba años en posición</strong>. Las decisiones de cinco actores distintos —OMS, gobierno argentino, BARDA, Comisión Europea, RIVM— se cruzaron en un día porque el umbral del brote las jaló todas hacia adelante.',
+        '<strong>Segunda.</strong> La constelación es legible solo desde dentro del momento. Benjamin lo advierte: la imagen dialéctica se forma "en el instante de un peligro". Una semana antes, los cinco actos parecían dispersos. Una semana después, parecen rutina. <strong>Hoy, mientras escribimos, todavía se iluminan unos a otros</strong>. Conviene mirar antes de que el campo periodístico los archive como noticias sueltas.',
+        '<strong>Tercera.</strong> Lo que la constelación dice, por encima de cada teórico que la lee, es que <strong>la pandemia siguiente no será un evento; será una cita acordada</strong>. No firmada, pero acordada. Klein lo dijo en 2007. Lakoff lo dijo en 2017. Benjamin, en 1940, dio el lenguaje para mirarlo el día que llega.',
+        'El 22 de mayo llegó. Vale la pena haberlo visto.'
+      ],
+      firma: '45 Digital Noticias.',
+      fuentes: [
+        { texto: '<b>Benjamin, Walter.</b> <em>Tesis sobre la filosofía de la historia</em> (1940). En <em>Discursos interrumpidos I</em>, trad. Jesús Aguirre, Taurus, Madrid, 1973. Edición alemana en <em>Gesammelte Schriften</em> I.2, Suhrkamp, 1974. Tesis V y XVII.' },
+        { texto: '<b>Schmitt, Carl.</b> <em>El concepto de lo político.</em> Alianza, Madrid, 1998 [1932]. ISBN 978-8420629384.' },
+        { texto: '<b>Klein, Naomi.</b> <em>La doctrina del shock.</em> Paidós, 2007. ISBN 978-8449320422.' },
+        { texto: '<b>Lakoff, Andrew.</b> <em>Unprepared: Global Health in a Time of Emergency.</em> UC Press, 2017. ISBN 978-0520295766.' },
+        { texto: '<b>Jung, Carl Gustav.</b> <em>Sincronicidad como principio de conexiones acausales.</em> Trotta, 2002 [1952]. ISBN 978-8481645323.' },
+        { texto: '<b>Beck, Ulrich.</b> <em>La sociedad del riesgo.</em> Paidós, 1998 [1986]. ISBN 978-8449305009.' },
+        { texto: '<b>Bourdieu, Pierre.</b> <em>Sobre la televisión.</em> Anagrama, 1997 [1996]. ISBN 978-8433905512.' },
+        { texto: '<b>Harvey, David.</b> <em>El nuevo imperialismo.</em> Akal, 2004 [2003]. ISBN 978-8446021131.' },
+        { texto: '<b>Asamblea Mundial de la Salud 79ª sesión</b> (22-may-2026). Resolución sobre salida de Argentina, aprobada por unanimidad. Cobertura: Euronews, Buenos Aires Times, Filo News, Chequeado, Perfil.' },
+        { texto: '<b>OMS</b> (22-may-2026). DG opening remarks · Member State session on outbreaks of Ebola and hantavirus.', url: 'https://www.who.int/news-room/speeches/item/who-director-general-s-opening-remarks-at-the-member-state-information-session-on-outbreaks-of-ebola-and-hantavirus-22-may-2026' },
+        { texto: '<b>OMS</b> (22-may-2026). Comité de Emergencia del RSI — recomendaciones temporales Bundibugyo.', url: 'https://www.who.int/news/item/22-05-2026-first-meeting-of-the-ihr-emergency-committee-regarding-the-epidemic-of-ebola-bundibugyo-virus-disease-in-the-democratic-republic-of-the-congo-and-uganda-2026-temporary-recommendations' },
+        { texto: '<b>OMS DON603</b> (21-may, revisado 25-may-2026). Ebola Bundibugyo DRC.', url: 'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON603' },
+        { texto: '<b>NL Times</b> (23-may-2026); <b>Manila Times</b> (22-may-2026); <b>RIVM</b>. Confirmación del primer caso positivo de hantavirus en tripulante MV Hondius.' },
+        { texto: '<b>Fierce Biotech, Bloomberg, US News</b> (20-22 may 2026). Contrato BARDA-Mapp Biopharmaceutical por MBP134.' },
+        { texto: '<b>CEPI</b> (19-may-2026). UE €73.7M + Singapur USD 12M.', url: 'https://cepi.net/european-union-and-singapore-back-cepis-plan-boost-global-defences-against-epidemic-and-pandemic' },
+        { texto: 'Piezas vinculadas del programa: <em>Capitalismo de preparación pandémica</em> (20-may), <em>Guadalajara, 23 de junio</em> (21-may), <em>El subsuelo del brote</em> (22-may), <em>El virus equivocado en portada</em> (24-may).' }
+      ]
+    },
+    {
+      id: 'el-virus-equivocado-en-portada',
+      titulo: 'El virus equivocado en portada',
+      fechaPublicacion: '2026-05-24',
+      fechaLegible: '24 de mayo de 2026',
+      serie: null,
+      etiqueta: 'Bloque ébola',
+      arcoEditorial: ['hantavirus', 'ebola'],
+      conceptoEje: 'Pierre Bourdieu — <em>Sobre la televisión</em> (Anagrama, 1997; original francés <em>Sur la télévision</em>, Liber-Raisons d\'agir, 1996)',
+      resumen: 'Mientras los titulares persiguen al ébola Bundibugyo en África, el patógeno cuyo vector mejor calza con el escenario del Mundial 2026 no es ese — es el hantavirus Andes, ya endémico en Chile y Argentina con cifras arriba del histórico, con transmisión persona-a-persona documentada y sospecha institucional de componente respiratorio en espacios cerrados. Bourdieu lo nombró en 1996: el campo periodístico premia atributos mediáticos, no peso estructural. Cuarta pieza del bloque ébola del Expediente Brotes 2026.',
+      bajada: 'El virus que llena las portadas no es el virus que ocupa los estadios. Bourdieu, el campo periodístico y el silencio sobre el aerosol que se acerca al Mundial.',
+      tiempoLectura: '7 min',
+      imagen: null,
+      imagenCaption: null,
+      imagenInsertarDespuesParrafo: null,
+      parrafos: [
+        'Hay un dato sencillo, comprobable, que rara vez aparece en la cobertura de los dos brotes simultáneos de 2026 que este expediente lleva siguiendo desde el 8 de mayo. Lo voy a poner sobre la mesa antes de cualquier tesis: <strong>el ébola Bundibugyo se transmite por contacto directo con fluidos corporales; el hantavirus Andes se transmite, según la hipótesis de trabajo institucional de la OMS, por vía persona-a-persona con componente respiratorio sostenido</strong>. Ese segundo dato no es especulación. Es el documento DON601 de la Organización Mundial de la Salud, publicado el 13 de mayo, que lo eleva a <em>working hypothesis</em>.',
+        'Si uno coloca ese dato encima de otro —el calendario del Mundial de Futbol 2026 entre el 11 de junio y el 19 de julio, con cuarenta y ocho selecciones, ciento cuatro partidos y decenas de millones de aficionados moviéndose por estadios cerrados— la pregunta se cuelga sola. <strong>¿Cuál de los dos virus tiene el vector que mejor se ajusta al escenario?</strong>',
+        'La respuesta epidemiológica es incómoda porque desmonta la jerarquía mediática. <strong>El virus que llena las portadas no es el virus que ocupa los estadios.</strong>',
+        '<strong>Bourdieu y el campo periodístico.</strong> En 1996, el sociólogo francés <strong>Pierre Bourdieu</strong> publicó dos conferencias breves bajo el título <em>Sobre la televisión</em>. La tesis es seca y, treinta años después, sigue intacta: <strong>el campo periodístico opera con una lógica propia que no coincide necesariamente con la jerarquía estructural de los hechos</strong>. Lo que entra al campo —y lo que queda fuera— responde a cuatro presiones internas: la urgencia del ciclo de noticias, el espectáculo como condición de visibilidad, la presión de la audiencia y la ortodoxia editorial que cada redacción comparte con sus competidoras.',
+        'Aplicado a los dos brotes de 2026, esas cuatro presiones explican casi todo lo que se ve y casi todo lo que no se ve.',
+        'El <strong>ébola Bundibugyo</strong> tiene los atributos que el campo premia. Tiene <strong>declaración de Emergencia de Salud Pública de Importancia Internacional</strong> firmada por la OMS el 17 de mayo. Tiene <strong>conferencia de prensa del Director General</strong>, Tedros Adhanom Ghebreyesus. Tiene <strong>rostro estadounidense identificable</strong>: el médico misionero Peter Stafford, evacuado al Hospital Charité de Berlín junto con su esposa y sus cuatro hijos. Tiene <strong>geografía exótica</strong> —Ituri, Bunia, Goma, Kampala—. Tiene <strong>drama clínico</strong> —fiebres hemorrágicas, trajes EPP, aislamiento—. Y tiene, sobre todo, <strong>una fecha mundialista</strong> redondeada: el partido Colombia–República Democrática del Congo, programado para el 23 de junio en el Estadio Akron de Guadalajara, exactamente treinta y siete días después de la declaración de emergencia internacional.',
+        'El <strong>hantavirus Andes</strong> no tiene casi ninguno de esos atributos. No hay PHEIC —solamente un <em>Disease Outbreak News</em> en su sexta centena—. No hay conferencia de prensa de Tedros — hay una nota institucional del 7 de mayo que la mayoría de las redacciones no leyó completa. No hay rostro identificable —solo una mujer francesa en cuidados paliativos en el Hospital Bichat de París y una galería de pasajeros en cuarentena en contenedores blancos en el muelle de Rotterdam—. La geografía no es exótica sino endémica: los virus Andes ya circulan en Chile y Argentina desde 1995, con cifras que en 2026 superan en letalidad al promedio histórico —<strong>39 casos confirmados en Chile con 33% de letalidad al cierre de mayo; 102 casos confirmados en Argentina con letalidad sobre 31%</strong>—. Y la fecha mundialista no es redonda: es una vigilancia silenciosa que el Comité Nacional para la Vigilancia Epidemiológica de México activó el 11 de mayo con la <strong>primera Alerta Epidemiológica Nacional por hantavirus en la historia del país</strong>, citando explícitamente la movilidad del Mundial 2026 como factor de riesgo.',
+        'La diferencia entre lo que se cubre y lo que no se cubre no se explica por importancia epidemiológica. Se explica por la lógica que Bourdieu nombró hace tres décadas.',
+        '<strong>El patógeno fuera de cámara.</strong> El cuadro técnico, sin embargo, va en dirección contraria a la cobertura. La transmisión del ébola Bundibugyo exige contacto directo con fluidos corporales —sangre, vómito, sudor, heces—. Un estadio lleno de aficionados que se abrazan en el gol y se separan en el silbatazo no es un vector eficiente para esa cepa. La probabilidad estadística de contagio en una atmósfera mundialista, por dramática que sea la cobertura, <strong>es objetivamente baja</strong>.',
+        'La transmisión del hantavirus Andes opera distinto. La hipótesis de trabajo de la OMS desde el DON601 del 13 de mayo es la <strong>transmisión persona-a-persona en condiciones de contacto cercano y sostenido</strong>, con sospecha documentada de <strong>componente aerosol</strong> en espacios cerrados con ventilación limitada. Esa descripción —<em>close, sustained contact, possibly airborne</em>, en el texto exacto del organismo— describe <strong>con precisión clínica el escenario de un estadio cubierto, un autobús de aficionados, una zona mixta de prensa, un transporte público en hora pico, un avión repatriando hinchas a Buenos Aires o Santiago al final de la fase de grupos</strong>. El MV Hondius lo demostró en una escala más pequeña: el cluster del crucero se sostuvo cuarenta días en el mar precisamente porque el patógeno encontró el espacio cerrado adecuado. Y el 22 de mayo, <strong>un tripulante del propio Hondius, en cuarentena en Rotterdam, dio positivo trece días después de que las pruebas iniciales habían dado todas negativas</strong>. El cluster no se cerró. La transmisión continuó.',
+        '<strong>México con tres alertas y un titular.</strong> La paradoja se ve nítida en el caso mexicano. El <strong>CONAVE</strong> publicó el 11 de mayo el aviso epidemiológico por hantavirus —el primero de su historia—; el 18 de mayo el aviso preventivo de viaje por ébola; y el 19 de mayo un tercer aviso por golpe de calor de cara al verano. La autoridad sanitaria, con su propia lógica institucional, identificó las tres amenazas. Pero el campo periodístico mexicano replicó la jerarquía global del campo: <strong>el ébola ocupó las primeras planas; el hantavirus quedó en la sección de salud; el golpe de calor pasó a la página del clima</strong>.',
+        'Esto que aquí se describe no es conspiración. Es exactamente lo que Bourdieu llamaba la <strong>estructura del campo</strong>: cada redacción opera bajo presión de las otras, y todas se vigilan a sí mismas con la mirada de la competencia. Si <em>El País</em> abre con ébola, <em>El Universal</em> abre con ébola; si <em>La Jornada</em> destaca al médico estadounidense en Berlín, <em>Reforma</em> destaca al médico estadounidense en Berlín. Y el patógeno que cumple los requisitos epidemiológicos del escenario que viene —pero no los requisitos mediáticos— se queda en el pie de página.',
+        '<strong>Lo que conviene fijar antes del silbatazo.</strong> El ébola Bundibugyo es real, mata, exige respuesta sanitaria seria, y la cobertura intensa que recibe está editorialmente justificada por la gravedad del brote en Ituri, Nord-Kivu y Sud-Kivu. Esta columna no propone bajar el tono sobre el ébola. Propone una sola cosa: <strong>subir el tono sobre el hantavirus</strong>, antes de que el silbatazo del 11 de junio en el MetLife Stadium del Bronx abra el cuadro de los próximos cuarenta días.',
+        'Bourdieu lo nombró en 1996 con sequedad de sociólogo: <em>la urgencia del campo periodístico genera un pensamiento programado que pierde la posibilidad de pensar lo no urgente</em>. Treinta años después, el hantavirus es lo no urgente. Y el Mundial de Futbol es justamente el lugar donde lo no urgente se vuelve, en sesenta días, el problema que nadie vio venir.',
+        '<strong>— Actualización al cierre del 26 de mayo —</strong>',
+        'El 21 de mayo (revisado el 25), la OMS publicó <strong>Disease Outbreak News 603</strong>, que actualiza el cuadro Bundibugyo: <strong>83 confirmados en RDC + 2 en Uganda</strong> al corte del 21-may, con 9 muertes confirmadas en RDC y 1 en Uganda; <strong>746 sospechosos</strong> y <strong>176 muertes sospechosas</strong>; <strong>4 trabajadores sanitarios fallecidos</strong>; brote en 15 zonas de salud (no 11). Al 24 de mayo, los CDC elevan a <strong>101 confirmados + 904 sospechosos = 1,005 casos</strong> en RDC y <strong>129 muertes</strong> (10 confirmadas + 119 sospechosas); Uganda sube a <strong>5 confirmados</strong> tras la confirmación de 3 nuevos casos por el Ministerio de Salud ugandés el 23-may.',
+        'El 21 de mayo, un <strong>segundo médico estadounidense</strong> vinculado al brote —el <strong>Dr. Patrick LaRochelle (46)</strong>— fue evacuado a Europa: no a Berlín como Stafford, sino al <strong>Hospital Bulovka de Praga</strong>, en la República Checa, con instalaciones especializadas de bioseguridad. LaRochelle se mantiene asintomático en monitoreo al cierre. La cobertura mediática estadounidense tomó el caso LaRochelle con dramatismo equivalente al de Stafford-Charité, reforzando exactamente el mecanismo bourdiano descrito en esta columna: <strong>dos rostros estadounidenses, dos hospitales europeos de alta seguridad, dos noticias de primera plana</strong>. La cobertura del nuevo caso confirmado de hantavirus en tripulante del MV Hondius —reportado por OMS, RIVM y Erasmus MC el mismo período— ocupó significativamente menos espacio editorial.',
+        'El 26 de mayo, en México, el <strong>IMSS activa formalmente la vigilancia sanitaria para el Mundial 2026</strong> con dispositivo específico por ébola en aeropuertos, sedes mundialistas y puntos de concentración masiva. El Estado de México blinda en paralelo. El secretario de Salud, David Kershenobich, confirma protocolos activos para detección temprana y aislamiento inmediato ante cualquier caso sospechoso. <strong>Cero casos confirmados o sospechosos en territorio mexicano al cierre del 26-may</strong>, tanto de ébola como de hantavirus.',
+        'Lo que el cuadro al 26 de mayo refuerza, en suma, es la tesis editorial original: <strong>la autoridad sanitaria actúa en silencio operativo sobre las dos amenazas; el campo periodístico amplifica una y deja la otra en el pie de página</strong>. Que el Mundial empiece el 11 de junio no cambia la estructura del campo. Solo la pone a prueba en sesenta días.'
+      ],
+      firma: '45 Digital Noticias.',
+      fuentes: [
+        { texto: '<b>Bourdieu, Pierre.</b> <em>Sobre la televisión.</em> Trad. Thomas Kauf. Anagrama, Barcelona, 1997. Original francés: <em>Sur la télévision.</em> Liber-Raisons d\'agir, París, 1996. ISBN 978-8433905512.' },
+        { texto: '<b>OMS</b> (13 mayo 2026). <em>Disease Outbreak News 601 — Hantavirus cluster linked to cruise ship travel, Multi-country.</em>', url: 'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON601' },
+        { texto: '<b>OMS</b> (7 mayo 2026). <em>WHO\'s response to hantavirus cases linked to a cruise ship.</em> Declaración del Director General Dr. Tedros Adhanom Ghebreyesus.', url: 'https://www.who.int/news/item/07-05-2026-who-s-response-to-hantavirus-cases-linked-to-a-cruise-ship' },
+        { texto: '<b>OMS</b> (17 mayo 2026). <em>Epidemic of Ebola Disease caused by Bundibugyo virus determined a PHEIC.</em>', url: 'https://www.who.int/news/item/17-05-2026-epidemic-of-ebola-disease-in-the-democratic-republic-of-the-congo-and-uganda-determined-a-public-health-emergency-of-international-concern' },
+        { texto: '<b>ECDC</b> (6 mayo 2026). <em>Threat Assessment Brief: Hantavirus-associated cluster of illness on a cruise ship.</em>', url: 'https://www.ecdc.europa.eu/en/publications-data/hantavirus-associated-cluster-illness-cruise-ship-ecdc-assessment-and' },
+        { texto: '<b>CDC HAN 00528</b> (8 mayo 2026). <em>2026 Multi-country Hantavirus Cluster Linked to Cruise Ship.</em>', url: 'https://www.cdc.gov/han/php/notices/han00528.html' },
+        { texto: '<b>Manila Times</b> (22 mayo 2026). <em>WHO says new hantavirus case among Hondius ship\'s crew.</em>', url: 'https://www.manilatimes.net/2026/05/22/world/who-says-new-hantavirus-case-among-hondius-ships-crew/2350248' },
+        { texto: '<b>NL Times</b> (23 mayo 2026). <em>New hantavirus infection confirmed in Hondius crew member isolated in Netherlands.</em>', url: 'https://nltimes.nl/2026/05/23/new-hantavirus-infection-confirmed-hondius-crew-member-isolated-netherlands' },
+        { texto: '<b>ISP Chile / Minsal Chile.</b> Informes epidemiológicos semanales 2026. Cobertura trusted convergente: La Tercera, BioBioChile.' },
+        { texto: '<b>Ministerio de Salud Argentina.</b> Boletín Epidemiológico Nacional SE 17/2026. Cobertura trusted: La Nación, Clarín, Página/12.' },
+        { texto: '<b>CONAVE / Secretaría de Salud México.</b> Aviso Epidemiológico Nacional por hantavirus, 11-may-2026 (primero en la historia del país); aviso preventivo de viaje por ébola, 18-may-2026. Cobertura: Expansión Política, N+, Infobae.' },
+        { texto: '<b>FIFA.</b> Calendario oficial Mundial 2026: 48 selecciones, 104 partidos, apertura 11-jun MetLife Stadium, final 19-jul.' },
+        { texto: 'Piezas vinculadas del programa: <em>Capitalismo de preparación pandémica</em> (20-may), <em>Guadalajara, 23 de junio</em> (21-may), <em>El subsuelo del brote</em> (22-may).' },
+        { texto: '<b>— Fuentes incorporadas en la actualización del 26 de mayo —</b>' },
+        { texto: '<b>OMS</b> (21 mayo 2026, revisado 25 mayo). <em>Disease Outbreak News 603 — Ebola disease caused by Bundibugyo virus, DRC.</em>', url: 'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON603' },
+        { texto: '<b>NBC News</b> (mayo 2026). <em>Ebola death toll rises as two Americans are flown to Europe for monitoring.</em>', url: 'https://www.nbcnews.com/world/africa/ebola-cases-rise-congo-american-doctors-europe-treatment-vaccine-who-rcna346049' },
+        { texto: '<b>Washington Post</b> (23 mayo 2026). <em>How the Ebola outbreak is testing U.S. pandemic preparedness.</em>', url: 'https://www.washingtonpost.com/health/2026/05/23/how-ebola-outbreak-is-testing-us-pandemic-preparedness/' },
+        { texto: '<b>Ministerio de Salud de Uganda</b> (23 mayo 2026). Confirmación de 3 casos adicionales en Kampala — total Uganda sube a 5 confirmados, 1 muerte. Cobertura trusted: NBC News, CBS News.' },
+        { texto: '<b>El Imparcial</b> (26 mayo 2026). <em>IMSS alista respuesta sanitaria para el Mundial 2026 y activa vigilancia por ébola.</em>', url: 'https://www.elimparcial.com/mexico/2026/05/26/imss-alista-respuesta-sanitaria-para-el-mundial-2026-y-activa-vigilancia-por-ebola-ante-la-llegada-de-visitantes-internacionales-a-mexico/' },
+        { texto: '<b>Excélsior</b> (mayo 2026). <em>SSA preparada y vigilante si llegara a darse algún caso de hantavirus o ébola: Kershenobich.</em>' },
+        { texto: '<b>La Jornada</b> (20 mayo 2026). <em>México, preparado para actuar en caso de ébola o hantavirus.</em>' }
+      ]
+    },
     {
       id: 'capitalismo-de-preparacion-pandemica',
       titulo: 'Capitalismo de preparación pandémica',
