@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>OG template — 1200x630</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #02101e;
+    --navy-deep: #01080f;
+    --amber: #d4a017;
+    --amber-bright: #e8b94d;
+    --ink: #e8eef5;
+    --ink-soft: #b8c5d3;
+    --ink-mute: #7d8ca0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: var(--navy);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif;
+  }
+  body {
+    position: relative;
+    padding: 56px 72px;
+    background:
+      radial-gradient(ellipse at 85% 10%, rgba(212,160,23,0.07), transparent 55%),
+      radial-gradient(ellipse at 15% 90%, rgba(42,140,216,0.05), transparent 55%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: var(--amber);
+  }
+  body::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 6px;
+    background: var(--amber);
+  }
+
+  /* === Header brand === */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .brand .mark {
+    width: 80px;
+    height: 80px;
+    background: var(--amber);
+    color: var(--navy);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.04em;
+    border-radius: 4px;
+    box-shadow: 0 2px 0 var(--amber-bright) inset;
+  }
+  .brand .wordmark {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .brand .wordmark .name {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .brand .wordmark .sub {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink-mute);
+    border-top: 1px solid rgba(212, 160, 23, 0.5);
+    padding-top: 6px;
+    margin-top: 2px;
+    width: 260px;
+  }
+
+  /* === Center content === */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--amber);
+    width: max-content;
+    margin-bottom: 26px;
+  }
+  .title {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 64px;
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    margin-bottom: 22px;
+    max-width: 1000px;
+  }
+  .title.small { font-size: 56px; }
+  .title.smaller { font-size: 50px; }
+  .bajada {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 980px;
+  }
+
+  /* === Footer === */
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 18px;
+  }
+  .foot .left {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--amber-bright);
+  }
+  .foot .right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+  }
+</style>
+</head>
+<body>
+
+  <!-- TOP: brand -->
+  <div class="brand">
+    <div class="mark">45</div>
+    <div class="wordmark">
+      <span class="name">Digital Noticias</span>
+      <span class="sub">Expediente Brotes 2026</span>
+    </div>
+  </div>
+
+  <!-- CENTER: editorial -->
+  <div class="content">
+    <div class="eyebrow">TRANSVERSAL · 20 DE MAYO DE 2026</div>
+    <h1 class="title small">Capitalismo de preparación pandémica</h1>
+    <p class="bajada">Trece días entre alerta y emergencia internacional. Cuatro meses antes, CEPI ya había firmado el contrato. El virus no es accidente del sistema — es su materia prima.</p>
+  </div>
+
+  <!-- BOTTOM: footer -->
+  <div class="foot">
+    <div class="left">Lectura sistémica · 45 Digital Noticias</div>
+    <div class="right">45digitalnoticias.github.io/Expediente-Hantavirus</div>
+  </div>
+
+</body>
+</html>

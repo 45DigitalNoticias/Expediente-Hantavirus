@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "default",
+    "eyebrow": "EXPEDIENTE · HANTAVIRUS + ÉBOLA",
+    "titulo": "Brotes 2026 — MV Hondius y Bundibugyo",
+    "titleClass": "small",
+    "bajada": "Cronología, casos por país, declaraciones oficiales, columnas de opinión y fuentes verificables de los dos brotes."
+  },
+  {
+    "slug": "cine",
+    "eyebrow": "TRES ACTOS · LECTURA SISTÉMICA",
+    "titulo": "Expediente Brotes 2026",
+    "titleClass": "",
+    "bajada": "Hélice + Mundo + Biblioteca. La lectura sistémica de los brotes hantavirus y ébola Bundibugyo. 45 Digital Noticias."
+  },
+  {
+    "slug": "capitalismo-de-preparacion-pandemica",
+    "eyebrow": "TRANSVERSAL · 20 DE MAYO DE 2026",
+    "titulo": "Capitalismo de preparación pandémica",
+    "titleClass": "small",
+    "bajada": "Trece días entre alerta y emergencia internacional. Cuatro meses antes, CEPI ya había firmado el contrato. El virus no es accidente del sistema — es su materia prima."
+  },
+  {
+    "slug": "guadalajara-23-de-junio",
+    "eyebrow": "BLOQUE ÉBOLA · 21 DE MAYO DE 2026",
+    "titulo": "Guadalajara, 23 de junio",
+    "titleClass": "",
+    "bajada": "37 días entre la declaración de emergencia internacional y el aterrizaje físico del brote en territorio mexicano. Beck, el bumerán, y un partido de fútbol."
+  },
+  {
+    "slug": "el-subsuelo-del-brote",
+    "eyebrow": "BLOQUE ÉBOLA · 22 DE MAYO DE 2026",
+    "titulo": "El subsuelo del brote",
+    "titleClass": "",
+    "bajada": "El sistema que produce las condiciones del brote es el mismo que vende la solución al brote."
+  },
+  {
+    "slug": "el-virus-equivocado-en-portada",
+    "eyebrow": "BLOQUE ÉBOLA · 24 DE MAYO DE 2026",
+    "titulo": "El virus equivocado en portada",
+    "titleClass": "small",
+    "bajada": "El virus que llena las portadas no es el virus que ocupa los estadios. Bourdieu, el campo periodístico y el silencio sobre el aerosol que se acerca al Mundial."
+  },
+  {
+    "slug": "la-constelacion-del-22-de-mayo",
+    "eyebrow": "BLOQUE ÉBOLA · SÍNTESIS · 27 DE MAYO",
+    "titulo": "La constelación del 22 de mayo",
+    "titleClass": "small",
+    "bajada": "Cinco actos en 24 horas que pertenecen unos a otros sin haber sido coordinados. La pandemia siguiente no será un evento; será una cita acordada."
+  },
+  {
+    "slug": "la-biotech-que-ya-tenia-la-receta",
+    "eyebrow": "BLOQUE ÉBOLA · CIERRE · 28 DE MAYO",
+    "titulo": "La biotech que ya tenía la receta",
+    "titleClass": "small",
+    "bajada": "Doce años, misma biotech de San Diego, misma BARDA, distinta cepa. Lo que se aprueba es el ciclo."
+  }
+]
