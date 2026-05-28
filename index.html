@@ -5886,11 +5886,14 @@
     card.className = 'column-card';
     const serieTag = c.serie ? `<span class="pill">${c.serie.titulo} · Parte ${c.serie.orden} de ${c.serie.total}</span>` : '';
     const transversal = c.arcoEditorial && c.arcoEditorial.length > 1;
-    const etiquetaClase = transversal ? 'pill pill-transversal' : 'pill pill-antecedente';
-    const etiquetaTag = c.etiqueta ? `<span class="${etiquetaClase}">${c.etiqueta}</span>` : '';
+    const transversalBadge = transversal
+      ? `<span class="pill pill-transversal" title="Esta pieza aplica a ambos brotes — aparece tanto en Hantavirus como en Ébola">⇄ Transversal</span>`
+      : '';
+    const etiquetaTag = c.etiqueta ? `<span class="pill pill-antecedente">${c.etiqueta}</span>` : '';
     card.innerHTML = `
       <div class="meta">
         <span class="fecha">${c.fechaLegible}</span>
+        ${transversalBadge}
         ${etiquetaTag}
         ${serieTag}
         ${c.tiempoLectura ? `<span class="pill">${c.tiempoLectura} de lectura</span>` : ''}
