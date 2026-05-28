@@ -221,19 +221,19 @@ const HITOS = [
   }
 ];
 
-// Estilo BBVA del expediente (heredado del mapa-hantavirus)
+// Paleta unificada con el modo cine (navy nocturno + ámbar editorial)
 const PALETA = {
-  navy: "#072146",
-  navyOscuro: "#04162e",
-  cyan: "#1973b8",
-  cyanClaro: "#2a8cd8",
-  oro: "#b8860b",
-  oroClaro: "#d4a017",
+  navy: "#02101e",
+  navyOscuro: "#01080f",
+  cyan: "#2a8cd8",
+  cyanClaro: "#5ba8f0",
+  oro: "#d4a017",
+  oroClaro: "#e8b94d",
   blanco: "#ffffff",
   grisClaro: "#f5f8fb",
   divisor: "#cbd5e1",
-  sepia: "#5a6e8c",
-  texto: "#072146"
+  sepia: "#7d8ca0",
+  texto: "#02101e"
 };
 
 // Si se carga en navegador, exportar global

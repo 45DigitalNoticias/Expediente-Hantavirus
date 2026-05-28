@@ -1,0 +1,2799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Expediente Brotes 2026 — La constelación · 45 Digital Noticias</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>document.documentElement.classList.add('js');</script>
+
+<link rel="preload" as="image" href="_recursos/imagenes/mv-hondius-svalbard-2025.jpg" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+<meta name="description" content="Expediente editorial sobre hantavirus Andes en el MV Hondius y ébola Bundibugyo en RDC + Uganda. Seis capítulos. Siete teóricos. Una constelación. — 45 Digital Noticias." />
+<meta name="theme-color" content="#02101e" />
+
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_MX" />
+<meta property="og:site_name" content="45 Digital Noticias" />
+<meta property="og:title" content="Expediente Brotes 2026 — La constelación" />
+<meta property="og:description" content="Seis capítulos narrativos. Siete teóricos. El cuadro completo de los dos brotes simultáneos de 2026." />
+<meta property="og:image" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/og-default.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600;6..72,700;6..72,800;6..72,400i;6..72,500i;6..72,600i&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js"></script>
+
+<style>
+  :root {
+    --bg-deep:        #02101e;
+    --bg-base:        #03121f;
+    --bg-elevated:    #072146;
+    --bg-card:        #0b1f36;
+
+    --line:           rgba(212, 160, 23, 0.18);
+    --line-strong:    rgba(212, 160, 23, 0.55);
+    --line-mute:      rgba(232, 238, 245, 0.08);
+
+    --ink:            #e8eef5;
+    --ink-soft:       #b8c5d3;
+    --ink-mute:       #7d8ca0;
+
+    --amber:          #d4a017;
+    --amber-soft:     #b8860b;
+    --amber-bright:   #e8b94d;
+    --cyan:           #2a8cd8;
+    --cyan-bright:    #4ba8e8;
+    --crimson:        #c44536;
+    --crimson-bright: #e0594a;
+
+    /* Glow tokens (used by helix and other cinematic elements) */
+    --glow-amber:     0 0 8px rgba(212, 160, 23, 0.55), 0 0 22px rgba(212, 160, 23, 0.25);
+    --glow-cyan:      0 0 8px rgba(42, 140, 216, 0.55), 0 0 22px rgba(42, 140, 216, 0.25);
+    --glow-crimson:   0 0 10px rgba(196, 69, 54, 0.6), 0 0 24px rgba(196, 69, 54, 0.3);
+
+    --font-display:   'Newsreader', 'Times New Roman', serif;
+    --font-body:      'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-mono:      'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+
+    --grid-max:       1320px;
+    --grid-text:      680px;
+    --grid-gutter:    clamp(1.25rem, 3vw, 3rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg-base);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    position: relative;
+  }
+  /* Film-grain noise overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.92 0 0 0 0 0.92 0 0 0 0 0.92 0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 200px 200px;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--cyan); text-decoration: none; transition: color .2s ease; }
+  a:hover, a:focus-visible { color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 2px; }
+  blockquote { margin: 0; }
+
+  /* Layering — keep components above noise */
+  .topbar, .progress-bar, .roman-counter, .conductor-svg, .hero, .marquee-strip,
+  .tesis, .data-shot, .chapter, .pull-quote, .author-frame, .col-card-hero,
+  .col-card-text, .tem-banner, .economist-mosaic, .cta-mapa, footer { position: relative; z-index: 2; }
+  .topbar, .progress-bar, .roman-counter, .conductor-svg { z-index: 100; }
+
+  /* Skip link */
+  .skip-link {
+    position: absolute; top: -100px; left: 16px; z-index: 200;
+    background: var(--amber); color: var(--bg-deep);
+    padding: 12px 20px;
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    border-radius: 2px;
+    transition: top .2s ease;
+  }
+  .skip-link:focus { top: 16px; color: var(--bg-deep); }
+
+  /* ============== TOPBAR + STICKY CONCEPT ============== */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px clamp(16px, 3vw, 32px);
+    background: linear-gradient(180deg, rgba(2,16,30,0.96) 0%, rgba(2,16,30,0.78) 80%, transparent 100%);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s ease, background .3s ease;
+  }
+  .topbar.scrolled { background: rgba(2,16,30,0.94); border-bottom-color: var(--line); }
+  .topbar .brand { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-weight: 700; }
+  .topbar .brand .logo {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    background: var(--amber); color: var(--bg-deep);
+    font-size: 16px; font-weight: 800; border-radius: 2px;
+  }
+  .topbar .brand .text { display: flex; flex-direction: column; line-height: 1.05; }
+  .topbar .brand .text .l1 { font-size: 15px; color: var(--ink); }
+  .topbar .brand .text .l2 {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 400; color: var(--ink-mute);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  /* Sticky concept tracker — shows current chapter author/theorist */
+  .concept-tracker {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-mute);
+    display: flex; align-items: center; gap: 12px;
+    pointer-events: none;
+    opacity: 0; transition: opacity .35s ease;
+    max-width: 50vw;
+    white-space: nowrap;
+  }
+  .concept-tracker.visible { opacity: 1; }
+  .concept-tracker .cap-num {
+    color: var(--amber); font-weight: 500;
+    border: 1px solid var(--line-strong);
+    padding: 2px 8px; border-radius: 2px;
+  }
+  .concept-tracker .cap-name { color: var(--ink-soft); font-family: var(--font-display); font-style: italic; font-size: 13px; letter-spacing: 0.01em; text-transform: none; }
+  @media (max-width: 720px) { .concept-tracker { display: none; } }
+
+  .topbar .nav-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 8px 14px; border: 1px solid var(--line); border-radius: 2px;
+    transition: all .2s ease;
+  }
+  .topbar .nav-back:hover, .topbar .nav-back:focus-visible {
+    color: var(--amber); border-color: var(--amber);
+  }
+
+  /* Progress bar at top */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: var(--amber);
+    width: 0%; transition: width .1s linear;
+    z-index: 110;
+  }
+
+  /* ============== ROMAN COUNTER STICKY ============== */
+  .roman-counter {
+    position: fixed; left: clamp(12px, 2vw, 28px); top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    line-height: 0.9; color: var(--amber);
+    letter-spacing: -0.02em;
+    opacity: 0;
+    pointer-events: none;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.6);
+    transition: opacity .4s ease;
+  }
+  .roman-counter::after {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--font-mono); font-style: normal;
+    font-size: 10px; color: var(--ink-mute);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .roman-counter.visible { opacity: 1; }
+  @media (max-width: 1100px) { .roman-counter { display: none; } }
+
+  /* ============== CONDUCTOR THREAD SVG ============== */
+  .conductor-svg {
+    position: fixed; left: 50%; top: 0;
+    transform: translateX(-50%);
+    width: 1px; height: 100vh;
+    pointer-events: none;
+    opacity: 0.22;
+    z-index: 2;
+  }
+  .conductor-svg .thread {
+    stroke: var(--amber);
+    stroke-width: 1;
+    fill: none;
+    stroke-dasharray: 6 4;
+  }
+  @media (max-width: 900px) { .conductor-svg { display: none; } }
+
+  /* ============== HERO ============== */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    overflow: hidden;
+    background: var(--bg-deep);
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('_recursos/imagenes/mv-hondius-svalbard-2025.jpg');
+    background-size: cover; background-position: center 30%;
+    opacity: 0.42;
+    filter: grayscale(0.55) contrast(1.15) brightness(0.85);
+    will-change: transform;
+  }
+  .hero-bg::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(2,16,30,0.55) 0%, rgba(2,16,30,0.80) 70%, var(--bg-base) 100%),
+      radial-gradient(ellipse at center, transparent 0%, rgba(2,16,30,0.4) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: var(--grid-max); margin: 0 auto;
+    padding: 0 var(--grid-gutter); width: 100%;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 24px;
+  }
+  .js .hero-eyebrow { opacity: 0; }
+  .hero-eyebrow::before {
+    content: ""; display: inline-block;
+    width: 36px; height: 1px; background: var(--amber);
+    vertical-align: middle; margin-right: 14px;
+  }
+  .hero-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(2.6rem, 7.5vw, 6.4rem);
+    line-height: 1.02; letter-spacing: -0.028em;
+    color: var(--ink); margin: 0 0 24px;
+    max-width: 18ch;
+  }
+  .hero-title .italic-accent { color: var(--amber); font-style: italic; font-weight: 400; }
+  .hero-sub {
+    font-family: var(--font-display); font-weight: 400; font-style: italic;
+    font-size: clamp(1.05rem, 1.7vw, 1.45rem);
+    color: var(--ink-soft); max-width: 60ch;
+    line-height: 1.45; margin: 0 0 40px;
+    text-align: justify; hyphens: auto; -webkit-hyphens: auto;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 32px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .hero-meta .item { display: flex; flex-direction: column; gap: 4px; }
+  .hero-meta .item .label { color: var(--ink-mute); }
+  .hero-meta .item .value { color: var(--ink); font-size: 14px; letter-spacing: 0.03em; text-transform: none; font-family: var(--font-display); }
+  .scroll-cue {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--ink-mute); z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .js .scroll-cue { opacity: 0; }
+  .scroll-cue::after {
+    content: ""; width: 1px; height: 40px;
+    background: linear-gradient(180deg, var(--amber) 0%, transparent 100%);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.4); opacity: 0.3; }
+  }
+
+  /* ============== MARQUEE INFINITO de conceptos ============== */
+  .marquee-strip {
+    background: var(--bg-deep);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 28px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-flex; gap: 64px;
+    animation: marquee 60s linear infinite;
+    will-change: transform;
+  }
+  .marquee-item {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    color: var(--ink-mute);
+    letter-spacing: -0.005em;
+  }
+  .marquee-item .author { color: var(--amber); font-style: normal; font-weight: 500; margin-right: 8px; }
+  .marquee-item .sep { color: var(--line-strong); margin: 0 16px; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+
+  /* ============== TESIS ============== */
+  .tesis {
+    padding: clamp(80px, 14vh, 160px) 0;
+    background: var(--bg-base);
+  }
+  .tesis-inner {
+    max-width: var(--grid-text); margin: 0 auto;
+    padding: 0 var(--grid-gutter);
+  }
+  .tesis-label {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 32px;
+  }
+  .tesis-label::before {
+    content: ""; display: inline-block;
+    width: 28px; height: 1px; background: var(--amber);
+    vertical-align: middle; margin-right: 12px;
+  }
+  .tesis-text {
+    font-family: var(--font-display); font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+    line-height: 1.38; font-weight: 400; color: var(--ink);
+    margin: 0; letter-spacing: -0.005em;
+    text-align: justify; hyphens: auto; -webkit-hyphens: auto;
+  }
+  .tesis-text strong { color: var(--amber); font-weight: 600; }
+  .tesis-text em { color: var(--ink-soft); font-style: italic; }
+  .tesis-word { display: inline-block; will-change: opacity, transform; }
+  .js .tesis-word { opacity: 0; transform: translateY(20px); }
+
+  /* ============== DATA SHOTS (transiciones tipográficas) ============== */
+  .data-shot {
+    padding: clamp(80px, 16vh, 180px) 0;
+    background: var(--bg-deep);
+    text-align: center;
+    border-top: 1px solid var(--line-mute);
+    border-bottom: 1px solid var(--line-mute);
+  }
+  .data-shot-inner {
+    max-width: var(--grid-max); margin: 0 auto;
+    padding: 0 var(--grid-gutter);
+  }
+  .data-shot .ds-eyebrow {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-mute); margin-bottom: 24px;
+  }
+  .data-shot .ds-number {
+    font-family: var(--font-display); font-style: italic;
+    font-weight: 300; font-size: clamp(4.5rem, 14vw, 12rem);
+    line-height: 0.95; color: var(--amber);
+    letter-spacing: -0.04em; margin: 0;
+  }
+  .data-shot .ds-label {
+    font-family: var(--font-display); font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    color: var(--ink-soft); max-width: 56ch;
+    margin: 24px auto 0; line-height: 1.4;
+    font-style: italic;
+  }
+  .data-shot .ds-source {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.12em; color: var(--ink-mute);
+    margin-top: 18px;
+  }
+  .data-shot .ds-source::before { content: "— "; }
+  /* Variant: dual numbers (vs) */
+  .data-shot.dual .ds-numbers {
+    display: flex; align-items: baseline; justify-content: center;
+    gap: clamp(20px, 4vw, 60px); flex-wrap: wrap;
+  }
+  .data-shot.dual .ds-numbers .vs {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.5rem, 3vw, 2.4rem); color: var(--ink-mute);
+    align-self: center;
+  }
+  .data-shot.dual .ds-number-small { font-size: clamp(2.6rem, 7vw, 6rem); }
+
+  /* ============== CAPÍTULO header ============== */
+  .chapter {
+    padding-top: clamp(60px, 12vh, 120px);
+    background: var(--bg-base);
+  }
+  .chapter.deep { background: var(--bg-deep); }
+  .chapter-header {
+    max-width: var(--grid-max); margin: 0 auto;
+    padding: 0 var(--grid-gutter) clamp(40px, 6vh, 64px);
+    display: grid;
+    grid-template-columns: clamp(80px, 12vw, 140px) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 60px);
+    align-items: end;
+    border-bottom: 1px solid var(--line-mute);
+  }
+  .chapter-roman {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(4rem, 10vw, 9rem);
+    color: var(--amber);
+    line-height: 0.85; letter-spacing: -0.05em;
+    margin: 0;
+  }
+  .chapter-info .ch-eyebrow {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--amber-soft); margin-bottom: 14px;
+  }
+  .chapter-info .ch-title {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.04; letter-spacing: -0.025em;
+    margin: 0 0 14px; color: var(--ink);
+  }
+  .chapter-info .ch-concept {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    color: var(--ink-soft); max-width: 60ch;
+    margin: 0;
+  }
+  @media (max-width: 700px) {
+    .chapter-header { grid-template-columns: 1fr; gap: 8px; align-items: start; }
+    .chapter-roman { text-align: left; }
+  }
+
+  /* ============== BRIDGE TEXT (entre cards) ============== */
+  .bridge {
+    max-width: var(--grid-text); margin: 0 auto;
+    padding: clamp(60px, 10vh, 100px) var(--grid-gutter);
+    text-align: center;
+  }
+  .bridge .bridge-mark {
+    font-family: var(--font-display); font-size: 28px;
+    color: var(--amber); margin-bottom: 18px;
+    line-height: 1;
+  }
+  .bridge-text {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    line-height: 1.45; color: var(--ink-soft);
+    margin: 0; letter-spacing: 0.005em;
+  }
+  .bridge-text strong { color: var(--amber); font-weight: 500; font-style: normal; }
+
+  /* ============== PULL QUOTE (full bleed) ============== */
+  .pull-quote {
+    padding: clamp(80px, 16vh, 180px) 0;
+    background: var(--bg-deep);
+    text-align: center;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .pull-quote-inner {
+    max-width: 16ch; margin: 0 auto;
+    padding: 0 var(--grid-gutter);
+  }
+  .pull-quote-text {
+    font-family: var(--font-display); font-style: italic;
+    font-weight: 400; font-size: clamp(2rem, 6vw, 4.5rem);
+    line-height: 1.08; letter-spacing: -0.02em;
+    color: var(--ink); margin: 0;
+    position: relative;
+  }
+  .pull-quote-text::before, .pull-quote-text::after {
+    color: var(--amber); font-style: normal; opacity: 0.6;
+  }
+  .pull-quote-text::before { content: "«"; margin-right: 8px; }
+  .pull-quote-text::after { content: "»"; margin-left: 8px; }
+  .pull-quote-attrib {
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--amber); margin-top: 36px;
+  }
+  .pull-quote-attrib::before {
+    content: ""; display: inline-block;
+    width: 32px; height: 1px; background: var(--amber);
+    vertical-align: middle; margin-right: 12px;
+  }
+
+  /* ============== AUTHOR FRAME (retrato + bibliografía) ============== */
+  .author-frame {
+    padding: clamp(60px, 10vh, 100px) 0;
+    background: var(--bg-base);
+  }
+  .author-frame.deep { background: var(--bg-deep); }
+  .author-frame-inner {
+    max-width: var(--grid-max); margin: 0 auto;
+    padding: 0 var(--grid-gutter);
+    display: grid;
+    grid-template-columns: minmax(220px, 360px) minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: center;
+  }
+  .author-portrait {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+  }
+  .author-portrait img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.85) contrast(1.1) brightness(0.9);
+    transition: filter .6s ease;
+  }
+  .author-frame:hover .author-portrait img { filter: grayscale(0.4) contrast(1.05) brightness(1); }
+  .author-portrait::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(2,16,30,0.4) 100%);
+    pointer-events: none;
+  }
+  .author-meta { color: var(--ink); }
+  .author-meta .label {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 14px;
+  }
+  .author-meta .name {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05; letter-spacing: -0.02em;
+    margin: 0 0 8px;
+  }
+  .author-meta .dates {
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.05em; color: var(--ink-mute);
+    margin-bottom: 24px;
+  }
+  .author-meta .work {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    color: var(--ink-soft); margin: 0 0 16px;
+  }
+  .author-meta .desc {
+    font-family: var(--font-body); font-size: 15px;
+    color: var(--ink-soft); max-width: 55ch;
+    margin: 0; line-height: 1.55;
+    text-align: justify; hyphens: auto; -webkit-hyphens: auto;
+  }
+  .author-meta .credit {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.08em; color: var(--ink-mute);
+    margin-top: 18px;
+  }
+  @media (max-width: 720px) {
+    .author-frame-inner { grid-template-columns: 1fr; gap: 24px; }
+    .author-portrait { max-width: 280px; }
+  }
+
+  /* ============== COL-CARD HERO (con imagen) ============== */
+  .col-card-hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    overflow: hidden;
+    padding: clamp(60px, 12vh, 120px) 0;
+  }
+  .col-card-hero .col-bg { position: absolute; inset: 0; overflow: hidden; }
+  .col-card-hero .col-bg-image {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transform: scale(0.7); opacity: 0.32;
+    will-change: transform, opacity;
+    clip-path: inset(15% 15% 15% 15%);
+  }
+  .col-card-hero .col-bg::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(2,16,30,0.7) 0%, rgba(2,16,30,0.5) 50%, rgba(2,16,30,0.85) 100%),
+      linear-gradient(90deg, rgba(2,16,30,0.85) 0%, transparent 35%, transparent 65%, rgba(2,16,30,0.85) 100%);
+  }
+  .col-card-hero .col-content {
+    position: relative; z-index: 2;
+    max-width: var(--grid-max); margin: 0 auto;
+    padding: 0 var(--grid-gutter); width: 100%;
+  }
+  .col-card-hero .col-tag {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--amber);
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .col-card-hero .col-tag::before {
+    content: ""; width: 24px; height: 1px; background: var(--amber);
+  }
+  .col-card-hero .col-date {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-mute); margin-top: 8px;
+  }
+  .col-card-hero .col-titulo {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(2.2rem, 5.2vw, 4.4rem);
+    line-height: 1.05; letter-spacing: -0.025em;
+    color: var(--ink); margin: 20px 0 24px;
+    max-width: 20ch;
+  }
+  .col-card-hero .col-bajada {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+    color: var(--ink-soft); max-width: 60ch;
+    line-height: 1.48; margin: 0 0 28px;
+    text-align: justify; hyphens: auto; -webkit-hyphens: auto;
+  }
+  .col-card-hero .col-bajada::first-letter {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 3.6em; font-weight: 500;
+    color: var(--amber);
+    float: left; line-height: 0.85;
+    padding: 4px 12px 0 0;
+  }
+  .col-card-hero .col-meta {
+    display: flex; flex-wrap: wrap; gap: 20px; align-items: center;
+    margin-bottom: 28px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .col-card-hero .col-meta .concepto {
+    text-transform: none; letter-spacing: 0.02em;
+    font-family: var(--font-display); font-style: italic; font-size: 13px;
+    color: var(--ink-soft); max-width: 56ch;
+  }
+
+  /* ============== COL-CARD TEXT (sin imagen, tipográfica) ============== */
+  .col-card-text {
+    padding: clamp(80px, 14vh, 140px) 0;
+    border-top: 1px solid var(--line-mute);
+    background: var(--bg-base);
+  }
+  .col-card-text.deep { background: var(--bg-deep); }
+  .col-card-text .col-inner {
+    max-width: var(--grid-max); margin: 0 auto;
+    padding: 0 var(--grid-gutter);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(32px, 5vw, 80px);
+    will-change: opacity, transform;
+  }
+  .js .col-card-text .col-inner { opacity: 0; transform: translateY(40px); }
+  .col-card-text .col-num {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(4rem, 9vw, 8rem); font-weight: 300;
+    line-height: 0.9; color: var(--amber);
+    letter-spacing: -0.04em;
+  }
+  .col-card-text .col-num-sub {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-mute); margin-top: 12px;
+  }
+  .col-card-text .col-body .col-tag {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--amber); display: block; margin-bottom: 10px;
+  }
+  .col-card-text .col-body .col-date {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-mute); margin-bottom: 18px;
+  }
+  .col-card-text .col-body .col-titulo {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.8rem, 3.8vw, 3rem);
+    line-height: 1.08; letter-spacing: -0.02em;
+    margin: 0 0 20px; max-width: 22ch;
+    color: var(--ink);
+  }
+  .col-card-text .col-body .col-bajada {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    color: var(--ink-soft); max-width: 60ch;
+    line-height: 1.5; margin: 0 0 24px;
+    text-align: justify; hyphens: auto; -webkit-hyphens: auto;
+  }
+  .col-card-text .col-body .col-bajada::first-letter {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 3.4em; font-weight: 500;
+    color: var(--amber);
+    float: left; line-height: 0.85;
+    padding: 4px 10px 0 0;
+  }
+  .col-card-text .col-body .col-concepto {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 0.95rem; color: var(--ink-mute);
+    max-width: 60ch; margin: 0 0 28px;
+    padding-left: 18px; border-left: 2px solid var(--line);
+  }
+
+  /* CTA buttons */
+  .col-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink);
+    padding: 14px 24px;
+    border: 1px solid var(--amber);
+    border-radius: 2px;
+    transition: all .25s ease;
+    background: transparent;
+  }
+  .col-cta:hover, .col-cta:focus-visible {
+    background: var(--amber); color: var(--bg-deep);
+  }
+  .col-cta .arrow { transition: transform .25s ease; }
+  .col-cta:hover .arrow { transform: translateX(4px); }
+  .col-cta.secondary { border-color: var(--line); }
+  .col-cta.secondary:hover { border-color: var(--amber); color: var(--amber); background: transparent; }
+
+  /* ============== TEM BANNER (Hantavirus electron micrograph) ============== */
+  .tem-banner {
+    position: relative;
+    padding: clamp(60px, 10vh, 100px) 0;
+    background: var(--bg-deep);
+    overflow: hidden;
+  }
+  .tem-banner-image {
+    position: absolute; inset: 0;
+    background-image: url('_recursos/imagenes/hantavirus-tem-cdc-phil1136.jpg');
+    background-size: cover; background-position: center;
+    opacity: 0.18;
+    filter: grayscale(0.4) contrast(1.3) brightness(0.7);
+    will-change: transform;
+  }
+  .tem-banner-image::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--bg-deep) 0%, transparent 25%, transparent 75%, var(--bg-deep) 100%);
+  }
+  .tem-banner-inner {
+    position: relative; z-index: 2;
+    max-width: var(--grid-text); margin: 0 auto;
+    padding: 0 var(--grid-gutter);
+    text-align: center;
+  }
+  .tem-banner-eyebrow {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 18px;
+  }
+  .tem-banner-title {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 400;
+    color: var(--ink); line-height: 1.25;
+    margin: 0 0 12px;
+  }
+  .tem-banner-caption {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.05em; color: var(--ink-mute);
+    margin: 12px 0 0;
+  }
+
+  /* ============== ECONOMIST MOSAIC (Cap VI) ============== */
+  .economist-mosaic {
+    padding: clamp(80px, 14vh, 140px) 0;
+    background: var(--bg-deep);
+    border-top: 1px solid var(--line);
+  }
+  .economist-mosaic-header {
+    max-width: var(--grid-max); margin: 0 auto;
+    padding: 0 var(--grid-gutter) 48px;
+    text-align: center;
+  }
+  .economist-mosaic-eyebrow {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 14px;
+  }
+  .economist-mosaic-title {
+    font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 500; line-height: 1.15; margin: 0;
+    max-width: 30ch; margin-left: auto; margin-right: auto;
+  }
+  .economist-mosaic-grid {
+    max-width: var(--grid-max); margin: 0 auto;
+    padding: 0 var(--grid-gutter);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .economist-mosaic-grid figure {
+    margin: 0; aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--line-mute);
+    transition: all .35s ease;
+  }
+  .economist-mosaic-grid figure img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(0.65) contrast(1.05) brightness(0.85);
+    transition: filter .4s ease, transform .6s ease;
+  }
+  .economist-mosaic-grid figure:hover { border-color: var(--amber); }
+  .economist-mosaic-grid figure:hover img { filter: grayscale(0); transform: scale(1.05); }
+
+  /* ============== CTA MAPA ============== */
+  .cta-mapa {
+    padding: clamp(120px, 22vh, 240px) 0;
+    text-align: center;
+    border-top: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .cta-mapa-bg {
+    position: absolute; inset: 0;
+    background-image: url('_recursos/imagenes/planeta-norteamerica-sol-dorado.jpg');
+    background-size: cover; background-position: center;
+    opacity: 0.18;
+    filter: grayscale(0.7) contrast(1.2) brightness(0.7);
+    will-change: transform;
+  }
+  .cta-mapa-bg::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at center, transparent 0%, rgba(2,16,30,0.7) 100%),
+      linear-gradient(180deg, var(--bg-deep) 0%, rgba(2,16,30,0.4) 50%, var(--bg-elevated) 100%);
+  }
+  .cta-mapa-inner {
+    position: relative; z-index: 2;
+    max-width: 60ch; margin: 0 auto;
+    padding: 0 var(--grid-gutter);
+  }
+  .cta-mapa-eyebrow {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 18px;
+  }
+  .cta-mapa-title {
+    font-family: var(--font-display); font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+    font-weight: 600; line-height: 1.08; letter-spacing: -0.02em;
+    margin: 0 0 16px; color: var(--ink);
+  }
+  .cta-mapa-desc {
+    font-family: var(--font-display); font-style: italic;
+    color: var(--ink-soft); font-size: 1.15rem;
+    margin: 0 0 40px; line-height: 1.45;
+  }
+  .cta-mapa-button {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-family: var(--font-mono); font-size: 13px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--bg-deep); background: var(--amber);
+    padding: 18px 38px;
+    border: 1px solid var(--amber);
+    border-radius: 2px;
+    transition: all .25s ease;
+    font-weight: 500;
+    will-change: transform;
+  }
+  .cta-mapa-button:hover, .cta-mapa-button:focus-visible {
+    background: var(--ink); color: var(--bg-deep); border-color: var(--ink);
+  }
+  .cta-mapa-button .arrow { transition: transform .25s ease; }
+  .cta-mapa-button:hover .arrow { transform: translateX(6px); }
+
+  /* ============== FOOTER ============== */
+  footer {
+    padding: 64px var(--grid-gutter) 48px;
+    background: var(--bg-deep);
+    border-top: 1px solid var(--line-mute);
+    text-align: center;
+  }
+  footer .firma {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 1.15rem; color: var(--amber);
+    margin: 0 0 10px;
+  }
+  footer .footer-meta {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-mute); margin: 0;
+  }
+  footer .footer-meta a { color: var(--ink-soft); }
+  footer .credits-note {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--ink-mute); margin-top: 24px;
+    max-width: 80ch; margin-left: auto; margin-right: auto;
+    line-height: 1.6; letter-spacing: 0.04em;
+  }
+
+  /* ============== HELIX (Interludio · El código del modelo) ============== */
+  .helix-interlude {
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--line);
+  }
+  .helix-header {
+    max-width: var(--grid-text);
+    margin: 0 auto;
+    padding: clamp(80px, 14vh, 140px) var(--grid-gutter) clamp(40px, 6vh, 70px);
+    text-align: center;
+  }
+  /* Opening variant — when helix is the first section of the film */
+  .helix-header-opening {
+    max-width: 920px;
+    padding-top: clamp(96px, 18vh, 200px);
+  }
+  .brand-line {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-mute); margin: 0 0 28px;
+  }
+  .brand-line::before, .brand-line::after {
+    content: "·"; margin: 0 12px; color: var(--amber);
+  }
+  .expediente-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(2.8rem, 8vw, 7rem);
+    line-height: 0.98; letter-spacing: -0.03em;
+    color: var(--ink); margin: 0 0 28px;
+  }
+  .expediente-title .italic-accent {
+    color: var(--amber); font-style: italic; font-weight: 400;
+  }
+  .expediente-sub {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+    color: var(--ink-soft); max-width: 60ch;
+    margin: 0 auto 40px;
+    line-height: 1.5;
+  }
+  .helix-meta {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    gap: 28px; margin-bottom: 48px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.1em; color: var(--ink-mute);
+  }
+  .helix-meta span strong {
+    color: var(--amber); font-weight: 500;
+    margin-right: 6px;
+  }
+  .helix-sep {
+    border: 0;
+    width: 64px; height: 1px;
+    background: var(--amber);
+    margin: 48px auto;
+    opacity: 0.45;
+  }
+  .helix-header .eyebrow {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 18px;
+  }
+  .helix-header .eyebrow::before,
+  .helix-header .eyebrow::after {
+    content: ""; display: inline-block;
+    width: 24px; height: 1px; background: var(--amber);
+    vertical-align: middle; margin: 0 12px;
+  }
+  .helix-header h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+    line-height: 1.05; letter-spacing: -0.025em;
+    margin: 0 0 16px; color: var(--ink);
+  }
+  .helix-header .sub {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    color: var(--ink-soft); margin: 0 0 32px;
+  }
+  .helix-header .intro-quote {
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--ink-mute);
+    max-width: 56ch; margin: 0 auto;
+    text-align: justify; hyphens: auto; -webkit-hyphens: auto;
+    padding: 18px 0;
+    border-top: 1px solid var(--line-mute);
+    border-bottom: 1px solid var(--line-mute);
+  }
+  .helix-header .intro-quote strong { color: var(--amber); font-weight: 500; }
+
+  /* Sticky scroll-driven container with cinematic video background */
+  .helix-sticky-container {
+    height: 720vh;
+    position: relative;
+    background: var(--bg-deep);
+  }
+  .helix-pin-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .helix-bg-image {
+    position: absolute;
+    inset: -5%;
+    width: 110%;
+    height: 110%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.55;
+    filter: saturate(1.15) brightness(0.85) hue-rotate(-4deg);
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+    animation: helixSlowZoom 60s ease-in-out infinite alternate;
+  }
+  @keyframes helixSlowZoom {
+    from { transform: scale(1.0) translateY(0); }
+    to   { transform: scale(1.08) translateY(-2%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .helix-bg-image { animation: none; }
+  }
+  .helix-video-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+      radial-gradient(ellipse at center, transparent 0%, rgba(2,16,30,0.55) 80%),
+      linear-gradient(90deg, rgba(2,16,30,0.85) 0%, rgba(2,16,30,0.18) 30%, rgba(2,16,30,0.18) 70%, rgba(2,16,30,0.85) 100%),
+      linear-gradient(180deg, rgba(2,16,30,0.55) 0%, transparent 20%, transparent 80%, rgba(2,16,30,0.7) 100%);
+  }
+  .helix-viewport {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(20px, 3vw, 60px);
+    align-items: center;
+    padding: clamp(60px, 8vh, 90px) clamp(20px, 4vw, 60px) clamp(80px, 10vh, 120px);
+  }
+
+  .helix-svg-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 70vh;
+    display: block;
+  }
+  /* Three.js canvas wrapper — fills the wrap */
+  .helix-canvas-3d {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .helix-canvas-3d canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  /* SVG fallback — visible by default; JS hides it when Three.js loads */
+  .helix-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .helix-canvas-3d-fallback .helix-canvas-3d { display: none; }
+  .helix-thread {
+    fill: none; stroke-width: 1.8;
+    transition: stroke-width .3s ease;
+  }
+  .helix-thread.legal {
+    stroke: var(--cyan);
+    filter: drop-shadow(0 0 5px rgba(42, 140, 216, 0.7));
+  }
+  .helix-thread.financ {
+    stroke: var(--amber);
+    filter: drop-shadow(0 0 5px rgba(212, 160, 23, 0.7));
+  }
+  .helix-base-link {
+    stroke: rgba(232, 238, 245, 0.18);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+    transition: all .3s ease;
+  }
+  .helix-base-dot {
+    transition: r .35s ease, filter .35s ease;
+  }
+  .helix-base-dot.legal {
+    fill: var(--cyan);
+    filter: drop-shadow(0 0 3px rgba(42, 140, 216, 0.7));
+  }
+  .helix-base-dot.financ {
+    fill: var(--amber);
+    filter: drop-shadow(0 0 3px rgba(212, 160, 23, 0.7));
+  }
+  .helix-base.passed .helix-base-link {
+    stroke: rgba(212, 160, 23, 0.4);
+    stroke-dasharray: 1 0;
+  }
+  .helix-base.active .helix-base-link {
+    stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 1 0;
+  }
+  .helix-base.active .helix-base-dot { r: 7; }
+  .helix-base.active .helix-base-dot.legal {
+    filter: drop-shadow(0 0 10px rgba(42, 140, 216, 0.95))
+            drop-shadow(0 0 22px rgba(42, 140, 216, 0.45));
+  }
+  .helix-base.active .helix-base-dot.financ {
+    filter: drop-shadow(0 0 10px rgba(212, 160, 23, 0.95))
+            drop-shadow(0 0 22px rgba(212, 160, 23, 0.45));
+  }
+  .helix-base.critical.active .helix-base-link {
+    stroke: var(--crimson-bright);
+    stroke-width: 2;
+  }
+  .helix-base.critical.active .helix-base-dot {
+    filter: drop-shadow(0 0 12px rgba(196, 69, 54, 0.95))
+            drop-shadow(0 0 26px rgba(196, 69, 54, 0.5));
+  }
+  .helix-year-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    fill: rgba(232, 238, 245, 0.5);
+    letter-spacing: 0.12em;
+  }
+  .helix-base.active .helix-year-label {
+    fill: var(--amber-bright);
+    font-weight: 500;
+  }
+
+  /* Info panel — content updates per active hito */
+  .helix-info-panel {
+    position: relative;
+    max-width: 500px;
+    align-self: center;
+  }
+  .helix-info-panel .hp-counter {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-mute); margin-bottom: 12px;
+  }
+  .helix-info-panel .hp-counter .num { color: var(--amber); }
+  .helix-info-panel .hp-year {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(4rem, 8vw, 6.8rem); font-weight: 300;
+    color: var(--amber); line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin: 0 0 12px;
+    display: flex; align-items: baseline; gap: 14px;
+    transition: opacity .3s ease;
+  }
+  .helix-info-panel .hp-year .verif {
+    font-family: var(--font-mono); font-style: normal;
+    font-size: 18px; color: var(--ink-mute);
+  }
+  .helix-info-panel .hp-enfermedad {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--cyan-bright); margin-bottom: 14px;
+  }
+  .helix-info-panel .hp-titulo {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    line-height: 1.15; letter-spacing: -0.015em;
+    margin: 0 0 18px; color: var(--ink);
+  }
+  .helix-info-panel .hp-resumen {
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    line-height: 1.55; color: var(--ink-soft);
+    margin: 0 0 16px;
+    text-align: justify; hyphens: auto; -webkit-hyphens: auto;
+  }
+  .helix-info-panel .hp-significancia {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    line-height: 1.5; color: var(--ink-mute);
+    padding-left: 14px; border-left: 2px solid var(--amber);
+    margin: 0 0 18px;
+  }
+  .helix-info-panel .hp-monto {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--amber); margin: 0 0 18px;
+  }
+  .helix-info-panel .hp-monto.empty { display: none; }
+  .helix-info-panel .hp-actores {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-mute); margin: 0;
+  }
+  .helix-info-panel .hp-actores::before {
+    content: "Actores: "; color: var(--ink-mute); opacity: 0.6;
+  }
+
+  .helix-info-panel .hp-content {
+    transition: opacity .25s ease;
+  }
+  .helix-info-panel.transitioning .hp-content { opacity: 0.15; }
+
+  /* Progress strip at bottom of sticky viewport */
+  .helix-progress {
+    position: absolute;
+    bottom: clamp(20px, 4vh, 32px);
+    left: clamp(20px, 4vw, 60px);
+    right: clamp(20px, 4vw, 60px);
+    display: flex; align-items: center; gap: 16px;
+    z-index: 3;
+  }
+  .helix-progress .endpoint {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.14em; color: var(--ink-mute);
+    white-space: nowrap;
+  }
+  .helix-progress .steps {
+    display: flex; flex: 1; gap: 4px;
+  }
+  .helix-progress .step {
+    flex: 1; height: 2px;
+    background: var(--line-mute);
+    transition: background .3s ease, height .3s ease;
+  }
+  .helix-progress .step.passed { background: var(--amber-soft); }
+  .helix-progress .step.active { background: var(--amber-bright); height: 4px; }
+  .helix-progress .step.critical.active { background: var(--crimson-bright); }
+
+  /* Closing pull quote */
+  .helix-closing {
+    padding: clamp(80px, 14vh, 140px) 0;
+    background: var(--bg-base);
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .helix-closing-quote {
+    max-width: 22ch; margin: 0 auto;
+    padding: 0 var(--grid-gutter);
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+    line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 0;
+  }
+  .helix-closing-quote strong {
+    color: var(--amber); font-weight: 500; font-style: normal;
+  }
+  .helix-closing-attrib {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-mute); margin-top: 28px;
+  }
+
+  @media (max-width: 900px) {
+    .helix-viewport {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+      padding-top: 80px;
+    }
+    .helix-svg-wrap { max-height: 42vh; }
+    .helix-sticky-container { height: 900vh; }
+    .helix-progress { position: relative; bottom: auto; left: auto; right: auto; margin-top: 12px; }
+    .helix-progress .endpoint { display: none; }
+  }
+
+  /* ============== ACTO II — EL MUNDO HANTAVIRUS ============== */
+  .acto2 { background: var(--bg-deep); position: relative; }
+  .acto-intro {
+    padding: clamp(80px, 14vh, 140px) var(--grid-gutter) clamp(40px, 6vh, 80px);
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .acto-eyebrow {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 18px;
+  }
+  .acto-eyebrow::before, .acto-eyebrow::after {
+    content: ""; display: inline-block; width: 36px; height: 1px;
+    background: var(--amber); vertical-align: middle; margin: 0 14px;
+  }
+  .acto-intro h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(2.2rem, 5.5vw, 4.6rem);
+    line-height: 1.02; letter-spacing: -0.025em;
+    margin: 0 0 20px; color: var(--ink);
+  }
+  .acto-intro .acto-sub {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--ink-soft); max-width: 56ch; margin: 0 auto;
+  }
+
+  /* Escena base — 100vh con imagen background */
+  .escena {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .escena-bg {
+    position: absolute; inset: -5%;
+    width: 110%; height: 110%;
+    background-size: cover; background-position: center;
+    z-index: 0;
+    will-change: transform;
+    filter: brightness(0.7) saturate(1.1);
+  }
+  .escena-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at center, transparent 0%, rgba(2,16,30,0.55) 80%),
+      linear-gradient(180deg, rgba(2,16,30,0.65) 0%, transparent 30%, transparent 70%, rgba(2,16,30,0.8) 100%);
+  }
+  .escena-overlay-light {
+    position: absolute; inset: 0; z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(2,16,30,0.45) 60%, rgba(2,16,30,0.85) 100%);
+  }
+  .escena-content {
+    position: relative; z-index: 2;
+    max-width: var(--grid-max); margin: 0 auto;
+    padding: 0 var(--grid-gutter); width: 100%;
+  }
+  .escena-num {
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--amber); margin: 0 0 18px;
+  }
+  .escena-num::before {
+    content: ""; display: inline-block; width: 28px; height: 1px;
+    background: var(--amber); vertical-align: middle; margin-right: 14px;
+  }
+  .escena-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(2.4rem, 6vw, 5.2rem);
+    line-height: 1.02; letter-spacing: -0.028em;
+    color: var(--ink); margin: 0 0 24px;
+    max-width: 20ch;
+  }
+  .escena-sub {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--ink-soft); max-width: 60ch;
+    line-height: 1.45; margin: 0;
+  }
+  .escena-quote {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    color: var(--amber-bright); max-width: 60ch;
+    margin: 0;
+  }
+
+  /* Coordenadas (escena 2.2) */
+  .escena-coords {
+    display: flex; flex-direction: column; gap: 14px;
+    font-family: var(--font-mono);
+    margin-top: 32px;
+  }
+  .coord-mono {
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    letter-spacing: 0.12em;
+    color: var(--amber-bright);
+    text-shadow: 0 0 18px rgba(212, 160, 23, 0.4);
+  }
+  .coord-date {
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  /* Hitos Ushuaia (escena 2.3) */
+  .hitos-ushuaia {
+    list-style: none; margin: 36px 0 0; padding: 0;
+    display: flex; flex-direction: column; gap: 16px;
+    max-width: 600px;
+  }
+  .hitos-ushuaia li {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px; align-items: baseline;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line-mute);
+  }
+  .hito-date {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--amber); font-weight: 500;
+  }
+  .hito-text {
+    font-family: var(--font-display); font-size: clamp(1rem, 1.4vw, 1.2rem);
+    color: var(--ink); line-height: 1.35;
+  }
+  .hitos-ushuaia li.critical .hito-date { color: var(--crimson-bright); }
+  .hitos-ushuaia li.critical .hito-text { color: var(--ink); font-weight: 500; }
+
+  /* Barco facts (escena 2.4) */
+  .barco-facts {
+    display: flex; flex-wrap: wrap; gap: 24px 48px;
+    margin-top: 32px;
+    font-family: var(--font-display);
+  }
+  .barco-facts span {
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    color: var(--ink-soft);
+    font-style: italic;
+    padding-left: 18px;
+    border-left: 2px solid var(--amber);
+  }
+
+  /* Ruta SVG (escena 2.5) */
+  .escena-ruta { background: var(--bg-deep); }
+  .escena-ruta .escena-bg {
+    opacity: 0.18;
+    filter: brightness(0.6) saturate(1.5) sepia(0.3);
+  }
+  .ruta-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .ruta-line {
+    fill: none;
+    stroke: var(--amber);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    filter: drop-shadow(0 0 6px rgba(212, 160, 23, 0.6));
+    will-change: stroke-dashoffset;
+  }
+  .ruta-line.drawn { stroke-dashoffset: 0; transition: stroke-dashoffset 2400ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .ruta-node {
+    fill: var(--bg-deep);
+    stroke: var(--amber);
+    stroke-width: 2;
+    opacity: 0;
+    transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1) 0ms,
+                r 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ruta-node.visible { opacity: 1; }
+  .ruta-node.critical { stroke: var(--crimson-bright); filter: drop-shadow(0 0 8px rgba(196, 69, 54, 0.8)); }
+  .ruta-label {
+    font-family: var(--font-mono); font-size: 11px;
+    fill: var(--ink-soft); letter-spacing: 0.1em;
+    opacity: 0;
+    transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ruta-label.visible { opacity: 1; }
+  .ruta-stats {
+    font-family: var(--font-mono); font-size: 14px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--amber); margin: 24px 0 0;
+  }
+  .escena-ruta .escena-content {
+    align-self: flex-end;
+    padding-bottom: clamp(60px, 8vh, 100px);
+  }
+
+  /* Escena crítica (cluster) */
+  .escena-critical .escena-bg { filter: brightness(0.65) saturate(1.15); }
+  .escena-critical .escena-num { color: var(--crimson-bright); }
+  .escena-critical .escena-num::before { background: var(--crimson-bright); }
+  .escena-critical .escena-title strong { color: var(--crimson-bright); }
+
+  /* Entrance states (Emil timing: 600ms cubic-bezier) */
+  .js .escena-num,
+  .js .escena-title,
+  .js .escena-sub,
+  .js .escena-coords > *,
+  .js .hitos-ushuaia li,
+  .js .barco-facts span {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .escena-bg { transform: none !important; }
+    .ruta-line { stroke-dashoffset: 0 !important; transition: none; }
+    .ruta-node, .ruta-label { opacity: 1 !important; transition: none; }
+  }
+
+  /* ============== RESPONSIVE ============== */
+  @media (max-width: 900px) {
+    .col-card-text .col-inner { grid-template-columns: 1fr; gap: 16px; }
+    .col-card-text .col-num { font-size: 4rem; }
+    .hero-meta { gap: 18px; }
+    .hero-meta .item .value { font-size: 13px; }
+  }
+
+  /* ============== REDUCED MOTION ============== */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .scroll-cue::after { animation: none; }
+    .marquee-track { animation: none; }
+    .hero-bg, .tem-banner-image, .cta-mapa-bg { transform: none !important; }
+    .col-card-hero .col-bg-image { transform: scale(1) !important; opacity: 0.32 !important; clip-path: inset(0) !important; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#helix" class="skip-link">Saltar al contenido</a>
+
+<!-- Progress bar at top -->
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+
+<!-- Topbar with sticky concept tracker -->
+<nav class="topbar" aria-label="Navegación principal">
+  <a href="expediente.html" class="brand" aria-label="45 Digital Noticias — inicio">
+    <span class="logo" aria-hidden="true">45</span>
+    <span class="text">
+      <span class="l1">Digital Noticias</span>
+      <span class="l2">Expediente Brotes 2026</span>
+    </span>
+  </a>
+  <div class="concept-tracker" id="concept-tracker" aria-hidden="true">
+    <span class="cap-num" id="ct-num">—</span>
+    <span class="cap-name" id="ct-name">Hero</span>
+  </div>
+  <a href="expediente.html" class="nav-back">
+    <span>← Mapa interactivo</span>
+  </a>
+</nav>
+
+<!-- Roman counter sticky -->
+<aside class="roman-counter" id="roman-counter" data-label="Capítulo" aria-hidden="true">—</aside>
+
+<!-- Conductor thread (vertical SVG) -->
+<svg class="conductor-svg" id="conductor" viewBox="0 0 1 100" preserveAspectRatio="none" aria-hidden="true">
+  <line class="thread" x1="0.5" y1="0" x2="0.5" y2="100" />
+</svg>
+
+<!-- ============================================== -->
+<!-- ACTO I · EL ANTECEDENTE                        -->
+<!-- (apertura directa — sin hero previo)            -->
+<!-- Doble hélice ADN — 23 años · 12 hitos          -->
+<!-- ============================================== -->
+<section class="helix-interlude" id="helix" aria-labelledby="helix-title">
+  <div class="helix-header helix-header-opening">
+    <p class="brand-line">45 Digital Noticias · Modo cine · versión Hantavirus</p>
+    <h1 class="expediente-title">Expediente Brotes <span class="italic-accent">2026</span></h1>
+    <p class="expediente-sub">El virus es real. Lo que está prefabricado no es la crisis — es la velocidad con que la respuesta se monetiza, se mediatiza, se simboliza.</p>
+    <div class="helix-meta">
+      <span><strong>3 actos</strong> · 4 capítulos</span>
+      <span><strong>5 teóricos</strong> · Schmitt · Harvey · Klein · Lakoff · Bourdieu</span>
+      <span><strong>Datos al</strong> 26 mayo 2026</span>
+    </div>
+    <hr class="helix-sep" />
+    <p class="eyebrow">Acto I · El antecedente</p>
+    <h2 id="helix-title">El código del modelo</h2>
+    <p class="sub">23 años en doble hebra · 12 hitos · la secuencia que sostiene el cuadro entero</p>
+    <p class="intro-quote">Las dos cintas no son paralelas. Se <strong>entrelazan</strong>. En cada año señalado a lo largo del eje, una línea conecta un punto azul de la hebra legal con un punto dorado de la hebra financiera. La rotación no es decorativa: las dos hebras giran juntas. Si una se detuviera, la otra también. <strong>Las dos partes no se pueden separar.</strong></p>
+  </div>
+
+  <div class="helix-sticky-container" id="helix-scroll">
+    <div class="helix-pin-stage">
+      <div class="helix-bg-image" id="helix-bg-image"
+           style="background-image: url('_recursos/imagenes/helice-adn-glowing-blue.jpg');"
+           aria-hidden="true"></div>
+      <div class="helix-video-overlay" aria-hidden="true"></div>
+      <div class="helix-viewport">
+        <div class="helix-svg-wrap" id="helix-wrap" aria-hidden="true">
+          <!-- Three.js 3D canvas (default) -->
+          <div class="helix-canvas-3d" id="helix-canvas-3d"></div>
+          <!-- SVG fallback (hidden by CSS unless 3D fails) -->
+          <svg class="helix-svg" id="helix-svg" viewBox="0 0 400 960" preserveAspectRatio="xMidYMid meet">
+            <!-- Hebras y bases generadas por JS -->
+          </svg>
+        </div>
+        <div class="helix-info-panel" id="helix-info">
+          <p class="hp-counter"><span class="num" id="hp-num">01</span> <span style="color: var(--ink-mute);">/ 12</span></p>
+          <div class="hp-content">
+            <p class="hp-year"><span id="hp-year">2003</span> <span class="verif" id="hp-verif">✅</span></p>
+            <p class="hp-enfermedad" id="hp-enfermedad">SARS</p>
+            <h3 class="hp-titulo" id="hp-titulo">Primer ensayo global de coordinación</h3>
+            <p class="hp-resumen" id="hp-resumen">Brote en Asia, 8,098 casos, 774 muertes. La OMS coordina respuesta sin marco legal vinculante. Es el detonador político del rediseño del Reglamento Sanitario Internacional.</p>
+            <p class="hp-significancia" id="hp-significancia">Sin el SARS, no habría RSI 2005. Sin RSI 2005, no existiría la figura PHEIC tal como se usa hoy.</p>
+            <p class="hp-monto" id="hp-monto">—</p>
+            <p class="hp-actores" id="hp-actores">OMS</p>
+          </div>
+        </div>
+      </div>
+      <div class="helix-progress" aria-hidden="true">
+        <span class="endpoint">2003</span>
+        <div class="steps" id="helix-steps">
+          <!-- 12 steps inserted by JS -->
+        </div>
+        <span class="endpoint">2026</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="helix-closing">
+    <blockquote class="helix-closing-quote">Las dos partes <strong>no se pueden separar.</strong></blockquote>
+    <p class="helix-closing-attrib">— 23 años · 12 hitos · doble hebra</p>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ACTO II · EL MUNDO HANTAVIRUS                  -->
+<!-- ============================================== -->
+<section class="acto2" id="acto2" aria-labelledby="acto2-title">
+  <div class="acto-intro">
+    <p class="acto-eyebrow">Acto II</p>
+    <h2 id="acto2-title">El mundo hantavirus</h2>
+    <p class="acto-sub">Donde la hebra aterrizó. Del cono sur al Mar del Norte. Cuarenta días, cuatro países, un cluster que no se cerró.</p>
+  </div>
+
+  <!-- 2.1 · Apertura espacial -->
+  <section class="escena" id="escena-2-1" aria-labelledby="esc21-title">
+    <div class="escena-bg" style="background-image: url('_recursos/imagenes/planeta-tierra-globo-noche-nasa.jpg');"></div>
+    <div class="escena-overlay" aria-hidden="true"></div>
+    <div class="escena-content">
+      <p class="escena-num">Escena 2.1</p>
+      <h3 class="escena-title" id="esc21-title">El mundo que lo recibió</h3>
+      <p class="escena-sub">Mayo 2026. Cinco años después del COVID. Los sistemas en marcha. Las herramientas, listas.</p>
+    </div>
+  </section>
+
+  <!-- 2.2 · Descenso al cono sur -->
+  <section class="escena" id="escena-2-2" aria-labelledby="esc22-title">
+    <div class="escena-bg" style="background-image: url('_recursos/imagenes/planeta-sudamerica-sol-limbo.jpg');"></div>
+    <div class="escena-overlay" aria-hidden="true"></div>
+    <div class="escena-content">
+      <p class="escena-num">Escena 2.2</p>
+      <h3 class="escena-title" id="esc22-title">Descenso al cono sur</h3>
+      <div class="escena-coords">
+        <span class="coord-mono">USHUAIA · 54°48'S · 68°18'W</span>
+        <span class="coord-date">1 abril 2026 · 09:00 · zarpe del MV Hondius</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.3 · El puerto militarizado (Harvey en clave visual) -->
+  <section class="escena" id="escena-2-3" aria-labelledby="esc23-title">
+    <div class="escena-bg" style="background-image: url('_recursos/imagenes/ushuaia-port.jpg');"></div>
+    <div class="escena-overlay" aria-hidden="true"></div>
+    <div class="escena-content">
+      <p class="escena-num">Escena 2.3</p>
+      <h3 class="escena-title" id="esc23-title">El puerto militarizado</h3>
+      <p class="escena-sub">Dieciocho meses, ocho hitos, un solo eje territorial. Lo que también salió de Ushuaia.</p>
+      <ul class="hitos-ushuaia">
+        <li><span class="hito-date">nov 2024</span><span class="hito-text">Milei visita Mar-a-Lago — primer extranjero post-Trump</span></li>
+        <li><span class="hito-date">feb 2025</span><span class="hito-text">Discurso CPAC: alineamiento EE.UU. + Israel</span></li>
+        <li><span class="hito-date">oct 2025</span><span class="hito-text">Decreto 697 · tropas EE.UU. sin pasar por Congreso</span></li>
+        <li><span class="hito-date">71.5%</span><span class="hito-text">en desacuerdo (encuesta nacional 2025)</span></li>
+        <li class="critical"><span class="hito-date">17 mar 2026</span><span class="hito-text">Argentina concreta salida de la OMS</span></li>
+        <li class="critical"><span class="hito-date">1 abr 2026</span><span class="hito-text">Zarpa el MV Hondius desde Ushuaia</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2.4 · El barco -->
+  <section class="escena" id="escena-2-4" aria-labelledby="esc24-title">
+    <div class="escena-bg" style="background-image: url('_recursos/imagenes/mv-hondius-atracado-proa.jpg');"></div>
+    <div class="escena-overlay" aria-hidden="true"></div>
+    <div class="escena-content">
+      <p class="escena-num">Escena 2.4</p>
+      <h3 class="escena-title" id="esc24-title">MV HONDIUS</h3>
+      <p class="escena-sub">Crucero polar de bandera holandesa, Polar Class 6, 170 plazas. Operado por Oceanwide Expeditions.</p>
+      <div class="barco-facts">
+        <span>147 personas a bordo</span>
+        <span>Cargamento de tiempo libre</span>
+        <span>Rumbo a la Antártida</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.5 · La ruta dibujándose (SVG) -->
+  <section class="escena escena-ruta" id="escena-2-5" aria-labelledby="esc25-title">
+    <div class="escena-bg" style="background-image: url('_recursos/imagenes/mapa-papel-antiguo.jpg');"></div>
+    <div class="escena-overlay" aria-hidden="true"></div>
+    <svg class="ruta-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <!-- Ruta del MV Hondius: Ushuaia → Tristán da Cunha → Tenerife → Rotterdam -->
+      <path class="ruta-line" id="ruta-line"
+            d="M180,520 Q300,460 380,400 Q470,340 540,300 Q620,260 700,210 Q780,150 880,90"
+            stroke="var(--amber)" stroke-width="2" fill="none" />
+      <!-- Nodos cronológicos -->
+      <g class="ruta-nodos">
+        <circle class="ruta-node" cx="180" cy="520" r="6" data-step="0"></circle>
+        <text class="ruta-label" x="180" y="550" text-anchor="middle" data-step="0">USHUAIA · 1-abr</text>
+
+        <circle class="ruta-node critical" cx="540" cy="300" r="7" data-step="1"></circle>
+        <text class="ruta-label" x="540" y="335" text-anchor="middle" data-step="1">TRISTÁN DA CUNHA · 20-abr · caso índice</text>
+
+        <circle class="ruta-node" cx="700" cy="210" r="6" data-step="2"></circle>
+        <text class="ruta-label" x="700" y="200" text-anchor="middle" data-step="2">TENERIFE · 4-may · cuarentena</text>
+
+        <circle class="ruta-node critical" cx="880" cy="90" r="7" data-step="3"></circle>
+        <text class="ruta-label" x="880" y="80" text-anchor="middle" data-step="3">ROTTERDAM · 18-may · cluster</text>
+      </g>
+    </svg>
+    <div class="escena-content">
+      <p class="escena-num">Escena 2.5</p>
+      <h3 class="escena-title" id="esc25-title">Cuarenta días en el mar</h3>
+      <p class="ruta-stats">4 países en cuarentena · 12 naciones involucradas</p>
+    </div>
+  </section>
+
+  <!-- 2.6 · El cluster persistente -->
+  <section class="escena escena-critical" id="escena-2-6" aria-labelledby="esc26-title">
+    <div class="escena-bg" style="background-image: url('_recursos/imagenes/mv-hondius-zodiac-ballena.jpg');"></div>
+    <div class="escena-overlay-light" aria-hidden="true"></div>
+    <div class="escena-content">
+      <p class="escena-num">Escena 2.6</p>
+      <h3 class="escena-title" id="esc26-title">El cluster no se cerró</h3>
+      <p class="escena-quote">22 mayo 2026 · RIVM y Erasmus MC confirman primer positivo entre la tripulación · trece días después de cuarentena. La hebra que la hélice dibujó terminó aquí: un punto activo, una ballena, un sistema en marcha.</p>
+    </div>
+  </section>
+</section>
+
+<!-- ============================================== -->
+<!-- ACTO III · LECTURA CRÍTICA                     -->
+<!-- ============================================== -->
+
+<!-- ============================================== -->
+<!-- CAPÍTULO I — EL BARCO Y LA DECISIÓN SOBERANA   -->
+<!-- (Schmitt + Harvey · cols 06 + 05)              -->
+<!-- ============================================== -->
+<section class="chapter" id="cap-1" data-cap-num="I" data-cap-name="El barco y la decisión soberana · Schmitt + Harvey">
+  <div class="chapter-header">
+    <p class="chapter-roman">I</p>
+    <div class="chapter-info">
+      <div class="ch-eyebrow">Acto III · Capítulo primero</div>
+      <h2 class="ch-title">El barco y la decisión soberana</h2>
+      <p class="ch-concept">Carl Schmitt — <em>El concepto de lo político</em> (1932): <em>"Soberano es quien decide sobre la excepción"</em>. David Harvey — <em>El nuevo imperialismo</em> (2003): el <strong style="color:var(--amber);font-style:normal">spatial fix</strong>. Cuando un poder hegemónico enfrenta una crisis estructural, su salida es reordenar el espacio geográfico — y la decisión que abre esa reorganización es siempre acto soberano.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 — Quince días antes de Ushuaia (con imagen ushuaia-port) -->
+<article class="col-card-hero" aria-labelledby="col6-title">
+  <div class="col-bg">
+    <div class="col-bg-image" style="background-image: url('_recursos/imagenes/ushuaia-port.jpg');"></div>
+  </div>
+  <div class="col-content">
+    <div>
+      <span class="col-tag">Columna · 18 mayo 2026</span>
+      <div class="col-date">5 min de lectura</div>
+    </div>
+    <h3 class="col-titulo" id="col6-title">Quince días antes de Ushuaia</h3>
+    <p class="col-bajada">Quince días antes de que el MV Hondius zarpara de Ushuaia, Argentina concretó su salida de la OMS. La excepción la decidió un acto soberano. La excepción llegó en barco. Carl Schmitt nombró ese acto en 1932 con sequedad de jurista — y aplica con precisión inquietante al cuadro de marzo-abril de 2026.</p>
+    <div class="col-meta">
+      <span class="concepto">Vinculo con Carl Schmitt — <em>"Soberano es quien decide sobre la excepción"</em></span>
+    </div>
+    <a class="col-cta" href="expediente.html#quince-dias-antes-de-ushuaia">
+      <span>Leer columna completa</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>
+
+<!-- BRIDGE -->
+<div class="bridge">
+  <p class="bridge-mark">✦</p>
+  <p class="bridge-text">El puerto del que zarpó el barco no es un puerto cualquiera. Es <strong>el puerto más militarizado por Estados Unidos en territorio argentino</strong>. Lo que también salió de Ushuaia, junto con el virus, fue una hipótesis territorial nueva.</p>
+</div>
+
+<!-- 05 — Lo que también salió de Ushuaia (con imagen MV Hondius) -->
+<article class="col-card-hero" aria-labelledby="col5-title">
+  <div class="col-bg">
+    <div class="col-bg-image" style="background-image: url('_recursos/imagenes/mv-hondius-svalbard-2025.jpg');"></div>
+  </div>
+  <div class="col-content">
+    <div>
+      <span class="col-tag">Columna · 19 mayo 2026</span>
+      <div class="col-date">7 min de lectura</div>
+    </div>
+    <h3 class="col-titulo" id="col5-title">Lo que también salió de Ushuaia</h3>
+    <p class="col-bajada">Ushuaia no es solo el puerto del que zarpó el MV Hondius. Es la ciudad más militarizada por Estados Unidos en territorio argentino. Dieciocho meses, ocho hitos, un solo eje territorial — y a veintitrés días, el Mundial. Harvey lo nombró en 2003 con cuatro palabras secas: <em>spatial fix</em>. El imperio se mantiene mediante geografía.</p>
+    <div class="col-meta">
+      <span class="concepto">David Harvey — <em>El nuevo imperialismo</em> (Oxford UP, 2003): <em>spatial fix</em> / ajuste espacial</span>
+    </div>
+    <a class="col-cta" href="expediente.html#lo-que-tambien-salio-de-ushuaia">
+      <span>Leer columna completa</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>
+
+<!-- DATA SHOT — Mundial -->
+<section class="data-shot" aria-label="Dato pivote">
+  <div class="data-shot-inner">
+    <div class="ds-eyebrow">El sistema receptor</div>
+    <p class="ds-number">78 partidos</p>
+    <p class="ds-label">De los 104 partidos del Mundial 2026, el setenta y cinco por ciento se juega en Estados Unidos — el país que se acaba de salir de la OMS. Decenas de millones de visitantes en sesenta días, bajo bandera continental que ya no incluye Ginebra.</p>
+    <p class="ds-source">FIFA, calendario oficial · MetLife Stadium 19-jul-2026 (final)</p>
+  </div>
+</section>
+
+<!-- Schmitt en clave Cap I (continuación) — pull quote + data shot dual -->
+<!-- PULL QUOTE Schmitt -->
+<section class="pull-quote" aria-label="Cita de Carl Schmitt">
+  <div class="pull-quote-inner">
+    <blockquote class="pull-quote-text">Soberano es quien decide sobre la excepción</blockquote>
+    <p class="pull-quote-attrib">Carl Schmitt · El concepto de lo político · 1932</p>
+  </div>
+</section>
+
+<!-- DATA SHOT — asimetría OMS -->
+<section class="data-shot dual" aria-label="Dato pivote">
+  <div class="data-shot-inner">
+    <div class="ds-eyebrow">Asimetría de la decisión soberana</div>
+    <div class="ds-numbers">
+      <span><p class="ds-number ds-number-small">USD 681 M</p><p class="ds-source">EE.UU. — cuota anual OMS</p></span>
+      <span class="vs">vs</span>
+      <span><p class="ds-number ds-number-small">USD 1.13 M</p><p class="ds-source">Argentina — cuota anual OMS</p></span>
+    </div>
+    <p class="ds-label">La salida de Trump revienta el balance bianual de Ginebra: déficit estimado <strong style="color:var(--amber)">USD 1,900 millones</strong>. La salida de Milei cuesta cero al fisco internacional — pero replica el gesto. La asimetría es el dato.</p>
+    <p class="ds-source">HHS Fact Sheet · Health Policy Watch · Chequeado</p>
+  </div>
+</section>
+
+<!-- BRIDGE -->
+<div class="bridge">
+  <p class="bridge-mark">✦</p>
+  <p class="bridge-text">Si la salida de la arquitectura multilateral es <strong>decisión soberana</strong>, lo que reemplaza la coordinación pública son <strong>contratos bilaterales sin escrutinio de Ginebra</strong>. Y para esos contratos, alguien ya tenía la respuesta lista antes de que la pregunta tuviera nombre público.</p>
+</div>
+
+<!-- ============================================== -->
+<!-- CAPÍTULO II — EL SISTEMA EN MARCHA             -->
+<!-- (Klein + Lakoff · col 04 transversal)          -->
+<!-- ============================================== -->
+<section class="chapter" id="cap-2-sistema" data-cap-num="II" data-cap-name="El sistema en marcha · Klein + Lakoff">
+  <div class="chapter-header">
+    <p class="chapter-roman">II</p>
+    <div class="chapter-info">
+      <div class="ch-eyebrow">Acto III · Capítulo segundo</div>
+      <h2 class="ch-title">El sistema en marcha</h2>
+      <p class="ch-concept">Naomi Klein — <em>La doctrina del shock</em> (Paidós, 2007) · Andrew Lakoff — <em>Unprepared</em> (UC Press, 2017). <strong style="color:var(--amber);font-style:normal">Capitalismo del desastre</strong> + <strong style="color:var(--amber);font-style:normal">preparedness</strong>: las soluciones están listas antes de que la pregunta tenga nombre público. No requiere conspiración — requiere infraestructura permanente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR FRAME — Naomi Klein -->
+<section class="author-frame">
+  <div class="author-frame-inner">
+    <div class="author-portrait">
+      <img src="_recursos/imagenes/naomi-klein-shankbone-2011.jpg" alt="Naomi Klein hablando en un foro abierto durante Occupy Wall Street, Nueva York, 6 de octubre de 2011. Retrato de David Shankbone." loading="lazy" />
+    </div>
+    <div class="author-meta">
+      <div class="label">Teórica del capítulo</div>
+      <h3 class="name">Naomi Klein</h3>
+      <p class="dates">Montreal, 1970 — periodista, ensayista, activista anti-globalización</p>
+      <p class="work"><em>La doctrina del shock: el auge del capitalismo del desastre</em> (Knopf Canada, 2007 · Paidós, 2007)</p>
+      <p class="desc">Tesis seca y a menudo malinterpretada: no es que las crisis sean fabricadas. Es que <strong style="color:var(--amber)">las soluciones están listas antes de que la pregunta tenga nombre público</strong>, y la crisis sirve de palanca para escalarlas. La velocidad de despliegue es el indicador estructural.</p>
+      <p class="credit">Foto: David Shankbone · CC BY 3.0 · Occupy Wall Street, NY, 2011</p>
+    </div>
+  </div>
+</section>
+
+<!-- DATA SHOT — 13 días vs 11 meses (hantavirus context, no Mapp ébola) -->
+<section class="data-shot" aria-label="Dato pivote preparedness">
+  <div class="data-shot-inner">
+    <div class="ds-eyebrow">Velocidad institucional</div>
+    <p class="ds-number">13 días</p>
+    <p class="ds-label">Entre la alerta epidemiológica del MV Hondius (4-may-2026) y la consolidación del cluster en Rotterdam (18-may). Compare con 11 meses para PHEIC del brote Kivu 2018-2019. <strong style="color:var(--amber)">La fricción jurídica se desplomó.</strong> Las herramientas estaban listas.</p>
+    <p class="ds-source">OMS DON601 · ECDC Threat Assessment · BARDA pipeline data</p>
+  </div>
+</section>
+
+<!-- BRIDGE -->
+<div class="bridge">
+  <p class="bridge-mark">✦</p>
+  <p class="bridge-text">Lo que vimos en la hélice no es teoría — <strong>es el sistema completo en marcha</strong>. Veintitrés años de andamio legal, cuatro actores principales — BARDA, CEPI, Moderna, Bavarian Nordic — y doce hitos pandémicos. El virus no es el accidente del sistema. Es su materia prima.</p>
+</div>
+
+<!-- 04 — Capitalismo de preparación pandémica -->
+<article class="col-card-text">
+  <div class="col-inner">
+    <div>
+      <div class="col-num">04</div>
+      <div class="col-num-sub">Lakoff · Klein · Harvey</div>
+    </div>
+    <div class="col-body">
+      <span class="col-tag">20 de mayo de 2026 · Transversal</span>
+      <div class="col-date">8 min de lectura</div>
+      <h3 class="col-titulo">Capitalismo de preparación pandémica</h3>
+      <p class="col-bajada">Trece días entre alerta y emergencia internacional para una cepa que llevaba catorce años fuera del radar. Cuatro meses antes, CEPI ya había firmado el contrato. Veintitrés años de andamio legal y financiero hacen visible un patrón. El virus no es el accidente del sistema — es su materia prima.</p>
+      <p class="col-concepto">Andrew Lakoff — <em>Unprepared</em> (UC Press, 2017). <em>Preparedness</em>: incertidumbre futura convertida en flujo continuo de inversión.</p>
+      <a class="col-cta secondary" href="expediente.html#capitalismo-de-preparacion-pandemica">
+        <span>Leer columna</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+<!-- TEM BANNER — hantavirus electron micrograph -->
+<section class="tem-banner" aria-label="Imagen científica">
+  <div class="tem-banner-image" id="tem-image"></div>
+  <div class="tem-banner-inner">
+    <div class="tem-banner-eyebrow">Sin Nombre virus — micrografía electrónica</div>
+    <p class="tem-banner-title">El patógeno detrás del cuadro. Partículas esféricas con envolvente viral visible y proyecciones de superficie — el mismo género que el virus Andes endémico en el cono sur.</p>
+    <p class="tem-banner-caption">CDC / Cynthia Goldsmith · PHIL 1136 · Dominio público</p>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- CAPÍTULO III — EL CAMPO QUE DECIDE QUÉ SE VE   -->
+<!-- (Bourdieu · col 08 + col 07)                   -->
+<!-- ============================================== -->
+<section class="chapter deep" id="cap-3-bourdieu" data-cap-num="III" data-cap-name="El campo que decide · Pierre Bourdieu">
+  <div class="chapter-header">
+    <p class="chapter-roman">III</p>
+    <div class="chapter-info">
+      <div class="ch-eyebrow">Acto III · Capítulo tercero</div>
+      <h2 class="ch-title">El campo que decide qué se ve</h2>
+      <p class="ch-concept">Pierre Bourdieu — <em>Sobre la televisión</em> (Anagrama, 1997; orig. francés 1996). El campo periodístico opera con una lógica propia que <strong style="color:var(--amber);font-style:normal">no coincide necesariamente con la jerarquía estructural de los hechos</strong>. Lo que entra al campo y lo que queda fuera responde a urgencia, espectáculo, audiencia y ortodoxia editorial.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR FRAME — Pierre Bourdieu -->
+<section class="author-frame deep">
+  <div class="author-frame-inner">
+    <div class="author-portrait">
+      <img src="_recursos/imagenes/pierre-bourdieu-lambert-1996.jpg" alt="Pierre Bourdieu en 1996. Retrato de Bernard Lambert." loading="lazy" />
+    </div>
+    <div class="author-meta">
+      <div class="label">Teórico del capítulo</div>
+      <h3 class="name">Pierre Bourdieu</h3>
+      <p class="dates">Denguin, 1930 — París, 2002 · sociólogo</p>
+      <p class="work"><em>Sobre la televisión</em> (Liber-Raisons d'agir, 1996 · Anagrama, 1997)</p>
+      <p class="desc">El campo periodístico premia atributos mediáticos, no peso estructural. <strong style="color:var(--amber)">Cada redacción opera bajo presión de las otras</strong>, y todas se vigilan a sí mismas con la mirada de la competencia. Lo que cumple los requisitos epidemiológicos del escenario que viene — pero no los requisitos mediáticos — se queda en el pie de página.</p>
+      <p class="credit">Foto: Bernard Lambert · CC BY-SA 4.0 · 1996</p>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE Bourdieu -->
+<section class="pull-quote" aria-label="Cita de Pierre Bourdieu">
+  <div class="pull-quote-inner">
+    <blockquote class="pull-quote-text">La urgencia del campo genera un pensamiento programado que pierde la posibilidad de pensar lo no urgente</blockquote>
+    <p class="pull-quote-attrib">Pierre Bourdieu · Sobre la televisión · 1996</p>
+  </div>
+</section>
+
+<!-- BRIDGE -->
+<div class="bridge">
+  <p class="bridge-mark">✦</p>
+  <p class="bridge-text">El campo periodístico no solo decide qué entra al noticiero. <strong>Decide también qué queda viendo el público</strong> durante el resto del día — series, films, plataformas. La pantalla cautiva del confinamiento volvió, esta vez por otros canales.</p>
+</div>
+
+<!-- 08 — Pantalla cautiva -->
+<article class="col-card-hero" aria-labelledby="col8-title">
+  <div class="col-bg">
+    <div class="col-bg-image" style="background-image: url('2026-05-14/economist-2026-banda-narrativa.jpg');"></div>
+  </div>
+  <div class="col-content">
+    <div>
+      <span class="col-tag">Columna · 14 mayo 2026</span>
+      <div class="col-date">Antecedente del expediente</div>
+    </div>
+    <h3 class="col-titulo" id="col8-title">Pantalla cautiva — el segundo gran año del entretenimiento</h3>
+    <p class="col-bajada">El streaming consolidó su segundo gran ciclo de oro durante el confinamiento. La portada de <em>The Economist</em> ya lo anticipaba en 2026 con su banda narrativa. Lo que se mira en pantalla — es también una forma de gobierno.</p>
+    <a class="col-cta" href="expediente.html#pantalla-cautiva">
+      <span>Leer columna completa</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>
+
+<!-- 07 — Cuatro rostros del expediente (rescatado del bloque ébola eliminado, ahora dentro de Cap III hantavirus) -->
+<article class="col-card-hero" aria-labelledby="col7-title">
+  <div class="col-bg">
+    <div class="col-bg-image" style="background-image: url('2026-05-15/20251220_DE_SQ_US.jpg');"></div>
+  </div>
+  <div class="col-content">
+    <div>
+      <span class="col-tag">Columna · 15 mayo 2026</span>
+      <div class="col-date">Síntesis visual</div>
+    </div>
+    <h3 class="col-titulo" id="col7-title">Cuatro rostros del expediente</h3>
+    <p class="col-bajada">Cuatro portadas, cuatro símbolos. Cada rostro condensa una hipótesis editorial sobre lo que estamos mirando — del crucero a la Met Gala, de la doctrina del shock al campo periodístico. La constelación se lee también en los rostros.</p>
+    <a class="col-cta" href="expediente.html#cuatro-rostros-del-expediente">
+      <span>Leer columna completa</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>
+
+<!-- BRIDGE final Cap III hantavirus -->
+<div class="bridge">
+  <p class="bridge-mark">✦</p>
+  <p class="bridge-text">Lo que el campo no cubre, el sistema lo retiene. <strong>Lo que se instauró como excepción se vuelve rutina</strong>, y los mecanismos del confinamiento siguen ahí — solo cambiaron de nombre.</p>
+</div>
+
+<!-- ============================================== -->
+<!-- CAPÍTULO IV — LA ARQUITECTURA QUE QUEDÓ        -->
+<!-- (Coda histórica · col 09 + col 10)             -->
+<!-- ============================================== -->
+<section class="chapter deep" id="cap-4-coda" data-cap-num="IV" data-cap-name="La arquitectura que quedó · Coda">
+  <div class="chapter-header">
+    <p class="chapter-roman">IV</p>
+    <div class="chapter-info">
+      <div class="ch-eyebrow">Acto III · Coda</div>
+      <h2 class="ch-title">La arquitectura que quedó</h2>
+      <p class="ch-concept">Cinco años después del COVID, los mecanismos institucionales que se instauraron como excepción siguen ahí — solo que ahora se llaman <strong style="color:var(--amber);font-style:normal">rutina</strong>. La constelación del 2020, leída desde 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 — La arquitectura que quedó -->
+<article class="col-card-text">
+  <div class="col-inner">
+    <div>
+      <div class="col-num">09</div>
+      <div class="col-num-sub">Cinco años después del COVID</div>
+    </div>
+    <div class="col-body">
+      <span class="col-tag">13 de mayo de 2026 · Antecedente</span>
+      <div class="col-date">Coda histórica</div>
+      <h3 class="col-titulo">La arquitectura que quedó</h3>
+      <p class="col-bajada">Cinco años después del COVID, los mecanismos institucionales que se instauraron como excepción siguen ahí. La portada UK de <em>The Economist</em> del 10 de octubre de 2020 ya lo anunciaba: ganadores y perdedores del reordenamiento — y los ganadores son siempre los mismos.</p>
+      <a class="col-cta secondary" href="expediente.html#la-arquitectura-que-quedo">
+        <span>Leer columna</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+<!-- 10 — Cuando el mundo para -->
+<article class="col-card-hero" aria-labelledby="col10-title">
+  <div class="col-bg">
+    <div class="col-bg-image" style="background-image: url('2026-05-13/the-economist-world-ahead-2026.png');"></div>
+  </div>
+  <div class="col-content">
+    <div>
+      <span class="col-tag">Columna · 13 mayo 2026 · Antecedente fundacional</span>
+      <div class="col-date">Origen del expediente</div>
+    </div>
+    <h3 class="col-titulo" id="col10-title">Cuando el mundo para</h3>
+    <p class="col-bajada">La portada de <em>The World Ahead 2026</em> ilustrada por Andrew Rae anticipó el cuadro completo cinco meses antes: el sistema que se reorganiza para responder, antes de que la pregunta tenga nombre público. La pieza inaugural del expediente — y, vista hoy, su clave de lectura.</p>
+    <a class="col-cta" href="expediente.html#cuando-el-mundo-para">
+      <span>Leer columna completa</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>
+
+<!-- ============================================== -->
+<!-- CTA MAPA                                       -->
+<!-- ============================================== -->
+<section class="cta-mapa" aria-labelledby="cta-mapa-title">
+  <div class="cta-mapa-bg" id="cta-mapa-bg"></div>
+  <div class="cta-mapa-inner">
+    <div class="cta-mapa-eyebrow">Versión operativa del expediente</div>
+    <h2 class="cta-mapa-title" id="cta-mapa-title">Mapa, casos por país, boletín oficial, comparativo Hantavirus·Ébola</h2>
+    <p class="cta-mapa-desc">El dashboard completo del expediente. Cronología de 21 eventos · 11 países con cifras · declaraciones oficiales OMS / CDC / ECDC / OPS · lector fullscreen de las diez columnas · bloque comparativo con tres gráficos por brote.</p>
+    <a href="expediente.html" class="cta-mapa-button" id="cta-button">
+      <span>Entrar al mapa interactivo</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p class="firma">45 Digital Noticias.</p>
+  <p class="footer-meta">Programa 9–10 a.m. · Lectura sistémica · <a href="expediente.html">mapa interactivo</a> · <a href="_recursos/CREDITOS.md">créditos de imágenes</a></p>
+  <p class="credits-note">
+    Imágenes editoriales bajo licencia libre: Stefan Brending (MV Hondius, CC BY-SA 3.0 DE) · CDC/Cynthia Goldsmith (hantavirus TEM, dominio público) · David Shankbone (Naomi Klein, CC BY 3.0) · Charlotte Joel (Walter Benjamin, 1929, dominio público) · Bernard Lambert (Pierre Bourdieu, CC BY-SA 4.0) · Wikimedia Commons (Ushuaia, MetLife). Portadas de The Economist incluidas como cita editorial.
+  </p>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ====== TOPBAR scrolled state ======
+  const topbar = document.querySelector('.topbar');
+  const progressBar = document.getElementById('progress-bar');
+
+  const updateProgress = () => {
+    const scrolled = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = max > 0 ? (scrolled / max) * 100 : 0;
+    progressBar.style.width = pct + '%';
+    if (scrolled > 24) topbar.classList.add('scrolled');
+    else topbar.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // ====== Concept tracker + Roman counter ======
+  const chapters = Array.from(document.querySelectorAll('.chapter[data-cap-num]'));
+  const tracker = document.getElementById('concept-tracker');
+  const trackerNum = document.getElementById('ct-num');
+  const trackerName = document.getElementById('ct-name');
+  const roman = document.getElementById('roman-counter');
+
+  let activeChapter = null;
+  const updateActiveChapter = () => {
+    let next = null;
+    const fold = window.innerHeight * 0.35;
+    chapters.forEach(ch => {
+      const r = ch.getBoundingClientRect();
+      if (r.top <= fold) next = ch;
+    });
+    if (next !== activeChapter) {
+      activeChapter = next;
+      if (next) {
+        const num = next.dataset.capNum;
+        const name = next.dataset.capName;
+        trackerNum.textContent = num;
+        trackerName.textContent = name;
+        tracker.classList.add('visible');
+        roman.textContent = num;
+        roman.classList.add('visible');
+      } else {
+        tracker.classList.remove('visible');
+        roman.classList.remove('visible');
+      }
+    }
+  };
+  window.addEventListener('scroll', updateActiveChapter, { passive: true });
+  updateActiveChapter();
+
+  // Fallback if GSAP fails OR reduced motion
+  if (typeof gsap === 'undefined' || prefersReduced) {
+    document.documentElement.classList.remove('js');
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // (HERO + MARQUEE + TESIS removed in v3 — helix is now the opening section)
+
+  // ====== Helix opening header entrance — replaces former hero timeline ======
+  const openingHeader = document.querySelector('.helix-header-opening');
+  if (openingHeader) {
+    const openingTl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    openingTl
+      .from('.brand-line', { opacity: 0, y: 16, duration: 0.7 }, 0.2)
+      .from('.expediente-title', { opacity: 0, y: 30, duration: 1.0 }, 0.4)
+      .from('.expediente-sub', { opacity: 0, y: 20, duration: 0.8 }, 0.7)
+      .from('.helix-meta span', { opacity: 0, y: 14, duration: 0.55, stagger: 0.08 }, 0.95)
+      .from('.helix-sep', { opacity: 0, scaleX: 0, duration: 0.7, transformOrigin: 'center' }, 1.3)
+      .from('.helix-header .eyebrow', { opacity: 0, y: 16, duration: 0.6 }, 1.55)
+      .from('#helix-title', { opacity: 0, y: 20, duration: 0.7 }, 1.7)
+      .from('.helix-header .sub', { opacity: 0, y: 14, duration: 0.6 }, 1.9)
+      .from('.intro-quote', { opacity: 0, y: 14, duration: 0.7 }, 2.1);
+  }
+
+  // ====== Data shots — animate number ======
+  gsap.utils.toArray('.data-shot').forEach(shot => {
+    gsap.from(shot.querySelector('.ds-eyebrow'), {
+      opacity: 0, y: 20, duration: 0.6, ease: 'power2.out',
+      scrollTrigger: { trigger: shot, start: 'top 80%', once: true }
+    });
+    gsap.from(shot.querySelectorAll('.ds-number, .ds-number-small'), {
+      opacity: 0, y: 40, scale: 0.92, duration: 0.9, ease: 'power3.out', stagger: 0.15,
+      scrollTrigger: { trigger: shot, start: 'top 78%', once: true }
+    });
+    gsap.from(shot.querySelectorAll('.ds-label, .ds-source, .vs'), {
+      opacity: 0, y: 20, duration: 0.7, ease: 'power2.out', stagger: 0.1,
+      scrollTrigger: { trigger: shot, start: 'top 75%', once: true }
+    });
+  });
+
+  // ====== Chapter header entrance ======
+  gsap.utils.toArray('.chapter-header').forEach(header => {
+    gsap.from(header.querySelector('.chapter-roman'), {
+      opacity: 0, x: -40, duration: 1.0, ease: 'power3.out',
+      scrollTrigger: { trigger: header, start: 'top 80%', once: true }
+    });
+    gsap.from(header.querySelectorAll('.ch-eyebrow, .ch-title, .ch-concept'), {
+      opacity: 0, y: 30, duration: 0.8, ease: 'power2.out', stagger: 0.1,
+      scrollTrigger: { trigger: header, start: 'top 78%', once: true }
+    });
+  });
+
+  // ====== Pull quotes — scale entrance ======
+  gsap.utils.toArray('.pull-quote').forEach(pq => {
+    gsap.from(pq.querySelector('.pull-quote-text'), {
+      opacity: 0, scale: 0.92, duration: 1.1, ease: 'power3.out',
+      scrollTrigger: { trigger: pq, start: 'top 75%', once: true }
+    });
+    gsap.from(pq.querySelector('.pull-quote-attrib'), {
+      opacity: 0, y: 20, duration: 0.7, ease: 'power2.out', delay: 0.3,
+      scrollTrigger: { trigger: pq, start: 'top 75%', once: true }
+    });
+  });
+
+  // ====== Author frame entrance ======
+  gsap.utils.toArray('.author-frame').forEach(frame => {
+    gsap.from(frame.querySelector('.author-portrait'), {
+      opacity: 0, x: -40, duration: 1.0, ease: 'power3.out',
+      scrollTrigger: { trigger: frame, start: 'top 78%', once: true }
+    });
+    gsap.from(frame.querySelectorAll('.author-meta .label, .author-meta .name, .author-meta .dates, .author-meta .work, .author-meta .desc, .author-meta .credit'), {
+      opacity: 0, y: 25, duration: 0.7, ease: 'power2.out', stagger: 0.08,
+      scrollTrigger: { trigger: frame, start: 'top 75%', once: true }
+    });
+  });
+
+  // ====== Bridge text entrance ======
+  gsap.utils.toArray('.bridge').forEach(b => {
+    gsap.from(b.children, {
+      opacity: 0, y: 24, duration: 0.7, ease: 'power2.out', stagger: 0.15,
+      scrollTrigger: { trigger: b, start: 'top 80%', once: true }
+    });
+  });
+
+  // ====== Col-card-hero — image expand on scroll ======
+  gsap.utils.toArray('.col-card-hero').forEach(card => {
+    const img = card.querySelector('.col-bg-image');
+    if (!img) return;
+    gsap.fromTo(img,
+      { scale: 0.7, opacity: 0.22, clipPath: 'inset(15% 15% 15% 15%)' },
+      {
+        scale: 1.1, opacity: 0.52, clipPath: 'inset(0% 0% 0% 0%)',
+        ease: 'none',
+        scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 0.8 }
+      }
+    );
+    const content = card.querySelector('.col-content');
+    gsap.from(content.children, {
+      opacity: 0, y: 30, duration: 0.7, ease: 'power2.out', stagger: 0.1,
+      scrollTrigger: { trigger: card, start: 'top 70%', once: true }
+    });
+  });
+
+  // ====== Col-card-text — reveal ======
+  gsap.utils.toArray('.col-card-text .col-inner').forEach(inner => {
+    gsap.to(inner, {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+      scrollTrigger: { trigger: inner, start: 'top 78%', once: true }
+    });
+  });
+
+  // ====== TEM banner parallax ======
+  gsap.to('#tem-image', {
+    yPercent: 18, ease: 'none',
+    scrollTrigger: { trigger: '.tem-banner', start: 'top bottom', end: 'bottom top', scrub: true }
+  });
+
+  // ====== CTA mapa background parallax ======
+  gsap.to('#cta-mapa-bg', {
+    yPercent: 18, ease: 'none',
+    scrollTrigger: { trigger: '.cta-mapa', start: 'top bottom', end: 'bottom top', scrub: true }
+  });
+
+  // ====== HELIX DNA — Interludio · El código del modelo ======
+  // 12 hitos del andamio legal + financiero 2003-2026 (verificado, data-hitos.js)
+  const HITOS = [
+    { año: '2003', enfermedad: 'SARS', titulo: 'Primer ensayo global de coordinación', resumen: 'Brote en Asia, 8,098 casos, 774 muertes. La OMS coordina respuesta sin marco legal vinculante. Detonador político del rediseño del Reglamento Sanitario Internacional.', significancia: 'Sin el SARS, no habría RSI 2005. Sin RSI 2005, no existiría la figura PHEIC tal como se usa hoy.', monto: null, actores: 'OMS', verif: '✅', critico: false },
+    { año: '2005', enfermedad: 'RSI revisado', titulo: 'El andamio legal del PHEIC', resumen: 'La 58ª Asamblea Mundial de la Salud aprueba el Reglamento Sanitario Internacional revisado. Vigente desde 15 junio 2007. Crea la figura PHEIC con poder vinculante sobre 196 Estados firmantes.', significancia: 'Documento jurídico clave: sin este andamio, las pandemias siguientes no tendrían palanca legal para movilizar stockpiles, contratos y restricciones.', monto: null, actores: 'OMS · Estados firmantes RSI', verif: '✅', critico: false },
+    { año: '2009', enfermedad: 'Gripe A (H1N1)', titulo: 'El modelo Tamiflu', resumen: 'PHEIC declarado 11 junio 2009. 70+ gobiernos stockpilearon Tamiflu (Roche): 220M de tratamientos a $6.9 mil M. BMJ destapa en 2010 conflictos de interés no declarados entre asesores OMS y Roche/GSK.', significancia: 'Modelo financiero de captura farmacéutica nace aquí. Cochrane 2014 demostró eficacia limitada de Tamiflu. Stockpile = pérdida confirmada.', monto: '$6.9 mil M · Tamiflu stockpile global', actores: 'Roche · GSK · OMS', verif: '✅', critico: false },
+    { año: '2014', enfermedad: 'Ébola África Occidental', titulo: 'BARDA entra en escena', resumen: 'PHEIC declarado 8 agosto 2014. >28,600 casos, >11,300 muertes. BARDA financia con $214M acumulados a Merck (vía NewLink Genetics) para desarrollar Ervebo. Aprobación FDA: diciembre 2019.', significancia: 'BARDA establece el modelo de pipeline subsidiado: emergencia → I+D → aprobación 5 años después → listo para el siguiente brote.', monto: '$214M · Ervebo (Merck)', actores: 'BARDA · Merck · NewLink Genetics', verif: '✅', critico: false },
+    { año: '2016', enfermedad: 'Zika', titulo: 'Mega-evento + emergencia', resumen: 'PHEIC declarado 1 febrero 2016, explícitamente vinculado a JJOO Río agosto 2016. Obama solicita $1.8 mil M de emergencia al Congreso. $589M reasignados desde fondos ébola sin gastar.', significancia: 'Confirma la lógica del mega-evento como activador. Plantilla replicable: JJOO Río 2016 → ¿Mundial 2026?', monto: '$1.8 mil M solicitados + $589M redirigidos', actores: 'OMS · Inovio · Sanofi · Gob. EE.UU.', verif: '✅', critico: false },
+    { año: '2017', enfermedad: 'CEPI fundado en Davos', titulo: 'El andamio multilateral permanente', resumen: 'Coalition for Epidemic Preparedness Innovations (Oslo). Fundadores: Gates Foundation, Wellcome Trust, gobiernos de Noruega, India, Japón y Alemania. $460M en compromisos iniciales. Misión declarada: pre-financiar vacunas antes de la crisis.', significancia: 'CEPI es el equivalente multilateral de BARDA. Cuando BARDA se retira por política interna estadounidense, CEPI cubre — el flujo nunca se interrumpe.', monto: '$460M iniciales', actores: 'CEPI · Gates Foundation · Wellcome Trust', verif: '✅', critico: false },
+    { año: '2019', enfermedad: 'Ébola Kivu (RDC)', titulo: 'Pipeline maduro — la prueba', resumen: 'Brote inicia agosto 2018. PHEIC declarado 17 julio 2019 (11 meses después). 3,481 casos, 2,299 muertes. Inmazeb (Regeneron) y Ebanga (Ridgeback) aprobados en octubre 2020.', significancia: 'PHEIC tardó 11 meses porque las herramientas ya estaban listas. Compare con Bundibugyo 2026: 13 días. La fricción jurídica se desplomó.', monto: null, actores: 'Regeneron · Ridgeback · Merck', verif: '✅', critico: false },
+    { año: '2020', enfermedad: 'COVID-19', titulo: 'Plataforma mRNA', resumen: 'PHEIC declarado 30 enero 2020. Operation Warp Speed anunciada 15 mayo 2020: $13 mil M obligados, $8.8 mil M a vacunas. Moderna $955M (BARDA), Pfizer $1.95 mil M (compra anticipada). EUA: 11 diciembre 2020.', significancia: 'mRNA pasa de candidato a infraestructura permanente. Pfizer factura $37 mil M en vacuna COVID solo en 2022. La plataforma queda lista para el siguiente patógeno.', monto: '$13 mil M · Operation Warp Speed', actores: 'Moderna · Pfizer · BARDA · HHS · DoD', verif: '✅', critico: true },
+    { año: '2022', enfermedad: 'Mpox (clade II)', titulo: 'Stockpile recurrente', resumen: 'PHEIC declarado 23 julio 2022. BARDA otorga $156.8M a Bavarian Nordic para Jynneos. La acción sube ~50% en un mes. Bavarian Nordic factura $456M (2022) → $1 mil M (2023). Jynneos solo: $725M en 2023.', significancia: 'Patrón de stockpile recurrente: el inventario de Jynneos estaba mayoritariamente vencido al iniciar el brote. Renovar inventario es renovar el contrato.', monto: '$156.8M · Jynneos (Bavarian Nordic)', actores: 'Bavarian Nordic · BARDA', verif: '✅', critico: false },
+    { año: '2024', enfermedad: 'Mpox Ib + Marburg Ruanda', titulo: 'Pre-posicionamiento perfeccionado', resumen: 'Segundo PHEIC mpox 14 ago 2024. Brote Marburg en Ruanda: declarado 27 sep 2024. Sabin Vaccine Institute entrega vacunas a Kigali en 7 días tras llamada del gobierno — porque BARDA ya había colocado $235M previamente en Sabin para Marburg/Sudán.', significancia: 'Modelo perfeccionado: pre-financiar la I+D para que la entrega ante brote sea de días, no años. La "preparación" deja de ser palabra y se vuelve infraestructura material.', monto: '$235M · Sabin Marburg/Sudán', actores: 'Bavarian Nordic · Sabin · BARDA · HERA (UE)', verif: '✅', critico: false },
+    { año: '2025', enfermedad: 'H5N1 (gripe aviar)', titulo: 'El relevo CEPI', resumen: 'BARDA→Moderna: $176M (jul 2024) + $590M (ene 2025) = $766M para vacuna ARNm H5N1. Administración Trump cancela el contrato en mayo 2025. CEPI lo recoge con $54M para llevar a Fase 3.', significancia: 'Demostración pública del mecanismo: cuando BARDA se retira por política doméstica de EE. UU., CEPI cubre. El financiamiento a Moderna no se interrumpe — solo cambia de portador.', monto: '$766M cancelado / $54M relevo CEPI', actores: 'Moderna · BARDA · CEPI · HHS', verif: '✅', critico: false },
+    { año: '2026', enfermedad: 'Bundibugyo + Hantavirus Andes', titulo: 'Sincronía perfecta', resumen: 'Enero 2026: CEPI otorga $26.7M a Moderna+Oxford para vacuna multivalente que incluye Bundibugyo. Mayo: brote hantavirus en MV Hondius. 17 mayo: PHEIC Bundibugyo declarado en 13 días con apenas 8 casos confirmados — el más rápido de la historia.', significancia: 'Cierre del ciclo de 23 años: pre-financiamiento (enero) → portada Economist anticipando (noviembre 2025) → brote real (mayo) → PHEIC con criterio mínimo (mayo) → Moderna activa línea. El reloj se cumple.', monto: '$26.7M · Bundibugyo, pre-PHEIC', actores: 'Moderna · Oxford · CEPI · OMS', verif: '✅', critico: true }
+  ];
+
+  // ====== HELIX 3D — Three.js scene (replaces SVG when WebGL available) ======
+  const helix3DContainer = document.getElementById('helix-canvas-3d');
+  let helix3DState = null;
+  if (helix3DContainer && typeof THREE !== 'undefined' && !prefersReduced) {
+    try {
+      const NUM_HITOS_3D = 12;
+      const HELIX_HEIGHT = 14;
+      const HELIX_RADIUS = 1.6;
+      const HELIX_TURNS = 4;
+      const SAMPLES = 240;
+
+      // Scene
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0x02101e, 12, 28);
+
+      // Renderer
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      // Robust dimension fallback — container may be collapsed at first paint
+      const getDims = () => {
+        const r = helix3DContainer.getBoundingClientRect();
+        let w = r.width, h = r.height;
+        if (!w || w < 50) {
+          const pr = (helix3DContainer.parentElement || document.body).getBoundingClientRect();
+          w = pr.width || window.innerWidth * 0.45 || 460;
+        }
+        if (!h || h < 50) {
+          h = Math.max(window.innerHeight * 0.7, 600);
+        }
+        return { w, h };
+      };
+      let dims = getDims();
+      renderer.setSize(dims.w, dims.h);
+      renderer.setClearColor(0x000000, 0);
+      helix3DContainer.appendChild(renderer.domElement);
+
+      // Camera
+      const camera = new THREE.PerspectiveCamera(40, dims.w / dims.h, 0.1, 100);
+      camera.position.set(0, 0, 13);
+      camera.lookAt(0, 0, 0);
+
+      // Lights — cinematic
+      scene.add(new THREE.AmbientLight(0x4477aa, 0.45));
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+      dirLight.position.set(4, 6, 8);
+      scene.add(dirLight);
+      const cyanLight = new THREE.PointLight(0x2a8cd8, 3.5, 22);
+      cyanLight.position.set(-6, 2, 4);
+      scene.add(cyanLight);
+      const amberLight = new THREE.PointLight(0xd4a017, 3.5, 22);
+      amberLight.position.set(6, -2, 4);
+      scene.add(amberLight);
+      const crimsonLight = new THREE.PointLight(0xc44536, 0, 20);
+      crimsonLight.position.set(0, 0, 6);
+      scene.add(crimsonLight);
+
+      // Helix group (rotates as one)
+      const helixGroup = new THREE.Group();
+      scene.add(helixGroup);
+
+      // Build strand as TubeGeometry along Catmull-Rom curve
+      function buildStrand(phaseOffset, color) {
+        const points = [];
+        for (let i = 0; i <= SAMPLES; i++) {
+          const t = i / SAMPLES;
+          const y = (t - 0.5) * HELIX_HEIGHT;
+          const angle = t * Math.PI * 2 * HELIX_TURNS + phaseOffset;
+          points.push(new THREE.Vector3(
+            Math.cos(angle) * HELIX_RADIUS,
+            y,
+            Math.sin(angle) * HELIX_RADIUS
+          ));
+        }
+        const curve = new THREE.CatmullRomCurve3(points);
+        const tubeGeo = new THREE.TubeGeometry(curve, 400, 0.05, 14, false);
+        const mat = new THREE.MeshStandardMaterial({
+          color: color,
+          emissive: color,
+          emissiveIntensity: 0.55,
+          metalness: 0.5,
+          roughness: 0.3
+        });
+        return new THREE.Mesh(tubeGeo, mat);
+      }
+
+      const strandLegal = buildStrand(0, 0x2a8cd8);          // cyan — legal
+      const strandFinanc = buildStrand(Math.PI, 0xd4a017);   // amber — financiera
+      helixGroup.add(strandLegal);
+      helixGroup.add(strandFinanc);
+
+      // Base pairs — 12 hitos
+      const bases3D = [];
+      const sphereGeo = new THREE.SphereGeometry(0.13, 32, 32);
+      const criticalIdx = [7, 11]; // 2020 + 2026 (índices 7 y 11)
+      for (let i = 0; i < NUM_HITOS_3D; i++) {
+        const t = (i + 0.5) / NUM_HITOS_3D;
+        const y = (t - 0.5) * HELIX_HEIGHT;
+        const angle = t * Math.PI * 2 * HELIX_TURNS;
+        const xA = Math.cos(angle) * HELIX_RADIUS;
+        const zA = Math.sin(angle) * HELIX_RADIUS;
+        const xB = Math.cos(angle + Math.PI) * HELIX_RADIUS;
+        const zB = Math.sin(angle + Math.PI) * HELIX_RADIUS;
+
+        const matA = new THREE.MeshStandardMaterial({
+          color: 0x2a8cd8, emissive: 0x2a8cd8, emissiveIntensity: 1.2,
+          metalness: 0.3, roughness: 0.2
+        });
+        const matB = new THREE.MeshStandardMaterial({
+          color: 0xd4a017, emissive: 0xd4a017, emissiveIntensity: 1.2,
+          metalness: 0.3, roughness: 0.2
+        });
+        const sA = new THREE.Mesh(sphereGeo, matA);
+        sA.position.set(xA, y, zA);
+        const sB = new THREE.Mesh(sphereGeo, matB);
+        sB.position.set(xB, y, zB);
+        helixGroup.add(sA);
+        helixGroup.add(sB);
+
+        // Connector line
+        const linkGeo = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(xA, y, zA),
+          new THREE.Vector3(xB, y, zB)
+        ]);
+        const linkMat = new THREE.LineBasicMaterial({
+          color: 0xe8eef5, transparent: true, opacity: 0.4
+        });
+        const link = new THREE.Line(linkGeo, linkMat);
+        helixGroup.add(link);
+
+        bases3D.push({ a: sA, b: sB, matA, matB, link, linkMat, critical: criticalIdx.includes(i) });
+      }
+
+      // Background particles — atmospheric depth
+      const particlesGeo = new THREE.BufferGeometry();
+      const particleCount = 220;
+      const positions = new Float32Array(particleCount * 3);
+      for (let i = 0; i < particleCount; i++) {
+        positions[i * 3]     = (Math.random() - 0.5) * 30;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 18;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 14 - 4;
+      }
+      particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const particlesMat = new THREE.PointsMaterial({
+        color: 0xd4a017, size: 0.05, transparent: true, opacity: 0.55,
+        sizeAttenuation: true
+      });
+      scene.add(new THREE.Points(particlesGeo, particlesMat));
+
+      // Active hito state
+      let activeHitoIdx = 0;
+      let targetActive = 0;
+      const tmpScaleHigh = new THREE.Vector3(1.9, 1.9, 1.9);
+      const tmpScaleLow = new THREE.Vector3(1.0, 1.0, 1.0);
+      let crimsonLightTarget = 0;
+
+      // Animation loop
+      const clock = new THREE.Clock();
+      function animate3D() {
+        requestAnimationFrame(animate3D);
+        const dt = clock.getDelta();
+
+        // Slow continuous Y rotation
+        helixGroup.rotation.y += dt * 0.18;
+
+        // Lerp active idx for smoothness when scrolling fast
+        activeHitoIdx += (targetActive - activeHitoIdx) * 0.18;
+        const activeFloor = Math.round(activeHitoIdx);
+
+        // Highlight bases
+        bases3D.forEach((b, i) => {
+          const isActive = i === activeFloor;
+          const isPassed = i < activeFloor;
+          const target = isActive ? tmpScaleHigh : tmpScaleLow;
+          b.a.scale.lerp(target, 0.12);
+          b.b.scale.lerp(target, 0.12);
+          const targetEmissive = isActive ? 3.2 : (isPassed ? 0.45 : 1.2);
+          b.matA.emissiveIntensity += (targetEmissive - b.matA.emissiveIntensity) * 0.15;
+          b.matB.emissiveIntensity += (targetEmissive - b.matB.emissiveIntensity) * 0.15;
+          const targetOpacity = isActive ? 1.0 : (isPassed ? 0.25 : 0.45);
+          b.linkMat.opacity += (targetOpacity - b.linkMat.opacity) * 0.15;
+        });
+
+        // Crimson light pulses on critical hitos
+        const isCritical = bases3D[activeFloor] && bases3D[activeFloor].critical;
+        crimsonLightTarget = isCritical ? 4 : 0;
+        crimsonLight.intensity += (crimsonLightTarget - crimsonLight.intensity) * 0.1;
+
+        renderer.render(scene, camera);
+      }
+      animate3D();
+
+      // Resize handling — uses robust getDims
+      const handleResize = () => {
+        const d = getDims();
+        if (!d.w || !d.h) return;
+        camera.aspect = d.w / d.h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(d.w, d.h);
+      };
+      window.addEventListener('resize', handleResize);
+      // Also observe the container size — useful when sticky parent lays out
+      if (typeof ResizeObserver !== 'undefined') {
+        const ro = new ResizeObserver(() => handleResize());
+        ro.observe(helix3DContainer);
+        // Force a resize after layout settles
+        requestAnimationFrame(() => requestAnimationFrame(handleResize));
+        setTimeout(handleResize, 200);
+        setTimeout(handleResize, 800);
+      }
+
+      // Expose state for scroll integration
+      helix3DState = { setActive: (idx) => { targetActive = Math.max(0, Math.min(11, idx)); } };
+
+      // Hide SVG fallback since 3D works
+      const svgFallback = document.getElementById('helix-svg');
+      if (svgFallback) svgFallback.style.display = 'none';
+
+    } catch (err) {
+      console.warn('Three.js helix failed, falling back to SVG:', err);
+      // Force SVG fallback
+      const wrap = document.getElementById('helix-wrap');
+      if (wrap) wrap.classList.add('helix-canvas-3d-fallback');
+      helix3DState = null;
+    }
+  }
+
+  const svgEl = document.getElementById('helix-svg');
+  if (svgEl && !helix3DState) {
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+    const VBW = 400, VBH = 960;
+    const cx = VBW / 2;
+    const amp = 130;
+    const startY = 50;
+    const endY = VBH - 50;
+    const turns = 3;
+
+    // Generate strand path
+    const buildStrandPath = (phaseOffset, samples = 120) => {
+      let d = '';
+      for (let i = 0; i <= samples; i++) {
+        const t = i / samples;
+        const y = startY + t * (endY - startY);
+        const phase = t * Math.PI * 2 * turns + phaseOffset;
+        const x = cx + amp * Math.sin(phase);
+        d += (i === 0 ? 'M' : 'L') + x.toFixed(2) + ',' + y.toFixed(2) + ' ';
+      }
+      return d;
+    };
+
+    // Add the two strands
+    const strandA = document.createElementNS(SVG_NS, 'path');
+    strandA.setAttribute('class', 'helix-thread legal');
+    strandA.setAttribute('d', buildStrandPath(0));
+    svgEl.appendChild(strandA);
+
+    const strandB = document.createElementNS(SVG_NS, 'path');
+    strandB.setAttribute('class', 'helix-thread financ');
+    strandB.setAttribute('d', buildStrandPath(Math.PI));
+    svgEl.appendChild(strandB);
+
+    // Add bases (12 hitos)
+    const baseEls = [];
+    HITOS.forEach((hito, i) => {
+      const t = (i + 0.5) / HITOS.length;
+      const y = startY + t * (endY - startY);
+      const phase = t * Math.PI * 2 * turns;
+      const xA = cx + amp * Math.sin(phase);
+      const xB = cx - amp * Math.sin(phase);
+
+      const baseGroup = document.createElementNS(SVG_NS, 'g');
+      baseGroup.setAttribute('class', 'helix-base' + (hito.critico ? ' critical' : ''));
+      baseGroup.setAttribute('data-idx', i);
+
+      const link = document.createElementNS(SVG_NS, 'line');
+      link.setAttribute('x1', xA);
+      link.setAttribute('y1', y);
+      link.setAttribute('x2', xB);
+      link.setAttribute('y2', y);
+      link.setAttribute('class', 'helix-base-link');
+      baseGroup.appendChild(link);
+
+      const dotA = document.createElementNS(SVG_NS, 'circle');
+      dotA.setAttribute('cx', xA);
+      dotA.setAttribute('cy', y);
+      dotA.setAttribute('r', 4);
+      dotA.setAttribute('class', 'helix-base-dot legal');
+      baseGroup.appendChild(dotA);
+
+      const dotB = document.createElementNS(SVG_NS, 'circle');
+      dotB.setAttribute('cx', xB);
+      dotB.setAttribute('cy', y);
+      dotB.setAttribute('r', 4);
+      dotB.setAttribute('class', 'helix-base-dot financ');
+      baseGroup.appendChild(dotB);
+
+      const yearLabel = document.createElementNS(SVG_NS, 'text');
+      yearLabel.setAttribute('x', xA > xB ? xA + 14 : xA - 14);
+      yearLabel.setAttribute('y', y + 4);
+      yearLabel.setAttribute('text-anchor', xA > xB ? 'start' : 'end');
+      yearLabel.setAttribute('class', 'helix-year-label');
+      yearLabel.textContent = hito.año;
+      baseGroup.appendChild(yearLabel);
+
+      svgEl.appendChild(baseGroup);
+      baseEls.push(baseGroup);
+    });
+
+    // Expose SVG bases so the shared setActiveHelix can toggle classes
+    window.__helixSvgBases = baseEls;
+  }
+  // ===== END SVG build block (only runs when 3D unavailable) =====
+
+  // ====== Helix info panel + scroll integration (works with BOTH 3D and SVG) ======
+  const stepsContainer = document.getElementById('helix-steps');
+  let stepEls = [];
+  if (stepsContainer && stepsContainer.children.length === 0) {
+    HITOS.forEach((hito, i) => {
+      const step = document.createElement('span');
+      step.className = 'step' + (hito.critico ? ' critical' : '');
+      step.dataset.idx = i;
+      stepsContainer.appendChild(step);
+      stepEls.push(step);
+    });
+  } else if (stepsContainer) {
+    stepEls = Array.from(stepsContainer.children);
+  }
+
+  const infoPanel = document.getElementById('helix-info');
+  const elNum = document.getElementById('hp-num');
+  const elYear = document.getElementById('hp-year');
+  const elVerif = document.getElementById('hp-verif');
+  const elEnf = document.getElementById('hp-enfermedad');
+  const elTit = document.getElementById('hp-titulo');
+  const elRes = document.getElementById('hp-resumen');
+  const elSig = document.getElementById('hp-significancia');
+  const elMon = document.getElementById('hp-monto');
+  const elAct = document.getElementById('hp-actores');
+
+  let activeIdx = -1;
+  const setActiveHelix = (idx) => {
+    const helixBaseEls = window.__helixSvgBases || [];
+    idx = Math.max(0, Math.min(HITOS.length - 1, idx));
+    if (idx === activeIdx) return;
+    activeIdx = idx;
+    const h = HITOS[idx];
+    if (infoPanel) infoPanel.classList.add('transitioning');
+    setTimeout(() => {
+      if (elNum)    elNum.textContent = String(idx + 1).padStart(2, '0');
+      if (elYear)   elYear.textContent = h.año;
+      if (elVerif)  elVerif.textContent = h.verif;
+      if (elEnf)    elEnf.textContent = h.enfermedad;
+      if (elTit)    elTit.textContent = h.titulo;
+      if (elRes)    elRes.textContent = h.resumen;
+      if (elSig)    elSig.textContent = h.significancia;
+      if (elMon) {
+        if (h.monto) { elMon.textContent = h.monto; elMon.classList.remove('empty'); }
+        else { elMon.textContent = ''; elMon.classList.add('empty'); }
+      }
+      if (elAct)    elAct.textContent = h.actores;
+      if (infoPanel) infoPanel.classList.remove('transitioning');
+    }, 120);
+    helixBaseEls.forEach((b, i) => {
+      b.classList.toggle('active', i === idx);
+      b.classList.toggle('passed', i < idx);
+    });
+    stepEls.forEach((s, i) => {
+      s.classList.toggle('active', i === idx);
+      s.classList.toggle('passed', i < idx);
+    });
+    // Notify Three.js scene
+    if (helix3DState) helix3DState.setActive(idx);
+  };
+
+  if (document.getElementById('helix-scroll')) {
+    ScrollTrigger.create({
+      trigger: '#helix-scroll',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        const p = self.progress;
+        const idx = Math.min(HITOS.length - 1, Math.floor(p * HITOS.length));
+        setActiveHelix(idx);
+        // SVG rotation only if SVG is the visible fallback
+        if (!helix3DState && svgEl) {
+          const rotY = -20 + p * 60;
+          svgEl.style.transform = 'rotateY(' + rotY.toFixed(2) + 'deg)';
+        }
+      }
+    });
+    setActiveHelix(0);
+  }
+
+  // Entrance animations — target whichever helix visual is active
+  gsap.from('.helix-header > *', {
+    opacity: 0, y: 20, duration: 0.7, ease: 'power2.out', stagger: 0.12,
+    scrollTrigger: { trigger: '.helix-header', start: 'top 80%', once: true }
+  });
+  const helixVisualSelector = helix3DState ? '#helix-canvas-3d' : '#helix-svg';
+  gsap.from(helixVisualSelector, {
+    opacity: 0, scale: 0.92, duration: 1.2, ease: 'power3.out',
+    scrollTrigger: { trigger: '#helix-scroll', start: 'top 80%', once: true }
+  });
+  gsap.from('#helix-info', {
+    opacity: 0, x: 30, duration: 0.9, ease: 'power2.out', delay: 0.3,
+    scrollTrigger: { trigger: '#helix-scroll', start: 'top 80%', once: true }
+  });
+  gsap.from('.helix-closing-quote', {
+    opacity: 0, scale: 0.94, duration: 1.1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.helix-closing', start: 'top 75%', once: true }
+  });
+
+  // ====== ACTO II — animaciones por escena (Emil timing strict) ======
+  // Easing curve estándar del proyecto: cubic-bezier(0.16, 1, 0.3, 1) — same as CSS
+  const EMIL_EASE = 'expo.out'; // GSAP equivalent to cubic-bezier(0.16, 1, 0.3, 1)
+
+  // 2.1–2.6: reveal on enter + bg parallax
+  gsap.utils.toArray('.escena').forEach((escena, i) => {
+    // Background parallax (subtle)
+    const bg = escena.querySelector('.escena-bg');
+    if (bg) {
+      gsap.to(bg, {
+        yPercent: 12,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: escena,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.8
+        }
+      });
+    }
+    // Content reveal — 600ms Emil
+    const reveals = escena.querySelectorAll('.escena-num, .escena-title, .escena-sub, .escena-quote, .escena-coords > *, .barco-facts span');
+    if (reveals.length > 0) {
+      gsap.to(reveals, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: EMIL_EASE,
+        stagger: 0.08,
+        scrollTrigger: {
+          trigger: escena,
+          start: 'top 75%',
+          once: true
+        }
+      });
+    }
+    // Hitos Ushuaia: cascada con stagger
+    const hitos = escena.querySelectorAll('.hitos-ushuaia li');
+    if (hitos.length > 0) {
+      gsap.to(hitos, {
+        opacity: 1,
+        y: 0,
+        duration: 0.55,
+        ease: EMIL_EASE,
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: escena,
+          start: 'top 65%',
+          once: true
+        }
+      });
+    }
+  });
+
+  // ====== Acto intro entrance ======
+  gsap.from('.acto-intro > *', {
+    opacity: 0, y: 24,
+    duration: 0.7, ease: EMIL_EASE, stagger: 0.12,
+    scrollTrigger: { trigger: '.acto-intro', start: 'top 80%', once: true }
+  });
+
+  // ====== Escena 2.5 — Ruta SVG drawing + nodos secuenciales ======
+  const rutaLine = document.getElementById('ruta-line');
+  if (rutaLine) {
+    const rutaNodes = document.querySelectorAll('.ruta-node');
+    const rutaLabels = document.querySelectorAll('.ruta-label');
+    ScrollTrigger.create({
+      trigger: '#escena-2-5',
+      start: 'top 70%',
+      once: true,
+      onEnter: () => {
+        // Draw the line
+        rutaLine.classList.add('drawn');
+        // Reveal nodes + labels with stagger matched to line draw (2400ms total)
+        rutaNodes.forEach((node, i) => {
+          setTimeout(() => {
+            node.classList.add('visible');
+          }, 400 + i * 500); // 400ms initial delay + 500ms between nodes
+        });
+        rutaLabels.forEach((label, i) => {
+          setTimeout(() => {
+            label.classList.add('visible');
+          }, 500 + i * 500);
+        });
+      }
+    });
+  }
+
+  // ====== Magnetic hover on CTA button ======
+  const ctaBtn = document.getElementById('cta-button');
+  if (ctaBtn) {
+    const strength = 18;
+    ctaBtn.addEventListener('mousemove', (e) => {
+      const rect = ctaBtn.getBoundingClientRect();
+      const dx = ((e.clientX - rect.left) / rect.width - 0.5) * strength;
+      const dy = ((e.clientY - rect.top) / rect.height - 0.5) * strength;
+      gsap.to(ctaBtn, { x: dx, y: dy, duration: 0.4, ease: 'power2.out' });
+    });
+    ctaBtn.addEventListener('mouseleave', () => {
+      gsap.to(ctaBtn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -4,26 +4,30 @@
 <meta charset="UTF-8" />
 <title>PROTOTIPO E — El cauce del dinero sanitario 2003-2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --navy: #072146;
-    --navy-oscuro: #04162e;
-    --cyan: #1973b8;
+    --navy: #02101e;
+    --navy-oscuro: #01080f;
+    --cyan: #2a8cd8;
     --cyan-claro: #2a8cd8;
-    --oro: #b8860b;
+    --oro: #d4a017;
     --oro-claro: #d4a017;
     --rojo: #c00;
     --verde: #2a8c4e;
     --blanco: #ffffff;
     --gris-claro: #f5f8fb;
     --divisor: #cbd5e1;
-    --sepia: #5a6e8c;
-    --texto: #072146;
+    --sepia: #7d8ca0;
+    --texto: #02101e;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
   body {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
     background: var(--navy-oscuro);
     color: var(--blanco);
   }
@@ -130,7 +134,7 @@
   }
   .nodo-text {
     fill: var(--blanco);
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 12px;
     font-weight: 600;
     text-anchor: middle;
@@ -144,7 +148,7 @@
   }
   .nodo-sub {
     fill: rgba(255,255,255,0.7);
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 9px;
     text-anchor: middle;
     pointer-events: none;
@@ -351,7 +355,7 @@
 
   // Color por financiador
   const COLOR_FIN = {
-    "BARDA (HHS)": "#1973b8",
+    "BARDA (HHS)": "#2a8cd8",
     "CEPI": "#2a8cd8",
     "HHS / Obama": "#4a7ba6",
     "HHS / DoD": "#5a8bb8",
@@ -447,7 +451,7 @@
   }
 
   financiadores.forEach(f => {
-    dibujarNodo("nodos-financ", f, posF[f], COLOR_FIN[f] || "#1973b8", colF.x, colF.ancho, `$${formatMonto(totalPorFin[f])}`);
+    dibujarNodo("nodos-financ", f, posF[f], COLOR_FIN[f] || "#2a8cd8", colF.x, colF.ancho, `$${formatMonto(totalPorFin[f])}`);
   });
   // Brotes ahora en el centro — son el hub editorial
   brotes.forEach(b => {
@@ -455,7 +459,7 @@
     dibujarNodo("nodos-brote", b, posE[b], "#c00", colE.x, colE.ancho, hasEcon ? "economist" : `$${formatMonto(totalPorBrote[b])}`);
   });
   farmas.forEach(f => {
-    dibujarNodo("nodos-farma", f, posM[f], "#b8860b", colM.x, colM.ancho, `$${formatMonto(totalPorFarma[f])}`);
+    dibujarNodo("nodos-farma", f, posM[f], "#d4a017", colM.x, colM.ancho, `$${formatMonto(totalPorFarma[f])}`);
   });
 
   function formatMonto(m) {
@@ -486,7 +490,7 @@
     const d1 = `M ${x1} ${yF} C ${ctrlX1} ${yF}, ${ctrlX2} ${yE_in}, ${x2} ${yE_in}`;
     path1.setAttribute("d", d1);
     path1.setAttribute("class", "conexion");
-    path1.setAttribute("stroke", COLOR_FIN[flow.fin] || "#1973b8");
+    path1.setAttribute("stroke", COLOR_FIN[flow.fin] || "#2a8cd8");
     path1.setAttribute("stroke-width", grosor);
     path1.setAttribute("opacity", 0.75);
     path1.setAttribute("data-flow-idx", i);
@@ -508,7 +512,7 @@
     const d2 = `M ${x3} ${yE_out} C ${ctrlX3} ${yE_out}, ${ctrlX4} ${yM}, ${x4} ${yM}`;
     path2.setAttribute("d", d2);
     path2.setAttribute("class", "conexion");
-    path2.setAttribute("stroke", "#b8860b");
+    path2.setAttribute("stroke", "#d4a017");
     path2.setAttribute("stroke-width", grosor);
     path2.setAttribute("opacity", 0.75);
     path2.setAttribute("data-flow-idx", i);

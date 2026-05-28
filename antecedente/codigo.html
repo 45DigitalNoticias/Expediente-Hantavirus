@@ -4,25 +4,29 @@
 <meta charset="UTF-8" />
 <title>PROTOTIPO H — El código del modelo · Doble hebra 2003-2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --navy: #072146;
-    --navy-oscuro: #04162e;
-    --cyan: #1973b8;
+    --navy: #02101e;
+    --navy-oscuro: #01080f;
+    --cyan: #2a8cd8;
     --cyan-claro: #2a8cd8;
-    --oro: #b8860b;
+    --oro: #d4a017;
     --oro-claro: #d4a017;
     --rojo: #c00;
     --blanco: #ffffff;
     --gris-claro: #f5f8fb;
     --divisor: #cbd5e1;
-    --sepia: #5a6e8c;
-    --texto: #072146;
+    --sepia: #7d8ca0;
+    --texto: #02101e;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
   body {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
     background: var(--navy-oscuro);
     background-image:
       radial-gradient(ellipse at 50% 50%, rgba(25,115,184,0.08) 0%, transparent 70%);
@@ -90,7 +94,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     border-radius: 2px;
     transition: all 0.2s;
   }
@@ -115,14 +119,14 @@
   .eje-tiempo { stroke: rgba(184,134,11,0.25); stroke-width: 1; stroke-dasharray: 4 6; }
   .eje-año {
     fill: rgba(255,255,255,0.5);
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 10px;
     text-anchor: middle;
     font-style: italic;
   }
   .eje-año.activo { fill: var(--oro-claro); font-size: 12px; font-weight: 700; font-style: normal; }
   .eje-titulo-hebra {
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
@@ -209,7 +213,7 @@
   .rung-hint {
     fill: var(--oro-claro);
     font-size: 10px;
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-style: italic;
     text-anchor: middle;
     opacity: 0;
@@ -245,7 +249,7 @@
   /* Etiquetas de hito */
   .hito-label {
     fill: var(--blanco);
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 11px;
     text-anchor: middle;
     font-weight: 600;
@@ -258,7 +262,7 @@
   }
   .hito-sublabel {
     fill: rgba(255,255,255,0.55);
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 9px;
     font-style: italic;
     text-anchor: middle;
@@ -445,7 +449,7 @@
     max-width: 340px;
     min-width: 280px;
     display: none;
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
   }
   .mini-ficha.show { display: block; }
   .mini-ficha-head {
@@ -579,14 +583,14 @@
       <svg class="helice-svg" viewBox="0 0 1200 540" id="svg-helice" preserveAspectRatio="xMidYMid meet">
         <defs>
           <linearGradient id="grad-legal" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#1973b8" stop-opacity="0.7" />
+            <stop offset="0%" stop-color="#2a8cd8" stop-opacity="0.7" />
             <stop offset="50%" stop-color="#2a8cd8" stop-opacity="1" />
-            <stop offset="100%" stop-color="#1973b8" stop-opacity="0.7" />
+            <stop offset="100%" stop-color="#2a8cd8" stop-opacity="0.7" />
           </linearGradient>
           <linearGradient id="grad-financ" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#b8860b" stop-opacity="0.7" />
+            <stop offset="0%" stop-color="#d4a017" stop-opacity="0.7" />
             <stop offset="50%" stop-color="#d4a017" stop-opacity="1" />
-            <stop offset="100%" stop-color="#b8860b" stop-opacity="0.7" />
+            <stop offset="100%" stop-color="#d4a017" stop-opacity="0.7" />
           </linearGradient>
         </defs>
 

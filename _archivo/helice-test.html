@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Hélice 3D · Test v4 (UMD, sin import maps)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    background: #02101e;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: monospace;
+  }
+  body { height: 220vh; }
+  #canvas-container {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  .info {
+    position: fixed;
+    top: 24px; left: 24px;
+    color: #d4a017;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 10;
+  }
+  .info span { color: #e8eef5; opacity: 0.6; display: block; margin-top: 6px; font-size: 10px; letter-spacing: 0.12em; }
+  .status {
+    position: fixed;
+    bottom: 24px; left: 24px;
+    color: #2a8cd8;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    z-index: 10;
+  }
+  .scroll-hint {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    color: #d4a017;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    z-index: 10;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+  #error {
+    position: fixed;
+    bottom: 60px; left: 24px; right: 24px;
+    color: #c44536;
+    font-size: 12px;
+    background: rgba(196,69,54,0.1);
+    border-left: 3px solid #c44536;
+    padding: 12px 16px;
+    z-index: 11;
+    display: none;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="info">
+  Hélice 3D · v4 (glow por sprites)
+  <span>Cápsulas + halos + paleta cálida + 3 hélices</span>
+  <span>Scroll: pausa rotación</span>
+</div>
+
+<div id="canvas-container"></div>
+
+<div class="status" id="status">cargando three.js…</div>
+<div class="scroll-hint">↓ scroll</div>
+<div id="error"></div>
+
+<script src="_recursos/libs/three.min.js"></script>
+<script>
+(function() {
+  const statusEl = document.getElementById('status');
+  const errorEl = document.getElementById('error');
+  const setStatus = (msg) => { statusEl.textContent = msg; };
+  const showError = (msg) => {
+    errorEl.style.display = 'block';
+    errorEl.textContent = msg;
+    console.error(msg);
+  };
+
+  if (typeof THREE === 'undefined') {
+    showError('THREE.js no cargó. Revisa _recursos/libs/three.min.js');
+    return;
+  }
+  setStatus('three.js r' + THREE.REVISION + ' · construyendo escena…');
+
+  try {
+    const container = document.getElementById('canvas-container');
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+    const isHiDPI = window.devicePixelRatio > 1;
+
+    // ====== Pre-generate glow texture (canvas → THREE.Texture) ======
+    // This is a radial gradient that simulates the bloom halo
+    function makeGlowTexture() {
+      const size = 256;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+      grad.addColorStop(0,    'rgba(255, 255, 255, 1.0)');
+      grad.addColorStop(0.15, 'rgba(255, 255, 255, 0.65)');
+      grad.addColorStop(0.4,  'rgba(255, 255, 255, 0.2)');
+      grad.addColorStop(0.8,  'rgba(255, 255, 255, 0.04)');
+      grad.addColorStop(1.0,  'rgba(255, 255, 255, 0.0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, size, size);
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.needsUpdate = true;
+      return tex;
+    }
+    const GLOW_TEXTURE = makeGlowTexture();
+
+    // ====== Scene + Fog ======
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x02101e, 13, 30);
+
+    const camera = new THREE.PerspectiveCamera(40, W/H, 0.1, 100);
+    camera.position.set(0, 0, 15);
+
+    // ====== Renderer ======
+    const renderer = new THREE.WebGLRenderer({
+      antialias: !isHiDPI,
+      alpha: false,
+      powerPreference: 'high-performance'
+    });
+    renderer.setSize(W, H);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x02101e, 1);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.85;
+    container.appendChild(renderer.domElement);
+
+    // ====== Lights ======
+    scene.add(new THREE.AmbientLight(0x223a55, 0.25));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    keyLight.position.set(5, 7, 10);
+    scene.add(keyLight);
+    const cyanLight = new THREE.PointLight(0x2a8cd8, 4, 28);
+    cyanLight.position.set(-7, 1, 5);
+    scene.add(cyanLight);
+    const amberLight = new THREE.PointLight(0xd4a017, 4, 28);
+    amberLight.position.set(7, -1, 5);
+    scene.add(amberLight);
+    const coralLight = new THREE.PointLight(0xff6b6b, 1.8, 20);
+    coralLight.position.set(0, 2, 8);
+    scene.add(coralLight);
+
+    // ====== Helix params ======
+    const HELIX_HEIGHT = 11;
+    const HELIX_RADIUS = 1.7;
+    const HELIX_TURNS = 4;
+    const NUM_HITOS = 12;
+    const CRITICAL = [7, 11];
+
+    const HITO_COLORS = [
+      { a: 0x2a8cd8, b: 0xd4a017 }, { a: 0x4ba8e8, b: 0xe8b94d },
+      { a: 0x2a8cd8, b: 0xd4a017 }, { a: 0xff8c42, b: 0xd4a017 },
+      { a: 0x2a8cd8, b: 0xff6b6b }, { a: 0x4ba8e8, b: 0xd4a017 },
+      { a: 0x2a8cd8, b: 0xd4a017 }, { a: 0xff6b6b, b: 0xff8c42 }, // 7 crítico
+      { a: 0x2a8cd8, b: 0xd4a017 }, { a: 0x4ba8e8, b: 0xf67280 },
+      { a: 0xff8c42, b: 0xd4a017 }, { a: 0xc44536, b: 0xff6b6b }, // 11 crítico
+    ];
+
+    const helixGroup = new THREE.Group();
+    scene.add(helixGroup);
+
+    // ====== Build strand ======
+    function buildStrand(phase, color, radius, opacity = 1) {
+      const points = [];
+      for (let i = 0; i <= 240; i++) {
+        const t = i / 240;
+        const y = (t - 0.5) * HELIX_HEIGHT;
+        const a = t * Math.PI * 2 * HELIX_TURNS + phase;
+        const r = radius + Math.sin(t * 18) * 0.04;
+        points.push(new THREE.Vector3(Math.cos(a) * r, y, Math.sin(a) * r));
+      }
+      const curve = new THREE.CatmullRomCurve3(points);
+      const geo = new THREE.TubeGeometry(curve, 420, 0.14, 18, false);
+      const mat = new THREE.MeshStandardMaterial({
+        color: color,
+        emissive: color,
+        emissiveIntensity: 1.2,
+        metalness: 0.45,
+        roughness: 0.3,
+        transparent: opacity < 1,
+        opacity: opacity
+      });
+      return new THREE.Mesh(geo, mat);
+    }
+
+    const strandA = buildStrand(0, 0x2a8cd8, HELIX_RADIUS);
+    const strandB = buildStrand(Math.PI, 0xd4a017, HELIX_RADIUS);
+    helixGroup.add(strandA);
+    helixGroup.add(strandB);
+
+    // ====== Sprite-based glow halo ======
+    function addGlowSprite(parent, color, size, position) {
+      const mat = new THREE.SpriteMaterial({
+        map: GLOW_TEXTURE,
+        color: color,
+        transparent: true,
+        opacity: 0.85,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      const sprite = new THREE.Sprite(mat);
+      sprite.scale.set(size, size, 1);
+      sprite.position.copy(position);
+      parent.add(sprite);
+      return sprite;
+    }
+
+    // ====== Bases as CapsuleGeometry connecting both strands ======
+    const bases = [];
+    const halos = [];
+    for (let i = 0; i < NUM_HITOS; i++) {
+      const t = (i + 0.5) / NUM_HITOS;
+      const y = (t - 0.5) * HELIX_HEIGHT;
+      const a = t * Math.PI * 2 * HELIX_TURNS;
+      const vA = new THREE.Vector3(Math.cos(a) * HELIX_RADIUS, y, Math.sin(a) * HELIX_RADIUS);
+      const vB = new THREE.Vector3(Math.cos(a + Math.PI) * HELIX_RADIUS, y, Math.sin(a + Math.PI) * HELIX_RADIUS);
+      const isCritical = CRITICAL.includes(i);
+      const colors = HITO_COLORS[i];
+
+      const distance = vA.distanceTo(vB);
+      const midpoint = new THREE.Vector3().addVectors(vA, vB).multiplyScalar(0.5);
+
+      // Capsule = nucleotide bridging the two strands
+      const baseColor = new THREE.Color().lerpColors(
+        new THREE.Color(colors.a),
+        new THREE.Color(colors.b),
+        0.5
+      );
+      const capsuleGeo = new THREE.CapsuleGeometry(0.16, distance * 0.55, 12, 20);
+      const capsuleMat = new THREE.MeshStandardMaterial({
+        color: baseColor,
+        emissive: baseColor,
+        emissiveIntensity: isCritical ? 2.2 : 1.5,
+        metalness: 0.4,
+        roughness: 0.22
+      });
+      const capsule = new THREE.Mesh(capsuleGeo, capsuleMat);
+      capsule.position.copy(midpoint);
+      capsule.lookAt(vB);
+      capsule.rotateX(Math.PI / 2);
+      helixGroup.add(capsule);
+
+      // End-cap spheres at A and B
+      const sphereGeo = new THREE.SphereGeometry(0.22, 24, 24);
+      const matA = new THREE.MeshStandardMaterial({
+        color: colors.a, emissive: colors.a,
+        emissiveIntensity: isCritical ? 2.5 : 1.8,
+        metalness: 0.3, roughness: 0.18
+      });
+      const matB = new THREE.MeshStandardMaterial({
+        color: colors.b, emissive: colors.b,
+        emissiveIntensity: isCritical ? 2.5 : 1.8,
+        metalness: 0.3, roughness: 0.18
+      });
+      const sA = new THREE.Mesh(sphereGeo, matA);
+      sA.position.copy(vA);
+      helixGroup.add(sA);
+      const sB = new THREE.Mesh(sphereGeo, matB);
+      sB.position.copy(vB);
+      helixGroup.add(sB);
+
+      // Glow halos around each end-cap (THIS is the bloom-like effect)
+      const haloSize = isCritical ? 2.5 : 1.6;
+      const haloA = addGlowSprite(helixGroup, colors.a, haloSize, vA);
+      const haloB = addGlowSprite(helixGroup, colors.b, haloSize, vB);
+      // Big halo at center of capsule for critical hitos
+      if (isCritical) {
+        const haloMid = addGlowSprite(helixGroup, 0xff6b6b, 3.5, midpoint);
+        halos.push({ a: haloA, b: haloB, mid: haloMid, critical: true });
+      } else {
+        halos.push({ a: haloA, b: haloB, critical: false });
+      }
+      bases.push({ a: sA, b: sB, capsule, critical: isCritical });
+    }
+
+    // ====== Secondary helices (background) — fog will fade them ======
+    function makeSecondaryHelix(offsetX, offsetZ, phaseShift, scale, opacity) {
+      const grp = new THREE.Group();
+      const sA = buildStrand(phaseShift, 0x2a8cd8, HELIX_RADIUS * 0.7, opacity);
+      const sB = buildStrand(phaseShift + Math.PI, 0xd4a017, HELIX_RADIUS * 0.7, opacity);
+      grp.add(sA);
+      grp.add(sB);
+      grp.position.set(offsetX, 0, offsetZ);
+      grp.scale.setScalar(scale);
+      return grp;
+    }
+    const helixBg1 = makeSecondaryHelix(-7, -10, Math.PI * 0.3, 0.85, 0.5);
+    const helixBg2 = makeSecondaryHelix(8, -12, Math.PI * 0.7, 0.9, 0.4);
+    scene.add(helixBg1);
+    scene.add(helixBg2);
+
+    // ====== Atmospheric particles + sprite bokeh ======
+    const PARTICLE_COUNT = 280;
+    const particlePos = new Float32Array(PARTICLE_COUNT * 3);
+    const particleVel = new Float32Array(PARTICLE_COUNT * 3);
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particlePos[i*3]     = (Math.random() - 0.5) * 30;
+      particlePos[i*3 + 1] = (Math.random() - 0.5) * 18;
+      particlePos[i*3 + 2] = (Math.random() - 0.5) * 18 - 4;
+      particleVel[i*3]     = (Math.random() - 0.5) * 0.003;
+      particleVel[i*3 + 1] = (Math.random() - 0.5) * 0.003;
+      particleVel[i*3 + 2] = (Math.random() - 0.5) * 0.003;
+    }
+    const particleGeo = new THREE.BufferGeometry();
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+    const particleMat = new THREE.PointsMaterial({
+      color: 0xe8b94d,
+      size: 0.08,
+      transparent: true,
+      opacity: 0.85,
+      sizeAttenuation: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
+
+    // Bokeh sprites — 30 grandes amber/coral
+    const bokehSprites = [];
+    for (let i = 0; i < 30; i++) {
+      const color = Math.random() > 0.5 ? 0xd4a017 : 0xff6b6b;
+      const size = Math.random() * 0.8 + 0.3;
+      const pos = new THREE.Vector3(
+        (Math.random() - 0.5) * 24,
+        (Math.random() - 0.5) * 16,
+        (Math.random() - 0.5) * 10 - 5
+      );
+      const mat = new THREE.SpriteMaterial({
+        map: GLOW_TEXTURE,
+        color: color,
+        transparent: true,
+        opacity: Math.random() * 0.4 + 0.2,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      const sprite = new THREE.Sprite(mat);
+      sprite.scale.set(size, size, 1);
+      sprite.position.copy(pos);
+      scene.add(sprite);
+      bokehSprites.push({ sprite, vel: (Math.random() - 0.5) * 0.005, basePos: pos.clone() });
+    }
+
+    // ====== Scroll pause ======
+    let lastScrollTime = 0;
+    let isScrolling = false;
+    window.addEventListener('scroll', () => {
+      lastScrollTime = performance.now();
+      isScrolling = true;
+    }, { passive: true });
+
+    // ====== Animation loop ======
+    const clock = new THREE.Clock();
+    let frame = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = clock.getDelta();
+      const elapsed = clock.getElapsedTime();
+      frame++;
+
+      const now = performance.now();
+      if (now - lastScrollTime > 150) isScrolling = false;
+      const rotSpeed = isScrolling ? 0.001 : 0.006;
+
+      helixGroup.rotation.y += rotSpeed;
+      helixGroup.rotation.x = Math.sin(elapsed * 0.22) * 0.13;
+      helixBg1.rotation.y -= 0.002;
+      helixBg2.rotation.y += 0.0015;
+
+      // Camera dolly
+      camera.position.x = Math.sin(elapsed * 0.13) * 0.6;
+      camera.position.y = Math.cos(elapsed * 0.11) * 0.3;
+      camera.lookAt(0, 0, 0);
+
+      // Pulse critical halos
+      halos.forEach((h, i) => {
+        if (h.critical && h.mid) {
+          const pulse = 1 + Math.sin(elapsed * 1.8 + i) * 0.3;
+          h.mid.scale.set(3.5 * pulse, 3.5 * pulse, 1);
+          h.mid.material.opacity = 0.5 + Math.sin(elapsed * 2.2 + i) * 0.25;
+        }
+      });
+
+      // Coral light drift
+      coralLight.position.x = Math.sin(elapsed * 0.25) * 4;
+      coralLight.position.y = Math.cos(elapsed * 0.3) * 3;
+
+      // Particle drift
+      const posAttr = particleGeo.getAttribute('position');
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        posAttr.array[i*3]     += particleVel[i*3] * dt * 60;
+        posAttr.array[i*3 + 1] += particleVel[i*3 + 1] * dt * 60;
+        posAttr.array[i*3 + 2] += particleVel[i*3 + 2] * dt * 60;
+        if (Math.abs(posAttr.array[i*3]) > 16) particleVel[i*3] *= -1;
+        if (Math.abs(posAttr.array[i*3 + 1]) > 10) particleVel[i*3 + 1] *= -1;
+        if (Math.abs(posAttr.array[i*3 + 2] + 4) > 10) particleVel[i*3 + 2] *= -1;
+      }
+      posAttr.needsUpdate = true;
+
+      // Bokeh sprites drift
+      bokehSprites.forEach(b => {
+        b.sprite.position.y = b.basePos.y + Math.sin(elapsed * 0.5 + b.basePos.x) * 0.3;
+      });
+
+      renderer.render(scene, camera);
+      if (frame === 60) setStatus(`renderizando · sprites halo · cápsulas · 3 hélices · paleta cálida · ${PARTICLE_COUNT}+${bokehSprites.length} partículas`);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      camera.aspect = W/H;
+      camera.updateProjectionMatrix();
+      renderer.setSize(W, H);
+    });
+
+    setStatus('escena lista · UMD · glow por sprites · ' + (isHiDPI ? 'HiDPI' : 'standard'));
+
+  } catch (err) {
+    showError('Error inicializando escena: ' + err.message);
+    console.error(err);
+  }
+})();
+</script>
+</body>
+</html>

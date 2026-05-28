@@ -4,25 +4,29 @@
 <meta charset="UTF-8" />
 <title>PROTOTIPO F — El loop de la preparación · 2003 → 2026 → 2003</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --navy: #072146;
-    --navy-oscuro: #04162e;
-    --cyan: #1973b8;
+    --navy: #02101e;
+    --navy-oscuro: #01080f;
+    --cyan: #2a8cd8;
     --cyan-claro: #2a8cd8;
-    --oro: #b8860b;
+    --oro: #d4a017;
     --oro-claro: #d4a017;
     --rojo: #c00;
     --blanco: #ffffff;
     --gris-claro: #f5f8fb;
     --divisor: #cbd5e1;
-    --sepia: #5a6e8c;
-    --texto: #072146;
+    --sepia: #7d8ca0;
+    --texto: #02101e;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
   body {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
     background: var(--navy-oscuro);
     color: var(--blanco);
   }
@@ -75,7 +79,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     border-radius: 2px;
     transition: all 0.2s;
   }
@@ -157,7 +161,7 @@
   }
   .hito-label {
     fill: var(--blanco);
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 12px;
     font-weight: 600;
     text-anchor: middle;
@@ -167,7 +171,7 @@
   .hito-label.activo { fill: var(--oro-claro); font-size: 14px; }
   .hito-sublabel {
     fill: rgba(255,255,255,0.65);
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 9px;
     text-anchor: middle;
     font-style: italic;
@@ -184,7 +188,7 @@
   /* Texto en el centro del bucle */
   .centro-mensaje {
     fill: var(--oro-claro);
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 14px;
     font-style: italic;
     text-anchor: middle;
@@ -192,7 +196,7 @@
   }
   .centro-mensaje-grande {
     fill: var(--blanco);
-    font-family: Georgia, serif;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 18px;
     text-anchor: middle;
     font-weight: 600;
@@ -275,8 +279,8 @@
       <svg class="mobius-svg" viewBox="0 0 900 600" id="svg-mobius">
         <defs>
           <linearGradient id="gradiente-banda" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#1973b8;stop-opacity:0.8" />
-            <stop offset="50%" style="stop-color:#b8860b;stop-opacity:0.8" />
+            <stop offset="0%" style="stop-color:#2a8cd8;stop-opacity:0.8" />
+            <stop offset="50%" style="stop-color:#d4a017;stop-opacity:0.8" />
             <stop offset="100%" style="stop-color:#c00;stop-opacity:0.8" />
           </linearGradient>
         </defs>
@@ -398,7 +402,7 @@
   rotuloConv.setAttribute("x", cx - 90);
   rotuloConv.setAttribute("y", cy + 3);
   rotuloConv.setAttribute("fill", "var(--oro-claro)");
-  rotuloConv.setAttribute("font-family", "Georgia, serif");
+  rotuloConv.setAttribute("font-family", "'Newsreader', Georgia, serif");
   rotuloConv.setAttribute("font-size", "10");
   rotuloConv.setAttribute("font-style", "italic");
   rotuloConv.setAttribute("text-anchor", "end");

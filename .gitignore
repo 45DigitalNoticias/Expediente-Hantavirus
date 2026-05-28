@@ -1,0 +1,8 @@
+# Stash de imágenes crudas (stock + raw downloads) — no van a producción.
+# Las imágenes en uso ya están copiadas a _recursos/imagenes/.
+IMÁGENES VERSIÓN CINE/
+
+# Archivos del SO
+.DS_Store
+Thumbs.db
+*.tmp

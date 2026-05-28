@@ -4,25 +4,29 @@
 <meta charset="UTF-8" />
 <title>Regional · Situación endémica del cono sur · 45 Digital Noticias</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --navy: #072146;
-    --navy-oscuro: #04162e;
-    --cyan: #1973b8;
+    --navy: #02101e;
+    --navy-oscuro: #01080f;
+    --cyan: #2a8cd8;
     --cyan-claro: #2a8cd8;
-    --oro: #b8860b;
+    --oro: #d4a017;
     --oro-claro: #d4a017;
     --rojo: #c00;
     --blanco: #ffffff;
     --pergamino: #f5f8fb;
     --divisor: #cbd5e1;
-    --sepia: #5a6e8c;
-    --texto: #072146;
+    --sepia: #7d8ca0;
+    --texto: #02101e;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
   body {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
     background: var(--navy-oscuro);
     color: var(--texto);
     min-height: 100vh;
@@ -127,8 +131,8 @@
   .chart-svg { width: 100%; height: auto; display: block; }
   .eje { stroke: var(--sepia); stroke-width: 1; }
   .eje-grid { stroke: var(--divisor); stroke-width: 0.8; stroke-dasharray: 2 4; }
-  .eje-label { fill: var(--sepia); font-family: Georgia, serif; font-size: 10px; }
-  .eje-titulo { fill: var(--navy); font-family: Georgia, serif; font-size: 11px; font-weight: 600; }
+  .eje-label { fill: var(--sepia); font-family: 'Newsreader', Georgia, serif; font-size: 10px; }
+  .eje-titulo { fill: var(--navy); font-family: 'Newsreader', Georgia, serif; font-size: 11px; font-weight: 600; }
 
   .leyenda { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; font-size: 10.5px; color: var(--sepia); }
   .leyenda .item { display: flex; align-items: center; gap: 6px; }
@@ -269,8 +273,8 @@
           <!-- Fondo gradiente -->
           <defs>
             <linearGradient id="corredorBg" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#04162e" />
-              <stop offset="100%" stop-color="#072146" />
+              <stop offset="0%" stop-color="#01080f" />
+              <stop offset="100%" stop-color="#02101e" />
             </linearGradient>
             <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
               <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a3a5c" stroke-width="0.5" opacity="0.5" />
@@ -478,7 +482,7 @@
         const lbl = document.createElementNS(NS, "text");
         lbl.setAttribute("x", x + 8); lbl.setAttribute("y", y + 4);
         lbl.setAttribute("fill", serie.color);
-        lbl.setAttribute("font-family", "Georgia, serif");
+        lbl.setAttribute("font-family", "'Newsreader', Georgia, serif");
         lbl.setAttribute("font-size", "11");
         lbl.setAttribute("font-weight", "700");
         lbl.textContent = p[1];
@@ -535,7 +539,7 @@
     l1.setAttribute("x", gx - c2BarAncho/2 - c2BarGap/2);
     l1.setAttribute("y", c2.y1 - hHist - 4);
     l1.setAttribute("fill", "#666");
-    l1.setAttribute("font-family", "Georgia, serif");
+    l1.setAttribute("font-family", "'Newsreader', Georgia, serif");
     l1.setAttribute("font-size", "10");
     l1.setAttribute("text-anchor", "middle");
     l1.textContent = d.hist + "%";
@@ -554,7 +558,7 @@
     l2.setAttribute("x", gx + c2BarAncho/2 + c2BarGap/2);
     l2.setAttribute("y", c2.y1 - h2026 - 4);
     l2.setAttribute("fill", d.año2026 > d.hist ? "#c00" : "#2a8c4e");
-    l2.setAttribute("font-family", "Georgia, serif");
+    l2.setAttribute("font-family", "'Newsreader', Georgia, serif");
     l2.setAttribute("font-size", "10.5");
     l2.setAttribute("font-weight", "700");
     l2.setAttribute("text-anchor", "middle");
@@ -564,8 +568,8 @@
     const lp = document.createElementNS(NS, "text");
     lp.setAttribute("x", gx);
     lp.setAttribute("y", c2.y1 + 18);
-    lp.setAttribute("fill", "#072146");
-    lp.setAttribute("font-family", "Georgia, serif");
+    lp.setAttribute("fill", "#02101e");
+    lp.setAttribute("font-family", "'Newsreader', Georgia, serif");
     lp.setAttribute("font-size", "10.5");
     lp.setAttribute("font-weight", "600");
     lp.setAttribute("text-anchor", "middle");
