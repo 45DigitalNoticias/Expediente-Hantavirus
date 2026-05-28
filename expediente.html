@@ -845,6 +845,21 @@
     margin-top: 2px;
     font-style: italic;
   }
+  /* Topbar del lector responsive: compactar en mobile */
+  @media (max-width: 600px) {
+    .reader-topbar {
+      padding: 11px 16px;
+      gap: 10px;
+    }
+    .reader-topbar-left { gap: 10px; }
+    .reader-topbar .logo-mark { font-size: 18px; padding: 5px 8px; }
+    .reader-topbar .topbar-title { font-size: 11px; letter-spacing: 0.03em; }
+    .reader-topbar .topbar-title small { display: none; }
+  }
+  @media (max-width: 380px) {
+    .reader-topbar { padding: 10px 12px; gap: 8px; }
+    .reader-topbar .topbar-title { font-size: 10px; }
+  }
   .reader-back {
     background: var(--tinta-naval);
     color: var(--pergamino-claro);
@@ -863,6 +878,7 @@
     transition: all 0.15s;
     flex-shrink: 0;
     box-shadow: 0 1px 0 var(--dorado) inset, 0 2px 4px rgba(14, 34, 56, 0.2);
+    white-space: nowrap;
   }
   .reader-back:hover {
     background: var(--bermellon);
@@ -873,6 +889,34 @@
     content: "←";
     font-size: 15px;
     line-height: 1;
+  }
+  /* Mobile: compactar el botón "Volver al mapa" para que no se corte */
+  @media (max-width: 700px) {
+    .reader-back {
+      padding: 7px 11px;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      gap: 6px;
+    }
+    .reader-back::before { font-size: 13px; }
+  }
+  /* En pantallas estrechas (≤480px) el botón pasa a icon-only */
+  @media (max-width: 480px) {
+    .reader-back {
+      width: 38px;
+      height: 34px;
+      padding: 0;
+      justify-content: center;
+      overflow: hidden;
+      color: transparent;       /* esconde el label */
+      letter-spacing: 0;
+      gap: 0;
+    }
+    .reader-back::before {
+      color: var(--pergamino-claro); /* la flecha SÍ se ve */
+      font-size: 18px;
+      margin: 0;
+    }
   }
   .reader-article {
     padding: 40px 32px 60px;
@@ -891,6 +935,8 @@
   }
   .reader-view.fullscreen .reader-eyebrow { font-size: 11px; margin-bottom: 14px; padding-bottom: 8px; }
   .reader-view.fullscreen .reader-meta { font-size: 12px; gap: 18px; margin-bottom: 22px; padding-bottom: 16px; }
+  .reader-view.fullscreen .reader-conceptoeje { font-size: 13.5px; margin-bottom: 32px; padding: 16px 0; }
+  .reader-view.fullscreen .reader-conceptoeje-label { font-size: 10px; }
   .reader-view.fullscreen .reader-section-title { font-size: 12px; margin-top: 34px; margin-bottom: 16px; }
   .reader-view.fullscreen .reader-fuentes li { font-size: 13px; line-height: 1.6; }
   .reader-view.fullscreen .reader-glosario li { font-size: 13.5px; line-height: 1.65; }
@@ -986,6 +1032,33 @@
     text-align: justify;
     hyphens: auto;
   }
+  /* Concepto eje — bloque aside, sutil, subordinado al título */
+  .reader-conceptoeje {
+    font-family: var(--font-display);
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--sepia);
+    border-top: 1px dotted var(--divisor);
+    border-bottom: 1px dotted var(--divisor);
+    padding: 14px 0 14px 0;
+    margin: 0 0 28px;
+  }
+  .reader-conceptoeje-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--bermellon);
+    margin-bottom: 6px;
+    font-style: normal;
+  }
+  .reader-conceptoeje em,
+  .reader-conceptoeje strong {
+    color: var(--tinta-naval);
+  }
+  .reader-conceptoeje em { font-style: italic; }
+  .reader-conceptoeje strong { font-weight: 600; }
   .reader-body p {
     font-size: 15px;
     line-height: 1.75;
@@ -6182,9 +6255,9 @@
       <h1 class="reader-title">${c.titulo}</h1>
       <div class="reader-meta">
         <span>Publicada el <b>${c.fechaLegible}</b></span>
-        ${c.conceptoEje ? `<span>Concepto eje: <b>${c.conceptoEje}</b></span>` : ''}
       </div>
       <div class="reader-bajada">${c.bajada}</div>
+      ${c.conceptoEje ? `<div class="reader-conceptoeje"><span class="reader-conceptoeje-label">Concepto eje</span>${c.conceptoEje}</div>` : ''}
       ${imagenHTML}
       <div class="reader-body">${cuerpoHTML}</div>
       <div class="reader-divider">✺ ✺ ✺</div>
