@@ -116,21 +116,23 @@
     margin: 0 auto;
   }
 
-  /* Boxes */
+  /* Boxes — paleta alineada con dashboard v2:
+     Financiadores (izq) → cyan dashboard
+     Farmacéuticas (der) → ámbar dashboard
+     Brotes (centro · hub) → coral crimson (#c44536), highlight con halo ámbar */
   .nodo-financ rect { fill: var(--cyan); stroke: var(--oro-claro); stroke-width: 1.5; }
-  .nodo-farma rect { fill: var(--oro); stroke: var(--blanco); stroke-width: 1.5; }
-  /* Brotes ahora son el hub — visualmente más prominentes */
+  .nodo-farma rect { fill: var(--oro); stroke: var(--navy-oscuro); stroke-width: 1.5; }
   .nodo-brote rect {
-    fill: var(--rojo);
+    fill: #c44536;
     stroke: var(--oro-claro);
     stroke-width: 2.5;
-    filter: drop-shadow(0 0 8px rgba(204,0,0,0.4));
+    filter: drop-shadow(0 0 10px rgba(196, 69, 54, 0.5));
   }
   .nodo-brote.economist rect {
-    fill: #800;
+    fill: #8a2d22;
     stroke: var(--oro-claro);
     stroke-width: 3;
-    filter: drop-shadow(0 0 12px rgba(212,160,23,0.7));
+    filter: drop-shadow(0 0 14px rgba(212, 160, 23, 0.75));
   }
   .nodo-text {
     fill: var(--blanco);
@@ -266,13 +268,7 @@
 <body>
 
 <header>
-  <div class="brand">
-    <div class="logo">45</div>
-    <div class="wordmark">
-      <div class="l1">Digital Noticias</div>
-      <div class="l2">Lectura sistémica</div>
-    </div>
-  </div>
+  
   <div class="header-title">
     <h1>El cauce del dinero sanitario · 2003–2026</h1>
     <p>Flujo financiero del capitalismo de preparación: financiadores → farmacéuticas → PHEIC</p>

@@ -191,6 +191,80 @@
     line-height: 1.55;
   }
   .footer-nota a { color: var(--oro-claro); text-decoration: none; }
+
+  /* ════════════════════════════════════════════════════════════════
+     DARK MODE OVERRIDE — alinea Regional con la paleta v2 dashboard
+     ════════════════════════════════════════════════════════════════ */
+  .intro {
+    background: linear-gradient(180deg, #0a1a2e 0%, #02101e 100%);
+    border-left: 4px solid var(--oro);
+  }
+  .intro h2 { color: #e8eef5; }
+  .intro p { color: rgba(232, 238, 245, 0.78); }
+  .intro p strong { color: var(--oro-claro); }
+
+  .card {
+    background: #0a1a2e;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.04) inset;
+    border-top: 3px solid var(--oro);
+  }
+  .card.argumento-fuerte { border-top-color: var(--oro); }
+  .card.argumento-medio  { border-top-color: var(--cyan); }
+  .card-eyebrow { color: var(--oro-claro); }
+  .card.argumento-fuerte .card-eyebrow { color: var(--oro-claro); }
+  .card.argumento-medio  .card-eyebrow { color: var(--cyan); }
+  .card-num { background: var(--oro); color: var(--navy); }
+  .card-titulo { color: #e8eef5; }
+  .card-bajada { color: rgba(232, 238, 245, 0.7); }
+
+  /* Chart wraps */
+  .chart-svg-wrap,
+  .card .chart-svg-wrap,
+  .card-grid-svg {
+    background: #01080f;
+    border: 1px solid rgba(212, 160, 23, 0.18);
+  }
+
+  /* Ejes y gridlines */
+  .eje, .eje-tick, .axis line { stroke: rgba(232, 238, 245, 0.4); }
+  .eje-grid, .gridline { stroke: rgba(232, 238, 245, 0.10); }
+  .eje-label, .axis text, .tick text { fill: rgba(232, 238, 245, 0.6); }
+  .eje-titulo { fill: rgba(232, 238, 245, 0.85); }
+
+  /* Texto y notas */
+  .card text { fill: rgba(232, 238, 245, 0.85); }
+  .card .footer-nota,
+  .card .nota,
+  .card .leyenda {
+    color: rgba(232, 238, 245, 0.72);
+    background: rgba(212, 160, 23, 0.06);
+    border-left-color: var(--oro);
+  }
+  .card .footer-nota strong,
+  .card .nota strong,
+  .card .leyenda strong { color: var(--oro-claro); }
+
+  /* Líneas y barras: rojo → ámbar para alta visibilidad sobre navy */
+  .linea-pheic, .linea-casos, .linea-letalidad, .linea {
+    stroke: var(--oro);
+    filter: drop-shadow(0 1px 4px rgba(212, 160, 23, 0.3));
+  }
+  .punto, .punto-pheic, .punto-casos, .punto-letalidad,
+  circle.datapoint, .dot {
+    fill: var(--oro);
+    stroke: #01080f;
+  }
+  .barra, .bar, rect.bar { fill: var(--oro); }
+  .barra-secundaria, .bar-secundary { fill: var(--cyan); }
+
+  /* Highlights críticos en coral */
+  .highlight, .punto.highlight, .bar.highlight {
+    fill: #ff6b6b;
+    filter: drop-shadow(0 0 6px rgba(255, 107, 107, 0.5));
+  }
+
+  /* Header */
+  header { border-bottom: 1px solid rgba(212, 160, 23, 0.25); }
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a4de56a9a4564d0ea0f4e0259af8bc7a"}'></script><!-- End Cloudflare Web Analytics -->
 </head>

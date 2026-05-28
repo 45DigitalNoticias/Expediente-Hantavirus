@@ -286,19 +286,78 @@
   }
   #tooltip strong { color: var(--oro-claro); }
   #tooltip.show { opacity: 1; }
+
+  /* ════════════════════════════════════════════════════════════════
+     DARK MODE OVERRIDE — alinea Evidencia con la paleta v2 dashboard
+     Las cards crema se invierten a navy oscuro con texto claro.
+     ════════════════════════════════════════════════════════════════ */
+  .chart-card {
+    background: #0a1a2e;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.04) inset;
+    border-top: 3px solid var(--oro);
+  }
+  .chart-card.argumento-fuerte { border-top-color: var(--oro); }
+  .chart-card.argumento-medio  { border-top-color: var(--cyan); }
+  .chart-eyebrow { color: var(--oro-claro); }
+  .chart-card.argumento-fuerte .chart-eyebrow { color: var(--oro-claro); }
+  .chart-card.argumento-medio  .chart-eyebrow { color: var(--cyan); }
+  .chart-num { background: var(--oro); color: var(--navy); }
+  .chart-card.argumento-fuerte .chart-num { background: var(--oro); }
+  .chart-card.argumento-medio  .chart-num { background: var(--cyan); }
+  .chart-titulo { color: #e8eef5; }
+  .chart-bajada { color: rgba(232, 238, 245, 0.7); }
+
+  .chart-svg-wrap {
+    background: #01080f;
+    border: 1px solid rgba(212, 160, 23, 0.18);
+  }
+
+  /* Ejes y gridlines */
+  .eje, .eje-tick { stroke: rgba(232, 238, 245, 0.4); }
+  .eje-grid { stroke: rgba(232, 238, 245, 0.10); }
+  .eje-label { fill: rgba(232, 238, 245, 0.6); }
+  .eje-titulo { fill: rgba(232, 238, 245, 0.85); }
+
+  /* Chart 1 — línea PHEIC: rojo → ámbar para alta visibilidad sobre navy */
+  .linea-pheic {
+    stroke: var(--oro);
+    filter: drop-shadow(0 1px 4px rgba(212, 160, 23, 0.4));
+  }
+  .punto-pheic {
+    fill: var(--oro);
+    stroke: #01080f;
+  }
+  .punto-pheic.bundi {
+    fill: #ff6b6b;       /* coral, contraste editorial */
+    stroke: var(--oro);
+    filter: drop-shadow(0 0 6px rgba(255, 107, 107, 0.55));
+  }
+  .punto-anotacion { fill: rgba(232, 238, 245, 0.85); }
+  .punto-cifra { fill: var(--oro-claro); font-weight: 600; }
+
+  /* Texto/elementos genéricos del chart en dark */
+  .chart-card text { fill: rgba(232, 238, 245, 0.85); }
+  .chart-card .footer-nota,
+  .chart-card .nota,
+  .chart-card .leyenda {
+    color: rgba(232, 238, 245, 0.72);
+    background: rgba(212, 160, 23, 0.06);
+    border-left-color: var(--oro);
+  }
+  .chart-card .footer-nota strong,
+  .chart-card .nota strong,
+  .chart-card .leyenda strong { color: var(--oro-claro); }
+
+  /* Header — ya estaba navy, alineamos al embed */
+  header { border-bottom: 1px solid rgba(212, 160, 23, 0.25); }
+  .header-title h1 { font-size: 16px; }
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a4de56a9a4564d0ea0f4e0259af8bc7a"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
 <body>
 
 <header>
-  <div class="brand">
-    <div class="logo">45</div>
-    <div class="wordmark">
-      <div class="l1">Digital Noticias</div>
-      <div class="l2">Lectura sistémica</div>
-    </div>
-  </div>
+  
   <div class="header-title">
     <h1>Evidencia · 3 charts del capitalismo de preparación pandémica</h1>
     <p>Aceleración de emergencia · Concentración por actor · Letalidad vs financiamiento</p>
