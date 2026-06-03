@@ -4711,8 +4711,13 @@
   });
 
   // ----- Panel cronología -----
+  // Render en orden cronológico estable (por día, desempate por número n).
+  // El array `events` se mantiene en orden de captura editorial — para no
+  // romper referencias n: que ya estén citadas en columnas/marcadores —, pero
+  // la cronología visible se pinta sorteada por fecha.
   const tl = document.getElementById('timeline');
-  events.forEach(e => {
+  const eventsCronologicos = [...events].sort((a, b) => a.day - b.day || a.n - b.n);
+  eventsCronologicos.forEach(e => {
     const div = document.createElement('div');
     div.className = 'event' + (e.type === 'death' ? ' event-death' : '');
     div.dataset.n = e.n;
@@ -4739,7 +4744,13 @@
   // Click: enciende la capa Ébola si está apagada y vuela al marcador.
   const tlEbola = document.getElementById('timeline-ebola');
   if (tlEbola && typeof eventosEbola !== 'undefined') {
-    eventosEbola.forEach(e => {
+    // Render cronológico estable: por día, desempate por número (E1, E2…).
+    const eventosEbolaCronologicos = [...eventosEbola].sort((a, b) => {
+      if (a.day !== b.day) return a.day - b.day;
+      // Desempate por número entero detrás del prefijo "E".
+      return parseInt(String(a.n).replace(/^E/, ''), 10) - parseInt(String(b.n).replace(/^E/, ''), 10);
+    });
+    eventosEbolaCronologicos.forEach(e => {
       const div = document.createElement('div');
       div.className = 'event event-ebola';
       div.dataset.n = e.n;
