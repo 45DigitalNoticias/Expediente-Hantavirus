@@ -3750,63 +3750,73 @@
         <span class="slider-label-event">Ushuaia · Zarpe</span>
         <span class="slider-label-tick"></span>
       </span>
-      <span class="slider-label" style="left:29%">
+      <span class="slider-label" style="left:25%">
         <span class="slider-label-day">17 abr</span>
         <span class="slider-label-event">Primer caso</span>
         <span class="slider-label-tick"></span>
       </span>
-      <span class="slider-label" style="left:56%">
+      <span class="slider-label" style="left:48%">
         <span class="slider-label-day">2 may</span>
         <span class="slider-label-event">OMS notif.</span>
         <span class="slider-label-tick"></span>
       </span>
-      <span class="slider-label" style="left:64%">
-        <span class="slider-label-day">6 may</span>
-        <span class="slider-label-event">Andes virus</span>
-        <span class="slider-label-tick"></span>
-      </span>
-      <span class="slider-label" style="left:73%">
+      <span class="slider-label" style="left:62%">
         <span class="slider-label-day">11 may</span>
         <span class="slider-label-event">CONAVE · MX</span>
         <span class="slider-label-tick"></span>
       </span>
-      <span class="slider-label" style="left:86%">
+      <span class="slider-label" style="left:73%">
         <span class="slider-label-day">18 may</span>
         <span class="slider-label-event">Rotterdam</span>
         <span class="slider-label-tick"></span>
       </span>
+      <span class="slider-label" style="left:88%">
+        <span class="slider-label-day">27 may</span>
+        <span class="slider-label-event">OMS · DON604</span>
+        <span class="slider-label-tick"></span>
+      </span>
+      <span class="slider-label is-end" style="left:100%">
+        <span class="slider-label-day">4 jun</span>
+        <span class="slider-label-event">Cuadro estable</span>
+        <span class="slider-label-tick"></span>
+      </span>
     </div>
-    <input type="range" min="1" max="56" value="56" class="slider" id="slider" style="--pct:100%" />
+    <input type="range" min="1" max="65" value="65" class="slider" id="slider" style="--pct:100%" />
     <!-- Pista inferior · Ébola Bundibugyo (RDC + Uganda) — etiquetas en naranja quemado -->
     <div class="slider-labels-bottom">
-      <span class="slider-label" style="left:62%">
+      <span class="slider-label" style="left:53%">
         <span class="slider-label-tick"></span>
         <span class="slider-label-day">5 may</span>
         <span class="slider-label-event">Mongbwalu · alerta</span>
       </span>
-      <span class="slider-label" style="left:78%">
+      <span class="slider-label" style="left:67%">
         <span class="slider-label-tick"></span>
         <span class="slider-label-day">14 may</span>
         <span class="slider-label-event">Bunia · Bundibugyo</span>
       </span>
-      <span class="slider-label" style="left:84%">
+      <span class="slider-label" style="left:72%">
         <span class="slider-label-tick"></span>
         <span class="slider-label-day">17 may</span>
         <span class="slider-label-event">PHEIC · OMS</span>
       </span>
-      <span class="slider-label" style="left:93%">
+      <span class="slider-label" style="left:80%">
         <span class="slider-label-tick"></span>
         <span class="slider-label-day">22 may</span>
         <span class="slider-label-event">Comité RSI</span>
       </span>
+      <span class="slider-label" style="left:92%">
+        <span class="slider-label-tick"></span>
+        <span class="slider-label-day">30 may</span>
+        <span class="slider-label-event">5 recuperados</span>
+      </span>
       <span class="slider-label is-end" style="left:100%">
         <span class="slider-label-tick"></span>
-        <span class="slider-label-day">26 may</span>
-        <span class="slider-label-event">IMSS · Mundial</span>
+        <span class="slider-label-day">3 jun</span>
+        <span class="slider-label-event">DON605 · 344+60</span>
       </span>
     </div>
   </div>
-  <div class="current-date" id="current-date">26 may</div>
+  <div class="current-date" id="current-date">3 jun</div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -3844,8 +3854,7 @@
     { n:29, day:49, date:'19-may', type:'death', coords:[39.32,-104.97], place:'Douglas County, Colorado, EE.UU. — Sin Nombre virus (no MV Hondius)', desc:'<b>Adulto residente de Douglas County, Colorado, fallece por hantavirus.</b> Autoridades sanitarias estadounidenses confirman: <b>cepa Sin Nombre virus (SNV)</b>, endémica de América del Norte, transmitida por contacto con excrementos u orina del ratón ciervo. <b>Descartado oficialmente cualquier vínculo con el MV Hondius</b> — son cepas distintas (SNV vs. Andes). EE.UU. registra históricamente 20-40 casos anuales de Sin Nombre virus; este caso aparece en titulares por el contexto del brote internacional, no por excepcionalidad clínica. <i>Cobertura: Infobae EE.UU., El Mañana, TV Azteca BC (sin comunicado primario del Colorado Dept. of Public Health & Environment localizado al cierre).</i>', v:'⚠️' },
     { n:30, day:52, date:'22-may', type:'hospital', coords:[51.92,4.48], place:'Rotterdam — nuevo caso confirmado en tripulante', desc:'<b>Nuevo caso de hantavirus confirmado en un tripulante del MV Hondius en cuarentena en Rotterdam.</b> Es el primer caso confirmado entre la tripulación tras el atraque del 18-may, en el que las 25 personas a bordo dieron negativo. Eleva el total del cluster a 12 casos (10 confirmados + 2 probables) y mantiene 3 muertes. <b>Implicación:</b> el brote NO quedó confinado al núcleo original de pasajeros; la transmisión a tripulación durante la travesía (período de incubación largo del Andes virus) se confirma. <i>Convergencia trusted:</i> <a href="https://www.manilatimes.net/2026/05/22/world/who-says-new-hantavirus-case-among-hondius-ships-crew/2350248" target="_blank" rel="noopener">Manila Times (22-may)</a> y <a href="https://nltimes.nl/2026/05/23/new-hantavirus-infection-confirmed-hondius-crew-member-isolated-netherlands" target="_blank" rel="noopener">NL Times (23-may)</a> citando a la OMS. Verificación directa pendiente con comunicado RIVM/OMS de la fecha.', v:'⚠️' },
     { n:31, day:56, date:'26-may', type:'lab', coords:[52.10,5.18], place:'Bilthoven · RIVM — cifras consolidadas del cluster', desc:'<b>RIVM publica cuadro consolidado del cluster MV Hondius al 26 de mayo: 13 casos totales (11 confirmados + 2 probables), 3 muertes.</b> Sin nuevos fallecimientos desde la actualización previa. La nueva infección confirmada (n:30) queda formalmente integrada en la cifra. RIVM + Erasmus MC mantienen testeo semanal a todos los contactos en cuarentena. La probabilidad de propagación comunitaria en territorio neerlandés se evalúa como mínima dado el dispositivo de aislamiento. <b>Audit trail:</b> esta cifra reemplaza la del 13-may (11 casos, 3 muertes) tras integrar n:30 y el caso adicional de un tripulante repatriado desde Tenerife. <b>Fuentes primarias:</b> <a href="https://www.rivm.nl/en/hantavirus/current-information" target="_blank" rel="noopener">RIVM — Current information about hantavirus</a> + <a href="https://www.ecdc.europa.eu/en/infectious-disease-topics/hantavirus-infection/surveillance-and-updates/andes-hantavirus-outbreak" target="_blank" rel="noopener">ECDC Surveillance Update</a>.', v:'✅' },
-    { n:32, day:57, date:'27-may', type:'lab', coords:[46.20,6.14], place:'Ginebra · OMS — DON604 hantavirus', desc:'<b>OMS publica Disease Outbreak News 604</b>, cuarto informe oficial del brote MV Hondius. Cifras al 27-may: <b>13 casos totales (11 confirmados + 2 probables), 3 muertes (2 confirmadas + 1 probable)</b>. <b>Tres nuevos casos confirmados desde DON601 (13-may): uno cada uno desde Canadá, Países Bajos y España</b> — primer caso confirmado en Canadá, segundo caso confirmado en España, y el caso del tripulante neerlandés (n:30) integrado en la cifra. <b>Más de 600 contactos identificados en 32 países, territorios y áreas</b> al 22-may (53% alto riesgo + 47% bajo riesgo) bajo monitoreo cercano o autodeclarado. Todos los confirmados son del MV Hondius — sin transmisión comunitaria documentada. <b>Audit trail:</b> DON604 supersede a DON601 como cuadro epidemiológico oficial. <b>Fuente primaria:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON604" target="_blank" rel="noopener">WHO DON604 (27-may-2026)</a>.', v:'✅' },
-    { n:33, day:43, date:'13-may', type:'hospital', coords:[45.50,-73.57], place:'Montreal, Canadá · primer confirmado (registrado en DON604)', desc:'<b>Primer caso confirmado de hantavirus Andes en Canadá vinculado al MV Hondius</b>, registrado oficialmente por OMS en DON604 (publicado 27-may). El caso corresponde a un pasajero canadiense desembarcado en Tenerife y repatriado a territorio canadiense bajo monitoreo. Canadá se suma como decimocuarto país con caso confirmado del cluster, ampliando la geografía del brote por encima del corredor europeo dominante. <b>Fuentes:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON604" target="_blank" rel="noopener">WHO DON604</a>. <i>Comunicado primario de la Public Health Agency of Canada no localizado al cierre — la confirmación aparece en el cuadro consolidado OMS.</i>', v:'⚠️' }
+    { n:32, day:57, date:'27-may', type:'lab', coords:[46.20,6.14], place:'Ginebra · OMS — DON604 hantavirus', desc:'<b>OMS publica Disease Outbreak News 604</b>, cuarto informe oficial del brote MV Hondius. Cifras al 27-may: <b>13 casos totales (11 confirmados + 2 probables), 3 muertes (2 confirmadas + 1 probable)</b>. <b>Tres nuevos casos confirmados desde DON601 (13-may): uno cada uno desde Canadá, Países Bajos y España</b> — primer caso confirmado en Canadá (decimocuarto país del cluster, repatriado desde Tenerife bajo monitoreo de la Public Health Agency of Canada), segundo caso confirmado en España, y el caso del tripulante neerlandés (n:30) integrado en la cifra. <b>Más de 600 contactos identificados en 32 países, territorios y áreas</b> al 22-may (53% alto riesgo + 47% bajo riesgo) bajo monitoreo cercano o autodeclarado. Todos los confirmados son del MV Hondius — sin transmisión comunitaria documentada. <b>Audit trail:</b> DON604 supersede a DON601 como cuadro epidemiológico oficial. <b>Fuente primaria:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON604" target="_blank" rel="noopener">WHO DON604 (27-may-2026)</a>.', v:'✅' }
   ];
 
   // (La cronología de Ébola usa el arreglo `eventosEbola` definido más abajo
@@ -3857,12 +3866,14 @@
     32:'2 may', 33:'3 may', 34:'4 may', 36:'6 may', 37:'7 may', 38:'8 may',
     40:'10 may', 41:'11 may', 42:'12 may', 43:'13 may', 45:'15 may',
     48:'18 may', 49:'19 may', 50:'20 may', 51:'21 may', 52:'22 may',
-    55:'25 may', 56:'26 may'
+    55:'25 may', 56:'26 may', 57:'27 may', 58:'28 may', 59:'29 may',
+    60:'30 may', 61:'31 may', 62:'1 jun', 63:'2 jun', 64:'3 jun', 65:'4 jun'
   };
   function dayLabel(d) {
     if (dayToDate[d]) return dayToDate[d];
     if (d <= 30) return `${d} abr`;
-    return `${d - 30} may`;
+    if (d <= 61) return `${d - 30} may`;
+    return `${d - 61} jun`;
   }
 
   // ----- Mapa -----
