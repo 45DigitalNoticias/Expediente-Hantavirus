@@ -4922,7 +4922,7 @@
 
   function applyTimeFilter(day) {
     currentDateLabel.textContent = dayLabel(day);
-    const pct = ((day - 1) / 55) * 100;
+    const pct = ((day - 1) / 64) * 100;
     slider.style.setProperty('--pct', pct + '%');
     // Dim events posteriores
     document.querySelectorAll('.event').forEach(ev => {
@@ -4957,10 +4957,10 @@
       playing = true;
       playBtn.textContent = '⏸';
       let d = parseInt(slider.value);
-      if (d >= 56) { d = 1; slider.value = 1; }
+      if (d >= 65) { d = 1; slider.value = 1; }
       playInterval = setInterval(() => {
         d += 1;
-        if (d > 56) {
+        if (d > 65) {
           clearInterval(playInterval);
           playBtn.textContent = '▶';
           playing = false;
@@ -4972,7 +4972,7 @@
     }
   });
 
-  applyTimeFilter(43); // arranca en 13-may
+  applyTimeFilter(65); // arranca mostrando todo el cluster al 3-jun (slider en máximo)
 
   // Vista inicial englobando todo
   const bounds = L.latLngBounds(events.map(e => e.coords));
