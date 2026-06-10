@@ -2,6 +2,10 @@
 # Las imágenes en uso ya están copiadas a _recursos/imagenes/.
 IMÁGENES VERSIÓN CINE/
 
+# Sandbox interno — versiones experimentales del dashboard que no deben subirse
+# hasta aprobación del usuario. Si se aprueba, se promueve a publica/expediente.html.
+_lab/
+
 # Archivos del SO
 .DS_Store
 Thumbs.db
