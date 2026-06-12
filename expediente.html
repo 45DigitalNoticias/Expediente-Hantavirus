@@ -3402,15 +3402,15 @@
     <!-- TAB: COMPARATIVO — Gráficos lado a lado de los dos brotes -->
     <div class="tab-panel" id="panel-comparativo">
       <div class="guia-intro">
-        Tres gráficos por brote, comparativos a primera vista: <b>cifras al cierre del 9 de junio de 2026</b>, <b>velocidad de respuesta institucional</b> y <b>arquitectura farmacéutica activada</b>. Visualizaciones en SVG nativo, sin librerías externas. <b>Las cifras se actualizan al ritmo de los boletines oficiales.</b>
+        Tres gráficos por brote, comparativos a primera vista: <b>cifras al cierre del 11 de junio de 2026</b>, <b>velocidad de respuesta institucional</b> y <b>arquitectura farmacéutica activada</b>. Visualizaciones en SVG nativo, sin librerías externas. <b>Las cifras se actualizan al ritmo de los boletines oficiales.</b>
       </div>
 
       <div class="comparativo-grid">
         <!-- ====== Gráfico 1: Cifras crudas ====== -->
         <div class="comparativo-card">
-          <h3 class="comparativo-titulo">1 · Cifras crudas al 9-jun-2026</h3>
+          <h3 class="comparativo-titulo">1 · Cifras crudas al 11-jun-2026</h3>
           <div class="comparativo-subtitulo">Casos confirmados, muertes confirmadas y letalidad cruda por brote — escala independiente por métrica</div>
-          <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" class="comparativo-svg" role="img" aria-label="Comparativo de cifras crudas al 9 de junio de 2026">
+          <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" class="comparativo-svg" role="img" aria-label="Comparativo de cifras crudas al 11 de junio de 2026">
             <!-- Encabezados de las tres métricas (zona segura arriba) -->
             <text x="55" y="22" font-size="10" fill="#475569" font-weight="700" text-anchor="middle" letter-spacing="0.06em">CONFIRMADOS</text>
             <text x="160" y="22" font-size="10" fill="#475569" font-weight="700" text-anchor="middle" letter-spacing="0.06em">MUERTES CONF.</text>
@@ -3419,27 +3419,27 @@
             <!-- Eje base -->
             <line x1="15" y1="190" x2="305" y2="190" stroke="#cbd5e1" stroke-width="1"/>
 
-            <!-- ===== Grupo 1: CONFIRMADOS (escala: 569 = 140 px) ===== -->
-            <!-- Hant 11 → 3 px real, forzado a 8 px para visibilidad -->
+            <!-- ===== Grupo 1: CONFIRMADOS (escala: 654 = 140 px) ===== -->
+            <!-- Hant 11 → 2 px real, forzado a 8 px para visibilidad -->
             <rect x="32" y="182" width="22" height="8" fill="#4a7fa3"/>
             <text x="43" y="175" font-size="11" fill="#4a7fa3" text-anchor="middle" font-weight="700">11</text>
             <text x="43" y="208" font-size="9" fill="#4a7fa3" text-anchor="middle">Hant</text>
-            <!-- Ébola 569 (RDC 550 + Uganda 19) → 140 px -->
+            <!-- Ébola 654 (RDC 635 + Uganda 19) → 140 px -->
             <rect x="66" y="50" width="22" height="140" fill="#c2410c"/>
-            <text x="77" y="43" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">569</text>
+            <text x="77" y="43" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">654</text>
             <text x="77" y="208" font-size="9" fill="#c2410c" text-anchor="middle">Ébola</text>
 
             <!-- Separador 1-2 -->
             <line x1="110" y1="45" x2="110" y2="195" stroke="#e2e8f0" stroke-dasharray="2,3"/>
 
-            <!-- ===== Grupo 2: MUERTES CONFIRMADAS (escala: 103 = 140 px) ===== -->
-            <!-- Hant 3 → 4 px, mínimo visual 8 px -->
+            <!-- ===== Grupo 2: MUERTES CONFIRMADAS (escala: 129 = 140 px) ===== -->
+            <!-- Hant 3 → 3 px, mínimo visual 8 px -->
             <rect x="137" y="182" width="22" height="8" fill="#991b1b"/>
             <text x="148" y="175" font-size="11" fill="#991b1b" text-anchor="middle" font-weight="700">3</text>
             <text x="148" y="208" font-size="9" fill="#4a7fa3" text-anchor="middle">Hant</text>
-            <!-- Ébola 103 (RDC 101 + Uganda 2) → 140 px -->
+            <!-- Ébola 129 (RDC 127 + Uganda 2) → 140 px -->
             <rect x="171" y="50" width="22" height="140" fill="#7c2d12"/>
-            <text x="182" y="43" font-size="11" fill="#7c2d12" text-anchor="middle" font-weight="700">103</text>
+            <text x="182" y="43" font-size="11" fill="#7c2d12" text-anchor="middle" font-weight="700">129</text>
             <text x="182" y="208" font-size="9" fill="#c2410c" text-anchor="middle">Ébola</text>
 
             <!-- Separador 2-3 -->
@@ -3450,9 +3450,9 @@
             <rect x="242" y="64" width="22" height="126" fill="#4a7fa3"/>
             <text x="253" y="57" font-size="11" fill="#4a7fa3" text-anchor="middle" font-weight="700">27%</text>
             <text x="253" y="208" font-size="9" fill="#4a7fa3" text-anchor="middle">Hant</text>
-            <!-- Ébola 18.1% (103/569) → 84 px -->
-            <rect x="276" y="106" width="22" height="84" fill="#c2410c"/>
-            <text x="287" y="99" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">18%</text>
+            <!-- Ébola 19.7% (129/654) → 92 px -->
+            <rect x="276" y="98" width="22" height="92" fill="#c2410c"/>
+            <text x="287" y="91" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">20%</text>
             <text x="287" y="208" font-size="9" fill="#c2410c" text-anchor="middle">Ébola</text>
 
             <!-- Leyenda al pie -->
@@ -3462,8 +3462,8 @@
             </g>
           </svg>
           <div class="comparativo-pie">
-            <b>Hantavirus:</b> cluster cerrado (curva plana desde 22-may; MV Hondius reanuda servicio el 13-jun desde Svalbard). <b>Ébola Bundibugyo:</b> brote activo y acelerando. RDC 550 conf + 101 muertes conf + 309 hospitalizados en aislamiento; Uganda 19 conf + 2 muertes conf. <b>El brote cruza las 100 muertes confirmadas a dos días de la inauguración del Mundial.</b> +35 confirmados nuevos y +10 muertes nuevas en 24 horas (8 a 9-jun); ritmo sostenido ~35 nuevos por día. La curva NO se aplana pese a la respuesta institucional consolidada. 8 personas recuperadas oficialmente más Peter Stafford dado de alta del Charité el 6-jun tras 17 días de tratamiento con MBP134. La letalidad confirmada del ébola (18%) sigue bajo el histórico de Bundibugyo (25-40%): efecto del cuidado de soporte temprano y protocolo de aislamiento. La letalidad cruda del hantavirus se mantiene en 27%.<br/>
-            <em>Fuentes: OMS DON604 + DON605 · MINSA RDC al 7-jun vía ECDC + NICD (9-jun) · WHO Ebola DRC 2026 dashboard · Charité press 6-jun · RIVM 3-jun · Oceanwide Expeditions</em>
+            <b>Hantavirus:</b> cluster cerrado (curva plana desde 22-may; MV Hondius reanudó servicio el 13-jun desde Svalbard). <b>Ébola Bundibugyo:</b> brote activo y acelerando. RDC 635 conf + 127 muertes conf + 260 hospitalizados en aislamiento (OMS DON606, datos al 9-jun); Uganda 19 conf + 2 muertes conf. <b>+85 confirmados y +26 muertes nuevas en 4 días (7 a 11-jun), nueva zona de salud Tchomia el día de la inauguración del Mundial.</b> La curva NO se aplana pese a la respuesta institucional consolidada. 8 recuperados oficiales más Peter Stafford dado de alta del Charité el 6-jun tras 17 días de tratamiento con MBP134. La letalidad confirmada del ébola (20%) sigue bajo el histórico de Bundibugyo (25-40%): efecto del cuidado de soporte temprano y protocolo de aislamiento. La letalidad cruda del hantavirus se mantiene en 27%. <b>Giro 11-jun:</b> los expertos desplazan su amenaza #1 del ébola al sarampión (2,030 casos en EE.UU. en 2026, advertencia OPS), que se transmite por aerosol en multitudes.<br/>
+            <em>Fuentes: OMS DON606 (datos RDC al 9-jun) · ECDC + NICD · WHO Ebola DRC 2026 dashboard · Charité press 6-jun · CNBC + NPR + PAHO (sarampión) · Oceanwide Expeditions</em>
           </div>
         </div>
 
@@ -4609,7 +4609,9 @@
     { n:'E34', day:66, date:'5-jun', type:'lab', coords:[9.03, 38.74], place:'Addis Abeba · Africa CDC + OMS · Plan continental USD 518M', desc:'<b>Africa CDC y OMS lanzan plan conjunto de respuesta continental por USD 518 millones para combatir el brote Bundibugyo durante seis meses (junio a noviembre 2026).</b> El plan articula 12 países africanos en torno a tres ejes: vigilancia transfronteriza, capacitación clínica y stockpile de contramedidas. Es la primera vez desde COVID que Africa CDC y OMS lanzan un plan continental conjunto con presupuesto unificado para un brote regional. <b>Implicación operativa:</b> el régimen pre-pandémico que la columna del 20-may (<em>Capitalismo de preparación pandémica</em>) describió como infraestructura Lakoff se activa con cifra precisa para Bundibugyo en seis meses. <b>Implicación editorial:</b> mientras USA + México + Canadá ponen USD ~0 en gasto sanitario directo y se concentran en restricciones de viaje + screening (gasto regulatorio), Africa CDC + OMS movilizan medio billón para respuesta operativa en el origen del brote. La asimetría confirma la lectura Klein invertida. <b>Fuente primaria:</b> <a href="https://www.who.int/news/item/05-06-2026-africa-cdc-and-who-launch-joint-continental-ebola-response-plan" target="_blank" rel="noopener">WHO + Africa CDC press release (5-jun)</a>.', v:'✅' },
     { n:'E35', day:67, date:'6-jun', type:'lab', coords:[-1.29, 36.82], place:'Washington DC + Nairobi · USA-Kenya USD 13.5M + Rubio reengagement GAVI', desc:'<b>Estados Unidos compromete USD 13.5 millones a Kenya para preparación contra ébola Bundibugyo.</b> El anuncio surge de conversación entre el Secretario de Estado Marco Rubio y el Presidente keniano William Ruto. Mismo día, Rubio anuncia que EE.UU. "reengage" con Gavi, la Alianza Global para Vacunas, después de meses de tensión por el bloqueo de USD 300 millones por el Secretario de Salud Robert F. Kennedy Jr. (ver E36). El reengagement parcial busca normalizar la relación con la coalición que custodia el stockpile global de Ervebo (vacuna Merck cepa Zaire, no cubre Bundibugyo). <b>Implicación:</b> la tensión interna del gabinete Trump entre Rubio (multilateralista pragmático) y Kennedy (escéptico de vacunas) se resuelve operativamente vía dinero discreto a Kenya, no vía liberación del fondo GAVI. <b>Fuentes:</b> <a href="https://thehill.com/policy/healthcare/5907909-rubio-state-department-gavi/" target="_blank" rel="noopener">The Hill (Rubio-Gavi)</a> + <a href="https://www.newsnationnow.com/politics/marco-rubio-global-vaccine-program-gavi-funding/" target="_blank" rel="noopener">NewsNation</a> + State Department briefings.', v:'⚠️' },
     { n:'E36', day:67, date:'6-jun', type:'lab', coords:[38.89, -77.04], place:'Washington DC · Kennedy bloquea USD 300M de GAVI (vencen 30-sep)', desc:'<b>El Secretario de Salud Robert F. Kennedy Jr. mantiene en bloqueo USD 300 millones anuales (fiscal 2025 + fiscal 2026 = USD 600M agregado) que el Congreso asignó para Gavi, la Alianza Global para Vacunas.</b> Los fondos vencen formalmente el 30 de septiembre si la administración Trump no los libera. HHS argumenta que retiene el dinero porque Gavi rechazó desarrollar plan para eliminar el conservante tiomersal de sus vacunas pese a petición formal. Kennedy sostiene que tiomersal causa autismo. La CDC y múltiples estudios revisados por pares descartan ese vínculo. <b>Gavi estima que la pérdida del financiamiento USA podría dejar a 75 millones de niños sin vacunación de rutina en los próximos cinco años, con 1.2 millones de muertes infantiles atribuibles.</b> Gavi custodia el stockpile global de Ervebo (vacuna Merck contra ébola cepa Zaire). <b>Implicación estructural:</b> el bloqueo Kennedy afecta directamente la arquitectura financiera multilateral que el expediente ha documentado como infraestructura Lakoff. La asimetría operativa se acentúa: mientras USA bloquea USD 300M de Gavi multilateral, BARDA acelera MBP134 (USA-controlado, Mapp Biopharmaceutical privado). <b>Fuentes:</b> <a href="https://www.cidrap.umn.edu/childhood-vaccines/us-lawmakers-seek-answers-blocked-funding-gavi" target="_blank" rel="noopener">CIDRAP</a> + <a href="https://indepthnh.org/2026/04/21/shaheen-presses-rfk-jr-to-release-health-funds-to-vaccinate-children-prevent-outbreaks-worldwide/" target="_blank" rel="noopener">Shaheen presiona a RFK Jr.</a> + The Hill + Prism News.', v:'✅' },
-    { n:'E37', day:69, date:'9-jun', type:'lab', coords:[1.56, 30.24], place:'Bunia, Ituri (RDC) · MINSA RDC bulletin · cifras al 7-jun', desc:'<b>Min Salud DRC publica cifras al 7 de junio: 550 confirmados + 101 muertes confirmadas + 309 personas hospitalizadas en aislamiento.</b> Geografía: <b>Ituri 518 confirmados en 17 zonas de salud, Nord-Kivu 29 en 7 zonas, Sud-Kivu 3 en 1 zona</b>. Uganda mantiene 19 confirmados + 2 muertes (al 8-jun). Desde la actualización del 8-jun (515 conf + 91 muertes): <b>+35 confirmados nuevos y +10 muertes nuevas en 24 horas</b>. <b>El brote cruza la barrera de las 100 muertes confirmadas</b> a dos días de la inauguración del Mundial 2026. Letalidad confirmada cruda al 9-jun: 101/550 = 18.4% en RDC; agregada (RDC+Uganda) 103/569 = 18.1%. <b>Audit trail:</b> cifras superseden el cuadro del 8-jun (E30); ritmo sostenido ~35 confirmados nuevos por día. La curva NO se aplana pese a la respuesta institucional consolidada. <b>Fuentes primarias:</b> <a href="https://www.ecdc.europa.eu/en/ebola-outbreak-democratic-republic-congo-and-uganda" target="_blank" rel="noopener">ECDC Ebola outbreak DRC and Uganda</a> + <a href="https://www.nicd.ac.za/situational-update-on-the-ebola-disease-outbreak-caused-by-bundibugyo-virus-democratic-republic-of-the-congo-and-uganda/" target="_blank" rel="noopener">NICD situational update</a> + WHO DRC dashboard.', v:'✅' }
+    { n:'E37', day:69, date:'9-jun', type:'lab', coords:[1.56, 30.24], place:'Bunia, Ituri (RDC) · MINSA RDC bulletin · cifras al 7-jun', desc:'<b>Min Salud DRC publica cifras al 7 de junio: 550 confirmados + 101 muertes confirmadas + 309 personas hospitalizadas en aislamiento.</b> Geografía: <b>Ituri 518 confirmados en 17 zonas de salud, Nord-Kivu 29 en 7 zonas, Sud-Kivu 3 en 1 zona</b>. Uganda mantiene 19 confirmados + 2 muertes (al 8-jun). Desde la actualización del 8-jun (515 conf + 91 muertes): <b>+35 confirmados nuevos y +10 muertes nuevas en 24 horas</b>. <b>El brote cruza la barrera de las 100 muertes confirmadas</b> a dos días de la inauguración del Mundial 2026. Letalidad confirmada cruda al 9-jun: 101/550 = 18.4% en RDC; agregada (RDC+Uganda) 103/569 = 18.1%. <b>Audit trail:</b> cifras superseden el cuadro del 8-jun (E30); ritmo sostenido ~35 confirmados nuevos por día. La curva NO se aplana pese a la respuesta institucional consolidada. <b>Fuentes primarias:</b> <a href="https://www.ecdc.europa.eu/en/ebola-outbreak-democratic-republic-congo-and-uganda" target="_blank" rel="noopener">ECDC Ebola outbreak DRC and Uganda</a> + <a href="https://www.nicd.ac.za/situational-update-on-the-ebola-disease-outbreak-caused-by-bundibugyo-virus-democratic-republic-of-the-congo-and-uganda/" target="_blank" rel="noopener">NICD situational update</a> + WHO DRC dashboard.', v:'✅' },
+    { n:'E38', day:73, date:'11-jun', type:'hospital', coords:[19.30, -99.15], place:'CDMX · Estadio Azteca · Inauguración Mundial 2026 + sarampión como amenaza #1', desc:'<b>Arranca el Mundial 2026.</b> México abre el torneo contra Sudáfrica en el Estadio Azteca de la Ciudad de México. 16 sedes en tres países, cinco semanas, millones de aficionados convergiendo en aeropuertos, estadios, hoteles y transporte público. <b>Giro epidemiológico:</b> los expertos de salud pública desplazan su preocupación principal del ébola al <b>sarampión</b>. El CDC estadounidense confirma <b>2,030 casos de sarampión en EE.UU. en 2026</b> al 4-jun, cerca del total de todo 2025, con advertencia formal de la OPS (Organización Panamericana de la Salud) esa misma semana. El sarampión es uno de los patógenos más contagiosos que existen y se transmite por aerosol, justo el escenario de recintos cerrados del Mundial. <b>Lectura editorial:</b> el sarampión confirma la tesis de la pieza del 4-jun (<em>La precaución hacia el virus equivocado</em>): el dispositivo regulatorio trinacional se calibró contra ébola africano (de contacto, improbable en estadios) mientras el vector que el Mundial sí amplifica es aerosol en multitudes. Al sarampión, además, lo agrava el bloqueo de Gavi documentado en <em>La transferencia silenciosa</em> (9-jun) y la postura anti-vacunas de RFK Jr. <b>Cero casos de ébola en EE.UU. al cierre.</b> <b>Fuentes:</b> <a href="https://www.cnbc.com/2026/06/04/world-cup-2026-health-officials-focused-on-ebola-measles.html" target="_blank" rel="noopener">CNBC (4-jun)</a> + <a href="https://www.npr.org/2026/06/05/nx-s1-5846403/world-cup-mosquitoes-ebola-heat" target="_blank" rel="noopener">NPR (5-jun)</a> + Fast Company + The Conversation + PAHO warning.', v:'✅' },
+    { n:'E39', day:73, date:'11-jun', type:'lab', coords:[1.56, 30.24], place:'Bunia, Ituri (RDC) · OMS DON606 · cifras al 11-jun', desc:'<b>OMS publica Disease Outbreak News 606.</b> Cifras al 11 de junio (datos RDC al 9-jun): <b>RDC 635 confirmados + 127 muertes confirmadas + 260 hospitalizados en aislamiento.</b> Geografía: <b>Ituri 600 confirmados en 18 zonas de salud (nueva zona afectada: Tchomia, con 2 confirmados), Nord-Kivu 32 en 7 zonas, Sud-Kivu 3 en 1 zona.</b> Uganda mantiene transmisión epidemiológicamente vinculada a la RDC, con casos importados más transmisión secundaria entre contactos y trabajadores sanitarios. Desde el reporte del 10-jun: <b>+37 confirmados nuevos y +12 muertes nuevas en 24 horas.</b> <b>Audit trail:</b> cifras superseden el cuadro del 9-jun (E37, 550 conf + 101 muertes). El brote suma <b>+85 confirmados y +26 muertes en 4 días</b> (7 a 11-jun). Letalidad confirmada cruda al 11-jun: 127/635 = 20.0% en RDC. La curva sigue ascendente el mismo día de la inauguración del Mundial. Expansión territorial activa: nueva zona de salud Tchomia en Ituri. <b>Fuentes primarias:</b> <a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON606" target="_blank" rel="noopener">WHO DON606</a> + <a href="https://www.ecdc.europa.eu/en/ebola-outbreak-democratic-republic-congo-and-uganda" target="_blank" rel="noopener">ECDC</a> + <a href="https://www.nicd.ac.za/situational-update-on-the-ebola-disease-outbreak-caused-by-bundibugyo-virus-democratic-republic-of-the-congo-and-uganda/" target="_blank" rel="noopener">NICD situational update</a>.', v:'✅' }
   ];
 
   // Icono ébola — naranja quemado con número
@@ -5137,8 +5139,8 @@
   //  ÉBOLA 2026 — Países afectados (RDC + Uganda)
   // =================================================================
   const countriesEbola = [
-    { flag:'🇨🇩', name:'República Democrática del Congo', hosp:'Ituri (epicentro) · Nord-Kivu · Sud-Kivu', conf:550, prob:116, deaths:'101 conf · 309 hospitalizados · 6 recuperados', coords:[1.5, 30.1],
-      note:'Brote epicentro en Provincia de Ituri (noreste): Mongbwalu (caso índice 5-may), Bunia (confirmación laboratorio 14-may), Rwampara. Expansión confirmada el 20-may a Sud-Kivu vía caso con viaje desde Tshopo. <b>Cifras MINSA RDC al 7-jun (ECDC + NICD 9-jun):</b> <b>550 confirmados + 101 muertes confirmadas + 309 hospitalizados en aislamiento.</b> Geografía: <b>Ituri 518 (17 zonas), Nord-Kivu 29 (7 zonas), Sud-Kivu 3 (1 zona).</b> +35 confirmados nuevos y +10 muertes nuevas en 24 horas (8 a 9-jun). <b>El brote cruza las 100 muertes confirmadas a dos días de la inauguración del Mundial.</b> 4 trabajadores sanitarios fallecidos; 6 personas recuperadas oficialmente. <b>Letalidad confirmada cruda: 101/550 = 18.4%.</b> <b>Audit trail:</b> la cifra del 5-jun (399 conf + 66 muertes) reportaba "ritmo se desacelera" como lectura preliminar; quedó invalidada. La curva NO se aplana pese a la respuesta institucional consolidada: ritmo sostenido ~35 confirmados nuevos por día. Versión inicial al 26-may: 121 conf + 17 muertes.', v:'✅' },
+    { flag:'🇨🇩', name:'República Democrática del Congo', hosp:'Ituri (epicentro) · Nord-Kivu · Sud-Kivu', conf:635, prob:116, deaths:'127 conf · 260 hospitalizados · 6 recuperados', coords:[1.5, 30.1],
+      note:'Brote epicentro en Provincia de Ituri (noreste): Mongbwalu (caso índice 5-may), Bunia (confirmación laboratorio 14-may), Rwampara. Expansión confirmada el 20-may a Sud-Kivu vía caso con viaje desde Tshopo. <b>Cifras OMS DON606 al 11-jun (datos RDC al 9-jun):</b> <b>635 confirmados + 127 muertes confirmadas + 260 hospitalizados en aislamiento.</b> Geografía: <b>Ituri 600 (18 zonas, nueva zona Tchomia con 2 casos), Nord-Kivu 32 (7 zonas), Sud-Kivu 3 (1 zona).</b> +37 confirmados nuevos y +12 muertes nuevas en 24 horas (10 a 11-jun); +85 conf y +26 muertes en 4 días (7 a 11-jun). <b>Letalidad confirmada cruda: 127/635 = 20.0%.</b> 4 trabajadores sanitarios fallecidos; 6 personas recuperadas oficialmente. <b>Audit trail:</b> la cifra del 5-jun (399 conf + 66 muertes) reportaba "ritmo se desacelera"; quedó invalidada. La curva NO se aplana pese a la respuesta institucional consolidada, y suma una nueva zona de salud (Tchomia) el mismo día de la inauguración del Mundial. Versión inicial al 26-may: 121 conf + 17 muertes.', v:'✅' },
     { flag:'🇺🇬', name:'Uganda', hosp:'Kampala + Ntoroko + Mbarara y áreas fronterizas con RDC', conf:19, prob:0, deaths:'2 conf · 2 recuperados', coords:[0.3, 32.6],
       note:'<b>19 casos confirmados al 5-jun con 2 muertes confirmadas</b> (cifra MINSA Uganda + WHO Ebola DRC 2026 dashboard). Los 3 nuevos confirmados del 5-jun son contactos directos de casos confirmados, sin transmisión local secundaria. Clusters de exposición transfronteriza en distrito ugandés de Ntoroko (frontera con Ituri). <b>2 personas recuperadas oficialmente.</b> Ministerio de Salud (Dra. Jane Ruth Aceng Ocero) activa protocolos de vigilancia transfronteriza. Uganda tiene experiencia operativa de brotes previos de Bundibugyo (2007 fue origen del subtipo, 2012 confirma protocolo). <b>Audit trail:</b> cifra subida de 7 (26-may) a 15 (1-jun) y ahora a 19 (5-jun, con 1 segunda muerte confirmada).', v:'✅' },
     { flag:'🇺🇸', name:'Estados Unidos · Antecedente regulatorio anti-ébola', hosp:'Title 42 Order + 4 aeropuertos designados (IAD · ATL · IAH · JFK)', conf:0, prob:0, deaths:0, coords:[38.92, -77.05],
@@ -5541,6 +5543,26 @@
   //  Brote de Bundibugyo en RDC + Uganda (mayo 2026)
   // =================================================================
   const declaracionesEbola = [
+    {
+      fecha: '2026-06-11',
+      fechaLegible: '11 jun 2026',
+      fuente: 'OMS — DON606',
+      tagClass: 'fuente-oms',
+      vocero: 'OMS — Disease Outbreak News 606',
+      cita: 'Cifras al 11 de junio (datos RDC al 9 de junio): <b>RDC 635 confirmados, 127 muertes confirmadas, 260 hospitalizados en aislamiento.</b> Geografía: Ituri 600 confirmados en 18 zonas de salud (nueva zona afectada: Tchomia, con 2 confirmados), Nord-Kivu 32 en 7 zonas, Sud-Kivu 3 en 1 zona. Uganda con transmisión epidemiológicamente vinculada a RDC: casos importados más transmisión secundaria entre contactos y trabajadores sanitarios. Desde el reporte del 10 de junio: +37 confirmados nuevos y +12 muertes nuevas en 24 horas. Letalidad confirmada cruda: 127/635 = 20.0% en RDC.',
+      contexto: 'Audit trail: DON606 supersede el cuadro del 9-jun (550 conf + 101 muertes). El brote suma +85 confirmados y +26 muertes en cuatro días (7 a 11-jun) y abre una nueva zona de salud (Tchomia) el mismo día de la inauguración del Mundial 2026. La curva sigue ascendente pese a la respuesta institucional consolidada. Implicación editorial vigente: Title 42 vence el 17-jun, mismo día que la RDC debuta contra Portugal en Houston, con el brote de origen cruzando las 127 muertes confirmadas.',
+      url: 'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON606'
+    },
+    {
+      fecha: '2026-06-11',
+      fechaLegible: '11 jun 2026',
+      fuente: 'OPS / CDC',
+      tagClass: 'fuente-cdc',
+      vocero: 'Organización Panamericana de la Salud + CDC EE.UU. · expertos de salud pública',
+      cita: '<b>Los expertos de salud pública desplazan su preocupación principal del ébola al sarampión para el Mundial 2026.</b> El CDC confirma <b>2,030 casos de sarampión en EE.UU. en 2026</b> al cierre del 4 de junio, cerca del total de todo 2025. La OPS emite advertencia formal esa semana. El sarampión es uno de los patógenos más contagiosos que existen, se transmite por aerosol y encuentra en los recintos cerrados del Mundial el escenario ideal de propagación. Cero casos de ébola en EE.UU. al cierre.',
+      contexto: 'El sarampión confirma operativamente la tesis de la pieza del 4-jun (La precaución hacia el virus equivocado): el dispositivo regulatorio trinacional se calibró contra ébola africano (de contacto, clínicamente improbable en estadios) mientras el vector que el Mundial sí amplifica se transmite por aerosol en multitudes. El sarampión agrega una capa: lo agravan el bloqueo de Gavi (USD 600M, documentado en La transferencia silenciosa del 9-jun) y la postura anti-vacunas de RFK Jr. al frente de HHS. La amenaza no vino del continente vigilado ni del patógeno vigilado.',
+      url: 'https://www.cnbc.com/2026/06/04/world-cup-2026-health-officials-focused-on-ebola-measles.html'
+    },
     {
       fecha: '2026-06-09',
       fechaLegible: '9 jun 2026',
