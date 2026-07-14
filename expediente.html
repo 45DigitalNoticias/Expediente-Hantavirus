@@ -3432,15 +3432,15 @@
     <!-- TAB: COMPARATIVO — Gráficos lado a lado de los dos brotes -->
     <div class="tab-panel" id="panel-comparativo">
       <div class="guia-intro">
-        Tres gráficos por brote, comparativos a primera vista: <b>cifras al cierre del 5 de julio de 2026</b>, <b>velocidad de respuesta institucional</b> y <b>arquitectura farmacéutica activada</b>. Visualizaciones en SVG nativo, sin librerías externas. <b>Las cifras se actualizan al ritmo de los boletines oficiales.</b>
+        Tres gráficos por brote, comparativos a primera vista: <b>cifras al cierre del 12 de julio de 2026</b>, <b>velocidad de respuesta institucional</b> y <b>arquitectura farmacéutica activada</b>. Visualizaciones en SVG nativo, sin librerías externas. <b>Las cifras se actualizan al ritmo de los boletines oficiales.</b>
       </div>
 
       <div class="comparativo-grid">
         <!-- ====== Gráfico 1: Cifras crudas ====== -->
         <div class="comparativo-card">
-          <h3 class="comparativo-titulo">1 · Cifras crudas al 14-jun-2026</h3>
+          <h3 class="comparativo-titulo">1 · Cifras crudas al 12-jul-2026</h3>
           <div class="comparativo-subtitulo">Casos confirmados, muertes confirmadas y letalidad cruda por brote — escala independiente por métrica</div>
-          <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" class="comparativo-svg" role="img" aria-label="Comparativo de cifras crudas al 5 de julio de 2026">
+          <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" class="comparativo-svg" role="img" aria-label="Comparativo de cifras crudas al 12 de julio de 2026">
             <!-- Encabezados de las tres métricas (zona segura arriba) -->
             <text x="55" y="22" font-size="10" fill="#475569" font-weight="700" text-anchor="middle" letter-spacing="0.06em">CONFIRMADOS</text>
             <text x="160" y="22" font-size="10" fill="#475569" font-weight="700" text-anchor="middle" letter-spacing="0.06em">MUERTES CONF.</text>
@@ -3449,40 +3449,40 @@
             <!-- Eje base -->
             <line x1="15" y1="190" x2="305" y2="190" stroke="#cbd5e1" stroke-width="1"/>
 
-            <!-- ===== Grupo 1: CONFIRMADOS (escala: 1480 = 140 px) ===== -->
+            <!-- ===== Grupo 1: CONFIRMADOS (escala: ébola al tope = 140 px) ===== -->
             <!-- Hant 11 → 2 px real, forzado a 8 px para visibilidad -->
             <rect x="32" y="182" width="22" height="8" fill="#4a7fa3"/>
             <text x="43" y="175" font-size="11" fill="#4a7fa3" text-anchor="middle" font-weight="700">11</text>
             <text x="43" y="208" font-size="9" fill="#4a7fa3" text-anchor="middle">Hant</text>
-            <!-- Ébola 1581 (RDC 1561 + Uganda 20) → 140 px -->
+            <!-- Ébola 1946 (RDC 1926 + Uganda 20) → 140 px -->
             <rect x="66" y="50" width="22" height="140" fill="#c2410c"/>
-            <text x="77" y="43" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">1581</text>
+            <text x="77" y="43" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">1946</text>
             <text x="77" y="208" font-size="9" fill="#c2410c" text-anchor="middle">Ébola</text>
 
             <!-- Separador 1-2 -->
             <line x1="110" y1="45" x2="110" y2="195" stroke="#e2e8f0" stroke-dasharray="2,3"/>
 
-            <!-- ===== Grupo 2: MUERTES CONFIRMADAS (escala: 508 = 140 px) ===== -->
+            <!-- ===== Grupo 2: MUERTES CONFIRMADAS (escala: ébola al tope = 140 px) ===== -->
             <!-- Hant 3 → 2 px, mínimo visual 8 px -->
             <rect x="137" y="182" width="22" height="8" fill="#991b1b"/>
             <text x="148" y="175" font-size="11" fill="#991b1b" text-anchor="middle" font-weight="700">3</text>
             <text x="148" y="208" font-size="9" fill="#4a7fa3" text-anchor="middle">Hant</text>
-            <!-- Ébola 508 (RDC 506 + Uganda 2) → 140 px -->
+            <!-- Ébola 704 (RDC 702 + Uganda 2) → 140 px -->
             <rect x="171" y="50" width="22" height="140" fill="#7c2d12"/>
-            <text x="182" y="43" font-size="11" fill="#7c2d12" text-anchor="middle" font-weight="700">508</text>
+            <text x="182" y="43" font-size="11" fill="#7c2d12" text-anchor="middle" font-weight="700">704</text>
             <text x="182" y="208" font-size="9" fill="#c2410c" text-anchor="middle">Ébola</text>
 
             <!-- Separador 2-3 -->
             <line x1="215" y1="45" x2="215" y2="195" stroke="#e2e8f0" stroke-dasharray="2,3"/>
 
-            <!-- ===== Grupo 3: LETALIDAD CONFIRMADA (escala: 35% = 140 px) ===== -->
-            <!-- Hant 27% → 108 px -->
-            <rect x="242" y="82" width="22" height="108" fill="#4a7fa3"/>
-            <text x="253" y="75" font-size="11" fill="#4a7fa3" text-anchor="middle" font-weight="700">27%</text>
+            <!-- ===== Grupo 3: LETALIDAD CONFIRMADA (escala: 40% = 140 px) ===== -->
+            <!-- Hant 27% → 94 px -->
+            <rect x="242" y="96" width="22" height="94" fill="#4a7fa3"/>
+            <text x="253" y="89" font-size="11" fill="#4a7fa3" text-anchor="middle" font-weight="700">27%</text>
             <text x="253" y="208" font-size="9" fill="#4a7fa3" text-anchor="middle">Hant</text>
-            <!-- Ébola 32% (508/1581) → 128 px -->
-            <rect x="276" y="62" width="22" height="128" fill="#c2410c"/>
-            <text x="287" y="55" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">32%</text>
+            <!-- Ébola 36% (704/1946) → 126 px -->
+            <rect x="276" y="64" width="22" height="126" fill="#c2410c"/>
+            <text x="287" y="57" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">36%</text>
             <text x="287" y="208" font-size="9" fill="#c2410c" text-anchor="middle">Ébola</text>
 
             <!-- Leyenda al pie -->
@@ -3492,8 +3492,8 @@
             </g>
           </svg>
           <div class="comparativo-pie">
-            <b>Hantavirus:</b> cluster cerrado (curva plana desde 22-may; MV Hondius reanudó servicio el 13-jun desde Svalbard). <b>Ébola Bundibugyo:</b> brote activo y acelerando. RDC 1,561 conf + 506 muertes conf + 628 hospitalizados, CFR 32% (ECDC / WHO AFRO al 5-jul); Uganda 20 conf + 2 muertes conf, estable. Total combinado: 1,581 conf + 508 muertes. <b>Tercer brote de ébola más grande de la historia; la curva no toca techo.</b> La OMS reporta un ataque a un equipo de entierros seguros en Mongbwalu y cinco trabajadores tomados como rehenes en puntos de control: resistencia comunitaria, la variable que históricamente vuelve incontrolable un brote de filovirus. La letalidad confirmada del ébola sube a 32%, ya por encima del hantavirus (27%) y dentro del histórico de Bundibugyo (25-40%). La letalidad cruda del hantavirus se mantiene en 27%. <b>Sede latinoamericana:</b> Colombia vs RDC en Guadalajara el 23-jun cruza el equipo del país del brote con afición sudamericana; México refuerza vigilancia y mantiene riesgo "muy bajo".<br/>
-            <em>Fuentes: ECDC / WHO AFRO (5-jul) · OMS DON612 (1-jul, línea base) · U.S. Dept. of State · SSA México · Oceanwide Expeditions</em>
+            <b>Hantavirus:</b> cluster cerrado (curva plana desde 22-may; MV Hondius reanudó servicio el 13-jun desde Svalbard). <b>Ébola Bundibugyo:</b> brote activo y acelerando. RDC 1,926 conf + 702 muertes conf + 753 hospitalizados + 295 recuperados, CFR 36% (ECDC / WHO AFRO al 12-jul); Uganda 20 conf + 2 muertes conf, sin casos nuevos desde el 21-jun. Total combinado: 1,946 conf + 704 muertes. <b>Tercer brote de ébola más grande de la historia; la curva no toca techo.</b> La OMS reporta ataques a equipos de respuesta y resistencia comunitaria en Ituri y Nord-Kivu: la variable que históricamente vuelve incontrolable un brote de filovirus. La letalidad confirmada del ébola sube a 36%, ya muy por encima del hantavirus (27%) y rozando el techo histórico de Bundibugyo (25-40%). La letalidad cruda del hantavirus se mantiene en 27%. <b>Corredor:</b> Argentina, único clasificado con la cepa Andes de transmisión persona-persona, juega su semifinal en Atlanta el 15-jul; México mantuvo vigilancia reforzada durante la fase de sedes y riesgo "muy bajo".<br/>
+            <em>Fuentes: ECDC / WHO AFRO (12-jul) · OMS DON612 (1-jul, línea base) · U.S. Dept. of State · SSA México · Oceanwide Expeditions</em>
           </div>
         </div>
 
@@ -5173,8 +5173,8 @@
   //  ÉBOLA 2026 — Países afectados (RDC + Uganda)
   // =================================================================
   const countriesEbola = [
-    { flag:'🇨🇩', name:'República Democrática del Congo', hosp:'Ituri (epicentro) · Nord-Kivu · Sud-Kivu', conf:1561, prob:116, deaths:'506 conf · 628 hosp · CFR 32%', coords:[1.5, 30.1],
-      note:'Brote epicentro en Provincia de Ituri (noreste): Mongbwalu (caso índice 5-may), Bunia (confirmación laboratorio 14-may), Rwampara. Expansión confirmada el 20-may a Sud-Kivu vía caso con viaje desde Tshopo. <b>Cifras ECDC / WHO AFRO al 5-jul: 1,561 confirmados + 506 muertes confirmadas + 628 hospitalizados, CFR 32%; 254 recuperados. Ituri concentra 1,417 casos + 424 muertes en 24 de 36 zonas de salud.</b> El 22-jun el brote cruzó los 1,000 casos: es ya el <b>tercer brote de ébola más grande de la historia.</b> Geografía (desglose al 24-25 jun): <b>Ituri 1,054 (22 zonas de salud), Nord-Kivu 98 (11 zonas), Sud-Kivu 3 (1 zona).</b> Un caso importado confirmado en Francia (24-jun) y otro en un estadounidense evacuado a Alemania (19-may). <b>Letalidad confirmada cruda: 506/1,561 = 32%</b>, dentro del rango histórico Bundibugyo (25-40%) y ya <b>por encima del hantavirus (27%).</b> <b>Señal de erosión del control:</b> OMS reporta ataque a un equipo de entierros seguros en Mongbwalu y cinco trabajadores tomados como rehenes en puntos de control, acusados falsamente de propagar el ébola (patrón de resistencia comunitaria visto en Kivu 2018-2020). <b>Audit trail:</b> el DON608 consolida y revisa las muertes con fuerza al alza: del corte del 15-jun (837 conf + 196 muertes, CFR 23.4%) salta al 17-jun a 896 + 232 (DON608), al 24-25 jun a 1,155 + 304, al 1-jul a 1,460 + 452 (DON612), y al 5-jul a 1,561 + 506 (ECDC/WHO AFRO): la letalidad sube de 26% a 32% y rebasa al hantavirus. Antes había superado el corte del 14-jun (782/181) y el DON606 del 11-jun (635/127). Versión inicial al 26-may: 121/17. La curva NO se aplana, se acelera.', v:'✅' },
+    { flag:'🇨🇩', name:'República Democrática del Congo', hosp:'Ituri (epicentro) · Nord-Kivu · Sud-Kivu', conf:1926, prob:116, deaths:'702 conf · 753 hosp · CFR 36%', coords:[1.5, 30.1],
+      note:'Brote epicentro en Provincia de Ituri (noreste): Mongbwalu (caso índice 5-may), Bunia (confirmación laboratorio 14-may), Rwampara. Expansión confirmada el 20-may a Sud-Kivu vía caso con viaje desde Tshopo. <b>Cifras ECDC / WHO AFRO al 12-jul: 1,926 confirmados + 702 muertes confirmadas + 753 hospitalizados, CFR 36%; 295 recuperados. Ituri concentra 1,745 casos + 601 muertes en 26 de 36 zonas de salud.</b> El 22-jun el brote cruzó los 1,000 casos: es ya el <b>tercer brote de ébola más grande de la historia.</b> Geografía (desglose al 24-25 jun): <b>Ituri 1,054 (22 zonas de salud), Nord-Kivu 98 (11 zonas), Sud-Kivu 3 (1 zona).</b> Un caso importado confirmado en Francia (24-jun) y otro en un estadounidense evacuado a Alemania (19-may). <b>Letalidad confirmada cruda: 702/1,926 = 36%</b>, dentro del rango histórico Bundibugyo (25-40%) y ya <b>por encima del hantavirus (27%).</b> <b>Señal de erosión del control:</b> OMS reporta ataque a un equipo de entierros seguros en Mongbwalu y cinco trabajadores tomados como rehenes en puntos de control, acusados falsamente de propagar el ébola (patrón de resistencia comunitaria visto en Kivu 2018-2020). <b>Audit trail:</b> el DON608 consolida y revisa las muertes con fuerza al alza: del corte del 15-jun (837 conf + 196 muertes, CFR 23.4%) salta al 17-jun a 896 + 232 (DON608), al 24-25 jun a 1,155 + 304, al 1-jul a 1,460 + 452 (DON612), al 5-jul a 1,561 + 506 y al 12-jul a 1,926 + 702 (ECDC/WHO AFRO): la letalidad sube de 26% a 36% y rebasa de lejos al hantavirus. Antes había superado el corte del 14-jun (782/181) y el DON606 del 11-jun (635/127). Versión inicial al 26-may: 121/17. La curva NO se aplana, se acelera.', v:'✅' },
     { flag:'🇺🇬', name:'Uganda', hosp:'Kampala + Ntoroko + Mbarara y áreas fronterizas con RDC', conf:19, prob:0, deaths:'2 conf · 37 recuperados (región)', coords:[0.3, 32.6],
       note:'<b>19 casos confirmados con 2 muertes confirmadas, estable desde el 5-jun</b> (DON607, datos al 10-jun). Transmisión epidemiológicamente vinculada a la RDC: casos importados más transmisión secundaria entre contactos y trabajadores sanitarios. Clusters de exposición transfronteriza en distrito ugandés de Ntoroko (frontera con Ituri). <b>DON607 reporta al menos 37 personas recuperadas en la región del brote.</b> Ministerio de Salud (Dra. Jane Ruth Aceng Ocero) mantiene vigilancia transfronteriza. Uganda tiene experiencia operativa de brotes previos de Bundibugyo (2007 fue origen del subtipo, 2012 confirma protocolo). <b>Audit trail:</b> cifra ugandesa estable en 19/2 desde el 5-jun; el brote crece del lado congoleño, no del ugandés (la red sanitaria ugandesa contiene mejor).', v:'✅' },
     { flag:'🇺🇸', name:'Estados Unidos · Antecedente regulatorio anti-ébola', hosp:'Title 42 Order + 4 aeropuertos designados (IAD · ATL · IAH · JFK)', conf:0, prob:0, deaths:0, coords:[38.92, -77.05],
@@ -5598,22 +5598,42 @@
   // =================================================================
   const declaracionesEbola = [
     {
+      fecha: '2026-07-13',
+      fechaLegible: '13 jul 2026',
+      fuente: 'Mercado · NASDAQ',
+      tagClass: 'fuente-medio',
+      vocero: 'Moderna (MRNA) · NASDAQ · cobertura Yahoo Finance + Investing.com',
+      cita: '<b>Moderna cae a ~USD 67.87 el 13-jul, un −15% desde su pico del 2-jul (USD 79.76).</b> El retroceso lo empujan un Q2 más débil de lo esperado y costos de litigios, no el brote: la acción bajó 10.8% el 10-jul en pleno repunte del ébola.',
+      contexto: 'A mi juicio (opinión editorial), esto refuerza el desacople del expediente: mientras el ébola aceleraba a 1,926/702 (CFR 36%), la acción del principal fabricante de contramedidas caía. El mercado no está apostando a este brote; se mueve por gripe, oncología y balance. El hantavirus fue trampolín en mayo-junio; en julio la acción se mueve por otras razones. La preparación pandémica es la puerta de entrada del capital, no su destino.',
+      url: 'https://finance.yahoo.com/quote/MRNA/'
+    },
+    {
+      fecha: '2026-07-12',
+      fechaLegible: '12 jul 2026',
+      fuente: 'ECDC / WHO AFRO',
+      tagClass: 'fuente-oms',
+      vocero: 'ECDC / WHO AFRO · brote RDC+Uganda (datos al 12-jul)',
+      cita: '<b>El brote sigue acelerando: RDC 1,926 confirmados + 702 muertes confirmadas, CFR 36%, con 753 hospitalizados y 295 recuperados.</b> Ituri concentra 1,745 casos y 601 muertes en 26 de 36 zonas de salud. Uganda estable en 20 + 2 (sin casos nuevos desde el 21-jun). La letalidad del ébola sube a 36%, nueve puntos por encima del hantavirus (27%) y rozando el techo histórico de Bundibugyo (25-40%).',
+      contexto: 'Audit trail: 1,561/506 (5-jul) → 1,926/702 (12-jul): +365 confirmados y +196 muertes en una semana. La letalidad cruza el 36%. La contención ugandesa aguanta (sin casos nuevos en tres semanas), pero del lado congoleño la curva no toca techo, con ataques a equipos de respuesta en Ituri y Nord-Kivu. Corredor Mundial: Argentina venció a Suiza 3-1 (cuartos, 11-jul) y juega su semifinal en Atlanta el 15-jul contra Inglaterra, en el estadio sellado que a la vez es hub de cribado de ébola.',
+      url: 'https://www.ecdc.europa.eu/en/ebola-outbreak-democratic-republic-congo-and-uganda'
+    },
+    {
       fecha: '2026-07-05',
       fechaLegible: '5 jul 2026',
       fuente: 'ECDC / WHO AFRO',
       tagClass: 'fuente-oms',
       vocero: 'ECDC / WHO AFRO · brote RDC+Uganda (datos al 5-jul)',
       cita: '<b>El brote sigue subiendo: RDC 1,561 confirmados + 506 muertes confirmadas, CFR 32%, con 628 hospitalizados y 254 recuperados.</b> Ituri concentra 1,417 casos y 424 muertes en 24 de 36 zonas de salud; el 81.6% de los contactos identificados están bajo seguimiento. Uganda estable en 20 + 2. La letalidad del ébola sube a 32%, cinco puntos por encima del hantavirus (27%).',
-      contexto: 'Audit trail: 1,460/452 (1-jul, DON612) → 1,561/506 (5-jul, ECDC/WHO AFRO): +101 confirmados y +54 muertes. La curva no toca techo, aunque el seguimiento de contactos al 81.6% sugiere que el rastreo todavía funciona. Corrección de registro: Argentina va en octavos de final (no cuartos) y juega contra Egipto en Atlanta el 7-jul.',
+      contexto: 'Audit trail: 1,460/452 (1-jul, DON612) → 1,561/506 (5-jul, ECDC/WHO AFRO): +101 confirmados y +54 muertes. La curva no toca techo, aunque el seguimiento de contactos al 81.6% sugiere que el rastreo todavía funciona. Registro de esta fecha: Argentina había avanzado de dieciseisavos; su avance posterior (cuartos el 11-jul y semifinal en Atlanta el 15-jul) queda en las entradas del 11-12 jul.',
       url: 'https://www.ecdc.europa.eu/en/ebola-outbreak-democratic-republic-congo-and-uganda'
     },
     {
-      fecha: '2026-07-02',
-      fechaLegible: '2 jul 2026',
+      fecha: '2026-07-11',
+      fechaLegible: '11 jul 2026',
       fuente: 'Corredor Mundial · sede Atlanta',
       tagClass: 'fuente-oficial',
-      vocero: 'Fulton County Board of Health (Atlanta) + FIFA (cobertura NBC, Atlanta Magazine, Medical Daily)',
-      cita: '<b>El corredor de la hipótesis aterriza en una sede sellada.</b> Argentina, la única selección con la cepa Andes de transmisión persona a persona (Chile no calificó) y en su temporada récord (101 casos, letalidad 31.7%), avanzó a octavos de final y juega contra Egipto en <b>Atlanta, en el Mercedes-Benz (estadio sellado con aire acondicionado), el 7 de julio.</b> En esa misma sede, el condado de Fulton (Dr. Marcus Plescia) lleva meses preparando existencias de vacunas e inmunoglobulina, y el aeropuerto Hartsfield-Jackson opera como hub de cribado de ébola. <b>El foco local declarado es sarampión, respiratorios y ébola; el hantavirus no figura.</b>',
+      vocero: 'Fulton County Board of Health (Atlanta) + FIFA (cobertura ESPN, NPR, NBC)',
+      cita: '<b>El corredor de la hipótesis se volvió calendario.</b> Argentina, la única selección con la cepa Andes de transmisión persona a persona (Chile no calificó) y en su temporada récord (107 casos, letalidad 31%+), venció a Suiza 3-1 en cuartos (11-jul) y <b>juega su semifinal contra Inglaterra en Atlanta, en el Mercedes-Benz (estadio sellado con aire acondicionado), el 15 de julio.</b> En esa misma sede, el condado de Fulton (Dr. Marcus Plescia) preparó existencias de vacunas e inmunoglobulina, y el aeropuerto Hartsfield-Jackson opera como hub de cribado de ébola. <b>El foco local declarado es sarampión, respiratorios y ébola; el hantavirus no figura.</b>',
       contexto: 'A mi juicio (opinión editorial), esto sostiene la hipótesis del expediente sin forzarla: la autoridad de la sede vigila el sarampión (color, no tesis) y criba el ébola africano de contacto, pero no tiene protocolo por cepa para el corredor sudamericano del hantavirus, que llega precisamente a ese estadio cerrado, en la ronda más avanzada, en el pico de la temporada del reservorio. No es pronóstico ni complot: es un punto ciego geográficamente concreto. Riesgo de alta consecuencia y baja probabilidad; lo señalable es que nadie mira por ese ángulo justo donde el corredor se materializa.',
       url: 'https://www.mainstreetnews.com/jackson/state_news/atlanta-ready-to-handle-diseases-if-world-cup-crowds-bring-them/article_ccbabec3-6600-4062-8a89-cf8e870bfae5.html'
     },
@@ -5632,9 +5652,9 @@
       fechaLegible: '1 jul 2026',
       fuente: 'HHS · CDC · sedes EE.UU.',
       tagClass: 'fuente-oficial',
-      vocero: 'HHS + CDC (línea oficial) frente a departamentos de salud locales (cobertura CNN, PBS)',
+      vocero: 'HHS + CDC (línea oficial) frente a departamentos de salud locales (cobertura CNN, PBS, Sports Illustrated, The Hill; State Dept/CEPI)',
       cita: '<b>Grieta entre la línea federal y la local.</b> El HHS declara que él y el CDC "coordinan activamente con socios estatales, locales y globales para garantizar la salud pública durante el Mundial 2026". El CDC dice estar "activamente comprometido" bajo la estructura de la Casa Blanca y tener un <em>World Cup data dashboard</em> "en desarrollo final". Pero las autoridades locales de las sedes reportan que <b>la presencia federal llegó tarde y menos coordinada que antes</b>, con el CDC iniciando llamadas y guías apenas unos meses antes del torneo.',
-      contexto: 'A mi juicio (opinión editorial), la grieta es el dato: arriba se declara coordinación total; abajo, las sedes describen un CDC que llega tarde y con menos músculo. Encaja con el recorte documentado del CDC/HHS: el dispositivo se anuncia robusto y se vive adelgazado. El tablero del Mundial sigue "en desarrollo final" con el torneo ya en marcha. La retórica de control convive con una capacidad mermada. Contexto de alerta: EE.UU. cerró 2025 con más de 2,100 casos de sarampión (el mayor registro desde 1991), y las tres sedes enfrentan repunte.',
+      contexto: 'A mi juicio (opinión editorial), la grieta es el dato: arriba se declara coordinación total; abajo, las sedes describen un CDC que llega tarde y con menos músculo. El presupuesto lo confirma: el gobierno federal asignó <b>USD 625M a seguridad y policía del Mundial y cero a salud pública</b>, y el CDC no hizo evaluación nacional de riesgo (pidió a cada jurisdicción "identificar sus prioridades"). En paralelo, el Departamento de Estado comprometió <b>USD 50M a CEPI</b> para contramedidas contra Bundibugyo: hay dinero, pero fluye a la seguridad y a la contención farmacéutica, no a la vigilancia sanitaria del torneo, que se apoya en aguas residuales de 11 áreas metropolitanas. La retórica de control convive con una capacidad mermada. Contexto de alerta: EE.UU. cerró 2025 con más de 2,100 casos de sarampión (el mayor registro desde 1991), y las tres sedes enfrentan repunte.',
       url: 'https://www.cnn.com/2026/05/27/health/world-cup-public-health'
     },
     {
