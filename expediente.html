@@ -5093,7 +5093,7 @@
       if (d >= 132) { d = 1; slider.value = 1; }
       playInterval = setInterval(() => {
         d += 1;
-        if (d > 65) {
+        if (d > 132) {
           clearInterval(playInterval);
           playBtn.textContent = '▶';
           playing = false;
@@ -5101,11 +5101,11 @@
         }
         slider.value = d;
         applyTimeFilter(d);
-      }, 500);
+      }, 300);
     }
   });
 
-  applyTimeFilter(65); // arranca mostrando todo el cluster al 3-jun (slider en máximo)
+  applyTimeFilter(132); // arranca mostrando todo al 11-ago (slider en máximo)
 
   // Vista inicial englobando todo
   const bounds = L.latLngBounds(events.map(e => e.coords));
