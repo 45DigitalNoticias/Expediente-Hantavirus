@@ -395,13 +395,22 @@ button.capa-pill:active { transform: scale(0.97); }
 .revista__meta { font: 500 11.5px/1 var(--mono); color: var(--apple-text-tertiary); margin: 0; }
 .revista .sinimg { color: var(--casa-rojo); font-style: normal; }
 
+/* ══════════ VISTA DE DOS COLUMNAS ══════════
+   REGLA DE CASA para todas las lecturas del antecedente: las dos columnas
+   terminan a la misma altura. Con align-items:start quedaban disparejas y se
+   veía como un descuido. Por eso stretch, y la ficha deja de ser sticky:
+   pegajosa y estirada al mismo tiempo no se puede. */
+.vista { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: stretch; }
+@media (min-width: 1000px) { .vista { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); } }
+.vista > * { min-width: 0; }
+
 /* ══════════ EL LOOP: la banda, rehecha en claro ══════════ */
-.loopwrap { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; }
-@media (min-width: 1000px) { .loopwrap { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); } }
 .loop-lienzo {
   background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 20px;
   box-shadow: var(--apple-shadow-card); overflow: hidden;
+  display: flex; flex-direction: column;
 }
+#loopSvg { flex: 1 1 auto; }
 .loop-barra {
   display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
   padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,0.07);
@@ -432,7 +441,7 @@ button.capa-pill:active { transform: scale(0.97); }
 
 .loop-ficha {
   background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 20px;
-  padding: 26px 28px; box-shadow: var(--apple-shadow-card); position: sticky; top: 130px;
+  padding: 26px 28px; box-shadow: var(--apple-shadow-card);
 }
 .lf__k {
   font: 600 10px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase;
