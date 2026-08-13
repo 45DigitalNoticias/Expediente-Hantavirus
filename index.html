@@ -1039,6 +1039,45 @@
       linear-gradient(90deg, transparent 65%, rgba(2,16,30,0.6) 100%);
     pointer-events: none;
   }
+  /* Lamina tipografica: ocupa el mismo hueco que ocupaba el retrato.
+     Sin rostro, el peso lo carga el concepto. */
+  .cluster-glifo {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    padding: 40px 32px;
+    text-align: center;
+    background:
+      radial-gradient(ellipse at 50% 38%, rgba(212, 160, 23, 0.10), transparent 62%),
+      linear-gradient(180deg, #04101c 0%, #030810 100%);
+  }
+  .cluster-glifo__linea {
+    width: 42px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 160, 23, 0.85), transparent);
+  }
+  .cluster-glifo__frase {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(26px, 3.2vw, 44px);
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    color: rgba(232, 238, 245, 0.94);
+    max-width: 14ch;
+  }
+  .cluster-glifo__autor {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(212, 160, 23, 0.72);
+  }
   .cluster-portrait-credit {
     position: absolute;
     bottom: 14px;
@@ -2508,8 +2547,9 @@
   const LECTURAS = [
     {
       autor: 'Naomi Klein',
-      portrait: '_recursos/imagenes/naomi-klein-shankbone-2011.jpg',
-      portraitCredit: 'David Shankbone · 2011',
+      // Sin rostro, por decisión editorial: el concepto manda, no la persona.
+      // Mismo criterio que ya se había tomado con Schmitt y con Harvey.
+      frase: 'La doctrina del shock',
       obra: 'La doctrina del shock (Paidós, 2007)',
       tesis: 'Las soluciones están listas antes de que la pregunta tenga nombre público. No hace falta conspiración; basta infraestructura permanente y memoria institucional.',
       columnas: [
@@ -2544,8 +2584,16 @@
     const count = cluster.columnas.length;
     hero.innerHTML = `
       <div class="cluster-portrait-wrap">
+        ${cluster.portrait ? `
         <img class="cluster-portrait" src="${cluster.portrait}" alt="Retrato de ${cluster.autor}" loading="lazy" />
         ${cluster.portraitCredit ? `<p class="cluster-portrait-credit">${cluster.portraitCredit}</p>` : ''}
+        ` : `
+        <div class="cluster-glifo">
+          <span class="cluster-glifo__linea"></span>
+          <p class="cluster-glifo__frase">${cluster.frase || cluster.obra}</p>
+          <p class="cluster-glifo__autor">${cluster.autor}</p>
+        </div>
+        `}
       </div>
       <div class="cluster-meta">
         <p class="cluster-eyebrow">Concepto eje · ${String(ci + 1).padStart(2, '0')}</p>

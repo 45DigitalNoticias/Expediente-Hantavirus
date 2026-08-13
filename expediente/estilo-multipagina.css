@@ -1,0 +1,242 @@
+/* ══════════════════════════════════════════════════════════════════
+   MULTIPÁGINA. El expediente dejó de ser un rollo de 37,000 px.
+   Va después de estilo-nuevo.css. Aquí vive lo que nació al partirlo:
+   la barra entre apartados, las portadas de tarjeta y el panel de
+   columnas agrupado por arco.
+   ══════════════════════════════════════════════════════════════════ */
+
+#barraSitio {
+  position: sticky; top: 0; z-index: 80;
+  backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(255,255,255,0.80); border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+.barra-in {
+  max-width: var(--apple-content-max-width-lg); margin: 0 auto; padding: 9px 24px;
+  display: flex; align-items: center; gap: 18px; justify-content: space-between; flex-wrap: wrap;
+}
+.sitenav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.sitenav::-webkit-scrollbar { display: none; }
+.sitenav a {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+  font-size: 13.5px; font-weight: 500; color: var(--apple-text-secondary);
+  padding: 8px 14px; border-radius: var(--apple-radius-button);
+  transition: background .22s cubic-bezier(.22,1,.36,1), color .22s;
+}
+.sitenav a .ic { width: 17px; height: 17px; }
+.sitenav a:hover { color: var(--apple-text-primary); background: rgba(0,0,0,0.045); }
+.sitenav a.act { color: #fff; background: var(--apple-text-primary); }
+.sitenav a.act .ic { stroke: var(--casa-oro-br); }
+@media (max-width: 900px) {
+  .sitenav a span { display: none; }
+  .sitenav a { padding: 9px 11px; }
+}
+
+/* Cabecera corta de cada apartado */
+.tapa {
+  background: var(--casa-navy); color: #fff; padding: 62px 24px 56px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.tapa::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 22% 30%, rgba(42,140,216,.18), transparent 45%),
+              radial-gradient(circle at 78% 70%, rgba(212,160,23,.16), transparent 45%);
+}
+.tapa__in { position: relative; max-width: 780px; margin: 0 auto; }
+.tapa__k {
+  font: 600 11.5px/1 var(--apple-font-text); text-transform: uppercase; letter-spacing: .15em;
+  color: var(--casa-oro-br); margin: 0 0 14px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.tapa h1 { font: 800 clamp(32px,5vw,54px)/1.06 var(--apple-font-display); letter-spacing: -0.026em; margin: 0 0 14px; }
+.tapa p { font-size: 18px; line-height: 1.55; color: rgba(255,255,255,0.72); margin: 0 auto; max-width: 620px; }
+.tapa .volver {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 24px; color: #fff;
+  text-decoration: none; font-size: 14px; border: 1px solid rgba(255,255,255,.28);
+  padding: 10px 20px; border-radius: 999px; transition: background .24s;
+}
+.tapa .volver:hover { background: rgba(255,255,255,.14); }
+
+/* ══════════ TARJETA DE COLUMNA con portada de verdad ══════════ */
+.colgrid--una { grid-template-columns: 1fr !important; max-width: 460px; margin: 0 auto; }
+.colcard .cover { position: relative; flex-direction: column; gap: 10px; }
+.colcard .cover .ic { width: 42px; height: 42px; stroke: rgba(255,255,255,.85); }
+.cover__falta {
+  font: 500 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(255,255,255,.42);
+}
+.colcard .cover--img { padding: 0; background: #0d1219; }
+.colcard .cover--img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.colcard .cetq {
+  font-size: 11.5px; color: var(--casa-oro-tinta); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .06em; text-align: left; flex: 0 0 auto;
+}
+.colcard .cbody a { margin-top: auto; font-weight: 600; }
+a.colcard--more { text-decoration: none; justify-content: center; min-height: 260px; }
+a.colcard--more:hover { transform: translateY(-4px); }
+a.colcard--more span:last-child { color: var(--casa-oro-br); font-size: 14.5px; font-weight: 600; margin-top: 10px; }
+
+/* ══════════ PANEL DE COLUMNAS agrupado por arco ══════════ */
+/* Son <section>, así que hay que apagarles el padding de sección del sistema. */
+.grupo { padding: 0; margin-bottom: 38px; }
+.grupo:last-child { margin-bottom: 0; }
+.grupo__tit {
+  display: flex; align-items: center; gap: 10px; margin: 0 0 14px;
+  font: 700 12px/1 var(--apple-font-text); text-transform: uppercase; letter-spacing: .13em;
+  color: var(--casa-oro-tinta);
+}
+.grupo__n {
+  font: 600 11px/1 var(--mono); color: var(--apple-text-tertiary);
+  background: rgba(0,0,0,0.05); border-radius: 6px; padding: 4px 7px; letter-spacing: 0;
+}
+.grupo__filas { display: grid; gap: 8px; }
+.fila {
+  appearance: none; cursor: pointer; text-align: left; width: 100%;
+  display: grid; grid-template-columns: 44px 1fr auto; gap: 14px; align-items: center;
+  background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 14px; padding: 14px 18px;
+  transition: border-color .22s, background .22s, transform .18s cubic-bezier(.22,1,.36,1);
+}
+.fila:hover { border-color: var(--acc-line); background: var(--acc-soft); transform: translateX(3px); }
+.fila:active { transform: scale(0.995); }
+.fila__ic {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(140deg,#16202c,#2a3a4d);
+}
+.fila__ic .ic { width: 21px; height: 21px; stroke: var(--casa-oro-br); }
+.fila__txt { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.fila__txt b { font: 600 17px/1.25 var(--casa-serif); color: var(--apple-text-primary); }
+.fila__bajada {
+  font-size: 13px; line-height: 1.5; color: var(--apple-text-tertiary); overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.fila__meta { font: 500 11.5px/1.4 var(--mono); color: var(--apple-text-tertiary); text-align: right; white-space: nowrap; }
+.sinimg { color: var(--casa-rojo); font-style: normal; font-size: 15px; }
+@media (max-width: 733px) {
+  .fila { grid-template-columns: 38px 1fr; }
+  .fila__ic { width: 38px; height: 38px; }
+  .fila__meta { grid-column: 2; text-align: left; }
+}
+
+/* ══════════ ICONOS donde antes había puro texto ══════════ */
+.inv div { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.inv .ic { width: 22px; height: 22px; stroke: var(--casa-oro-tinta); margin-bottom: 4px; }
+.x-vk { display: flex; align-items: flex-start; gap: 7px; }
+.x-vk .ic { width: 15px; height: 15px; flex: 0 0 auto; margin-top: 1px; stroke: var(--casa-oro-tinta); }
+.flist a { display: flex; align-items: flex-start; gap: 10px; }
+.flist a .ic { width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px; stroke: var(--casa-oro-tinta); }
+.bitem .bctx { color: var(--apple-text-tertiary); font-size: 13.5px; margin-top: 6px; }
+.bitem .bsrc { margin-top: 8px; }
+.bitem .bsrc a { color: var(--apple-link-blue); text-decoration: none; font-size: 13.5px; font-weight: 600; }
+.mapfail { color: #fff; padding: 40px; text-align: center; }
+
+/* ══════════ LA LÁMINA: la Tierra de noche con los puntos reales ══════════
+   La imagen de la NASA es equirectangular de 3600×1800, exactamente 2:1. Si el
+   marco conserva ese mismo aspecto y el SVG usa un viewBox 1000×500, la
+   proyección coincide al pixel y no hay recorte que desalinee los puntos. */
+.mapa-marco { aspect-ratio: 2 / 1; min-height: 0; }
+@media (max-width: 733px) { .mapa-marco { border-radius: 20px; } }
+/* El encuadre por defecto del sistema desplazaba la imagen; aquí tiene que ir
+   centrada o los puntos dejan de caer en su coordenada. */
+.mapa-marco .mapa-bg { object-position: center center; }
+/* Lienzo que se mueve: imagen y puntos van juntos, o los puntos se despegan
+   de la costa al hacer zoom. */
+.mapa-lienzo { position: absolute; inset: 0; transform-origin: 0 0; will-change: transform; }
+.mapa-marco.con-zoom { cursor: grab; }
+.mapa-marco.arrastrando { cursor: grabbing; }
+.mapa-svg { pointer-events: none; }
+.mapa-svg .nd { pointer-events: auto; cursor: pointer; transition: r .18s ease, filter .18s ease; }
+.mapa-svg .nd:hover { filter: brightness(1.4) drop-shadow(0 0 6px currentColor); }
+.mapa-svg .nd.act { filter: brightness(1.6) drop-shadow(0 0 10px currentColor); }
+.mapa-svg .nd-halo { pointer-events: none; }
+.mapa-svg .nd:focus-visible { outline: 2px solid #E8B94D; outline-offset: 2px; }
+
+/* Filtros por tipo de hecho, debajo de las capas. */
+.filtros {
+  position: absolute; top: 62px; left: 20px; right: 20px; z-index: 3;
+  display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+}
+.filtros__lbl {
+  font: 500 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(232,238,245,0.42); margin-right: 3px;
+}
+.fchip {
+  appearance: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  font: 500 11px/1 var(--mono); letter-spacing: .02em;
+  color: rgba(232,238,245,0.45);
+  background: rgba(2,16,30,0.55); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.10); border-radius: 999px; padding: 6px 11px;
+  transition: color .2s, border-color .2s, background .2s, transform .12s;
+}
+.fchip .pt { width: 7px; height: 7px; border-radius: 50%; opacity: .35; transition: opacity .2s; }
+.fchip.on { color: rgba(232,238,245,0.92); border-color: rgba(255,255,255,0.24); }
+.fchip.on .pt { opacity: 1; }
+.fchip:hover { border-color: rgba(255,255,255,0.4); }
+.fchip:active { transform: scale(0.96); }
+
+/* Zoom: abajo a la derecha, donde no estorba a la leyenda ni al recorrido. */
+.zoomctl {
+  position: absolute; right: 20px; bottom: 20px; z-index: 3;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.zoomctl button {
+  appearance: none; cursor: pointer; width: 34px; height: 34px;
+  font: 500 16px/1 var(--apple-font-text); color: rgba(232,238,245,0.85);
+  background: rgba(2,16,30,0.65); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.16); border-radius: 10px;
+  transition: background .2s, color .2s, transform .12s;
+}
+.zoomctl button:hover { background: rgba(2,16,30,0.9); color: #fff; }
+.zoomctl button:active { transform: scale(0.94); }
+/* Al llegar al tope de nitidez el botón se apaga, en vez de dejarte pixelar. */
+.zoomctl button:disabled { opacity: .3; cursor: default; }
+.zoomctl button:disabled:hover { background: rgba(2,16,30,0.65); color: rgba(232,238,245,0.85); }
+@media (max-width: 733px) { .filtros { display: none; } }
+
+/* La ficha flotante se coloca junto al punto, y se voltea si no cabe. */
+.popup { width: 280px; max-height: 250px; overflow-y: auto; }
+/* Prosa justificada, regla de casa: también en la ficha del mapa. */
+.popup p { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+.popup .pf { text-align: left; }
+.popup[hidden] { display: none; }
+.popup.flip::after {
+  left: auto; right: -7px;
+  border-right: 0; border-left: 7px solid rgba(2,16,30,0.86);
+}
+.popup p:last-child { margin-bottom: 0; }
+.popup a { color: #7fc0ff; }
+@media (max-width: 733px) { .popup { display: none; } }
+
+/* Las capas dejan de ser adorno: ahora son botones. */
+button.capa-pill { appearance: none; cursor: pointer; transition: background .22s, border-color .22s, color .22s, transform .12s; }
+button.capa-pill:hover { border-color: rgba(255,255,255,0.34); color: #fff; }
+button.capa-pill.on:hover { color: #E8B94D; }
+button.capa-pill:active { transform: scale(0.97); }
+
+/* El recorrido sí camina: la barra se llena con el paso real. */
+.mapa-tour .bar { overflow: hidden; }
+.mapa-tour .bar::after { inset: 0 var(--resta, 100%) 0 0; transition: inset .35s linear; }
+.tourbtn {
+  appearance: none; border: 0; background: transparent; color: inherit; cursor: pointer;
+  font-size: 12px; line-height: 1; padding: 2px 4px; letter-spacing: 0;
+}
+.tourbtn:active { transform: scale(0.9); }
+@media (max-width: 733px) { .mapa-tour .bar { width: 90px; } }
+
+/* Pie */
+.pie { background: var(--casa-navy); color: rgba(255,255,255,.62); padding: 56px 24px; text-align: center; font-size: 13px; }
+.pie p { margin: 0 0 8px; }
+.pie__nota { color: rgba(255,255,255,.4); margin: 0; }
+
+/* Puertas a los apartados, al pie de la principal */
+.apgrid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 734px) { .apgrid { grid-template-columns: repeat(3, 1fr); } }
+.apcard {
+  display: flex; flex-direction: column; gap: 8px; text-decoration: none;
+  background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: var(--apple-radius-card);
+  padding: 26px; transition: all .26s cubic-bezier(.22,1,.36,1);
+}
+.apcard:hover { border-color: var(--acc-line); box-shadow: var(--apple-shadow-card); transform: translateY(-3px); }
+.apcard .ic { width: 26px; height: 26px; stroke: var(--casa-oro-tinta); }
+.apcard b { font: 700 18px/1.25 var(--apple-font-display); color: var(--apple-text-primary); letter-spacing: -0.012em; }
+.apcard span { font-size: 14px; line-height: 1.55; color: var(--apple-text-secondary); }
+.apcard em { font: 600 11.5px/1 var(--mono); font-style: normal; color: var(--apple-text-tertiary); margin-top: 4px; }
