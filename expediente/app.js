@@ -257,7 +257,11 @@
         if (c.imagenCaption) p.push('<p class="rd__cap">' + esc(c.imagenCaption) + "</p>");
       }
     }
-    if (c.firma) p.push('<p class="rd__firma">' + esc(c.firma) + "</p>");
+    /* Firma la persona, no la casa. El dato heredado traía "45 Digital
+       Noticias." en las 17 columnas, que es la marca: va en el kicker y en
+       el pie del sitio, nunca como autor. Se resuelve aquí y no en el dato
+       para que aguante una reextracción. */
+    p.push('<p class="rd__firma">SRVO</p>');
     if (c.fuentes && c.fuentes.length) {
       p.push('<div class="rd__fuentes"><h4>Fuentes y referencias citadas</h4><ul>' +
         c.fuentes.map(function (f) {
@@ -294,6 +298,20 @@
     var a = document.activeElement;
     if (e.key === "Enter" && a && a.dataset && a.dataset.col) abrirLector(+a.dataset.col);
   });
+
+  /* Enlace profundo ?col=<slug>. Las 17 columnas publicadas regresan al
+     expediente con ese parámetro esperando abrir su propia pieza; sin esto
+     caen en la portada y el lector se queda cerrado. */
+  function abrirPorEnlace() {
+    if (typeof columnas === "undefined" || !$("#rd")) return;
+    var m = /[?&]col=([^&#]+)/.exec(location.search) ||
+            /[#&]col=([^&]+)/.exec(location.hash);
+    if (!m) return;
+    var slug = decodeURIComponent(m[1]);
+    for (var i = 0; i < columnas.length; i++) {
+      if (columnas[i].id === slug) { abrirLector(i); return; }
+    }
+  }
 
   /* ═══════════ Crónica ═══════════ */
   function pintarCronica() {
@@ -1247,6 +1265,7 @@
   pintarCronica(); pintarBoletin(); pintarPaises(); pintarColumnas(); sincronizarFragmentos();
   detectarPortadas();
   ajustarIconos();
+  abrirPorEnlace();
   try { armarMapa(); } catch (err) {
     if ($("#lamina")) $("#lamina").insertAdjacentHTML("beforeend",
       '<p class="mapfail">No se pudo dibujar la lámina. El resto del expediente funciona igual.</p>');
