@@ -86,3 +86,7 @@
   #barraSitio .sitenav a span { display: none; }
   #barraSitio .sitenav a { padding: 9px 11px; }
 }
+
+/* En embed la barra solo lleva el boton de volver: esa pagina ya tiene su
+   propio menu de vistas y repetirlo daba dos menus iguales. */
+#barraSitio.solo-volver .barra-in { justify-content: flex-end; }
