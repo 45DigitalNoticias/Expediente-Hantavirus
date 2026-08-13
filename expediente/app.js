@@ -493,6 +493,134 @@
     }).join("");
   })();
 
+  /* ═══════════ El loop ═══════════
+     La banda es una lemniscata de Bernoulli dibujada de cero, no una imagen:
+     los doce hitos se reparten sobre ella en orden y el duodécimo vuelve al
+     primero. Esa es la tesis, hecha geometría. */
+  (function loop() {
+    var svg = $("#loopSvg");
+    var H = (typeof HITOS !== "undefined") ? HITOS : (window.HITOS || null);
+    if (!svg || !H) return;
+    var NS = "http://www.w3.org/2000/svg";
+    var CX = 500, CY = 268, A = 330;
+
+    function lem(t) {                       // x = a·cos t / (1+sen²t)
+      var s = Math.sin(t), c = Math.cos(t), d = 1 + s * s;
+      return [CX + A * c / d, CY + A * s * c / d * 1.35];
+    }
+    function el(tag, attrs) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    var hitos = H.slice().sort(function (a, b) {
+      return (a["año"] || a.anio) - (b["año"] || b.anio) || (a.posicion || 0) - (b.posicion || 0);
+    });
+
+    // La cinta: dos trazos, uno ancho de fondo y uno fino encima.
+    var d = "M";
+    for (var i = 0; i <= 720; i++) {
+      var p = lem(i / 720 * Math.PI * 2);
+      d += (i ? " L" : " ") + p[0].toFixed(1) + " " + p[1].toFixed(1);
+    }
+    d += " Z";
+    var grad = el("linearGradient", { id: "gLoop", x1: "0", y1: "0", x2: "1", y2: "0" });
+    [["0%", "#2a8cd8"], ["50%", "#d4a017"], ["100%", "#c44536"]].forEach(function (s) {
+      grad.appendChild(el("stop", { offset: s[0], "stop-color": s[1] }));
+    });
+    var defs = el("defs", {});
+    defs.appendChild(grad);
+    svg.appendChild(defs);
+    svg.appendChild(el("path", { d: d, fill: "none", stroke: "url(#gLoop)",
+                                 "stroke-width": 26, "stroke-opacity": 0.13, "stroke-linecap": "round" }));
+    svg.appendChild(el("path", { d: d, fill: "none", stroke: "url(#gLoop)",
+                                 "stroke-width": 1.6, "stroke-opacity": 0.85 }));
+
+    // El cruce: donde 2026 se toca con 2003.
+    var cruce = el("g", {});
+    cruce.appendChild(el("circle", { cx: CX, cy: CY, r: 5, fill: "#02101e" }));
+    var etq = el("text", { x: CX, y: CY - 18, "text-anchor": "middle", class: "loop-cruce" });
+    etq.textContent = "el cruce: 2026 vuelve a 2003";
+    cruce.appendChild(etq);
+    svg.appendChild(cruce);
+
+    var nodos = [];
+    hitos.forEach(function (h, k) {
+      // Medio paso de desfase: sin él, dos hitos caen justo en el cruce de la
+      // lemniscata, uno encima del otro y encima de la etiqueta del centro.
+      var t = (k + 0.5) / hitos.length * Math.PI * 2;
+      var p = lem(t);
+      var portada = !!(h.economist && h.economist.tiene);
+      var g = el("g", { class: "loop-nodo", tabindex: "0", role: "button" });
+      g.appendChild(el("circle", { cx: p[0], cy: p[1], r: 15, class: "loop-halo" }));
+      g.appendChild(el("circle", { cx: p[0], cy: p[1], r: portada ? 8 : 6,
+                                   class: "loop-pt" + (portada ? " es-portada" : "") }));
+      // Cerca del cruce las etiquetas se encimarían: ahí se echan hacia afuera
+      // en horizontal en vez de quedarse encima del punto.
+      var arriba = p[1] < CY;
+      var cerca = Math.abs(p[0] - CX) < 130;
+      var lado = p[0] < CX ? -1 : 1;
+      var tx = cerca ? p[0] + lado * 76 : p[0];
+      var anchor = cerca ? (lado < 0 ? "end" : "start") : "middle";
+      var dy1 = cerca ? -4 : (arriba ? -26 : 34);
+      var dy2 = cerca ? 9 : (arriba ? -13 : 47);
+      var ty = el("text", { x: tx, y: p[1] + dy1, "text-anchor": anchor, class: "loop-año" });
+      ty.textContent = (portada ? "★ " : "") + (h["año"] || h.anio);
+      g.appendChild(ty);
+      var te = el("text", { x: tx, y: p[1] + dy2, "text-anchor": anchor, class: "loop-enf" });
+      te.textContent = (h.enfermedad || "").slice(0, 20);
+      g.appendChild(te);
+      g.addEventListener("click", function () { marcar(k); });
+      g.addEventListener("focus", function () { marcar(k); });
+      g.addEventListener("mouseenter", function () { marcar(k); });
+      svg.appendChild(g);
+      nodos.push(g);
+    });
+
+    function marcar(k) {
+      nodos.forEach(function (n, j) { n.classList.toggle("act", j === k); });
+      ficha(hitos[k], k);
+    }
+    function ficha(h, k) {
+      var c = $("#loopFicha");
+      if (!c) return;
+      var e = h.economist || {};
+      c.innerHTML =
+        '<p class="lf__k">Punto en la banda &middot; ' + (k + 1) + " de " + hitos.length + "</p>" +
+        '<p class="lf__año">' + esc(h["año"] || h.anio) +
+          (h.verificacion ? ' <span>' + esc(h.verificacion) + "</span>" : "") + "</p>" +
+        '<p class="lf__enf">' + esc(h.enfermedad) + "</p>" +
+        "<h3>" + esc(h.titulo) + "</h3>" +
+        '<p class="lf__rot">Hechos del año</p><p class="lf__txt">' + esc(h.resumen) + "</p>" +
+        (h.monto ? '<p class="lf__rot">Financiamiento</p><p class="lf__monto">' + esc(h.monto) + "</p>" : "") +
+        (e.tiene ? '<p class="lf__rot">★ Portada Economist</p><p class="lf__txt">' +
+          esc(e.titulo_portada || "") + (e.fecha ? " · " + esc(e.fecha) : "") +
+          (e.nota ? '<br><span class="lf__nota">' + esc(e.nota) + "</span>" : "") + "</p>" : "") +
+        (h.significancia ? '<p class="lf__rot">Lectura sistémica</p><p class="lf__peso">' +
+          esc(h.significancia) + "</p>" : "") +
+        (h.fuente ? '<a class="lf__fuente" href="' + esc(h.fuente) +
+          '" target="_blank" rel="noopener">Ir a la fuente ›</a>' : "");
+    }
+
+    if ($("#loopMeta")) $("#loopMeta").textContent = hitos.length + " hitos sobre la cinta · ★ portada Economist";
+
+    var giro = null, cual = 0;
+    var play = $("#loopPlay");
+    if (play) play.addEventListener("click", function () {
+      if (giro) {
+        clearInterval(giro); giro = null;
+        play.innerHTML = "&#9654; Recorrer el loop";
+        return;
+      }
+      play.innerHTML = "&#10073;&#10073; Pausar";
+      marcar(cual % hitos.length); cual++;
+      giro = setInterval(function () { marcar(cual % hitos.length); cual++; }, 2400);
+    });
+
+    marcar(0);
+  })();
+
   /* ═══════════ Fuentes ═══════════ */
   (function fuentes() {
     var cont = $("#fuentesList");

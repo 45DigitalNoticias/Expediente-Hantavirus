@@ -395,6 +395,94 @@ button.capa-pill:active { transform: scale(0.97); }
 .revista__meta { font: 500 11.5px/1 var(--mono); color: var(--apple-text-tertiary); margin: 0; }
 .revista .sinimg { color: var(--casa-rojo); font-style: normal; }
 
+/* ══════════ EL LOOP: la banda, rehecha en claro ══════════ */
+.loopwrap { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; }
+@media (min-width: 1000px) { .loopwrap { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); } }
+.loop-lienzo {
+  background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 20px;
+  box-shadow: var(--apple-shadow-card); overflow: hidden;
+}
+.loop-barra {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,0.07);
+  background: linear-gradient(180deg, #FBFBFD, #F5F5F7);
+}
+.loop-barra__lbl {
+  font: 600 10.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--casa-oro-tinta);
+}
+.loop-barra__meta { font: 500 11.5px/1 var(--mono); color: var(--apple-text-tertiary); }
+.btn--min { margin-left: auto; padding: 8px 16px; font-size: 13px; }
+#loopSvg { display: block; width: 100%; height: auto; background: #fff; }
+.loop-nodo { cursor: pointer; }
+.loop-halo { fill: var(--casa-oro); opacity: 0; transition: opacity .25s; }
+.loop-nodo:hover .loop-halo, .loop-nodo.act .loop-halo { opacity: .18; }
+.loop-pt { fill: #fff; stroke: var(--casa-oro-tinta); stroke-width: 2.2; transition: all .25s; }
+.loop-pt.es-portada { fill: var(--casa-oro); stroke: var(--casa-oro-tinta); }
+.loop-nodo.act .loop-pt { fill: var(--casa-navy); stroke: var(--casa-navy); }
+.loop-año {
+  font: 700 13px var(--apple-font-display); fill: var(--apple-text-primary); letter-spacing: -0.01em;
+}
+.loop-enf { font: 400 10.5px var(--casa-serif); font-style: italic; fill: var(--apple-text-tertiary); }
+.loop-cruce {
+  font: 600 10px var(--mono); fill: var(--apple-text-tertiary);
+  letter-spacing: .1em; text-transform: uppercase;
+}
+.loop-nodo:focus-visible .loop-pt { stroke: var(--casa-cian); stroke-width: 3.4; }
+
+.loop-ficha {
+  background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 20px;
+  padding: 26px 28px; box-shadow: var(--apple-shadow-card); position: sticky; top: 130px;
+}
+.lf__k {
+  font: 600 10px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--apple-text-tertiary); margin: 0 0 14px;
+}
+.lf__año {
+  font: 800 clamp(38px,5vw,54px)/1 var(--apple-font-display); letter-spacing: -0.03em;
+  color: var(--apple-text-primary); margin: 0;
+}
+.lf__año span { font-size: 18px; vertical-align: super; }
+.lf__enf {
+  font: 600 11.5px/1 var(--apple-font-text); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--casa-cian); margin: 8px 0 10px;
+}
+.loop-ficha h3 {
+  font: 600 22px/1.25 var(--casa-serif); letter-spacing: -0.01em;
+  color: var(--apple-text-primary); margin: 0 0 18px;
+}
+.lf__rot {
+  font: 600 10px/1 var(--apple-font-text); letter-spacing: .15em; text-transform: uppercase;
+  color: var(--casa-oro-tinta); margin: 18px 0 7px;
+  padding-top: 14px; border-top: 1px solid rgba(0,0,0,0.07);
+}
+.lf__txt { font-size: 14.5px; line-height: 1.6; color: var(--apple-text-secondary); margin: 0;
+           text-align: justify; hyphens: auto; }
+.lf__nota { font-size: 12.5px; color: var(--apple-text-tertiary); }
+.lf__monto { font: 700 17px/1.3 var(--apple-font-display); color: var(--casa-oro-tinta); margin: 0; }
+.lf__peso {
+  margin: 0; padding: 12px 16px; border-left: 3px solid var(--casa-cian);
+  background: rgba(42,140,216,.07); border-radius: 0 12px 12px 0;
+  font: italic 400 14.5px/1.55 var(--casa-serif); color: var(--apple-text-primary);
+}
+.lf__fuente {
+  display: inline-block; margin-top: 18px; color: var(--apple-link-blue);
+  text-decoration: none; font-size: 14px; font-weight: 600;
+}
+.lf__fuente:hover { text-decoration: underline; }
+
+/* El cierre: la frase que carga la tesis */
+.cierre { max-width: 760px; margin: 0 auto; text-align: center; }
+.cierre__grande {
+  font: 600 clamp(26px,3.6vw,40px)/1.22 var(--casa-serif); letter-spacing: -0.015em;
+  color: var(--apple-text-primary); margin: 0 0 18px;
+}
+.cierre__chico { font-size: 17px; line-height: 1.6; color: var(--apple-text-secondary); margin: 0 0 22px; }
+.cierre__firma {
+  font: 600 11px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--casa-oro-tinta); margin: 0;
+}
+
 /* Pie */
 .pie { background: var(--casa-navy); color: rgba(255,255,255,.62); padding: 56px 24px; text-align: center; font-size: 13px; }
 .pie p { margin: 0 0 8px; }
@@ -413,3 +501,7 @@ button.capa-pill:active { transform: scale(0.97); }
 .apcard b { font: 700 18px/1.25 var(--apple-font-display); color: var(--apple-text-primary); letter-spacing: -0.012em; }
 .apcard span { font-size: 14px; line-height: 1.55; color: var(--apple-text-secondary); }
 .apcard em { font: 600 11.5px/1 var(--mono); font-style: normal; color: var(--apple-text-tertiary); margin-top: 4px; }
+
+/* Marca la lectura que ya se rehizo en el sistema nuevo. */
+.apcard--nueva { border-color: rgba(212,160,23,.42); }
+.apcard--nueva em { color: var(--casa-oro-tinta); font-weight: 700; }

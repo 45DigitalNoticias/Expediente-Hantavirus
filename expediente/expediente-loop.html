@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>El antecedente &middot; Expediente Brotes &middot; 45 Digital Noticias</title>
+<title>El loop &middot; Expediente Brotes &middot; 45 Digital Noticias</title>
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -42,81 +42,37 @@
 
 <header class="tapa">
   <div class="tapa__in">
-    <p class="tapa__k"><svg class="ic"><use href="#i-clock"/></svg> La l&iacute;nea larga</p>
-    <h1>El antecedente.</h1>
-    <p>Veintitr&eacute;s a&ntilde;os de arquitectura de preparaci&oacute;n pand&eacute;mica, del redise&ntilde;o del Reglamento Sanitario Internacional tras el SARS al paquete de aceleraci&oacute;n de 2026. La infraestructura no reacciona al brote: lo antecede.</p>
-    <a class="volver" href="expediente-completo.html">&#8249; Volver al expediente</a>
+    <p class="tapa__k"><svg class="ic"><use href="#i-clock"/></svg> El antecedente &middot; una lectura</p>
+    <h1>El loop de la preparaci&oacute;n.</h1>
+    <p>2003 &rarr; 2026 &rarr; 2003. El sistema no avanza: gira. La salida, eso que se llama &laquo;control&raquo;, es topol&oacute;gicamente inexistente.</p>
+    <a class="volver" href="expediente-antecedente.html">&#8249; Volver al antecedente</a>
   </div>
 </header>
 
-<section class="bg-mesh rv" id="antecedente">
+<section class="bg-mesh rv" id="loop">
   <div class="content content--wide">
-    <p class="eyebrow"><svg class="ic"><use href="#i-chart"/></svg> de un vistazo</p>
-    <h2 class="sec-title">Lo que se fue construyendo.</h2>
-    <p class="sec-sub" id="anteSub"></p>
-    <div class="inv" id="anteCifras"></div>
+    <div class="loopwrap">
+      <div class="loop-lienzo">
+        <div class="loop-barra">
+          <span class="loop-barra__lbl">Banda de retorno &middot; sin salida</span>
+          <span class="loop-barra__meta" id="loopMeta"></span>
+          <button class="btn btn--min" id="loopPlay">&#9654; Recorrer el loop</button>
+        </div>
+        <svg id="loopSvg" viewBox="0 0 1000 560" role="img"
+             aria-label="Los doce hitos sobre una banda cerrada que vuelve a su origen"></svg>
+      </div>
+      <aside class="loop-ficha" id="loopFicha"></aside>
+    </div>
   </div>
 </section>
 
-<section class="bg-mesh-b rv" id="linea">
+<section class="bg-mesh-b rv" id="cierre">
   <div class="content">
-    <p class="eyebrow"><svg class="ic"><use href="#i-clock"/></svg> hito por hito</p>
-    <h2 class="sec-title">La l&iacute;nea larga.</h2>
-    <p class="sec-sub">Cada pieza con su a&ntilde;o, sus actores, el dinero que movi&oacute; y por qu&eacute; importa
-      para lo que est&aacute; pasando ahora. Cada una enlaza a su fuente.</p>
-    <div class="linea" id="anteLinea"></div>
-  </div>
-</section>
-
-<section class="bg-mesh rv" id="cauce">
-  <div class="content">
-    <p class="eyebrow"><svg class="ic"><use href="#i-coin"/></svg> el cauce</p>
-    <h2 class="sec-title">Por d&oacute;nde corri&oacute; el dinero.</h2>
-    <p class="sec-sub" id="cauceSub"></p>
-    <div class="cauce" id="cauceLista"></div>
-    <p class="mapa-caption"><svg class="ic"><use href="#i-info"/></svg><span>Las cifras van
-      tal como est&aacute;n documentadas. No se suman entre s&iacute; a prop&oacute;sito: no
-      significan lo mismo un compromiso, una compra, un fondo solicitado y uno cancelado.</span></p>
-  </div>
-</section>
-
-<section class="bg-mesh-b rv" id="actores">
-  <div class="content">
-    <p class="eyebrow"><svg class="ic"><use href="#i-user"/></svg> qui&eacute;n aparece siempre</p>
-    <h2 class="sec-title">Los nombres que se repiten.</h2>
-    <p class="sec-sub" id="actoresSub"></p>
-    <div class="actores" id="actoresLista"></div>
-  </div>
-</section>
-
-<section class="bg-mesh rv" id="portadas">
-  <div class="content">
-    <p class="eyebrow"><svg class="ic"><use href="#i-book"/></svg> cuando lleg&oacute; a portada</p>
-    <h2 class="sec-title">Los a&ntilde;os que s&iacute; se contaron.</h2>
-    <p class="sec-sub" id="portadasSub"></p>
-    <div class="portadas" id="portadasLista"></div>
-  </div>
-</section>
-
-<section class="bg-mesh-b rv" id="vistas">
-  <div class="content content--wide">
-    <p class="eyebrow"><svg class="ic"><use href="#i-capa"/></svg> ver de otra forma</p>
-    <h2 class="sec-title">La misma historia, dibujada.</h2>
-    <p class="sec-sub">Los mismos doce hitos, en cinco visualizaciones que los cuentan
-      de otra manera. Abren aparte y se vuelve con un clic.</p>
-    <div class="apgrid">
-      <a class="apcard apcard--nueva" href="expediente-loop.html"><svg class="ic"><use href="#i-clock"/></svg>
-        <b>El loop</b><span>Los doce hitos sobre una banda que no tiene salida: el sistema no avanza, gira.</span><em>rehecha</em></a>
-      <a class="apcard" href="../antecedente/cauce.html"><svg class="ic"><use href="#i-coin"/></svg>
-        <b>El cauce</b><span>El dinero sanitario como corriente, del brote al centro.</span><em>flujo</em></a>
-      <a class="apcard" href="../antecedente/evidencia.html"><svg class="ic"><use href="#i-chart"/></svg>
-        <b>La evidencia</b><span>Tres gr&aacute;ficos: d&iacute;as hasta la emergencia, dinero por farmac&eacute;utica, letalidad contra financiamiento.</span><em>3 gr&aacute;ficos</em></a>
-      <a class="apcard" href="../antecedente/codigo.html"><svg class="ic"><use href="#i-capa"/></svg>
-        <b>El c&oacute;digo</b><span>Doble hebra: la norma que habilita y el dinero que la sigue.</span><em>2003 a 2026</em></a>
-      <a class="apcard" href="../antecedente/regional.html"><svg class="ic"><use href="#i-globe"/></svg>
-        <b>Lo regional</b><span>C&oacute;mo aterriza en el cono sur: series hist&oacute;ricas y letalidad at&iacute;pica.</span><em>cono sur</em></a>
-      <a class="apcard" href="../antecedente/embed.html"><svg class="ic"><use href="#i-doc"/></svg>
-        <b>El microsite</b><span>Las cinco vistas juntas, como se public&oacute; en su momento.</span><em>versi&oacute;n original</em></a>
+    <div class="cierre">
+      <p class="cierre__grande">Bundibugyo 2026 est&aacute; en el mismo lado de la banda que SARS 2003.</p>
+      <p class="cierre__chico">Cada brote no interrumpe el ciclo: lo alimenta. El sistema no busca
+        salida, solo busca giro.</p>
+      <p class="cierre__firma">Doctrina del shock &middot; Naomi Klein &middot; 2007</p>
     </div>
   </div>
 </section>
