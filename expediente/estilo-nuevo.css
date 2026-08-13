@@ -345,9 +345,15 @@
   :focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; border-radius: 6px; }
 
   /* Cinta de conteo del inventario */
-  .inv { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; max-width: 900px; margin: 0 auto; }
-  @media (min-width: 734px) { .inv { grid-template-columns: repeat(3,1fr); } }
-  @media (min-width: 1068px) { .inv { grid-template-columns: repeat(6,1fr); } }
+  /* Flex y no rejilla fija: con seis tarjetas la rejilla de seis cuadraba,
+     pero con cuatro se recargaban a la izquierda. Asi quedan centradas
+     sea cual sea el numero. */
+  .inv {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 12px; max-width: 980px; margin: 0 auto;
+  }
+  .inv > div { flex: 0 1 148px; }
+  @media (max-width: 733px) { .inv > div { flex: 0 1 calc(50% - 6px); } }
   .inv div { background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 14px; padding: 20px 12px; text-align: center; }
   .inv b { display: block; font: 800 28px/1 var(--apple-font-display); letter-spacing: -0.02em; color: var(--apple-text-primary); }
   .inv span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .09em;

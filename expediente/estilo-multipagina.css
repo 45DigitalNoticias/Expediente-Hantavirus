@@ -492,6 +492,78 @@ button.capa-pill:active { transform: scale(0.97); }
   color: var(--casa-oro-tinta); margin: 0;
 }
 
+/* ══════════ CASOS POR PAÍS: tabla comparable, contexto a un toque ══════════ */
+/* El contenedor deja de ser rejilla de dos columnas: ahora es tabla. */
+.tpais { display: block; max-width: 900px; margin: 0 auto; }
+.tpais__cab, .tpais__fila {
+  display: grid;
+  grid-template-columns: minmax(0,1.7fr) minmax(0,1.5fr) 62px 62px minmax(0,110px) 22px;
+  gap: 14px; align-items: center;
+}
+.tpais__cab {
+  padding: 0 16px 10px; border-bottom: 1px solid rgba(0,0,0,0.12);
+  font: 600 10px/1 var(--apple-font-text); letter-spacing: .13em; text-transform: uppercase;
+  color: var(--apple-text-tertiary);
+}
+.tpais__cab span:nth-child(n+3):nth-child(-n+5) { text-align: right; }
+.tpais__grupo { border-bottom: 1px solid rgba(0,0,0,0.07); }
+.tpais__fila {
+  appearance: none; border: 0; background: transparent; width: 100%;
+  padding: 14px 16px; cursor: pointer; text-align: left;
+  transition: background .2s;
+}
+.tpais__fila:hover { background: var(--acc-soft); }
+.tpais__pais {
+  display: flex; align-items: center; gap: 9px; min-width: 0;
+  font-size: 15px; font-weight: 600; color: var(--apple-text-primary);
+}
+.tpais__pais em { font-style: normal; font-size: 12px; }
+.tpais__cod {
+  flex: 0 0 auto; font: 600 10.5px/1 var(--mono); letter-spacing: .06em;
+  color: var(--apple-text-secondary); background: rgba(0,0,0,0.05);
+  border-radius: 6px; padding: 5px 6px; min-width: 28px; text-align: center; font-style: normal;
+}
+/* La barra vive detrás del número: compara sin robarle protagonismo. */
+.tpais__conf { position: relative; display: flex; align-items: center; height: 26px; }
+.tpais__conf i {
+  position: absolute; left: 0; top: 4px; bottom: 4px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--acc), var(--acc-line)); opacity: .55; min-width: 2px;
+}
+.tpais__conf b {
+  position: relative; padding-left: 9px;
+  font: 700 15px/1 var(--apple-font-display); color: var(--apple-text-primary);
+}
+.tpais__n { text-align: right; font: 500 14px/1 var(--mono); color: var(--apple-text-secondary); }
+.tpais__m { text-align: right; font: 600 13px/1.3 var(--apple-font-text); color: var(--casa-rojo); }
+.tpais__chev {
+  color: var(--apple-text-tertiary); font-size: 17px; text-align: center;
+  transition: transform .22s cubic-bezier(.22,1,.36,1);
+}
+.tpais__fila[aria-expanded="true"] .tpais__chev { transform: rotate(90deg); }
+.tpais__fila[aria-expanded="true"] { background: var(--acc-soft); }
+.tpais__nota {
+  padding: 4px 16px 20px; background: var(--acc-soft);
+  font-size: 14.5px; line-height: 1.62; color: var(--apple-text-secondary);
+}
+.tpais__nota p { margin: 0 0 10px; text-align: justify; hyphens: auto; }
+.tpais__nota p:last-child { margin-bottom: 0; }
+.tpais__hosp {
+  display: flex; align-items: flex-start; gap: 8px; text-align: left !important;
+  font: 500 12.5px/1.5 var(--mono); color: var(--apple-text-tertiary);
+}
+.tpais__hosp .ic { width: 15px; height: 15px; flex: none; margin-top: 1px; stroke: var(--casa-oro-tinta); }
+.tpais__muertes { font-weight: 600; color: var(--casa-rojo); text-align: left !important; }
+.tpais__nota a { color: var(--apple-link-blue); text-decoration: none; }
+
+@media (max-width: 733px) {
+  .tpais__cab { display: none; }
+  .tpais__fila { grid-template-columns: 1fr auto; gap: 8px; }
+  .tpais__conf { grid-column: 1; }
+  .tpais__n { display: none; }
+  .tpais__m { grid-column: 2; }
+  .tpais__chev { display: none; }
+}
+
 /* Pie */
 .pie { background: var(--casa-navy); color: rgba(255,255,255,.62); padding: 56px 24px; text-align: center; font-size: 13px; }
 .pie p { margin: 0 0 8px; }
@@ -514,3 +586,30 @@ button.capa-pill:active { transform: scale(0.97); }
 /* Marca la lectura que ya se rehizo en el sistema nuevo. */
 .apcard--nueva { border-color: rgba(212,160,23,.42); }
 .apcard--nueva em { color: var(--casa-oro-tinta); font-weight: 700; }
+
+/* ══════════ EL CAUCE: Sankey en claro ══════════ */
+#cauceSvg { display: block; width: 100%; height: auto; background: #fff; flex: 1 1 auto; }
+.cauce-cinta { opacity: .30; transition: opacity .22s, stroke-width .22s; }
+#cauceSvg.con-seleccion .cauce-flujo:not(.act) .cauce-cinta { opacity: .12; }
+.cauce-flujo { cursor: pointer; }
+.cauce-flujo:hover .cauce-cinta,
+.cauce-flujo.act .cauce-cinta { opacity: .78; }
+.cauce-flujo:focus-visible .cauce-cinta { opacity: .9; }
+.cauce-nodo { opacity: .9; }
+.cauce-etq {
+  font: 600 11px var(--apple-font-text); fill: var(--apple-text-primary);
+  letter-spacing: -0.005em; pointer-events: none;
+}
+.cauce-col {
+  font: 600 9.5px var(--mono); fill: var(--apple-text-tertiary);
+  letter-spacing: .16em; text-transform: uppercase; pointer-events: none;
+}
+.cauce-ruta { display: grid; gap: 4px; margin: 18px 0 4px; }
+.cauce-ruta__n {
+  font: 600 14.5px/1.3 var(--apple-font-text); color: var(--apple-text-primary);
+  background: rgba(0,0,0,.04); border-radius: 10px; padding: 9px 13px;
+  border-left: 3px solid var(--casa-cian);
+}
+.cauce-ruta__n[data-t="farma"] { border-left-color: var(--casa-oro); }
+.cauce-ruta__n[data-t="brote"] { border-left-color: var(--casa-rojo); }
+.cauce-ruta__f { font-size: 13px; color: var(--apple-text-tertiary); text-align: center; line-height: 1; }

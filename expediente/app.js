@@ -345,26 +345,60 @@
     else { b.textContent = "Ver las " + lista.length + " entradas"; b.dataset.modo = "mas"; }
   }
 
-  /* ═══════════ Países ═══════════ */
+  /* ═══════════ Países ═══════════
+     Tabla y no tarjetas: con trece fichas de párrafo largo la sección se leía
+     como muro de texto y, peor, las cifras no se podían comparar entre sí.
+     Aquí la barra deja ver la magnitud de un golpe y el contexto se pide. */
+  function numDe(v) {
+    if (v == null) return 0;
+    if (typeof v === "number") return v;
+    var m = String(v).replace(/,/g, "").match(/\d+(?:\.\d+)?/);
+    return m ? parseFloat(m[0]) : 0;
+  }
   function pintarPaises() {
     var cont = $("#paisGrid");
     if (!cont) return;
     var d = D[BROTE];
     if ($("#paisesSub")) $("#paisesSub").innerHTML = "<b>" + d.paises.length +
-      " territorios</b> con ficha propia: hospitales, confirmados, probables y la nota de contexto que explica cada cifra.";
-    cont.innerHTML = d.paises.map(function (p) {
-      var nums = "";
-      if (p.conf != null) nums += '<div class="pais__num"><b>' + esc(p.conf) + "</b><span>confirmados</span></div>";
-      if (p.prob != null) nums += '<div class="pais__num"><b>' + esc(p.prob) + "</b><span>probables</span></div>";
-      if (p.obs != null) nums += '<div class="pais__num"><b>' + esc(p.obs) + "</b><span>en observación</span></div>";
-      return '<article class="pais"><div class="pais__top"><span class="pais__flag">' + esc(p.flag) +
-        '</span><h3 class="pais__name">' + esc(p.name) + (p.v ? " " + p.v : "") + "</h3></div>" +
-        '<p class="pais__hosp">' + esc(p.hosp) + "</p>" +
-        '<div class="pais__nums">' + nums + "</div>" +
-        (p.deaths != null && p.deaths !== "" ? '<p class="pais__muertes">' + esc(p.deaths) +
-          (typeof p.deaths === "number" ? " fallecidos" : "") + "</p>" : "") +
-        '<p class="pais__note">' + esc(p.note) + "</p></article>";
-    }).join("");
+      " territorios</b>, ordenados por casos confirmados. La barra compara magnitudes; " +
+      "el contexto de cada cifra se abre al tocar la fila.";
+
+    var lista = d.paises.slice().sort(function (a, b) { return numDe(b.conf) - numDe(a.conf); });
+    var tope = Math.max.apply(null, lista.map(function (p) { return numDe(p.conf); })) || 1;
+
+    cont.innerHTML =
+      '<div class="tpais__cab"><span>País</span><span>Confirmados</span>' +
+      '<span>Prob.</span><span>Obs.</span><span>Muertes</span><span></span></div>' +
+      lista.map(function (p, i) {
+        var conf = numDe(p.conf);
+        var muertes = p.deaths == null || p.deaths === "" ? "—" :
+          (typeof p.deaths === "number" ? p.deaths : String(p.deaths).split("·")[0].trim());
+        return '<div class="tpais__grupo">' +
+          '<button class="tpais__fila" aria-expanded="false" data-fila="' + i + '">' +
+            '<span class="tpais__pais"><i class="tpais__cod">' + esc(p.flag) + "</i>" +
+              esc(p.name) + (p.v ? ' <em>' + esc(p.v) + "</em>" : "") + "</span>" +
+            '<span class="tpais__conf"><i style="width:' +
+              (conf / tope * 100).toFixed(1) + '%"></i><b>' + esc(p.conf != null ? p.conf : "—") + "</b></span>" +
+            '<span class="tpais__n">' + (p.prob != null ? esc(p.prob) : "—") + "</span>" +
+            '<span class="tpais__n">' + (p.obs != null ? esc(p.obs) : "—") + "</span>" +
+            '<span class="tpais__m">' + esc(muertes) + "</span>" +
+            '<span class="tpais__chev">›</span>' +
+          "</button>" +
+          '<div class="tpais__nota" hidden>' +
+            '<p class="tpais__hosp"><svg class="ic"><use href="#i-pin"/></svg> ' + esc(p.hosp) + "</p>" +
+            (typeof p.deaths === "string" && p.deaths ? '<p class="tpais__muertes">' + esc(p.deaths) + "</p>" : "") +
+            "<p>" + esc(p.note) + "</p>" +
+          "</div></div>";
+      }).join("");
+
+    cont.addEventListener("click", function (e) {
+      var b = e.target.closest(".tpais__fila");
+      if (!b) return;
+      var nota = b.nextElementSibling;
+      var abierta = b.getAttribute("aria-expanded") === "true";
+      b.setAttribute("aria-expanded", String(!abierta));
+      if (nota) nota.hidden = abierta;
+    });
   }
 
   /* ═══════════ Inventario ═══════════ */
