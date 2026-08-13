@@ -88,8 +88,10 @@
   .btn:active { transform: scale(0.97); }
 
   /* --- Tablas de países --- */
-  /* align-items:start para que una ficha corta no se estire al alto de la vecina */
-  .paisgrid { display: grid; gap: 16px; grid-template-columns: 1fr; align-items: start; }
+  /* Las fichas se alinean en su renglon. Probé align-items:start para que una
+     corta no se estirara, pero el resultado eran tarjetas desfasadas entre sí,
+     que se lee peor que un poco de aire abajo. */
+  .paisgrid { display: grid; gap: 16px; grid-template-columns: 1fr; align-items: stretch; }
   @media (min-width: 900px) { .paisgrid { grid-template-columns: repeat(2, 1fr); } }
   .pais {
     background: #fff; border-radius: var(--apple-radius-card); padding: 24px;

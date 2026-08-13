@@ -28,6 +28,7 @@
     ["vacunas",     "expediente-vacunas.html",     "Vacunas", "i-syringe"],
     ["comparativo", "expediente-comparativo.html", "Comparativo", "i-chart"],
     ["faq",         "expediente-faq.html",         "Preguntas", "i-info"],
+    ["antecedente", "expediente-antecedente.html", "Antecedente", "i-clock"],
     ["referencia",  "expediente-referencia.html",  "Guía y glosario", "i-capa"]
   ];
   var CON_PERILLA = ["principal", "vacunas", "faq"];
@@ -120,11 +121,19 @@
     var pre = new Image();
     pre.onload = function () {
       $$('.cover[data-col-id="' + c.id + '"]').forEach(function (cov) {
-        cov.className = "cover cover--img";
-        cov.removeAttribute("style");
-        cov.innerHTML = '<img src="' + ruta + '" alt="" loading="lazy">';
+        var p = cov.parentElement;
+        var enRevista = p && (p.classList.contains("revista__cover") ||
+                              p.classList.contains("portada-hero__cover"));
+        if (enRevista) {
+          // Ahí el marco lo pone el padre: basta con dejar la imagen.
+          cov.outerHTML = '<img src="' + ruta + '" alt="" loading="lazy">';
+        } else {
+          cov.className = "cover cover--img";
+          cov.removeAttribute("style");
+          cov.innerHTML = '<img src="' + ruta + '" alt="" loading="lazy">';
+        }
       });
-      $$('.fila[data-col-id="' + c.id + '"] .sinimg').forEach(function (m) { m.remove(); });
+      $$('[data-col-id="' + c.id + '"] .sinimg').forEach(function (m) { m.remove(); });
     };
     pre.onerror = function () { probarPortada(c, exts, k + 1); };  // .jpg, luego .png, luego .webp
     pre.src = ruta;
@@ -163,37 +172,65 @@
     var nueva = $("#colNueva");
     if (nueva) nueva.innerHTML = '<div class="colgrid colgrid--una">' + tarjeta(columnas[0], 0) + "</div>";
 
-    // Panel completo, agrupado por arco editorial.
+    // Sala de lectura completa: se lee como revista. La más reciente ocupa
+    // una pieza grande y el resto va en parrilla, con la portada dominando.
     var panel = $("#colPanel");
     if (panel) {
+      var primera = columnas[0];
+      var hero = '<article class="portada-hero" data-col="0" data-col-id="' + esc(primera.id) + '" ' +
+        'tabindex="0" role="button">' +
+        '<div class="portada-hero__cover">' + coverImg(primera, 0) + "</div>" +
+        '<div class="portada-hero__txt">' +
+          '<p class="portada-hero__k">La más reciente' +
+            (primera.etiqueta ? " · " + esc(primera.etiqueta) : "") + "</p>" +
+          "<h3>" + esc(primera.titulo) + "</h3>" +
+          '<p class="portada-hero__bajada">' + esc(primera.bajada || primera.resumen || "") + "</p>" +
+          '<p class="portada-hero__meta">' + esc(primera.fechaLegible) +
+            (primera.tiempoLectura ? " · " + esc(primera.tiempoLectura) : "") + "</p>" +
+          '<span class="portada-hero__cta">Leer completa ›</span>' +
+        "</div></article>";
+
       var grupos = {};
       columnas.forEach(function (c, i) {
+        if (i === 0) return;                    // la primera ya va arriba
         var g = (c.etiqueta || "Columna").split("·")[0].trim();
         (grupos[g] = grupos[g] || []).push({ c: c, i: i });
       });
       var orden = Object.keys(grupos).sort(function (a, b) {
         return grupos[b][0].c.fechaPublicacion.localeCompare(grupos[a][0].c.fechaPublicacion);
       });
-      panel.innerHTML = orden.map(function (g) {
-        var filas = grupos[g].sort(function (x, y) {
+      panel.innerHTML = hero + orden.map(function (g) {
+        var tarjetas = grupos[g].sort(function (x, y) {
           return y.c.fechaPublicacion.localeCompare(x.c.fechaPublicacion);
         }).map(function (o) {
           var c = o.c;
-          return '<button class="fila" data-col="' + o.i + '" data-col-id="' + esc(c.id) + '">' +
-            '<span class="fila__ic"><svg class="ic"><use href="#' +
-              ICONOS_COL[o.i % ICONOS_COL.length] + '"/></svg></span>' +
-            '<span class="fila__txt"><b>' + esc(c.titulo) + "</b>" +
-              '<span class="fila__bajada">' + esc(c.bajada || c.resumen || "").slice(0, 150) + "…</span></span>" +
-            '<span class="fila__meta">' + esc(c.fechaLegible) +
+          return '<button class="revista" data-col="' + o.i + '" data-col-id="' + esc(c.id) + '">' +
+            '<span class="revista__cover">' + coverImg(c, o.i) + "</span>" +
+            (c.etiqueta ? '<span class="revista__etq">' + esc(c.etiqueta) + "</span>" : "") +
+            "<h4>" + esc(c.titulo) + "</h4>" +
+            '<span class="revista__meta">' + esc(c.fechaLegible) +
               (c.tiempoLectura ? " · " + esc(c.tiempoLectura) : "") +
               (c.imagen ? "" : ' <i class="sinimg" title="sin portada">◦</i>') + "</span>" +
-            "</button>";
+          "</button>";
         }).join("");
         return '<section class="grupo"><h3 class="grupo__tit">' + esc(g) +
           '<span class="grupo__n">' + grupos[g].length + "</span></h3>" +
-          '<div class="grupo__filas">' + filas + "</div></section>";
+          '<div class="revistagrid">' + tarjetas + "</div></section>";
       }).join("");
     }
+  }
+
+  /* La portada de la pieza, ya sea la del dato o la de convención. Si todavía
+     no existe, el degradado de casa hace de portada provisional. */
+  function coverImg(c, i) {
+    if (c.imagen) {
+      return '<img src="' + esc(rutaPortada(c)) + '" alt="" loading="lazy">';
+    }
+    return '<span class="cover" data-col-id="' + esc(c.id) + '" style="position:absolute;inset:0;' +
+      "display:flex;align-items:center;justify-content:center;background:" +
+      FONDOS[i % FONDOS.length] + '">' +
+      '<svg class="ic" style="width:38px;height:38px;stroke:rgba(255,255,255,.8)"><use href="#' +
+      ICONOS_COL[i % ICONOS_COL.length] + '"/></svg></span>';
   }
 
   /* ═══════════ Lector inmersivo ═══════════ */

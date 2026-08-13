@@ -43,15 +43,15 @@ window.FRAGMENTOS = {
         <h3>Las cuatro capas del brote</h3>
         <ul class="x-gl">
           <li>
-            <span class="x-gll" style="background:#4a7fa3"></span>
+            <span class="x-gll" style="background:#2a8cd8"></span>
             <div class="x-gt">
               <b>Ruta</b> — Travesía marítima del MV Hondius. Línea continua cyan steel entre Ushuaia (1 abr) y Rotterdam (18 may), pasando por Tristán da Cunha y Tenerife.
             </div>
           </li>
           <li>
-            <span class="x-glc" style="background:#991b1b"></span>
+            <span class="x-glc" style="background:#8f2b20"></span>
             <div class="x-gt">
-              <b>Casos</b> — Marcadores numerados 1, 2, 3… en orden cronológico del brote. Cada tipo de evento tiene un color distinto: <b style="color:#4a7fa3">cyan</b> exposición, <b style="color:#b08c30">mostaza</b> síntoma detectado, <b style="color:#991b1b">rojo vino</b> muerte confirmada, <b style="color:#0d9488">teal</b> hospital de destino, <b style="color:#15803d">verde forest</b> laboratorio / institucional. Click abre popup con fecha, lugar, descripción y nivel de verificación (✅ confirmado, ⚠️ parcial, ❓ no confirmado).
+              <b>Casos</b> — Marcadores numerados 1, 2, 3… en orden cronológico del brote. Cada tipo de evento tiene un color distinto: <b style="color:#2a8cd8">cyan</b> exposición, <b style="color:#d4a017">mostaza</b> síntoma detectado, <b style="color:#8f2b20">rojo vino</b> muerte confirmada, <b style="color:#0d9488">teal</b> hospital de destino, <b style="color:#15803d">verde forest</b> laboratorio / institucional. Click abre popup con fecha, lugar, descripción y nivel de verificación (✅ confirmado, ⚠️ parcial, ❓ no confirmado).
             </div>
           </li>
           <li>
@@ -91,7 +91,7 @@ window.FRAGMENTOS = {
             </div>
           </li>
           <li>
-            <span class="x-glc" style="background:#b08c30"></span>
+            <span class="x-glc" style="background:#d4a017"></span>
             <div class="x-gt">
               <b>Continentes</b> — Marcadores tipo <em>pill</em> naranjas sobre el centro aproximado de cada continente con detección vinculada al hantavirus: Sudamérica (reservorio endémico + caso índice), Norteamérica (1 caso confirmado en Nebraska + nodo federal), Europa (5 países con casos del brote + puerto final Rotterdam), África (1 muerte en Johannesburgo + Santa Helena), Asia (2 en cuarentena en Singapur), Oceanía (Australia en monitoreo). Click muestra cifras y fuentes por continente.
             </div>
@@ -103,25 +103,25 @@ window.FRAGMENTOS = {
         <h3>Las cuatro capas del brote Ébola Bundibugyo</h3>
         <ul class="x-gl">
           <li>
-            <span class="x-glc" style="background:#9c1226"></span>
+            <span class="x-glc" style="background:#c44536"></span>
             <div class="x-gt">
               <b>Ébola · casos</b> — Marcadores naranja quemado con código E1, E2, E3… en orden cronológico. Cubren Mongbwalu (caso índice, 5 may), Bunia (confirmación de cepa, 14 may), declaración PHEIC en Ginebra (16 may), Kampala (Uganda, 17 may), Goma (zona M23, 17 may), Kinshasa (médico estadounidense positivo, 17 may), Frankfurt (evacuación, 18 may), Washington (screening CDC, 18 may), Atlanta (HAN 00530, 19 may) y Ginebra (Comité de Emergencia RSI, 22 may).
             </div>
           </li>
           <li>
-            <span class="x-glc" style="background:#9c1226;opacity:0.4"></span>
+            <span class="x-glc" style="background:#c44536;opacity:0.4"></span>
             <div class="x-gt">
               <b>Foco Ituri</b> — Polígono naranja semitransparente sobre la provincia de Ituri + Nord-Kivu (noreste de la RDC), zona donde inició el brote y epicentro que, al 15-jul (OMS DON613), se expandió a 46 zonas de salud en cinco provincias (Ituri concentra 1,904 casos y 692 muertes).
             </div>
           </li>
           <li>
-            <span class="x-glc" style="background:#7c2d12"></span>
+            <span class="x-glc" style="background:#8f2b20"></span>
             <div class="x-gt">
               <b>Zona M23</b> — Polígono ocre oscuro sobre el territorio bajo control del <em>Mouvement du 23 mars</em> en Nord-Kivu. Goma —capital provincial— registró caso confirmado de Bundibugyo el 17 de mayo. MSF negocia acceso humanitario directamente con el M23, lo que de facto le otorga estatus de interlocutor sanitario. Patrón documentado en Tigré 2021-2023.
             </div>
           </li>
           <li>
-            <span class="x-gld" style="border-top-color:#9c1226"></span>
+            <span class="x-gld" style="border-top-color:#c44536"></span>
             <div class="x-gt">
               <b>Evacuación a Alemania</b> — Línea punteada naranja Kinshasa → Frankfurt. Traslado aéreo del médico estadounidense positivo a un centro de bioseguridad alemán. El primer caso fuera de África no se trató en EE.UU.: la logística pasó por Europa.
             </div>
@@ -276,53 +276,53 @@ window.FRAGMENTOS = {
           <div class="x-cmps">Casos confirmados, muertes confirmadas y letalidad cruda por brote — escala independiente por métrica</div>
           <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" class="x-cmpsvg" role="img" aria-label="Comparativo de cifras crudas al 9 de agosto de 2026">
             <!-- Encabezados de las tres métricas (zona segura arriba) -->
-            <text x="55" y="22" font-size="10" fill="#475569" font-weight="700" text-anchor="middle" letter-spacing="0.06em">CONFIRMADOS</text>
-            <text x="160" y="22" font-size="10" fill="#475569" font-weight="700" text-anchor="middle" letter-spacing="0.06em">MUERTES CONF.</text>
-            <text x="265" y="22" font-size="10" fill="#475569" font-weight="700" text-anchor="middle" letter-spacing="0.06em">LETALIDAD</text>
+            <text x="55" y="22" font-size="10" fill="#5a6e8c" font-weight="700" text-anchor="middle" letter-spacing="0.06em">CONFIRMADOS</text>
+            <text x="160" y="22" font-size="10" fill="#5a6e8c" font-weight="700" text-anchor="middle" letter-spacing="0.06em">MUERTES CONF.</text>
+            <text x="265" y="22" font-size="10" fill="#5a6e8c" font-weight="700" text-anchor="middle" letter-spacing="0.06em">LETALIDAD</text>
 
             <!-- Eje base -->
-            <line x1="15" y1="190" x2="305" y2="190" stroke="#cbd5e1" stroke-width="1"/>
+            <line x1="15" y1="190" x2="305" y2="190" stroke="#d3dbe4" stroke-width="1"/>
 
             <!-- ===== Grupo 1: CONFIRMADOS (escala: ébola al tope = 140 px) ===== -->
             <!-- Hant 13 (cierre) → forzado a 8 px para visibilidad -->
-            <rect x="32" y="182" width="22" height="8" fill="#4a7fa3"/>
-            <text x="43" y="175" font-size="11" fill="#4a7fa3" text-anchor="middle" font-weight="700">13</text>
-            <text x="43" y="208" font-size="9" fill="#4a7fa3" text-anchor="middle">Hant</text>
+            <rect x="32" y="182" width="22" height="8" fill="#2a8cd8"/>
+            <text x="43" y="175" font-size="11" fill="#2a8cd8" text-anchor="middle" font-weight="700">13</text>
+            <text x="43" y="208" font-size="9" fill="#2a8cd8" text-anchor="middle">Hant</text>
             <!-- Ébola 4401 (RDC 4381 + Uganda 20) → 140 px -->
-            <rect x="66" y="50" width="22" height="140" fill="#9c1226"/>
-            <text x="77" y="43" font-size="11" fill="#9c1226" text-anchor="middle" font-weight="700">4401</text>
-            <text x="77" y="208" font-size="9" fill="#9c1226" text-anchor="middle">Ébola</text>
+            <rect x="66" y="50" width="22" height="140" fill="#c44536"/>
+            <text x="77" y="43" font-size="11" fill="#c44536" text-anchor="middle" font-weight="700">4401</text>
+            <text x="77" y="208" font-size="9" fill="#c44536" text-anchor="middle">Ébola</text>
 
             <!-- Separador 1-2 -->
-            <line x1="110" y1="45" x2="110" y2="195" stroke="#e2e8f0" stroke-dasharray="2,3"/>
+            <line x1="110" y1="45" x2="110" y2="195" stroke="#e7ecf1" stroke-dasharray="2,3"/>
 
             <!-- ===== Grupo 2: MUERTES CONFIRMADAS (escala: ébola al tope = 140 px) ===== -->
             <!-- Hant 3 → 2 px, mínimo visual 8 px -->
-            <rect x="137" y="182" width="22" height="8" fill="#991b1b"/>
-            <text x="148" y="175" font-size="11" fill="#991b1b" text-anchor="middle" font-weight="700">3</text>
-            <text x="148" y="208" font-size="9" fill="#4a7fa3" text-anchor="middle">Hant</text>
+            <rect x="137" y="182" width="22" height="8" fill="#8f2b20"/>
+            <text x="148" y="175" font-size="11" fill="#8f2b20" text-anchor="middle" font-weight="700">3</text>
+            <text x="148" y="208" font-size="9" fill="#2a8cd8" text-anchor="middle">Hant</text>
             <!-- Ébola 2013 (RDC 2011 + Uganda 2) → 140 px -->
-            <rect x="171" y="50" width="22" height="140" fill="#7c2d12"/>
-            <text x="182" y="43" font-size="11" fill="#7c2d12" text-anchor="middle" font-weight="700">2013</text>
-            <text x="182" y="208" font-size="9" fill="#9c1226" text-anchor="middle">Ébola</text>
+            <rect x="171" y="50" width="22" height="140" fill="#8f2b20"/>
+            <text x="182" y="43" font-size="11" fill="#8f2b20" text-anchor="middle" font-weight="700">2013</text>
+            <text x="182" y="208" font-size="9" fill="#c44536" text-anchor="middle">Ébola</text>
 
             <!-- Separador 2-3 -->
-            <line x1="215" y1="45" x2="215" y2="195" stroke="#e2e8f0" stroke-dasharray="2,3"/>
+            <line x1="215" y1="45" x2="215" y2="195" stroke="#e7ecf1" stroke-dasharray="2,3"/>
 
             <!-- ===== Grupo 3: LETALIDAD CONFIRMADA (escala: 50% = 140 px) ===== -->
             <!-- Hant 23% (cierre 3/13, OMS) → 64 px -->
-            <rect x="242" y="126" width="22" height="64" fill="#4a7fa3"/>
-            <text x="253" y="119" font-size="11" fill="#4a7fa3" text-anchor="middle" font-weight="700">23%</text>
-            <text x="253" y="208" font-size="9" fill="#4a7fa3" text-anchor="middle">Hant</text>
+            <rect x="242" y="126" width="22" height="64" fill="#2a8cd8"/>
+            <text x="253" y="119" font-size="11" fill="#2a8cd8" text-anchor="middle" font-weight="700">23%</text>
+            <text x="253" y="208" font-size="9" fill="#2a8cd8" text-anchor="middle">Hant</text>
             <!-- Ébola 46% (2011/4381, ECDC 9-ago) → 129 px -->
-            <rect x="276" y="61" width="22" height="129" fill="#9c1226"/>
-            <text x="287" y="54" font-size="11" fill="#9c1226" text-anchor="middle" font-weight="700">46%</text>
-            <text x="287" y="208" font-size="9" fill="#9c1226" text-anchor="middle">Ébola</text>
+            <rect x="276" y="61" width="22" height="129" fill="#c44536"/>
+            <text x="287" y="54" font-size="11" fill="#c44536" text-anchor="middle" font-weight="700">46%</text>
+            <text x="287" y="208" font-size="9" fill="#c44536" text-anchor="middle">Ébola</text>
 
             <!-- Leyenda al pie -->
             <g font-size="8" fill="#5a6e8c">
-              <rect x="60" y="222" width="10" height="8" fill="#4a7fa3"/><text x="75" y="229">Hantavirus Andes</text>
-              <rect x="170" y="222" width="10" height="8" fill="#9c1226"/><text x="185" y="229">Ébola Bundibugyo</text>
+              <rect x="60" y="222" width="10" height="8" fill="#2a8cd8"/><text x="75" y="229">Hantavirus Andes</text>
+              <rect x="170" y="222" width="10" height="8" fill="#c44536"/><text x="185" y="229">Ébola Bundibugyo</text>
             </g>
           </svg>
           <div class="x-cmpp">
@@ -352,30 +352,30 @@ window.FRAGMENTOS = {
                  sqrt(13)≈3.61  → 40 px (vs 8 px en lineal — ahora SÍ se ve) -->
 
             <!-- 330 días (Ébola Kivu) -->
-            <rect x="130" y="24" width="200" height="16" fill="#94a3b8" rx="2"/>
+            <rect x="130" y="24" width="200" height="16" fill="#8aa0b4" rx="2"/>
             <text x="324" y="36" font-size="10" fill="#fff" font-weight="700" text-anchor="end">330 d</text>
 
             <!-- 83 días (H1N1) -->
-            <rect x="130" y="49" width="100" height="16" fill="#94a3b8" rx="2"/>
+            <rect x="130" y="49" width="100" height="16" fill="#8aa0b4" rx="2"/>
             <text x="224" y="61" font-size="10" fill="#fff" font-weight="700" text-anchor="end">83 d</text>
 
             <!-- 30 días (COVID-19) -->
-            <rect x="130" y="74" width="60" height="16" fill="#94a3b8" rx="2"/>
+            <rect x="130" y="74" width="60" height="16" fill="#8aa0b4" rx="2"/>
             <text x="184" y="86" font-size="10" fill="#fff" font-weight="700" text-anchor="end">30 d</text>
 
             <!-- Hantavirus 2026: sin PHEIC (marca punteada, no barra) -->
-            <line x1="130" y1="99" x2="175" y2="99" stroke="#4a7fa3" stroke-width="3" stroke-dasharray="5,3"/>
-            <text x="180" y="103" font-size="9" fill="#4a7fa3" font-weight="700">sin PHEIC · sólo alerta</text>
+            <line x1="130" y1="99" x2="175" y2="99" stroke="#2a8cd8" stroke-width="3" stroke-dasharray="5,3"/>
+            <text x="180" y="103" font-size="9" fill="#2a8cd8" font-weight="700">sin PHEIC · sólo alerta</text>
 
             <!-- 13 días (Ébola Bundibugyo) — récord -->
-            <rect x="130" y="124" width="40" height="16" fill="#9c1226" rx="2"/>
+            <rect x="130" y="124" width="40" height="16" fill="#c44536" rx="2"/>
             <text x="164" y="136" font-size="10" fill="#fff" font-weight="700" text-anchor="end">13 d</text>
-            <text x="175" y="136" font-size="9" fill="#9c1226" font-weight="700">· récord absoluto del RSI 2005</text>
+            <text x="175" y="136" font-size="9" fill="#c44536" font-weight="700">· récord absoluto del RSI 2005</text>
 
             <!-- Notas al pie -->
             <text x="170" y="170" font-size="8" fill="#5a6e8c" text-anchor="middle" font-style="italic">* el cluster del MV Hondius mantuvo alerta sub-PHEIC pese a 11 casos y 3 muertes</text>
-            <text x="170" y="188" font-size="8" fill="#94a3b8" text-anchor="middle" font-style="italic">Escala raíz cuadrada — diseñada para hacer visibles las respuestas más rápidas</text>
-            <text x="170" y="202" font-size="7" fill="#94a3b8" text-anchor="middle">(en escala lineal, la barra de 13 d mediría sólo 4 % del ancho)</text>
+            <text x="170" y="188" font-size="8" fill="#8aa0b4" text-anchor="middle" font-style="italic">Escala raíz cuadrada — diseñada para hacer visibles las respuestas más rápidas</text>
+            <text x="170" y="202" font-size="7" fill="#8aa0b4" text-anchor="middle">(en escala lineal, la barra de 13 d mediría sólo 4 % del ancho)</text>
           </svg>
           <div class="x-cmpp">
             La PHEIC del Ébola Bundibugyo se declaró en <b>13 días</b>: récord absoluto desde la entrada en vigor del Reglamento Sanitario Internacional 2005. Para el hantavirus (con cluster confirmado en crucero) la OMS mantuvo alerta sin PHEIC. <b>La asimetría en velocidad no responde al patógeno, sino al andamio institucional ya activo.</b> Confirmación operativa al 7-jun: el Charité de Berlín da de alta a Peter Stafford tras 17 días de tratamiento con MBP134 (paralelismo Brantly 2014 → Stafford 2026), CEPI activa fast-track de 62 millones de dólares para tres vacunas Bundibugyo el 1-jun, y México despliega operativo de bioseguridad el 6-jun a cinco días del Mundial 2026.<br/>
@@ -389,69 +389,69 @@ window.FRAGMENTOS = {
           <div class="x-cmps">Estado de la pipeline de vacunas e infraestructura financiera por brote — tabla comparativa</div>
           <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" class="x-cmpsvg" role="img" aria-label="Arquitectura farmacéutica comparada entre los dos brotes">
             <!-- Encabezados de columna con chips coloreadas por brote -->
-            <rect x="180" y="8" width="95" height="22" fill="#4a7fa3" rx="3"/>
+            <rect x="180" y="8" width="95" height="22" fill="#2a8cd8" rx="3"/>
             <text x="228" y="23" font-size="10" fill="#fff" font-weight="700" text-anchor="middle" letter-spacing="0.06em">HANTAVIRUS</text>
 
-            <rect x="320" y="8" width="95" height="22" fill="#9c1226" rx="3"/>
+            <rect x="320" y="8" width="95" height="22" fill="#c44536" rx="3"/>
             <text x="368" y="23" font-size="10" fill="#fff" font-weight="700" text-anchor="middle" letter-spacing="0.06em">ÉBOLA</text>
 
             <!-- Separador encabezado/filas -->
-            <line x1="10" y1="38" x2="410" y2="38" stroke="#cbd5e1" stroke-width="1"/>
+            <line x1="10" y1="38" x2="410" y2="38" stroke="#d3dbe4" stroke-width="1"/>
 
             <!-- ===== Fila 1: Vacuna aprobada ===== -->
-            <text x="10" y="62" font-size="11" fill="#0f172a" font-weight="600">Vacuna aprobada</text>
-            <rect x="180" y="50" width="95" height="20" fill="#fee2e2" stroke="#9c1226" stroke-width="1" rx="3"/>
-            <text x="228" y="64" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">No</text>
-            <rect x="320" y="50" width="95" height="20" fill="#fef3c7" stroke="#b08c30" stroke-width="1" rx="3"/>
-            <text x="368" y="64" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">Sólo Zaire</text>
+            <text x="10" y="62" font-size="11" fill="#02101e" font-weight="600">Vacuna aprobada</text>
+            <rect x="180" y="50" width="95" height="20" fill="#f7e3e0" stroke="#c44536" stroke-width="1" rx="3"/>
+            <text x="228" y="64" font-size="10" fill="#8f2b20" text-anchor="middle" font-weight="700">No</text>
+            <rect x="320" y="50" width="95" height="20" fill="#faf0d6" stroke="#d4a017" stroke-width="1" rx="3"/>
+            <text x="368" y="64" font-size="10" fill="#a87c10" text-anchor="middle" font-weight="700">Sólo Zaire</text>
 
             <!-- ===== Fila 2: Fase clínica avanzada ===== -->
-            <text x="10" y="100" font-size="11" fill="#0f172a" font-weight="600">Fase clínica avanzada</text>
-            <rect x="180" y="88" width="95" height="20" fill="#fef3c7" stroke="#b08c30" stroke-width="1" rx="3"/>
-            <text x="228" y="102" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">Fase 1</text>
-            <rect x="320" y="88" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
-            <text x="368" y="102" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Fase 3</text>
+            <text x="10" y="100" font-size="11" fill="#02101e" font-weight="600">Fase clínica avanzada</text>
+            <rect x="180" y="88" width="95" height="20" fill="#faf0d6" stroke="#d4a017" stroke-width="1" rx="3"/>
+            <text x="228" y="102" font-size="10" fill="#a87c10" text-anchor="middle" font-weight="700">Fase 1</text>
+            <rect x="320" y="88" width="95" height="20" fill="#e6f6ec" stroke="#3fbf6f" stroke-width="1" rx="3"/>
+            <text x="368" y="102" font-size="10" fill="#2d8c3c" text-anchor="middle" font-weight="700">Fase 3</text>
 
             <!-- ===== Fila 3: Financiamiento CEPI ===== -->
-            <text x="10" y="138" font-size="11" fill="#0f172a" font-weight="600">Financiamiento CEPI activo</text>
-            <rect x="180" y="126" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
-            <text x="228" y="140" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Sí</text>
-            <rect x="320" y="126" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
-            <text x="368" y="140" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Sí</text>
+            <text x="10" y="138" font-size="11" fill="#02101e" font-weight="600">Financiamiento CEPI activo</text>
+            <rect x="180" y="126" width="95" height="20" fill="#e6f6ec" stroke="#3fbf6f" stroke-width="1" rx="3"/>
+            <text x="228" y="140" font-size="10" fill="#2d8c3c" text-anchor="middle" font-weight="700">Sí</text>
+            <rect x="320" y="126" width="95" height="20" fill="#e6f6ec" stroke="#3fbf6f" stroke-width="1" rx="3"/>
+            <text x="368" y="140" font-size="10" fill="#2d8c3c" text-anchor="middle" font-weight="700">Sí</text>
 
             <!-- ===== Fila 4: Stockpile preposicionado ===== -->
-            <text x="10" y="176" font-size="11" fill="#0f172a" font-weight="600">Stockpile preposicionado</text>
-            <rect x="180" y="164" width="95" height="20" fill="#fee2e2" stroke="#9c1226" stroke-width="1" rx="3"/>
-            <text x="228" y="178" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">No</text>
-            <rect x="320" y="164" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
-            <text x="368" y="178" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Sí</text>
+            <text x="10" y="176" font-size="11" fill="#02101e" font-weight="600">Stockpile preposicionado</text>
+            <rect x="180" y="164" width="95" height="20" fill="#f7e3e0" stroke="#c44536" stroke-width="1" rx="3"/>
+            <text x="228" y="178" font-size="10" fill="#8f2b20" text-anchor="middle" font-weight="700">No</text>
+            <rect x="320" y="164" width="95" height="20" fill="#e6f6ec" stroke="#3fbf6f" stroke-width="1" rx="3"/>
+            <text x="368" y="178" font-size="10" fill="#2d8c3c" text-anchor="middle" font-weight="700">Sí</text>
 
             <!-- ===== Fila 5: Antiviral específico ===== -->
-            <text x="10" y="214" font-size="11" fill="#0f172a" font-weight="600">Antiviral específico</text>
-            <rect x="180" y="202" width="95" height="20" fill="#fee2e2" stroke="#9c1226" stroke-width="1" rx="3"/>
-            <text x="228" y="216" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">No</text>
-            <rect x="320" y="202" width="95" height="20" fill="#fef3c7" stroke="#b08c30" stroke-width="1" rx="3"/>
-            <text x="368" y="216" font-size="9" fill="#92400e" text-anchor="middle" font-weight="700">MBP134 uso comp.</text>
+            <text x="10" y="214" font-size="11" fill="#02101e" font-weight="600">Antiviral específico</text>
+            <rect x="180" y="202" width="95" height="20" fill="#f7e3e0" stroke="#c44536" stroke-width="1" rx="3"/>
+            <text x="228" y="216" font-size="10" fill="#8f2b20" text-anchor="middle" font-weight="700">No</text>
+            <rect x="320" y="202" width="95" height="20" fill="#faf0d6" stroke="#d4a017" stroke-width="1" rx="3"/>
+            <text x="368" y="216" font-size="9" fill="#a87c10" text-anchor="middle" font-weight="700">MBP134 uso comp.</text>
 
             <!-- ===== Fila 6: 100 Day Mission ===== -->
-            <text x="10" y="252" font-size="11" fill="#0f172a" font-weight="600">100 Day Mission activado</text>
-            <rect x="180" y="240" width="95" height="20" fill="#fee2e2" stroke="#9c1226" stroke-width="1" rx="3"/>
-            <text x="228" y="254" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">No</text>
-            <rect x="320" y="240" width="95" height="20" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="3"/>
-            <text x="368" y="254" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">Sí</text>
+            <text x="10" y="252" font-size="11" fill="#02101e" font-weight="600">100 Day Mission activado</text>
+            <rect x="180" y="240" width="95" height="20" fill="#f7e3e0" stroke="#c44536" stroke-width="1" rx="3"/>
+            <text x="228" y="254" font-size="10" fill="#8f2b20" text-anchor="middle" font-weight="700">No</text>
+            <rect x="320" y="240" width="95" height="20" fill="#e6f6ec" stroke="#3fbf6f" stroke-width="1" rx="3"/>
+            <text x="368" y="254" font-size="10" fill="#2d8c3c" text-anchor="middle" font-weight="700">Sí</text>
 
             <!-- Separador pie -->
-            <line x1="10" y1="270" x2="410" y2="270" stroke="#e2e8f0" stroke-width="1"/>
+            <line x1="10" y1="270" x2="410" y2="270" stroke="#e7ecf1" stroke-width="1"/>
 
             <!-- Leyenda al pie -->
-            <rect x="10" y="280" width="14" height="12" fill="#dcfce7" stroke="#16a34a" stroke-width="1" rx="2"/>
-            <text x="30" y="290" font-size="9" fill="#166534" font-weight="600">Activo</text>
+            <rect x="10" y="280" width="14" height="12" fill="#e6f6ec" stroke="#3fbf6f" stroke-width="1" rx="2"/>
+            <text x="30" y="290" font-size="9" fill="#2d8c3c" font-weight="600">Activo</text>
 
-            <rect x="115" y="280" width="14" height="12" fill="#fef3c7" stroke="#b08c30" stroke-width="1" rx="2"/>
-            <text x="135" y="290" font-size="9" fill="#92400e" font-weight="600">Parcial</text>
+            <rect x="115" y="280" width="14" height="12" fill="#faf0d6" stroke="#d4a017" stroke-width="1" rx="2"/>
+            <text x="135" y="290" font-size="9" fill="#a87c10" font-weight="600">Parcial</text>
 
-            <rect x="225" y="280" width="14" height="12" fill="#fee2e2" stroke="#9c1226" stroke-width="1" rx="2"/>
-            <text x="245" y="290" font-size="9" fill="#991b1b" font-weight="600">Ausente</text>
+            <rect x="225" y="280" width="14" height="12" fill="#f7e3e0" stroke="#c44536" stroke-width="1" rx="2"/>
+            <text x="245" y="290" font-size="9" fill="#8f2b20" font-weight="600">Ausente</text>
           </svg>
           <div class="x-cmpp">
             <b>La asimetría operativa</b> entre los dos brotes es estructural, no clínica. Para Ébola hay vacuna comercial (parcial), tres candidatos en fase 3, stockpile listo y 100 Day Mission activado en 24 horas. Para hantavirus —con letalidad mayor— solo hay candidatas en Fase 1 sin financiamiento sostenido. <b>La preparación farmacéutica selecciona qué brotes se vuelven gestionables y cuáles permanecen como riesgo abierto.</b><br/>
@@ -645,7 +645,7 @@ window.FRAGMENTOS = {
           <div class="x-vstat"><div class="x-vstatn">PHEIC</div><div class="x-vstatl">17-may-2026</div></div>
         </div>
 
-        <div class="x-vax" style="border-left-color:#9c1226">
+        <div class="x-vax" style="border-left-color:#c44536">
           <div class="x-vaxt">Merck · Ervebo (rVSV-ZEBOV)</div>
           <div class="x-vaxs">Kenilworth, Nueva Jersey (EE.UU.)</div>
           <div class="x-vaxr">
@@ -658,7 +658,7 @@ window.FRAGMENTOS = {
           </div>
         </div>
 
-        <div class="x-vax" style="border-left-color:#9c1226">
+        <div class="x-vax" style="border-left-color:#c44536">
           <div class="x-vaxt">Johnson &amp; Johnson · Zabdeno + Mvabea (régimen heterólogo)</div>
           <div class="x-vaxs">New Brunswick, Nueva Jersey (EE.UU.)</div>
           <div class="x-vaxr">
@@ -684,7 +684,7 @@ window.FRAGMENTOS = {
           </div>
         </div>
 
-        <div class="x-vax" style="border-left-color:#9c1226">
+        <div class="x-vax" style="border-left-color:#c44536">
           <div class="x-vaxt">Moderna · mRNA-1469 Bundibugyo (CEPI partner)</div>
           <div class="x-vaxs">Cambridge, Massachusetts (EE.UU.)</div>
           <div class="x-vaxr">
@@ -696,7 +696,7 @@ window.FRAGMENTOS = {
           </div>
         </div>
 
-        <div class="x-vax" style="border-left-color:#9c1226">
+        <div class="x-vax" style="border-left-color:#c44536">
           <div class="x-vaxt">University of Oxford + Serum Institute of India (CEPI partner, 1-jun-2026)</div>
           <div class="x-vaxs">Oxford, Reino Unido + Pune, India</div>
           <div class="x-vaxr">
@@ -707,7 +707,7 @@ window.FRAGMENTOS = {
           </div>
         </div>
 
-        <div class="x-vax" style="border-left-color:#9c1226">
+        <div class="x-vax" style="border-left-color:#c44536">
           <div class="x-vaxt">International AIDS Vaccine Initiative (IAVI) · Bundibugyo candidate (CEPI partner, 1-jun-2026)</div>
           <div class="x-vaxs">Nueva York, EE.UU.</div>
           <div class="x-vaxr">
@@ -718,7 +718,7 @@ window.FRAGMENTOS = {
           </div>
         </div>
 
-        <div class="x-vax" style="border-left-color:#9c1226">
+        <div class="x-vax" style="border-left-color:#c44536">
           <div class="x-vaxt">Mapp Biopharmaceutical · MBP134 (BARDA contract, 20-may-2026)</div>
           <div class="x-vaxs">San Diego, California (EE.UU.)</div>
           <div class="x-vaxr">
