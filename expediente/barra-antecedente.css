@@ -1,0 +1,84 @@
+/* Barra del sitio para las vistas del antecedente.
+   Hoja aparte y autocontenida a proposito: esas paginas tienen su propio
+   layout y sus propias reglas, asi que cargarles el sistema completo les
+   rompe la maqueta. Aqui solo va la barra, y todo cuelga de #barraSitio. */
+
+#barraSitio {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: rgba(2, 16, 30, 0.86);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(212, 160, 23, 0.22);
+}
+#barraSitio * { box-sizing: border-box; }
+#barraSitio .barra-in {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 9px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#barraSitio .sitenav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+#barraSitio .sitenav::-webkit-scrollbar { display: none; }
+#barraSitio .sitenav a {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(232, 238, 245, 0.72);
+  padding: 8px 14px;
+  border-radius: 980px;
+  transition: background .22s cubic-bezier(.22,1,.36,1), color .22s;
+  white-space: nowrap;
+}
+#barraSitio .sitenav a:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+#barraSitio .sitenav a.act {
+  color: #02101e;
+  background: #e8b94d;
+}
+#barraSitio .ic {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#barraSitio .volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8b94d;
+  border: 1px solid rgba(232, 185, 77, 0.38);
+  padding: 7px 15px;
+  border-radius: 980px;
+  transition: background .22s;
+  white-space: nowrap;
+}
+#barraSitio .volver:hover { background: rgba(232, 185, 77, 0.14); }
+
+@media (max-width: 900px) {
+  #barraSitio .sitenav a span { display: none; }
+  #barraSitio .sitenav a { padding: 9px 11px; }
+}
