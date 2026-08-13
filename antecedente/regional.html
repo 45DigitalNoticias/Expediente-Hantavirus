@@ -27,7 +27,7 @@
   html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
   body {
     font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
-    background: var(--navy-oscuro);
+    background: #FFFFFF;
     color: var(--texto);
     min-height: 100vh;
   }
@@ -48,7 +48,7 @@
   .intro h2 {
     margin: 0 0 4px;
     font-size: 20px;
-    color: var(--navy);
+    color: #1D1D1F;
     letter-spacing: -0.01em;
   }
   .intro p {
@@ -60,7 +60,7 @@
     hyphens: auto;
     font-style: italic;
   }
-  .intro p strong { color: var(--navy); font-style: normal; }
+  .intro p strong { color: #1D1D1F; font-style: normal; }
 
   .grid {
     display: grid;
@@ -70,7 +70,7 @@
   @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
 
   .card {
-    background: var(--blanco);
+    background: #FFFFFF;
     border-radius: 4px;
     padding: 20px 22px 18px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.3);
@@ -91,7 +91,7 @@
   .card h3 {
     margin: 0 0 4px;
     font-size: 18px;
-    color: var(--navy);
+    color: #1D1D1F;
     letter-spacing: -0.01em;
     font-weight: 600;
   }
@@ -112,7 +112,7 @@
     font-size: 11.5px;
     line-height: 1.55;
     font-style: italic;
-    color: var(--navy);
+    color: #1D1D1F;
     text-align: justify;
     hyphens: auto;
   }
@@ -123,7 +123,7 @@
   }
 
   .svg-wrap {
-    background: var(--pergamino);
+    background: #F5F5F7;
     border-radius: 3px;
     padding: 8px;
     border: 1px solid var(--divisor);
@@ -132,7 +132,7 @@
   .eje { stroke: var(--sepia); stroke-width: 1; }
   .eje-grid { stroke: var(--divisor); stroke-width: 0.8; stroke-dasharray: 2 4; }
   .eje-label { fill: var(--sepia); font-family: 'Newsreader', Georgia, serif; font-size: 10px; }
-  .eje-titulo { fill: var(--navy); font-family: 'Newsreader', Georgia, serif; font-size: 11px; font-weight: 600; }
+  .eje-titulo { fill: #1D1D1F; font-family: 'Newsreader', Georgia, serif; font-size: 11px; font-weight: 600; }
 
   .leyenda { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; font-size: 10.5px; color: var(--sepia); }
   .leyenda .item { display: flex; align-items: center; gap: 6px; }
@@ -145,8 +145,8 @@
     font-size: 11.5px;
   }
   .tabla-cepas th {
-    background: var(--navy);
-    color: var(--blanco);
+    background: #F5F5F7;
+    color: #1D1D1F;
     text-align: left;
     padding: 8px 10px;
     font-size: 9.5px;
@@ -160,8 +160,8 @@
     vertical-align: top;
     line-height: 1.45;
   }
-  .tabla-cepas tr:hover { background: var(--pergamino); }
-  .tabla-cepas .pais { font-weight: 700; color: var(--navy); }
+  .tabla-cepas tr:hover { background: #F5F5F7; }
+  .tabla-cepas .pais { font-weight: 700; color: #1D1D1F; }
   .tabla-cepas .cepa { color: var(--cyan); font-weight: 600; font-style: italic; }
   .tabla-cepas .pp-si { color: var(--rojo); font-weight: 700; }
   .tabla-cepas .pp-no { color: var(--sepia); }
@@ -174,7 +174,7 @@
   .mapa-corredor {
     width: 100%;
     height: 320px;
-    background: var(--navy);
+    background: #F5F5F7;
     border-radius: 3px;
     position: relative;
     overflow: hidden;
@@ -186,7 +186,7 @@
     margin-top: 24px;
     text-align: center;
     font-size: 11px;
-    color: rgba(255,255,255,0.55);
+    color: rgba(29, 29, 31, 0.55);
     font-style: italic;
     line-height: 1.55;
   }
@@ -196,16 +196,16 @@
      DARK MODE OVERRIDE — alinea Regional con la paleta v2 dashboard
      ════════════════════════════════════════════════════════════════ */
   .intro {
-    background: linear-gradient(180deg, #0a1a2e 0%, #02101e 100%);
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%);
     border-left: 4px solid var(--oro);
   }
-  .intro h2 { color: #e8eef5; }
-  .intro p { color: rgba(232, 238, 245, 0.78); }
+  .intro h2 { color: #1D1D1F; }
+  .intro p { color: rgba(29, 29, 31, 0.78); }
   .intro p strong { color: var(--oro-claro); }
 
   .card {
-    background: #0a1a2e;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.04) inset;
+    background: #FFFFFF;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.55), 0 1px 0 rgba(29, 29, 31, 0.04) inset;
     border-top: 3px solid var(--oro);
   }
   .card.argumento-fuerte { border-top-color: var(--oro); }
@@ -213,23 +213,23 @@
   .card-eyebrow { color: var(--oro-claro); }
   .card.argumento-fuerte .card-eyebrow { color: var(--oro-claro); }
   .card.argumento-medio  .card-eyebrow { color: var(--cyan); }
-  .card-num { background: var(--oro); color: var(--navy); }
-  .card-titulo { color: #e8eef5; }
-  .card-bajada { color: rgba(232, 238, 245, 0.7); }
+  .card-num { background: var(--oro); color: #1D1D1F; }
+  .card-titulo { color: #1D1D1F; }
+  .card-bajada { color: rgba(29, 29, 31, 0.7); }
 
   /* Chart wraps */
   .chart-svg-wrap,
   .card .chart-svg-wrap,
   .card-grid-svg {
-    background: #01080f;
+    background: #FFFFFF;
     border: 1px solid rgba(212, 160, 23, 0.18);
   }
 
   /* Ejes y gridlines — labels de ejes con mayor contraste y peso */
-  .eje, .eje-tick, .axis line { stroke: rgba(232, 238, 245, 0.45); }
-  .eje-grid, .gridline { stroke: rgba(232, 238, 245, 0.10); }
+  .eje, .eje-tick, .axis line { stroke: rgba(29, 29, 31, 0.45); }
+  .eje-grid, .gridline { stroke: rgba(29, 29, 31, 0.10); }
   .eje-label, .axis text, .tick text {
-    fill: rgba(232, 238, 245, 0.78) !important;
+    fill: rgba(29, 29, 31, 0.78) !important;
     font-weight: 500 !important;
   }
   /* Títulos de ejes ("casos", "año", "letalidad %") — protagonistas */
@@ -242,11 +242,11 @@
   }
 
   /* Texto y notas */
-  .card text { fill: rgba(232, 238, 245, 0.85); }
+  .card text { fill: rgba(29, 29, 31, 0.85); }
   .card .footer-nota,
   .card .nota,
   .card .leyenda {
-    color: rgba(232, 238, 245, 0.72);
+    color: rgba(29, 29, 31, 0.72);
     background: rgba(212, 160, 23, 0.06);
     border-left-color: var(--oro);
   }
@@ -276,7 +276,7 @@
   /* Header */
   header { border-bottom: 1px solid rgba(212, 160, 23, 0.25); }
 
-  /* ── Fixes textos hundidos sobre navy (color: var(--navy) → ink claro) ── */
+  /* ── Fixes textos hundidos sobre navy (color: #1D1D1F → ink claro) ── */
   .intro h2,
   .intro p strong,
   .card h3,
@@ -284,14 +284,14 @@
   .card-lectura,
   .tabla-cepas .pais,
   .tabla-cepas td,
-  .card strong { color: #e8eef5 !important; }
+  .card strong { color: #1D1D1F !important; }
   .card-bajada strong { color: var(--oro-claro) !important; }
 
   .intro p,
   .card-bajada,
   .tabla-cepas .pp-no,
   .tabla-cepas .let-baja,
-  .leyenda { color: rgba(232, 238, 245, 0.72) !important; }
+  .leyenda { color: rgba(29, 29, 31, 0.72) !important; }
 
   /* "Lectura:" y highlights: rojo profundo → coral vibrante */
   .card-lectura strong,
@@ -300,18 +300,42 @@
   .card-lectura { border-left-color: #ff6b6b !important; }
   .card-lectura strong,
   .tabla-cepas .pp-si,
-  .tabla-cepas .let-alta { color: #ff8a7a !important; }
+  .tabla-cepas .let-alta { color: #6E6E73 !important; }
 
   /* Tablas con bg claro → bg navy */
-  .tabla-cepas { background: rgba(255,255,255,0.02); }
+  .tabla-cepas { background: rgba(29, 29, 31, 0.02); }
   .tabla-cepas th { color: var(--oro-claro); border-color: rgba(212,160,23,0.25); }
-  .tabla-cepas td { border-color: rgba(232,238,245,0.08); }
+  .tabla-cepas td { border-color: rgba(29, 29, 31,0.08); }
 
   /* card-lectura: fondo ámbar tenue para destacar el bloque */
   .card-lectura {
     background: rgba(212, 160, 23, 0.08);
-    color: rgba(232, 238, 245, 0.88) !important;
+    color: rgba(29, 29, 31, 0.88) !important;
   }
+
+/* === paleta clara del expediente === */
+:root {
+  --navy: #F5F5F7;          /* era el fondo oscuro, ahora el claro */
+  --navy-oscuro: #FFFFFF;   /* era el fondo mas hondo, ahora la tarjeta */
+  --blanco: #FFFFFF;        /* sigue siendo blanco: como tinta se resolvio arriba */
+  --texto: #1D1D1F;
+  --pergamino: #FBFBFD;
+  --divisor: rgba(0,0,0,0.10);
+  --sepia: #6E6E73;
+  --oro: #a87c10;           /* el oro pide mas cuerpo sobre claro */
+  --oro-claro: #d4a017;
+  --cyan: #1c5f92;
+  --cyan-claro: #2a8cd8;
+  --rojo: #b03a2d;
+  --verde: #1f7a44;
+}
+body { background: var(--navy); color: var(--texto); }
+::selection { background: rgba(212,160,23,.28); }
+/* Los paneles que estaban en negro pasan a tarjeta blanca con borde fino. */
+header, .panel, .card, .sidebar, aside, .leyenda, .toolbar, footer {
+  border-color: rgba(0,0,0,0.08);
+}
+svg text { fill: currentColor; }
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a4de56a9a4564d0ea0f4e0259af8bc7a"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Google Analytics 4 (gtag.js) -->
@@ -377,6 +401,27 @@
 <!-- barra-expediente -->
 <div id="barraSitio"><div class="barra-in"><nav class="sitenav" aria-label="Vistas del antecedente"><a href="embed.html"><svg class="ic"><use href="#i-doc"/></svg><span>Portada</span></a><a href="loop.html"><svg class="ic"><use href="#i-clock"/></svg><span>Loop</span></a><a href="cauce.html"><svg class="ic"><use href="#i-coin"/></svg><span>Cauce</span></a><a href="evidencia.html"><svg class="ic"><use href="#i-shield"/></svg><span>Evidencia</span></a><a href="codigo.html"><svg class="ic"><use href="#i-capa"/></svg><span>C&oacute;digo</span></a><a href="regional.html" class="act"><svg class="ic"><use href="#i-globe"/></svg><span>Regional</span></a></nav><a class="volver" href="../expediente/expediente-antecedente.html"><svg class="ic"><use href="#i-clock"/></svg> Volver al expediente</a></div></div>
 <script>if(window.self!==window.top)document.getElementById("barraSitio").classList.add("enmarcada");</script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="i-virus"><circle cx="12" cy="12" r="5.2"/><line x1="12" y1="3" x2="12" y2="6.8"/><line x1="12" y1="17.2" x2="12" y2="21"/><line x1="3" y1="12" x2="6.8" y2="12"/><line x1="17.2" y1="12" x2="21" y2="12"/><line x1="5.6" y1="5.6" x2="8.3" y2="8.3"/><line x1="15.7" y1="15.7" x2="18.4" y2="18.4"/><line x1="18.4" y1="5.6" x2="15.7" y2="8.3"/><line x1="8.3" y1="15.7" x2="5.6" y2="18.4"/><circle cx="10.2" cy="11" r="0.9"/><circle cx="13.8" cy="13.2" r="0.7"/></g>
+    <g id="i-lab"><path d="M9.5 3h5"/><path d="M10.5 3v5.2L5.8 17a3 3 0 0 0 2.7 4.4h7a3 3 0 0 0 2.7-4.4L13.5 8.2V3"/><line x1="7.6" y1="14.5" x2="16.4" y2="14.5"/></g>
+    <g id="i-pin"><path d="M12 21s-6.5-5.4-6.5-10.3A6.5 6.5 0 0 1 12 4a6.5 6.5 0 0 1 6.5 6.7C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.6" r="2.2"/></g>
+    <g id="i-ship"><path d="M4 17.5h16l-1.8 3H5.8z"/><path d="M6.5 17.5V9.5h11v8"/><path d="M12 9.5V5.5h3.5v4"/><path d="M2.5 20.5c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0" stroke-opacity="0.5"/></g>
+    <g id="i-clock"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.4 2"/></g>
+    <g id="i-doc"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><line x1="9.5" y1="12" x2="15.5" y2="12"/><line x1="9.5" y1="15.5" x2="15.5" y2="15.5"/></g>
+    <g id="i-chart"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="12" width="3" height="8" rx="1"/><rect x="11" y="7" width="3" height="13" rx="1"/><rect x="16" y="10" width="3" height="10" rx="1"/></g>
+    <g id="i-shield"><path d="M12 3l7 2.8v5.4c0 4.6-3 7.9-7 9.8-4-1.9-7-5.2-7-9.8V5.8z"/><path d="M9.2 12l2 2 3.6-3.8"/></g>
+    <g id="i-globe"><circle cx="12" cy="12" r="8.5"/><ellipse cx="12" cy="12" rx="3.8" ry="8.5"/><line x1="3.5" y1="12" x2="20.5" y2="12"/></g>
+    <g id="i-syringe"><path d="M18 4l2 2"/><path d="M16 3l5 5"/><path d="M17.5 7.5L9 16l-4 1 1-4 8.5-8.5"/><line x1="11" y1="10" x2="12.8" y2="11.8"/></g>
+    <g id="i-capa"><path d="M12 4l8 4.5-8 4.5-8-4.5z"/><path d="M4 13l8 4.5 8-4.5" stroke-opacity="0.6"/></g>
+    <g id="i-info"><circle cx="12" cy="12" r="8.5"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="8" r="0.4"/></g>
+    <g id="i-fb"><circle cx="12" cy="12" r="8.5"/><path d="M13.2 20.5v-6h2l.4-2.4h-2.4V10.5c0-.7.35-1.3 1.3-1.3h1.2V7.1s-1-.17-1.9-.17c-2 0-3.2 1.2-3.2 3.3v1.86H8.6v2.4h2v6"/></g>
+    <g id="i-share"><path d="M12 14.5V4.5"/><path d="M8.5 7.5L12 4l3.5 3.5"/><path d="M6.5 11.5v8h11v-8"/></g>
+    <g id="i-menu"><line x1="4.5" y1="8" x2="19.5" y2="8"/><line x1="4.5" y1="12" x2="19.5" y2="12"/><line x1="4.5" y1="16" x2="14" y2="16"/></g>
+    <g id="i-book"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5"/></g>
+  </defs>
+</svg>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -498,8 +543,8 @@
           <!-- Fondo gradiente -->
           <defs>
             <linearGradient id="corredorBg" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#01080f" />
-              <stop offset="100%" stop-color="#02101e" />
+              <stop offset="0%" stop-color="#FFFFFF" />
+              <stop offset="100%" stop-color="#FFFFFF" />
             </linearGradient>
             <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
               <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a3a5c" stroke-width="0.5" opacity="0.5" />
@@ -510,42 +555,42 @@
 
           <!-- Frontera Bolivia/Argentina · línea horizontal aproximada -->
           <line x1="0" y1="120" x2="600" y2="120" stroke="#d4a017" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.7" />
-          <text x="20" y="40" fill="#d4a017" font-family="Georgia,serif" font-size="14" font-weight="600">BOLIVIA · Tarija</text>
+          <text x="20" y="40" fill="#6E6E73" font-family="Georgia,serif" font-size="14" font-weight="600">BOLIVIA · Tarija</text>
           <text x="20" y="58" fill="rgba(255,255,255,0.5)" font-family="Georgia,serif" font-size="10" font-style="italic">variantes locales · sin transmisión p-p</text>
           <text x="20" y="280" fill="#5a8bb8" font-family="Georgia,serif" font-size="14" font-weight="600">ARGENTINA · Salta y Jujuy</text>
           <text x="20" y="298" fill="rgba(255,255,255,0.5)" font-family="Georgia,serif" font-size="10" font-style="italic">cepa Andes · con transmisión p-p</text>
-          <text x="480" y="115" fill="#d4a017" font-family="Georgia,serif" font-size="9" font-style="italic" text-anchor="end">─ ─ ─ frontera política</text>
+          <text x="480" y="115" fill="#6E6E73" font-family="Georgia,serif" font-size="9" font-style="italic" text-anchor="end">─ ─ ─ frontera política</text>
 
           <!-- Puntos Bolivia (norte de la frontera) -->
           <!-- Yacuiba -->
           <circle cx="200" cy="80" r="9" fill="#d4a017" stroke="#fff" stroke-width="2" />
-          <text x="200" y="65" fill="#fff" font-family="Georgia,serif" font-size="11" text-anchor="middle">Yacuiba</text>
-          <text x="200" y="100" fill="#d4a017" font-family="Georgia,serif" font-size="10" text-anchor="middle">1 caso</text>
+          <text x="200" y="65" fill="#1D1D1F" font-family="Georgia,serif" font-size="11" text-anchor="middle">Yacuiba</text>
+          <text x="200" y="100" fill="#6E6E73" font-family="Georgia,serif" font-size="10" text-anchor="middle">1 caso</text>
           <!-- Bermejo -->
           <circle cx="320" cy="100" r="9" fill="#d4a017" stroke="#fff" stroke-width="2" />
-          <text x="320" y="85" fill="#fff" font-family="Georgia,serif" font-size="11" text-anchor="middle">Bermejo</text>
-          <text x="320" y="120" fill="#d4a017" font-family="Georgia,serif" font-size="10" text-anchor="middle">2 casos</text>
+          <text x="320" y="85" fill="#1D1D1F" font-family="Georgia,serif" font-size="11" text-anchor="middle">Bermejo</text>
+          <text x="320" y="120" fill="#6E6E73" font-family="Georgia,serif" font-size="10" text-anchor="middle">2 casos</text>
           <!-- Padcaya -->
           <circle cx="430" cy="75" r="9" fill="#d4a017" stroke="#fff" stroke-width="2" />
-          <text x="430" y="60" fill="#fff" font-family="Georgia,serif" font-size="11" text-anchor="middle">Padcaya</text>
-          <text x="430" y="95" fill="#d4a017" font-family="Georgia,serif" font-size="10" text-anchor="middle">1 caso</text>
+          <text x="430" y="60" fill="#1D1D1F" font-family="Georgia,serif" font-size="11" text-anchor="middle">Padcaya</text>
+          <text x="430" y="95" fill="#6E6E73" font-family="Georgia,serif" font-size="10" text-anchor="middle">1 caso</text>
 
           <!-- Puntos Argentina (sur de la frontera) -->
           <!-- Salta -->
           <circle cx="220" cy="180" r="18" fill="#5a8bb8" stroke="#fff" stroke-width="2" />
-          <text x="220" y="186" fill="#fff" font-family="Georgia,serif" font-size="11" text-anchor="middle" font-weight="700">30</text>
-          <text x="220" y="160" fill="#fff" font-family="Georgia,serif" font-size="12" text-anchor="middle" font-weight="600">Salta</text>
+          <text x="220" y="186" fill="#1D1D1F" font-family="Georgia,serif" font-size="11" text-anchor="middle" font-weight="700">30</text>
+          <text x="220" y="160" fill="#1D1D1F" font-family="Georgia,serif" font-size="12" text-anchor="middle" font-weight="600">Salta</text>
           <text x="220" y="218" fill="#5a8bb8" font-family="Georgia,serif" font-size="10" text-anchor="middle">30 casos · 29% del total nacional</text>
           <!-- Jujuy -->
           <circle cx="400" cy="200" r="12" fill="#5a8bb8" stroke="#fff" stroke-width="2" />
-          <text x="400" y="206" fill="#fff" font-family="Georgia,serif" font-size="11" text-anchor="middle" font-weight="700">6</text>
-          <text x="400" y="180" fill="#fff" font-family="Georgia,serif" font-size="12" text-anchor="middle" font-weight="600">Jujuy</text>
+          <text x="400" y="206" fill="#1D1D1F" font-family="Georgia,serif" font-size="11" text-anchor="middle" font-weight="700">6</text>
+          <text x="400" y="180" fill="#1D1D1F" font-family="Georgia,serif" font-size="12" text-anchor="middle" font-weight="600">Jujuy</text>
           <text x="400" y="230" fill="#5a8bb8" font-family="Georgia,serif" font-size="10" text-anchor="middle">6 casos</text>
 
           <!-- Total combinado -->
           <rect x="480" y="240" width="100" height="50" rx="3" fill="#c44536" opacity="0.85" />
-          <text x="530" y="258" fill="#fff" font-family="Georgia,serif" font-size="10" text-anchor="middle" font-weight="700">TOTAL CORREDOR</text>
-          <text x="530" y="280" fill="#fff" font-family="Georgia,serif" font-size="18" text-anchor="middle" font-weight="700">40 casos</text>
+          <text x="530" y="258" fill="#1D1D1F" font-family="Georgia,serif" font-size="10" text-anchor="middle" font-weight="700">TOTAL CORREDOR</text>
+          <text x="530" y="280" fill="#1D1D1F" font-family="Georgia,serif" font-size="18" text-anchor="middle" font-weight="700">40 casos</text>
         </svg>
       </div>
 

@@ -27,8 +27,8 @@
   html, body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
   body {
     font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
-    background: var(--tinta-naval);
-    color: #e8eef5;
+    background: #FFFFFF;
+    color: #1D1D1F;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -51,14 +51,14 @@
   .antecedente-intro h2 {
     margin: 0;
     font-size: 22px;
-    color: #e8eef5;
+    color: #1D1D1F;
     letter-spacing: -0.015em;
     font-weight: 600;
   }
   .antecedente-intro .lead {
     margin-top: 8px;
     font-size: 12.5px;
-    color: rgba(232, 238, 245, 0.72);
+    color: rgba(29, 29, 31, 0.72);
     font-style: italic;
     max-width: 980px;
     line-height: 1.6;
@@ -76,7 +76,7 @@
     display: flex;
     gap: 0;
     padding: 0 24px;
-    background: var(--tinta-profunda);
+    background: #FFFFFF;
     border-bottom: 1px solid rgba(212, 160, 23, 0.2);
     flex-wrap: wrap;
     box-shadow: 0 1px 0 var(--bermellon) inset;
@@ -86,7 +86,7 @@
     cursor: pointer;
     background: transparent;
     border: none;
-    color: rgba(232, 238, 245, 0.55);
+    color: rgba(29, 29, 31, 0.55);
     font-family: 'Newsreader', Georgia, serif;
     font-size: 13px;
     letter-spacing: 0.04em;
@@ -114,8 +114,8 @@
     letter-spacing: 0.04em;
   }
   .subtab:hover {
-    color: #e8eef5;
-    background: rgba(232, 238, 245, 0.04);
+    color: #1D1D1F;
+    background: rgba(29, 29, 31, 0.04);
   }
   .subtab:hover .icon { opacity: 1; }
   .subtab.active {
@@ -125,12 +125,12 @@
     font-weight: 600;
   }
   .subtab.active .icon { opacity: 1; color: var(--bermellon-claro); }
-  .subtab.active .badge { background: var(--bermellon); color: var(--tinta-naval); }
+  .subtab.active .badge { background: var(--bermellon); color: #1D1D1F; }
 
   /* === Contenido del sub-tab === */
   .subtab-content {
     flex: 1;
-    background: var(--tinta-naval);
+    background: #FFFFFF;
     display: none;
     position: relative;
     min-height: 680px;
@@ -141,9 +141,33 @@
     flex: 1;
     min-height: 680px;
     border: none;
-    background: var(--tinta-naval);
+    background: #FFFFFF;
     display: block;
   }
+
+/* === paleta clara del expediente === */
+:root {
+  --navy: #F5F5F7;          /* era el fondo oscuro, ahora el claro */
+  --navy-oscuro: #FFFFFF;   /* era el fondo mas hondo, ahora la tarjeta */
+  --blanco: #FFFFFF;        /* sigue siendo blanco: como tinta se resolvio arriba */
+  --texto: #1D1D1F;
+  --pergamino: #FBFBFD;
+  --divisor: rgba(0,0,0,0.10);
+  --sepia: #6E6E73;
+  --oro: #a87c10;           /* el oro pide mas cuerpo sobre claro */
+  --oro-claro: #d4a017;
+  --cyan: #1c5f92;
+  --cyan-claro: #2a8cd8;
+  --rojo: #b03a2d;
+  --verde: #1f7a44;
+}
+body { background: var(--navy); color: var(--texto); }
+::selection { background: rgba(212,160,23,.28); }
+/* Los paneles que estaban en negro pasan a tarjeta blanca con borde fino. */
+header, .panel, .card, .sidebar, aside, .leyenda, .toolbar, footer {
+  border-color: rgba(0,0,0,0.08);
+}
+svg text { fill: currentColor; }
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a4de56a9a4564d0ea0f4e0259af8bc7a"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Google Analytics 4 (gtag.js) -->
