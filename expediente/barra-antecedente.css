@@ -3,6 +3,10 @@
    layout y sus propias reglas, asi que cargarles el sistema completo les
    rompe la maqueta. Aqui solo va la barra, y todo cuelga de #barraSitio. */
 
+/* Dentro de un iframe la barra sobra: la pagina contenedora ya tiene la suya
+   y saldrian dos menus iguales. La clase la pone un script de dos lineas,
+   porque el CSS no sabe si esta dentro de un marco. */
+#barraSitio.enmarcada { display: none; }
 #barraSitio {
   position: sticky;
   top: 0;

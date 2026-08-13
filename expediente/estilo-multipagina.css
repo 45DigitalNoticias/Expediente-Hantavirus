@@ -280,6 +280,56 @@ button.capa-pill:active { transform: scale(0.97); }
 .hito__fuente { margin-left: auto; color: var(--apple-link-blue); text-decoration: none; font-weight: 600; }
 .hito__fuente:hover { text-decoration: underline; }
 
+/* El cauce: escalera tipográfica. Sin barras a propósito, porque las cifras
+   no son comparables entre sí y una escala común mentiría. */
+.cauce { max-width: 820px; margin: 0 auto; border-top: 1px solid rgba(0,0,0,0.08); }
+.cauce__fila {
+  display: grid; grid-template-columns: 62px minmax(0,1.1fr) minmax(0,1.4fr) minmax(0,1fr);
+  gap: 18px; align-items: baseline; padding: 18px 4px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  transition: background .22s;
+}
+.cauce__fila:hover { background: var(--acc-soft); }
+@media (max-width: 733px) {
+  .cauce__fila { grid-template-columns: 56px 1fr; row-gap: 4px; }
+  .cauce__que, .cauce__quien { grid-column: 2; }
+}
+.cauce__año { font: 600 13px/1.4 var(--mono); color: var(--apple-text-tertiary); }
+.cauce__cifra {
+  font: 700 clamp(18px,2.2vw,25px)/1.15 var(--apple-font-display);
+  letter-spacing: -0.02em; color: var(--casa-oro-tinta);
+}
+.cauce__que { font-size: 14.5px; line-height: 1.5; color: var(--apple-text-primary); }
+.cauce__quien { font: 500 12px/1.5 var(--mono); color: var(--apple-text-tertiary); }
+
+/* Quién aparece siempre: aquí sí hay barra, porque contar apariciones en los
+   doce hitos es una sola unidad y sí es comparable. */
+.actores { max-width: 720px; margin: 0 auto; display: grid; gap: 11px; }
+.actor { display: grid; grid-template-columns: minmax(0,190px) 1fr 34px; gap: 16px; align-items: center; }
+@media (max-width: 733px) { .actor { grid-template-columns: minmax(0,120px) 1fr 28px; gap: 10px; } }
+.actor__n { font-size: 14.5px; font-weight: 600; color: var(--apple-text-primary); }
+.actor__barra { height: 10px; border-radius: 999px; background: rgba(0,0,0,0.05); overflow: hidden; }
+.actor__barra i {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--casa-oro), var(--casa-oro-br));
+}
+.actor__v { font: 600 13px/1 var(--mono); color: var(--apple-text-tertiary); text-align: right; }
+
+/* Las portadas que sí anunciaron el año. */
+.portadas { display: grid; gap: 16px; grid-template-columns: 1fr; max-width: 900px; margin: 0 auto; }
+@media (min-width: 734px) { .portadas { grid-template-columns: repeat(2, 1fr); } }
+.portadita {
+  background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 16px; padding: 22px 24px;
+  box-shadow: var(--apple-shadow-card);
+}
+.portadita__año { font: 700 13px/1 var(--mono); color: var(--casa-oro-tinta); margin: 0 0 10px; letter-spacing: .06em; }
+.portadita h4 { font: 600 19px/1.25 var(--casa-serif); color: var(--apple-text-primary); margin: 0 0 6px; }
+.portadita__fecha { font-size: 12.5px; color: var(--apple-text-tertiary); margin: 0; }
+.portadita__nota {
+  margin: 12px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--apple-text-secondary);
+  padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.06);
+}
+
 /* ══════════ SALA DE LECTURA: la portada manda ══════════
    Lectura de revista: una pieza grande arriba y el resto en parrilla, con la
    portada como el elemento dominante y el texto debajo, no encima. */

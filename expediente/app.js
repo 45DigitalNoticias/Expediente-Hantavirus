@@ -433,6 +433,64 @@
           "</div>" +
         "</div></article>";
     }).join("");
+
+    /* El cauce. Las cifras se muestran tal como están documentadas: sumarlas
+       o graficarlas en una misma escala sería inventar precisión, porque un
+       compromiso, una compra y un fondo cancelado no son lo mismo. */
+    var conDinero = H.filter(function (h) {
+      return h.monto && String(h.monto).replace(/[\s—–-]/g, "") !== "";
+    });
+    if ($("#cauceSub")) $("#cauceSub").innerHTML = "<b>" + conDinero.length + " de los " +
+      H.length + " hitos</b> traen cifra documentada. Van en orden, con lo que cada una pagaba.";
+    if ($("#cauceLista")) $("#cauceLista").innerHTML = conDinero.sort(function (a, b) {
+      return (a["año"] || a.anio) - (b["año"] || b.anio);
+    }).map(function (h) {
+      var m = String(h.monto);
+      var cifra = m.split("(")[0].trim();
+      var concepto = (m.match(/\(([^)]*)\)/) || [, ""])[1];
+      return '<div class="cauce__fila">' +
+        '<span class="cauce__año">' + esc(h["año"] || h.anio) + "</span>" +
+        '<span class="cauce__cifra">' + esc(cifra) + "</span>" +
+        '<span class="cauce__que">' + esc(concepto || h.enfermedad) + "</span>" +
+        '<span class="cauce__quien">' + esc((h.actores || []).slice(0, 2).join(" · ")) + "</span>" +
+      "</div>";
+    }).join("");
+
+    /* Quién aparece siempre. Esto sí es un conteo honesto: cuántos de los doce
+       hitos incluyen a cada actor. */
+    var veces = {};
+    H.forEach(function (h) {
+      (h.actores || []).forEach(function (a) { veces[a] = (veces[a] || 0) + 1; });
+    });
+    var orden = Object.keys(veces).sort(function (a, b) { return veces[b] - veces[a] || a.localeCompare(b); });
+    var tope = veces[orden[0]] || 1;
+    if ($("#actoresSub")) $("#actoresSub").innerHTML = "De los <b>" + orden.length +
+      " actores</b> que aparecen en los doce hitos, estos son los que vuelven. " +
+      "El número es cuántas veces aparece cada uno.";
+    if ($("#actoresLista")) $("#actoresLista").innerHTML = orden.filter(function (a) {
+      return veces[a] > 1;
+    }).map(function (a) {
+      return '<div class="actor">' +
+        '<span class="actor__n">' + esc(a) + "</span>" +
+        '<span class="actor__barra"><i style="width:' + (veces[a] / tope * 100).toFixed(1) + '%"></i></span>' +
+        '<span class="actor__v">' + veces[a] + "</span>" +
+      "</div>";
+    }).join("");
+
+    /* Los años que llegaron a portada de The Economist. */
+    var conPortada = H.filter(function (h) { return h.economist && h.economist.tiene; });
+    if ($("#portadasSub")) $("#portadasSub").innerHTML = "<b>" + conPortada.length +
+      " de los doce</b> tuvieron su año anunciado en portada. El resto pasó sin anuncio.";
+    if ($("#portadasLista")) $("#portadasLista").innerHTML = conPortada.map(function (h) {
+      var e = h.economist;
+      return '<article class="portadita">' +
+        '<p class="portadita__año">' + esc(h["año"] || h.anio) +
+          (e.verificable ? ' <span>' + esc(e.verificable) + "</span>" : "") + "</p>" +
+        "<h4>" + esc(e.titulo_portada || "") + "</h4>" +
+        '<p class="portadita__fecha">' + esc(e.fecha || "") + "</p>" +
+        (e.nota ? '<p class="portadita__nota">' + esc(e.nota) + "</p>" : "") +
+      "</article>";
+    }).join("");
   })();
 
   /* ═══════════ Fuentes ═══════════ */
