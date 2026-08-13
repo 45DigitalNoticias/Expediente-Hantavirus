@@ -384,6 +384,57 @@
     }).join("");
   })();
 
+  /* ═══════════ El antecedente ═══════════
+     Los 12 hitos salen del mismo data-hitos.js que alimenta el microsite: no
+     se copia el contenido, se lee de su fuente. */
+  (function antecedente() {
+    var cont = $("#anteLinea");
+    var H = (typeof HITOS !== "undefined") ? HITOS : (window.HITOS || null);
+    if (!cont || !H) return;
+
+    var años = H.map(function (h) { return h["año"] || h.anio || h.year; });
+    var conMonto = H.filter(function (h) { return h.monto; });
+    var actores = {};
+    H.forEach(function (h) { (h.actores || []).forEach(function (a) { actores[a] = 1; }); });
+
+    if ($("#anteSub")) $("#anteSub").innerHTML = "De <b>" + Math.min.apply(null, años) +
+      "</b> a <b>" + Math.max.apply(null, años) + "</b>: la maquinaria que ya estaba montada " +
+      "cuando zarpó el MV Hondius. Cada hito con su fuente primaria.";
+
+    if ($("#anteCifras")) $("#anteCifras").innerHTML = [
+      [H.length, "hitos documentados", "i-doc"],
+      [Math.max.apply(null, años) - Math.min.apply(null, años), "años de arquitectura", "i-clock"],
+      [Object.keys(actores).length, "actores distintos", "i-user"],
+      [conMonto.length, "con dinero rastreado", "i-coin"]
+    ].map(function (t) {
+      return '<div><svg class="ic"><use href="#' + t[2] + '"/></svg>' +
+        '<b data-n="' + t[0] + '">' + t[0] + "</b><span>" + t[1] + "</span></div>";
+    }).join("");
+
+    cont.innerHTML = H.slice().sort(function (a, b) {
+      return (a["año"] || a.anio) - (b["año"] || b.anio) || (a.posicion || 0) - (b.posicion || 0);
+    }).map(function (h) {
+      var año = h["año"] || h.anio || h.year;
+      return '<article class="hito">' +
+        '<div class="hito__año">' + esc(año) + (h.verificacion ? ' <span class="hito__v">' +
+          esc(h.verificacion) + "</span>" : "") + "</div>" +
+        '<div class="hito__cuerpo">' +
+          '<p class="hito__enf">' + esc(h.enfermedad) + "</p>" +
+          "<h3>" + esc(h.titulo) + "</h3>" +
+          '<p class="hito__resumen">' + esc(h.resumen) + "</p>" +
+          (h.significancia ? '<p class="hito__peso">' + esc(h.significancia) + "</p>" : "") +
+          '<div class="hito__pie">' +
+            (h.monto ? '<span class="hito__monto"><svg class="ic"><use href="#i-coin"/></svg> ' +
+              esc(h.monto) + "</span>" : "") +
+            ((h.actores || []).length ? '<span class="hito__actores">' +
+              h.actores.map(esc).join(" · ") + "</span>" : "") +
+            (h.fuente ? '<a class="hito__fuente" href="' + esc(h.fuente) +
+              '" target="_blank" rel="noopener">Fuente ›</a>' : "") +
+          "</div>" +
+        "</div></article>";
+    }).join("");
+  })();
+
   /* ═══════════ Fuentes ═══════════ */
   (function fuentes() {
     var cont = $("#fuentesList");
@@ -457,218 +508,190 @@
       "</b> (" + D[BROTE].cepa + "), con fuente al pie. <b>No sustituye consulta médica.</b>";
   }
 
-  /* ═══════════ EL MAPA: la lámina ═══════════
-     La Tierra de noche de la NASA es equirectangular de 3600x1800, exactamente
-     2:1, así que la proyección es directa y los puntos reales del expediente
-     caen donde les toca. El SVG usa el mismo encuadre que la imagen. */
-  var SVGNS = "http://www.w3.org/2000/svg";
-  var capas = {};
+  /* ═══════════ EL MAPA: la lamina, dibujada en canvas ═══════════
+     Antes esto eran 103 circulos en el DOM dentro de un contenedor con
+     transform. Cada movimiento del raton obligaba a repintar una capa enorme,
+     y con los filtros de hover encima nunca llegaba a 60 cuadros.
+
+     Ahora se dibuja en un solo canvas y SOLO la ventana visible: el costo por
+     cuadro depende del tamano del canvas, no de los megapixeles de la lamina
+     ni de cuantos puntos haya. La imagen de la NASA es equirectangular 2:1,
+     asi que el mundo se mide 2000x1000 y la proyeccion es directa. */
+  var MUNDO_W = 2000, MUNDO_H = 1000;
   var COLOR = {
     route: "#5ba8f0", symptom: "#d4a017", hospital: "#d4a017",
     lab: "#a78bfa", death: "#dc5f46"
   };
+  var cv, ctx, lamina = null, laminaLista = false, hiresPedida = false;
+  var PUNTOS = [], RUTAS = [], capasOn = {}, tiposOn = {};
+  var V = { z: 1, ox: 0, oy: 0, zMax: 4, arrastrando: false, movido: 0, pinta: false };
+  var hover = null, activo = null;
+
+  var CAPAS = [
+    ["hanta", "Hantavirus", "i-virus", true], ["ebola", "\u00c9bola 2026", "i-lab", false],
+    ["crucero", "Ruta Hondius", "i-ship", true], ["endemicos", "End\u00e9mico", "i-globe", false],
+    ["vacunas", "Vacunas", "i-syringe", true], ["dinero", "Financiamiento", "i-chart", true]
+  ];
+  var TIPOS = [
+    ["route", "Ruta", "#5ba8f0"], ["symptom", "S\u00edntoma", "#d4a017"],
+    ["hospital", "Hospital", "#d4a017"], ["lab", "Laboratorio", "#a78bfa"],
+    ["death", "Muerte", "#dc5f46"]
+  ];
 
   function proy(lat, lon) {
-    return [(lon + 180) / 360 * 1000, (90 - lat) / 180 * 500];
+    return [(lon + 180) / 360 * MUNDO_W, (90 - lat) / 180 * MUNDO_H];
   }
-  function nodo(g, lat, lon, color, r, halo, datos) {
-    var c = document.createElementNS(SVGNS, "circle");
-    var p = proy(lat, lon);
-    c.setAttribute("cx", p[0].toFixed(2));
-    c.setAttribute("cy", p[1].toFixed(2));
-    c.setAttribute("r", r);
-    c.setAttribute("fill", color);
-    c.setAttribute("class", "nd");
-    c.dataset.r = r;                 // radio base: el zoom lo recalcula
-    if (datos) {
-      c.dataset.pie = datos.pie || "";
-      c.dataset.tit = datos.tit || "";
-      c.dataset.txt = datos.txt || "";
-      if (datos.tipo) c.dataset.tipo = datos.tipo;
-      c.setAttribute("tabindex", "0");
+  function k() { return (cv.clientWidth / MUNDO_W) * V.z; }   // px CSS por unidad de mundo
+  function aPantalla(wx, wy) {
+    var e = k();
+    return [(wx - V.ox) * e, (wy - V.oy) * e];
+  }
+  function limitar() {
+    var e = k();
+    var vw = cv.clientWidth / e, vh = cv.clientHeight / e;
+    V.ox = vw >= MUNDO_W ? 0 : Math.max(0, Math.min(MUNDO_W - vw, V.ox));
+    V.oy = vh >= MUNDO_H ? (MUNDO_H - vh) / 2 : Math.max(0, Math.min(MUNDO_H - vh, V.oy));
+  }
+
+  function dibujar() {
+    if (!ctx) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var cw = cv.clientWidth, ch = cv.clientHeight;
+    if (cv.width !== Math.round(cw * dpr) || cv.height !== Math.round(ch * dpr)) {
+      cv.width = Math.round(cw * dpr);
+      cv.height = Math.round(ch * dpr);
     }
-    if (halo) {
-      var h = document.createElementNS(SVGNS, "circle");
-      h.setAttribute("cx", p[0].toFixed(2));
-      h.setAttribute("cy", p[1].toFixed(2));
-      h.setAttribute("r", r * 2.2);
-      h.setAttribute("fill", "none");
-      h.setAttribute("stroke", color);
-      h.setAttribute("stroke-opacity", "0.4");
-      h.setAttribute("class", "nd-halo");
-      h.dataset.r = r * 2.2;
-      if (datos && datos.tipo) h.dataset.tipo = datos.tipo;
-      g.appendChild(h);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = "#02101e";
+    ctx.fillRect(0, 0, cw, ch);
+
+    var e = k();
+    if (laminaLista) {
+      // Solo el trozo que se ve: por eso el costo no crece con el zoom.
+      var vw = cw / e, vh = ch / e;
+      ctx.drawImage(lamina,
+        V.ox / MUNDO_W * lamina.naturalWidth, V.oy / MUNDO_H * lamina.naturalHeight,
+        vw / MUNDO_W * lamina.naturalWidth, vh / MUNDO_H * lamina.naturalHeight,
+        0, 0, cw, ch);
     }
-    g.appendChild(c);
-    return c;
-  }
-  /* Trazo suave entre puntos: el mismo gesto curvo de la maqueta, pero con las
-     coordenadas de verdad. */
-  function ruta(g, pts, color, ancho, guion) {
-    if (!pts || pts.length < 2) return;
-    var xy = pts.map(function (p) { return proy(p[0], p[1]); });
-    var d = "M " + xy[0][0].toFixed(1) + " " + xy[0][1].toFixed(1);
-    for (var i = 1; i < xy.length; i++) {
-      var a = xy[i - 1], b = xy[i];
-      var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
-      var dx = b[0] - a[0], dy = b[1] - a[1];
-      // Curva suave, no decorativa: los nodos van en su coordenada exacta y la
-      // línea solo los une. Con más comba la ruta empezaría a inventar geografía.
-      var comba = 0.05;
-      d += " Q " + (mx - dy * comba).toFixed(1) + " " + (my + dx * comba).toFixed(1) +
-           " " + b[0].toFixed(1) + " " + b[1].toFixed(1);
+
+    RUTAS.forEach(function (r) {
+      if (!capasOn[r.capa]) return;
+      ctx.beginPath();
+      for (var i = 0; i < r.pts.length; i++) {
+        var s = aPantalla(r.pts[i][0], r.pts[i][1]);
+        if (i === 0) { ctx.moveTo(s[0], s[1]); continue; }
+        var a = aPantalla(r.pts[i - 1][0], r.pts[i - 1][1]);
+        var mx = (a[0] + s[0]) / 2, my = (a[1] + s[1]) / 2;
+        var dx = s[0] - a[0], dy = s[1] - a[1];
+        ctx.quadraticCurveTo(mx - dy * 0.05, my + dx * 0.05, s[0], s[1]);
+      }
+      ctx.strokeStyle = r.color;
+      ctx.lineWidth = r.ancho;
+      ctx.lineCap = "round";
+      ctx.setLineDash(r.guion || []);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    for (var j = 0; j < PUNTOS.length; j++) {
+      var p = PUNTOS[j];
+      if (!capasOn[p.capa]) continue;
+      if (p.tipo && !tiposOn[p.tipo]) continue;
+      var s2 = aPantalla(p.wx, p.wy);
+      if (s2[0] < -30 || s2[1] < -30 || s2[0] > cw + 30 || s2[1] > ch + 30) continue;
+      var marcado = (p === hover || p === activo);
+      var r2 = p.r * (marcado ? 1.45 : 1);
+      if (p.halo) {
+        ctx.beginPath();
+        ctx.arc(s2[0], s2[1], r2 * 2.2, 0, 6.2832);
+        ctx.strokeStyle = p.color;
+        ctx.globalAlpha = 0.4;
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+      if (marcado) {
+        ctx.beginPath();
+        ctx.arc(s2[0], s2[1], r2 * 2.6, 0, 6.2832);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = 0.22;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      ctx.beginPath();
+      ctx.arc(s2[0], s2[1], r2, 0, 6.2832);
+      ctx.fillStyle = p.color;
+      ctx.fill();
     }
-    var path = document.createElementNS(SVGNS, "path");
-    path.setAttribute("d", d);
-    path.setAttribute("fill", "none");
-    path.setAttribute("stroke", color);
-    path.setAttribute("stroke-width", ancho);
-    path.setAttribute("stroke-linecap", "round");
-    // El trazo no engorda con el zoom: la línea es referencia, no dato.
-    path.setAttribute("vector-effect", "non-scaling-stroke");
-    if (guion) path.setAttribute("stroke-dasharray", guion);
-    g.appendChild(path);
   }
-  function grupo(svg, nombre) {
-    var g = document.createElementNS(SVGNS, "g");
-    g.setAttribute("data-capa", nombre);
-    svg.appendChild(g);
-    return g;
+  function pedirPintado() {
+    if (V.pinta) return;
+    V.pinta = true;
+    requestAnimationFrame(function () {
+      V.pinta = false;
+      dibujar();
+      if (activo) colocarPopup();
+    });
   }
-  function marcarPill(k, on) {
-    var b = document.querySelector('.capa-pill[data-capa="' + k + '"]');
-    if (b) { b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); }
-  }
-  var nodoActivo = null;
+
+  /* ═══════════ La ficha ═══════════ */
   function ocultarPopup() {
     var pop = $("#mapPopup");
     if (pop) pop.hidden = true;
-    nodoActivo = null;
-    $$("#mapaSvg .nd.act").forEach(function (n) { n.classList.remove("act"); });
+    activo = null;
+    pedirPintado();
   }
-  /* Coloca la ficha junto a su punto. Se llama también al mover el mapa, para
-     que la ficha siga al punto en vez de quedarse clavada donde estaba. */
-  function colocarPopup(el) {
-    var pop = $("#mapPopup"), marco = $("#lamina");
-    if (!pop || !marco || !el) return;
-    var r = el.getBoundingClientRect(), m = marco.getBoundingClientRect();
-    var cx = r.left + r.width / 2 - m.left, cy = r.top + r.height / 2 - m.top;
-    // Si el punto se salió del marco, la ficha no tiene a qué apuntar.
-    if (cx < 0 || cy < 0 || cx > m.width || cy > m.height) { pop.hidden = true; return; }
-    pop.hidden = false;
-    var x = r.left - m.left + r.width + 16, volteado = false;
-    if (x + pop.offsetWidth > m.width - 12) {
-      x = r.left - m.left - pop.offsetWidth - 16; volteado = true;
-    }
-    pop.classList.toggle("flip", volteado);
-    var y = cy - pop.offsetHeight / 2;
-    pop.style.left = Math.max(12, x) + "px";
-    pop.style.top = Math.max(12, Math.min(y, m.height - pop.offsetHeight - 12)) + "px";
-  }
-  function mostrarPopup(el) {
+  function colocarPopup() {
     var pop = $("#mapPopup");
-    if (!pop || !el || !el.dataset.tit) return;
-    pop.innerHTML = '<p class="pf">' + esc(el.dataset.pie) + "</p><h5>" + esc(el.dataset.tit) +
-      "</h5><p>" + esc(el.dataset.txt) + "</p>";
+    if (!pop || !activo || !cv) return;
+    var s = aPantalla(activo.wx, activo.wy);
+    var cw = cv.clientWidth, ch = cv.clientHeight;
+    if (s[0] < 0 || s[1] < 0 || s[0] > cw || s[1] > ch) { pop.hidden = true; return; }
     pop.hidden = false;
-    nodoActivo = el;
-    colocarPopup(el);
+    var x = s[0] + 18, volteado = false;
+    if (x + pop.offsetWidth > cw - 12) { x = s[0] - pop.offsetWidth - 18; volteado = true; }
+    pop.classList.toggle("flip", volteado);
+    var y = s[1] - pop.offsetHeight / 2;
+    pop.style.left = Math.max(12, x) + "px";
+    pop.style.top = Math.max(12, Math.min(y, ch - pop.offsetHeight - 12)) + "px";
+  }
+  function mostrarFicha(p) {
+    var pop = $("#mapPopup");
+    if (!pop || !p) return;
+    pop.innerHTML = '<p class="pf">' + esc(p.pie) + "</p><h5>" + esc(p.tit) +
+      "</h5><p>" + esc(p.txt) + "</p>";
+    pop.hidden = false;
+    activo = p;
+    colocarPopup();
+    pedirPintado();
+  }
+  function marcarPill(clave, on) {
+    var b = document.querySelector('.capa-pill[data-capa="' + clave + '"]');
+    if (b) { b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); }
   }
 
-  function armarMapa() {
-    var svg = $("#mapaSvg");
-    if (!svg) return;
-    svg.innerHTML = "";
-
-    capas.crucero = grupo(svg, "crucero");
-    ruta(capas.crucero, preCruiseRoute, "rgba(232,238,245,0.30)", 1.2, "3 5");
-    ruta(capas.crucero, cruiseRoute, "rgba(91,168,240,0.85)", 2, null);
-    ruta(capas.crucero, evacDest, "rgba(220,95,70,0.45)", 1.2, "2 6");
-
-    capas.hanta = grupo(svg, "hanta");
-    events.forEach(function (e) {
-      nodo(capas.hanta, e.coords[0], e.coords[1], COLOR[e.type] || "#5ba8f0",
-        e.type === "death" ? 5.4 : 4.2, e.type === "death",
-        { pie: e.date + " · " + e.type + (e.v ? " " + e.v : ""), tit: e.place, txt: e.desc, tipo: e.type });
-    });
-
-    capas.ebola = grupo(svg, "ebola");
-    eventosEbola.forEach(function (e) {
-      nodo(capas.ebola, e.coords[0], e.coords[1], COLOR[e.type] || "#dc5f46",
-        e.type === "death" ? 5.4 : 4.2, e.type === "death",
-        { pie: e.date + " · " + e.type + (e.v ? " " + e.v : ""), tit: e.place, txt: e.desc, tipo: e.type });
-    });
-
-    capas.endemicos = grupo(svg, "endemicos");
-    endemicos.forEach(function (z) {
-      nodo(capas.endemicos, z.coords[0], z.coords[1], "#3fbf6f", 5, true,
-        { pie: z.fecha || "zona endémica", tit: z.titulo || "Zona endémica", txt: z.desc || "" });
-    });
-
-    capas.vacunas = grupo(svg, "vacunas");
-    vacunas.forEach(function (v) {
-      nodo(capas.vacunas, v.coords[0], v.coords[1], "#a78bfa", 4.6, false,
-        { pie: "pipeline de vacunas", tit: v.inst, txt: v.desc + (v.fuente ? "<br><i>" + v.fuente + "</i>" : "") });
-    });
-
-    capas.dinero = grupo(svg, "dinero");
-    financiadores.forEach(function (f) {
-      var c = f.offset || f.coords;
-      nodo(capas.dinero, c[0], c[1], "#e8b94d", 4.6, true,
-        { pie: "financiamiento", tit: f.inst, txt: f.desc + (f.fuente ? "<br><i>" + f.fuente + "</i>" : "") });
-    });
-
-    // Vacunas y financiamiento entran prendidas: son la mitad de la tesis del
-    // expediente y apagadas por default pasaban desapercibidas.
-    var CAPAS = [
-      ["hanta", "Hantavirus", "i-virus", true], ["ebola", "Ébola 2026", "i-lab", false],
-      ["crucero", "Ruta Hondius", "i-ship", true], ["endemicos", "Endémico", "i-globe", false],
-      ["vacunas", "Vacunas", "i-syringe", true], ["dinero", "Financiamiento", "i-chart", true]
-    ];
-    $("#maptop").innerHTML = CAPAS.map(function (c) {
-      return '<button class="capa-pill' + (c[3] ? " on" : "") + '" data-capa="' + c[0] +
-        '" aria-pressed="' + (c[3] ? "true" : "false") + '">' +
-        '<svg class="ic"><use href="#' + c[2] + '"/></svg>' + c[1] + "</button>";
-    }).join("");
-    CAPAS.forEach(function (c) { if (capas[c[0]]) capas[c[0]].style.display = c[3] ? "" : "none"; });
-
-    $("#maptop").addEventListener("click", function (e) {
-      var b = e.target.closest(".capa-pill");
-      if (!b) return;
-      var g = capas[b.dataset.capa];
-      if (!g) return;
-      var prendida = g.style.display !== "none";
-      g.style.display = prendida ? "none" : "";
-      marcarPill(b.dataset.capa, !prendida);
-      ocultarPopup();
-    });
-
-    // La ficha se abre en el punto: clic o teclado, y se cierra en el fondo.
-    svg.addEventListener("click", function (e) {
-      if (Z.movido > 6) { Z.movido = 0; return; }   // veníamos arrastrando, no fue un clic
-      var n = e.target.closest(".nd");
-      if (!n || !n.dataset.tit) { ocultarPopup(); return; }
-      $$("#mapaSvg .nd.act").forEach(function (x) { x.classList.remove("act"); });
-      n.classList.add("act");
-      mostrarPopup(n);
-    });
-    svg.addEventListener("focusin", function (e) {
-      var n = e.target.closest(".nd");
-      if (n) mostrarPopup(n);
-    });
-
-    if ($("#mapleyenda")) $("#mapleyenda").innerHTML = [
-      ["#5ba8f0", "Ruta y tránsito"], ["#d4a017", "Síntoma y hospital"],
-      ["#a78bfa", "Laboratorio y vacunas"], ["#dc5f46", "Muerte confirmada"],
-      ["#3fbf6f", "Zona endémica"]
-    ].map(function (l) {
-      return '<div><span class="dot" style="background:' + l[0] + '"></span>' + l[1] + "</div>";
-    }).join("");
-
-    armarFiltros();
-    armarZoom();
-    armarTour();
+  /* ═══════════ Armado ═══════════ */
+  function punto(capa, lat, lon, color, r, halo, d) {
+    var w = proy(lat, lon);
+    PUNTOS.push({ capa: capa, wx: w[0], wy: w[1], color: color, r: r, halo: halo,
+                  tipo: d && d.tipo, pie: d && d.pie, tit: d && d.tit, txt: d && d.txt });
+  }
+  function trazo(capa, pts, color, ancho, guion) {
+    if (!pts || pts.length < 2) return;
+    RUTAS.push({ capa: capa, color: color, ancho: ancho, guion: guion,
+                 pts: pts.map(function (p) { return proy(p[0], p[1]); }) });
+  }
+  function cargarLamina(src, cb) {
+    if (!src) return;
+    var img = new Image();
+    img.onload = function () { lamina = img; laminaLista = true; if (cb) cb(); };
+    img.src = src;
+  }
+  function recalcularTope() {
+    if (!lamina || !cv.clientWidth) return;
+    V.zMax = Math.max(2, Math.min(9, (lamina.naturalWidth / cv.clientWidth) * 1.15));
+    marcarTope();
     notaMapa();
   }
 
@@ -676,187 +699,195 @@
      al entrar la de alta resolución, el texto se corrige solo. */
   function notaMapa() {
     var n = $("#mapnota");
-    if (!n) return;
-    var img = $("#lienzo .mapa-bg");
-    var med = img && img.naturalWidth ? img.naturalWidth + "×" + img.naturalHeight : "equirectangular";
+    if (!n || typeof events === "undefined") return;
+    var med = lamina && lamina.naturalWidth
+      ? lamina.naturalWidth + "×" + lamina.naturalHeight : "equirectangular";
     n.innerHTML = "Lámina de la Tierra de noche (NASA Black Marble, " + med +
       "): cada punto está en su coordenada real. En pantalla, <b>" + events.length +
       "</b> hitos de hantavirus, <b>" + eventosEbola.length + "</b> de ébola, la ruta completa del " +
       "MV Hondius, <b>" + endemicos.length + "</b> zonas endémicas, <b>" + vacunas.length +
       "</b> programas de vacuna y <b>" + financiadores.length + "</b> financiadores. " +
-      "Toque un punto para abrir su ficha; el zoom llega a " + Z.zMax.toFixed(1) + "x.";
+      "Toque un punto para abrir su ficha; el zoom llega a " + V.zMax.toFixed(1) + "x.";
   }
 
-  /* ═══════════ Filtros por tipo de hecho ═══════════
-     Las píldoras de arriba encienden capas enteras. Esto filtra dentro de la
-     capa: con 85 hitos encendidos, Europa se vuelve una mancha. */
-  var TIPOS = [
-    ["route", "Ruta", "#5ba8f0"], ["symptom", "Síntoma", "#d4a017"],
-    ["hospital", "Hospital", "#d4a017"], ["lab", "Laboratorio", "#a78bfa"],
-    ["death", "Muerte", "#dc5f46"]
-  ];
-  var tiposOn = {};
-  function aplicarFiltros() {
-    $$("#mapaSvg [data-tipo]").forEach(function (n) {
-      n.style.display = tiposOn[n.dataset.tipo] ? "" : "none";
+  function armarMapa() {
+    cv = $("#mapaCanvas");
+    if (!cv || typeof events === "undefined") return;
+    ctx = cv.getContext("2d");
+    var marco = $("#lamina");
+
+    events.forEach(function (e) {
+      punto("hanta", e.coords[0], e.coords[1], COLOR[e.type] || "#5ba8f0",
+        e.type === "death" ? 5.4 : 4.2, e.type === "death",
+        { tipo: e.type, pie: e.date + " \u00b7 " + e.type + (e.v ? " " + e.v : ""),
+          tit: e.place, txt: e.desc });
     });
-  }
-  function armarFiltros() {
-    var cont = $("#mapfiltros");
-    if (!cont) return;
+    eventosEbola.forEach(function (e) {
+      punto("ebola", e.coords[0], e.coords[1], COLOR[e.type] || "#dc5f46",
+        e.type === "death" ? 5.4 : 4.2, e.type === "death",
+        { tipo: e.type, pie: e.date + " \u00b7 " + e.type + (e.v ? " " + e.v : ""),
+          tit: e.place, txt: e.desc });
+    });
+    endemicos.forEach(function (z) {
+      punto("endemicos", z.coords[0], z.coords[1], "#3fbf6f", 5, true,
+        { pie: z.fecha || "zona end\u00e9mica", tit: z.titulo || "Zona end\u00e9mica", txt: z.desc || "" });
+    });
+    vacunas.forEach(function (v) {
+      punto("vacunas", v.coords[0], v.coords[1], "#a78bfa", 4.6, false,
+        { pie: "pipeline de vacunas", tit: v.inst,
+          txt: v.desc + (v.fuente ? "<br><i>" + v.fuente + "</i>" : "") });
+    });
+    financiadores.forEach(function (f) {
+      var c = f.offset || f.coords;
+      punto("dinero", c[0], c[1], "#e8b94d", 4.6, true,
+        { pie: "financiamiento", tit: f.inst,
+          txt: f.desc + (f.fuente ? "<br><i>" + f.fuente + "</i>" : "") });
+    });
+    trazo("crucero", preCruiseRoute, "rgba(232,238,245,0.30)", 1.2, [3, 5]);
+    trazo("crucero", cruiseRoute, "rgba(91,168,240,0.85)", 2, null);
+    trazo("crucero", evacDest, "rgba(220,95,70,0.45)", 1.2, [2, 6]);
+
+    CAPAS.forEach(function (c) { capasOn[c[0]] = c[3]; });
     TIPOS.forEach(function (t) { tiposOn[t[0]] = true; });
-    cont.innerHTML = '<span class="filtros__lbl">Tipo de hecho</span>' +
-      TIPOS.map(function (t) {
-        return '<button class="fchip on" data-tipo="' + t[0] + '" aria-pressed="true">' +
-          '<span class="pt" style="background:' + t[2] + '"></span>' + t[1] + "</button>";
-      }).join("");
-    cont.addEventListener("click", function (e) {
-      var b = e.target.closest(".fchip");
+
+    $("#maptop").innerHTML = CAPAS.map(function (c) {
+      return '<button class="capa-pill' + (c[3] ? " on" : "") + '" data-capa="' + c[0] +
+        '" aria-pressed="' + (c[3] ? "true" : "false") + '">' +
+        '<svg class="ic"><use href="#' + c[2] + '"/></svg>' + c[1] + "</button>";
+    }).join("");
+    $("#maptop").addEventListener("click", function (ev) {
+      var b = ev.target.closest(".capa-pill");
       if (!b) return;
-      var t = b.dataset.tipo;
-      tiposOn[t] = !tiposOn[t];
-      b.classList.toggle("on", tiposOn[t]);
-      b.setAttribute("aria-pressed", String(tiposOn[t]));
-      aplicarFiltros();
+      capasOn[b.dataset.capa] = !capasOn[b.dataset.capa];
+      marcarPill(b.dataset.capa, capasOn[b.dataset.capa]);
       ocultarPopup();
     });
+
+    var fl = $("#mapfiltros");
+    if (fl) {
+      fl.innerHTML = '<span class="filtros__lbl">Tipo de hecho</span>' +
+        TIPOS.map(function (t) {
+          return '<button class="fchip on" data-tipo="' + t[0] + '" aria-pressed="true">' +
+            '<span class="pt" style="background:' + t[2] + '"></span>' + t[1] + "</button>";
+        }).join("");
+      fl.addEventListener("click", function (ev) {
+        var b = ev.target.closest(".fchip");
+        if (!b) return;
+        tiposOn[b.dataset.tipo] = !tiposOn[b.dataset.tipo];
+        b.classList.toggle("on", tiposOn[b.dataset.tipo]);
+        b.setAttribute("aria-pressed", String(tiposOn[b.dataset.tipo]));
+        ocultarPopup();
+      });
+    }
+
+    if ($("#mapleyenda")) $("#mapleyenda").innerHTML = [
+      ["#5ba8f0", "Ruta y tr\u00e1nsito"], ["#d4a017", "S\u00edntoma y hospital"],
+      ["#a78bfa", "Laboratorio y vacunas"], ["#dc5f46", "Muerte confirmada"],
+      ["#3fbf6f", "Zona end\u00e9mica"]
+    ].map(function (l) {
+      return '<div><span class="dot" style="background:' + l[0] + '"></span>' + l[1] + "</div>";
+    }).join("");
+
+    cargarLamina(marco && marco.dataset.lamina, function () { recalcularTope(); pedirPintado(); });
+    armarInteraccion();
+    armarTour();
+    notaMapa();
+    pedirPintado();
   }
 
-  /* ═══════════ Zoom y arrastre ═══════════
-     Se transforma el lienzo entero (imagen y SVG juntos) para que los puntos no
-     se despeguen de la costa. Dos cuidados que costaron caro:
-
-     1) El tope de zoom lo manda la resolución de la lámina, no el capricho. La
-        NASA Black Marble mide 3600 px de ancho; en un marco de 1200 px eso da
-        3x nítidos. Más allá se ve el pixel, así que el tope se calcula solo.
-     2) Los radios se recalculan SOLO cuando cambia la escala. Hacerlo en cada
-        pointermove eran 119 atributos reescritos por evento, y eso era el tirón. */
-  var Z = { z: 1, x: 0, y: 0, zMax: 3, arrastrando: false, movido: 0, pintando: false };
-
-  function calcularTope() {
-    var img = $("#lienzo .mapa-bg"), m = $("#lamina");
-    if (!img || !m || !img.naturalWidth || !m.clientWidth) return;
-    // Un pelo de margen (1.15) porque a escala exacta todavía se ve limpio.
-    Z.zMax = Math.max(2, Math.min(9, (img.naturalWidth / m.clientWidth) * 1.15));
-  }
-
-  /* Lámina en dos tiempos: la ligera pinta de inmediato y la grande entra sola
-     en cuanto alguien toca el zoom. Nadie paga los megas si no los usa. */
-  var hiresPedida = false;
-  function pedirHires() {
-    if (hiresPedida) return;
-    var img = $("#lienzo .mapa-bg");
-    if (!img || !img.dataset.hires) return;
-    hiresPedida = true;
-    var pre = new Image();
-    pre.onload = function () {
-      img.src = img.dataset.hires;
-      calcularTope();
-      marcarTope();
-      notaMapa();
-    };
-    pre.onerror = function () { hiresPedida = false; };   // sin conexión, se sigue con la ligera
-    pre.src = img.dataset.hires;
-  }
-  function aplicarTransform() {
-    var l = $("#lienzo");
-    if (l) l.style.transform = "translate(" + Z.x + "px," + Z.y + "px) scale(" + Z.z + ")";
-    if (nodoActivo) colocarPopup(nodoActivo);
-  }
-  function recalcularRadios() {
-    var f = Math.pow(Z.z, 0.65);
-    $$("#mapaSvg circle[data-r]").forEach(function (c) {
-      c.setAttribute("r", (parseFloat(c.dataset.r) / f).toFixed(2));
-    });
-  }
-  function pedirPintado() {
-    if (Z.pintando) return;
-    Z.pintando = true;
-    requestAnimationFrame(function () { Z.pintando = false; aplicarTransform(); });
-  }
-  function limitar() {
-    var m = $("#lamina");
-    if (!m) return;
-    var W = m.clientWidth, H = m.clientHeight;
-    Z.x = Math.min(0, Math.max(W - W * Z.z, Z.x));
-    Z.y = Math.min(0, Math.max(H - H * Z.z, Z.y));
+  /* ═══════════ Interaccion ═══════════ */
+  function puntoEn(sx, sy) {
+    var mejor = null, mejorD = 16;
+    for (var i = PUNTOS.length - 1; i >= 0; i--) {
+      var p = PUNTOS[i];
+      if (!capasOn[p.capa]) continue;
+      if (p.tipo && !tiposOn[p.tipo]) continue;
+      var s = aPantalla(p.wx, p.wy);
+      var d = Math.sqrt((s[0] - sx) * (s[0] - sx) + (s[1] - sy) * (s[1] - sy));
+      if (d < mejorD) { mejorD = d; mejor = p; }
+    }
+    return mejor;
   }
   function marcarTope() {
     var m = $("#lamina");
-    if (m) m.classList.toggle("con-zoom", Z.z > 1);
+    if (m) m.classList.toggle("con-zoom", V.z > 1);
     var bm = $("#zMas"), bn = $("#zMenos");
-    if (bm) bm.disabled = Z.z >= Z.zMax - 0.001;
-    if (bn) bn.disabled = Z.z <= 1.001;
+    if (bm) bm.disabled = V.z >= V.zMax - 0.001;
+    if (bn) bn.disabled = V.z <= 1.001;
+  }
+  function pedirHires() {
+    var m = $("#lamina");
+    if (hiresPedida || !m || !m.dataset.hires) return;
+    hiresPedida = true;
+    cargarLamina(m.dataset.hires, function () { recalcularTope(); pedirPintado(); });
   }
   function zoomEn(nz, px, py) {
-    var m = $("#lamina");
-    if (!m) return;
+    if (!cv) return;
+    nz = Math.max(1, Math.min(V.zMax, nz));
+    if (Math.abs(nz - V.z) < 0.001) return;
     if (nz > 1.02) pedirHires();
-    nz = Math.max(1, Math.min(Z.zMax, nz));
-    if (Math.abs(nz - Z.z) < 0.001) return;
-    var r = m.getBoundingClientRect();
-    if (px == null) { px = r.width / 2; py = r.height / 2; }
-    Z.x = px - (px - Z.x) * (nz / Z.z);
-    Z.y = py - (py - Z.y) * (nz / Z.z);
-    Z.z = nz;
-    limitar();
-    aplicarTransform();
-    recalcularRadios();     // solo aquí: la escala cambió
-    marcarTope();
+    var e0 = k();
+    if (px == null) { px = cv.clientWidth / 2; py = cv.clientHeight / 2; }
+    var wx = V.ox + px / e0, wy = V.oy + py / e0;
+    V.z = nz;
+    var e1 = k();
+    V.ox = wx - px / e1;
+    V.oy = wy - py / e1;
+    limitar(); marcarTope(); pedirPintado();
   }
-  function armarZoom() {
-    var m = $("#lamina");
-    if (!m) return;
-    var img = $("#lienzo .mapa-bg");
-    if (img && !img.complete) img.addEventListener("load", function () { calcularTope(); marcarTope(); });
-    calcularTope();
-    window.addEventListener("resize", function () { calcularTope(); limitar(); pedirPintado(); marcarTope(); });
-
+  function armarInteraccion() {
     var bm = $("#zMas"), bn = $("#zMenos"), br = $("#zReset");
-    if (bm) bm.addEventListener("click", function () { zoomEn(Z.z * 1.5); });
-    if (bn) bn.addEventListener("click", function () { zoomEn(Z.z / 1.5); });
+    if (bm) bm.addEventListener("click", function () { zoomEn(V.z * 1.5); });
+    if (bn) bn.addEventListener("click", function () { zoomEn(V.z / 1.5); });
     if (br) br.addEventListener("click", function () {
-      Z.z = 1; Z.x = 0; Z.y = 0; aplicarTransform(); recalcularRadios(); marcarTope();
+      V.z = 1; V.ox = 0; V.oy = 0; limitar(); marcarTope(); ocultarPopup(); pedirPintado();
     });
+    window.addEventListener("resize", function () { limitar(); recalcularTope(); pedirPintado(); });
 
-    // La rueda sola sigue haciendo scroll de la página; con Ctrl hace zoom.
-    m.addEventListener("wheel", function (e) {
+    cv.addEventListener("wheel", function (e) {
       if (!e.ctrlKey && !e.metaKey) return;
       e.preventDefault();
-      var r = m.getBoundingClientRect();
-      zoomEn(Z.z * (e.deltaY < 0 ? 1.18 : 1 / 1.18), e.clientX - r.left, e.clientY - r.top);
+      var r = cv.getBoundingClientRect();
+      zoomEn(V.z * (e.deltaY < 0 ? 1.18 : 1 / 1.18), e.clientX - r.left, e.clientY - r.top);
     }, { passive: false });
-
-    m.addEventListener("dblclick", function (e) {
-      var r = m.getBoundingClientRect();
-      zoomEn(Z.z * 1.7, e.clientX - r.left, e.clientY - r.top);
+    cv.addEventListener("dblclick", function (e) {
+      var r = cv.getBoundingClientRect();
+      zoomEn(V.z * 1.7, e.clientX - r.left, e.clientY - r.top);
     });
 
     var px0 = 0, py0 = 0;
-    m.addEventListener("pointerdown", function (e) {
-      if (Z.z <= 1) return;
-      Z.arrastrando = true; Z.movido = 0;
+    cv.addEventListener("pointerdown", function (e) {
+      V.arrastrando = true; V.movido = 0;
       px0 = e.clientX; py0 = e.clientY;
-      m.setPointerCapture(e.pointerId);
-      m.classList.add("arrastrando");
+      if (cv.setPointerCapture) cv.setPointerCapture(e.pointerId);
     });
-    m.addEventListener("pointermove", function (e) {
-      if (!Z.arrastrando) return;
-      var dx = e.clientX - px0, dy = e.clientY - py0;
-      px0 = e.clientX; py0 = e.clientY;
-      Z.movido += Math.abs(dx) + Math.abs(dy);
-      Z.x += dx; Z.y += dy;
-      limitar();
-      pedirPintado();        // un repintado por cuadro, no uno por evento
+    cv.addEventListener("pointermove", function (e) {
+      var r = cv.getBoundingClientRect();
+      if (V.arrastrando) {
+        var e2 = k();
+        V.movido += Math.abs(e.clientX - px0) + Math.abs(e.clientY - py0);
+        V.ox -= (e.clientX - px0) / e2;
+        V.oy -= (e.clientY - py0) / e2;
+        px0 = e.clientX; py0 = e.clientY;
+        limitar(); pedirPintado();
+        return;
+      }
+      var p = puntoEn(e.clientX - r.left, e.clientY - r.top);
+      if (p !== hover) {
+        hover = p;
+        cv.style.cursor = p ? "pointer" : (V.z > 1 ? "grab" : "default");
+        pedirPintado();
+      }
     });
     ["pointerup", "pointercancel"].forEach(function (ev) {
-      m.addEventListener(ev, function () {
-        Z.arrastrando = false;
-        m.classList.remove("arrastrando");
-      });
+      cv.addEventListener(ev, function () { V.arrastrando = false; });
     });
-    aplicarTransform();
-    marcarTope();
+    cv.addEventListener("click", function (e) {
+      if (V.movido > 6) { V.movido = 0; return; }
+      var r = cv.getBoundingClientRect();
+      var p = puntoEn(e.clientX - r.left, e.clientY - r.top);
+      if (p) mostrarFicha(p); else ocultarPopup();
+    });
   }
 
   /* ═══════════ El recorrido ═══════════
@@ -885,17 +916,17 @@
     var item = tour.lista[tour.i];
     if (!item) { pararTour(); tour.i = 0; pintarTour(); ocultarPopup(); return; }
     var clave = BROTE === "ebola" ? "ebola" : "hanta";
-    var g = capas[clave];
-    if (!g) return;
-    if (g.style.display === "none") { g.style.display = ""; marcarPill(clave, true); }
-    var nodos = g.querySelectorAll(".nd[data-tit]");
-    var el = nodos[item.i];
+    if (!capasOn[clave]) { capasOn[clave] = true; marcarPill(clave, true); }
+    // Los puntos de cada capa se cargaron en el orden del arreglo, así que el
+    // índice original del hito sirve para encontrarlo.
+    var deCapa = PUNTOS.filter(function (p) { return p.capa === clave; });
+    var p = deCapa[item.i];
     tour.i++;
     pintarTour();
+    if (!p) return;
     // Si su tipo está filtrado, no se detiene en un punto que no se ve.
-    if (el && el.style.display === "none") { pasoTour(); return; }
-    $$("#mapaSvg .nd.act").forEach(function (n) { n.classList.remove("act"); });
-    if (el) { el.classList.add("act"); mostrarPopup(el); }
+    if (p.tipo && !tiposOn[p.tipo]) { pasoTour(); return; }
+    mostrarFicha(p);
   }
   function arrancarTour() {
     if (!tour.lista.length) return;
@@ -918,16 +949,17 @@
   }
 
   function sincronizarMapa() {
-    if (!capas.hanta) return;
+    if (!cv) return;
     pararTour();
     tourCargar();
     ocultarPopup();
     var prende = BROTE === "ebola" ? "ebola" : "hanta";
     var apaga = BROTE === "ebola" ? "hanta" : "ebola";
-    capas[prende].style.display = "";
-    capas[apaga].style.display = "none";
+    capasOn[prende] = true;
+    capasOn[apaga] = false;
     marcarPill(prende, true);
     marcarPill(apaga, false);
+    pedirPintado();
   }
 
   /* ═══════════ La perilla ═══════════ */

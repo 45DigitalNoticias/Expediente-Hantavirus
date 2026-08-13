@@ -140,18 +140,15 @@ a.colcard--more span:last-child { color: var(--casa-oro-br); font-size: 14.5px; 
 .mapa-marco .mapa-bg { object-position: center center; }
 /* Lienzo que se mueve: imagen y puntos van juntos, o los puntos se despegan
    de la costa al hacer zoom. */
-/* Sin will-change a proposito. Promover esta capa obliga al navegador a
-   mantener toda la lamina rasterizada en memoria de video; con una imagen de
-   varios megapixeles eso congela el zoom en vez de acelerarlo. */
-.mapa-lienzo { position: absolute; inset: 0; transform-origin: 0 0; }
-.mapa-marco.con-zoom { cursor: grab; }
-.mapa-marco.arrastrando { cursor: grabbing; }
-.mapa-svg { pointer-events: none; }
-.mapa-svg .nd { pointer-events: auto; cursor: pointer; transition: r .18s ease, filter .18s ease; }
-.mapa-svg .nd:hover { filter: brightness(1.4) drop-shadow(0 0 6px currentColor); }
-.mapa-svg .nd.act { filter: brightness(1.6) drop-shadow(0 0 10px currentColor); }
-.mapa-svg .nd-halo { pointer-events: none; }
-.mapa-svg .nd:focus-visible { outline: 2px solid #E8B94D; outline-offset: 2px; }
+/* El mapa se dibuja en un canvas. Nada de puntos en el DOM: con 103 circulos,
+   sus filtros de hover y un contenedor con transform, el navegador repintaba
+   una capa enorme en cada movimiento y nunca llegaba a 60 cuadros. */
+#mapaCanvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: block; touch-action: none;
+}
+.mapa-marco.con-zoom #mapaCanvas { cursor: grab; }
+.mapa-marco.con-zoom #mapaCanvas:active { cursor: grabbing; }
 
 /* Filtros por tipo de hecho, debajo de las capas. */
 .filtros {
@@ -225,14 +222,63 @@ button.capa-pill:active { transform: scale(0.97); }
 .tourbtn:active { transform: scale(0.9); }
 @media (max-width: 733px) { .mapa-tour .bar { width: 90px; } }
 
-/* ══════════ EL ANTECEDENTE: el microsite entra completo ══════════ */
-.anteframe {
-  position: relative; border-radius: 20px; overflow: hidden;
-  box-shadow: var(--apple-shadow-card); border: 1px solid rgba(0,0,0,0.08);
-  background: var(--casa-navy);
+/* ══════════ EL ANTECEDENTE: la línea larga, en el lenguaje de la página ══════════
+   Antes esto era un iframe del microsite viejo y desentonaba. Ahora se lee el
+   mismo data-hitos.js y se pinta aquí, con la tipografía y el color de casa. */
+.linea { position: relative; max-width: 820px; margin: 0 auto; }
+.linea::before {
+  content: ""; position: absolute; left: 78px; top: 10px; bottom: 10px; width: 2px;
+  background: linear-gradient(180deg, rgba(212,160,23,.5), rgba(42,140,216,.35), rgba(0,0,0,.06));
 }
-.anteframe iframe { display: block; width: 100%; height: 78vh; min-height: 560px; border: 0; }
-@media (max-width: 733px) { .anteframe iframe { height: 64vh; min-height: 420px; } }
+@media (max-width: 733px) { .linea::before { left: 8px; } }
+.hito { position: relative; display: grid; grid-template-columns: 78px 1fr; gap: 28px; padding-bottom: 34px; }
+@media (max-width: 733px) { .hito { grid-template-columns: 1fr; gap: 10px; padding-left: 30px; } }
+.hito__año {
+  font: 700 22px/1 var(--apple-font-display); letter-spacing: -0.02em;
+  color: var(--apple-text-primary); text-align: right; padding-top: 2px; position: relative;
+  white-space: nowrap;   /* la marca de verificación no se cae de renglón */
+}
+@media (max-width: 733px) { .hito__año { text-align: left; } }
+.hito__año::after {
+  content: ""; position: absolute; right: -35px; top: 4px; width: 12px; height: 12px;
+  border-radius: 50%; background: #fff; border: 2.5px solid var(--casa-oro);
+  box-shadow: 0 0 0 4px rgba(212,160,23,.14);
+}
+@media (max-width: 733px) { .hito__año::after { right: auto; left: -30px; } }
+.hito__v { font-size: 13px; }
+.hito__cuerpo {
+  background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 16px;
+  padding: 22px 24px; box-shadow: var(--apple-shadow-card);
+  transition: box-shadow .28s cubic-bezier(.22,1,.36,1), transform .28s cubic-bezier(.22,1,.36,1);
+}
+.hito:hover .hito__cuerpo { box-shadow: var(--apple-shadow-hover); transform: translateY(-2px); }
+.hito__enf {
+  font: 600 10.5px/1 var(--apple-font-text); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--casa-oro-tinta); margin: 0 0 8px;
+}
+.hito__cuerpo h3 {
+  font: 600 21px/1.25 var(--casa-serif); letter-spacing: -0.01em;
+  color: var(--apple-text-primary); margin: 0 0 10px;
+}
+.hito__resumen {
+  font-size: 15px; line-height: 1.62; color: var(--apple-text-secondary); margin: 0;
+  text-align: justify; hyphens: auto;
+}
+.hito__peso {
+  margin: 14px 0 0; padding: 12px 16px; border-left: 3px solid var(--acc);
+  background: var(--acc-soft); border-radius: 0 12px 12px 0;
+  font: italic 400 14.5px/1.55 var(--casa-serif); color: var(--apple-text-primary);
+}
+.hito__pie {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(0,0,0,0.06);
+  font-size: 12.5px; color: var(--apple-text-tertiary);
+}
+.hito__monto { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--casa-oro-tinta); }
+.hito__monto .ic { width: 15px; height: 15px; stroke: var(--casa-oro-tinta); }
+.hito__actores { font-family: var(--mono); font-size: 11.5px; }
+.hito__fuente { margin-left: auto; color: var(--apple-link-blue); text-decoration: none; font-weight: 600; }
+.hito__fuente:hover { text-decoration: underline; }
 
 /* ══════════ SALA DE LECTURA: la portada manda ══════════
    Lectura de revista: una pieza grande arriba y el resto en parrilla, con la

@@ -83,14 +83,10 @@
     <p class="eyebrow"><svg class="ic"><use href="#i-globe"/></svg> cartograf&iacute;a</p>
     <h2 class="sec-title">El mapa del expediente.</h2>
     <p class="sec-sub">Cada punto es un hecho fechado con fuente. Las capas se prenden y se apagan.</p>
-    <div class="mapa-marco" id="lamina">
-      <div class="mapa-lienzo" id="lienzo">
-        <img class="mapa-bg" src="../_recursos/imagenes/nasa-black-marble-2012.jpg"
-             data-hires="../_recursos/imagenes/nasa-black-marble-2012-hires.jpg"
-             alt="" aria-hidden="true" />
-        <div class="mapa-veil"></div>
-        <svg class="mapa-svg" id="mapaSvg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice"></svg>
-      </div>
+    <div class="mapa-marco" id="lamina"
+         data-lamina="../_recursos/imagenes/nasa-black-marble-2012.jpg"
+         data-hires="../_recursos/imagenes/nasa-black-marble-2012-hires.jpg">
+      <canvas id="mapaCanvas"></canvas>
       <div class="capas" id="maptop"></div>
       <div class="filtros" id="mapfiltros"></div>
       <div class="zoomctl">
