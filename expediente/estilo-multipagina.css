@@ -150,10 +150,30 @@ a.colcard--more span:last-child { color: var(--casa-oro-br); font-size: 14.5px; 
 .mapa-marco.con-zoom #mapaCanvas { cursor: grab; }
 .mapa-marco.con-zoom #mapaCanvas:active { cursor: grabbing; }
 
+/* Capas y filtros en una sola columna que fluye. Antes cada uno iba anclado a
+   su propio `top` fijo (20px y 62px): con seis capas cabían en un renglón, pero
+   al llegar a diez la fila se envolvió y se montó encima de los filtros. Un
+   contenedor que apila resuelve el caso de hoy y el de la capa número once. */
+.mapa-hud {
+  position: absolute; top: 20px; left: 20px; right: 20px; z-index: 3;
+  display: flex; flex-direction: column; gap: 9px;
+}
+.mapa-hud .capas, .mapa-hud .filtros { position: static; inset: auto; }
+
 /* Filtros por tipo de hecho, debajo de las capas. */
 .filtros {
   position: absolute; top: 62px; left: 20px; right: 20px; z-index: 3;
   display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+}
+
+/* En pantalla angosta diez píldoras se comerían el mapa: se deslizan. */
+@media (max-width: 733px) {
+  .mapa-hud .capas, .mapa-hud .filtros {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+  }
+  .mapa-hud .capas::-webkit-scrollbar,
+  .mapa-hud .filtros::-webkit-scrollbar { display: none; }
+  .mapa-hud .capa-pill, .mapa-hud .fchip { flex: 0 0 auto; }
 }
 .filtros__lbl {
   font: 500 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
@@ -490,6 +510,63 @@ button.capa-pill:active { transform: scale(0.97); }
 .cierre__firma {
   font: 600 11px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase;
   color: var(--casa-oro-tinta); margin: 0;
+}
+
+/* ══════════ RIEL TEMPORAL: el expediente se puede rebobinar ══════════
+   Va debajo de la lámina y manda sobre las dos vistas a la vez: esconde los
+   puntos del mapa que aún no ocurrían y apaga sus entradas en la crónica. */
+.riel {
+  display: flex; align-items: center; gap: 16px;
+  max-width: var(--apple-content-max-width-lg); margin: 16px auto 0;
+  background: #fff; border: 1px solid rgba(0,0,0,0.07);
+  border-radius: var(--apple-radius-card); padding: 12px 20px;
+  box-shadow: var(--apple-shadow-card);
+}
+.riel__play {
+  appearance: none; border: 0; cursor: pointer; flex: 0 0 auto;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--apple-text-primary); color: #fff; font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .18s cubic-bezier(.22,1,.36,1), background .25s;
+}
+.riel__play:hover { background: var(--acc); }
+.riel__play:active { transform: scale(0.93); }
+
+.riel__barra {
+  appearance: none; -webkit-appearance: none; flex: 1 1 auto; min-width: 0;
+  height: 4px; border-radius: 999px; background: rgba(0,0,0,0.10);
+  cursor: pointer; outline-offset: 4px;
+}
+.riel__barra::-webkit-slider-thumb {
+  appearance: none; -webkit-appearance: none;
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--acc); border: 2.5px solid #fff;
+  box-shadow: 0 1px 5px rgba(0,0,0,.28); cursor: grab;
+}
+.riel__barra::-moz-range-thumb {
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--acc); border: 2.5px solid #fff;
+  box-shadow: 0 1px 5px rgba(0,0,0,.28); cursor: grab;
+}
+.riel__fecha {
+  flex: 0 0 auto; min-width: 132px; text-align: right; line-height: 1.25;
+}
+.riel__fecha b { display: block; font: 600 14.5px/1.2 var(--apple-font-text); }
+.riel__fecha span {
+  display: block; font: 500 11px/1 var(--mono); color: var(--apple-text-tertiary);
+  margin-top: 3px;
+}
+@media (max-width: 733px) {
+  .riel { gap: 12px; padding: 11px 14px; flex-wrap: wrap; }
+  .riel__fecha { min-width: 0; flex: 1 1 100%; text-align: left; order: 3; }
+}
+
+/* Lo que el riel deja en el futuro no se borra de la crónica: se apaga, para
+   que se siga viendo cuánto falta por ocurrir. */
+.cev.apagado { opacity: .26; }
+.cev.apagado::before { background: #fff; border-color: rgba(0,0,0,.16); box-shadow: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .cev { transition: opacity .3s cubic-bezier(.22,1,.36,1); }
 }
 
 /* ══════════ CASOS POR PAÍS: tabla comparable, contexto a un toque ══════════ */

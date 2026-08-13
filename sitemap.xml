@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/</loc><priority>1.0</priority></url>
   <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/antecedente/cauce.html</loc><priority>0.6</priority></url>
   <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/antecedente/codigo.html</loc><priority>0.6</priority></url>
   <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/antecedente/embed.html</loc><priority>0.6</priority></url>
@@ -23,13 +24,14 @@
   <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/columnas/los-dos-que-faltan-en-la-lista.html</loc><priority>0.8</priority></url>
   <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/columnas/pantalla-cautiva.html</loc><priority>0.8</priority></url>
   <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/columnas/quince-dias-antes-de-ushuaia.html</loc><priority>0.8</priority></url>
-
-  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-completo.html</loc><priority>1.0</priority></url>
-  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-columnas.html</loc><priority>0.8</priority></url>
-  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-vacunas.html</loc><priority>0.7</priority></url>
-  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-comparativo.html</loc><priority>0.7</priority></url>
-  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-faq.html</loc><priority>0.7</priority></url>
-  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-antecedente.html</loc><priority>0.7</priority></url>
+  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente.html</loc><priority>0.8</priority></url>
+  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-antecedente.html</loc><priority>0.6</priority></url>
+  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-columnas.html</loc><priority>0.6</priority></url>
+  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-comparativo.html</loc><priority>0.6</priority></url>
+  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-completo.html</loc><priority>0.6</priority></url>
+  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-faq.html</loc><priority>0.6</priority></url>
   <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-loop.html</loc><priority>0.6</priority></url>
   <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-referencia.html</loc><priority>0.6</priority></url>
+  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-vacunas.html</loc><priority>0.6</priority></url>
+  <url><loc>https://45digitalnoticias.github.io/Expediente-Hantavirus/v2.html</loc><priority>0.8</priority></url>
 </urlset>

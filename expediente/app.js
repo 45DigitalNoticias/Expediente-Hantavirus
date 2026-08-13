@@ -325,7 +325,7 @@
       " hitos</b> de la vertiente " + d.etiqueta.toLowerCase() +
       ", en orden. Cada entrada con su fecha, su territorio y su fuente primaria enlazada.";
     cont.innerHTML = lista.slice(0, VISTA.crono).map(function (e) {
-      return '<div class="cev" data-type="' + esc(e.type) + '">' +
+      return '<div class="cev" data-type="' + esc(e.type) + '" data-dia="' + esc(e.day) + '">' +
         '<div class="cev__meta">' +
           '<span class="cev__n">' + esc(e.n) + "</span>" +
           '<span class="cev__fecha">' + esc(e.date) + (e.v ? " " + e.v : "") + "</span>" +
@@ -337,6 +337,7 @@
     if (!b) return;
     if (VISTA.crono >= lista.length) { b.textContent = "Ver menos"; b.dataset.modo = "menos"; }
     else { b.textContent = "Ver los " + lista.length + " hitos"; b.dataset.modo = "mas"; }
+    sincronizarCronica();
   }
 
   /* ═══════════ Boletín ═══════════ */
@@ -831,16 +832,52 @@
   var V = { z: 1, ox: 0, oy: 0, zMax: 4, arrastrando: false, movido: 0, pinta: false };
   var hover = null, activo = null;
 
+  /* Las cuatro \u00faltimas llegan apagadas: encendidas todas de golpe, la l\u00e1mina se
+     vuelve ilegible. El que quiera cruzar Mundial con end\u00e9mico las prende. */
   var CAPAS = [
     ["hanta", "Hantavirus", "i-virus", true], ["ebola", "\u00c9bola 2026", "i-lab", false],
     ["crucero", "Ruta Hondius", "i-ship", true], ["endemicos", "End\u00e9mico", "i-globe", false],
-    ["vacunas", "Vacunas", "i-syringe", true], ["dinero", "Financiamiento", "i-chart", true]
+    ["vacunas", "Vacunas", "i-syringe", true], ["dinero", "Financiamiento", "i-chart", true],
+    ["mundial", "Mundial 2026", "i-globe", false], ["corredor", "Corredor Tarija\u2013Salta", "i-pin", false],
+    ["continentes", "Continentes", "i-globe", false], ["geopolitica", "Geopol\u00edtica", "i-shield", false]
   ];
+  /* Acero palido: las cuatro capas de contexto (Mundial, corredor, continentes,
+     geopolitica) no son casos del brote y no deben leerse como tales. Con los
+     colores de caso, una sede del Mundial se confundia con un hospital. */
+  var CONTEXTO = "#cbd8e6";
+
   var TIPOS = [
     ["route", "Ruta", "#5ba8f0"], ["symptom", "S\u00edntoma", "#d4a017"],
     ["hospital", "Hospital", "#d4a017"], ["lab", "Laboratorio", "#a78bfa"],
     ["death", "Muerte", "#dc5f46"]
   ];
+
+  /* ═══════════ Riel temporal ═══════════
+     La fecha NO se calcula a partir del día. Se probó: el día 1 es el 1-abr y
+     con eso cuadran casi todos, pero 19 de los 85 hitos no, unos porque son
+     rangos ("13-15 abr") y otros porque el dato lleva un día de corrimiento.
+     Una etiqueta calculada contradiría a la crónica, que imprime la fecha
+     literal. Así que el riel muestra la fecha del último hito incluido, tal
+     como está escrita en el dato: nunca puede discrepar de lo que se lee. */
+  var DIA_TOPE = 1, DIA = 1, tocando = false, reloj = null;
+  var FECHAS = [];   // [{dia, texto}] en orden, armado de los hitos
+
+  function fechaDe(dia) {
+    var t = null;
+    for (var i = 0; i < FECHAS.length; i++) {
+      if (FECHAS[i].dia > dia) break;
+      t = FECHAS[i].texto;
+    }
+    return t || "antes del primer hito";
+  }
+  /* Un punto se ve si su capa está encendida, su tipo no está filtrado y su
+     fecha ya ocurrió. Lo que no tiene fecha no lo toca el riel. */
+  function visible(p) {
+    if (!capasOn[p.capa]) return false;
+    if (p.tipo && !tiposOn[p.tipo]) return false;
+    if (p.dia != null && p.dia > DIA) return false;
+    return true;
+  }
 
   function proy(lat, lon) {
     return [(lon + 180) / 360 * MUNDO_W, (90 - lat) / 180 * MUNDO_H];
@@ -900,8 +937,7 @@
 
     for (var j = 0; j < PUNTOS.length; j++) {
       var p = PUNTOS[j];
-      if (!capasOn[p.capa]) continue;
-      if (p.tipo && !tiposOn[p.tipo]) continue;
+      if (!visible(p)) continue;
       var s2 = aPantalla(p.wx, p.wy);
       if (s2[0] < -30 || s2[1] < -30 || s2[0] > cw + 30 || s2[1] > ch + 30) continue;
       var marcado = (p === hover || p === activo);
@@ -979,7 +1015,10 @@
   function punto(capa, lat, lon, color, r, halo, d) {
     var w = proy(lat, lon);
     PUNTOS.push({ capa: capa, wx: w[0], wy: w[1], color: color, r: r, halo: halo,
-                  tipo: d && d.tipo, pie: d && d.pie, tit: d && d.tit, txt: d && d.txt });
+                  tipo: d && d.tipo, pie: d && d.pie, tit: d && d.tit, txt: d && d.txt,
+                  // Sin día = no lo toca el riel: una zona endémica o un
+                  // financiador no "ocurren" en una fecha del brote.
+                  dia: d && d.dia });
   }
   function trazo(capa, pts, color, ancho, guion) {
     if (!pts || pts.length < 2) return;
@@ -1011,6 +1050,14 @@
       "</b> hitos de hantavirus, <b>" + eventosEbola.length + "</b> de ébola, la ruta completa del " +
       "MV Hondius, <b>" + endemicos.length + "</b> zonas endémicas, <b>" + vacunas.length +
       "</b> programas de vacuna y <b>" + financiadores.length + "</b> financiadores. " +
+      "Apagadas de origen, cuatro capas de contexto: <b>" +
+      (typeof aficionados !== "undefined" ? aficionados.length : 0) +
+      "</b> flujos al Mundial 2026, el corredor Tarija–Salta–Jujuy, <b>" +
+      (typeof continentes !== "undefined" ? continentes.length : 0) +
+      "</b> fichas continentales y <b>" +
+      (typeof geopoliticos !== "undefined" ? geopoliticos.length : 0) +
+      "</b> antecedentes geopolíticos. " +
+      "El riel de abajo rebobina el expediente por fecha. " +
       "Toque un punto para abrir su ficha; el zoom llega a " + V.zMax.toFixed(1) + "x.";
   }
 
@@ -1024,13 +1071,13 @@
       punto("hanta", e.coords[0], e.coords[1], COLOR[e.type] || "#5ba8f0",
         e.type === "death" ? 5.4 : 4.2, e.type === "death",
         { tipo: e.type, pie: e.date + " \u00b7 " + e.type + (e.v ? " " + e.v : ""),
-          tit: e.place, txt: e.desc });
+          tit: e.place, txt: e.desc, dia: e.day });
     });
     eventosEbola.forEach(function (e) {
       punto("ebola", e.coords[0], e.coords[1], COLOR[e.type] || "#dc5f46",
         e.type === "death" ? 5.4 : 4.2, e.type === "death",
         { tipo: e.type, pie: e.date + " \u00b7 " + e.type + (e.v ? " " + e.v : ""),
-          tit: e.place, txt: e.desc });
+          tit: e.place, txt: e.desc, dia: e.day });
     });
     endemicos.forEach(function (z) {
       punto("endemicos", z.coords[0], z.coords[1], "#3fbf6f", 5, true,
@@ -1051,6 +1098,56 @@
     trazo("crucero", cruiseRoute, "rgba(91,168,240,0.85)", 2, null);
     trazo("crucero", evacDest, "rgba(220,95,70,0.45)", 1.2, [2, 6]);
 
+    /* ── Mundial 2026 ──
+       Dos flujos distintos en la misma capa, como en el mapa original: el tramo
+       internacional (país de origen → primera sede) va punteado porque es masa
+       de gente sin vigilancia epidemiológica, y el recorrido interno de cada
+       selección va continuo, con el color de su cepa. */
+    if (typeof aficionados !== "undefined") {
+      aficionados.forEach(function (a) {
+        if (!a.sede) return;
+        trazo("mundial", [a.coord, a.sede], "rgba(232,185,77,0.30)",
+          a.peso === "alto" ? 1.3 : 0.9, [3, 6]);
+        punto("mundial", a.sede[0], a.sede[1], CONTEXTO,
+          a.peso === "alto" ? 4.4 : 3.4, a.peso === "alto",
+          { pie: (a.fecha || "Mundial 2026") + " · cepa " + (a.cepa || "—"),
+            tit: a.pais, txt: a.partido || "" });
+      });
+    }
+    if (typeof rutasEndemicas !== "undefined") {
+      rutasEndemicas.forEach(function (r) {
+        trazo("mundial", r.sedes, r.color || "#5ba8f0", 1.8, null);
+      });
+    }
+
+    /* ── Corredor Tarija–Salta–Jujuy ── */
+    if (typeof corredorCoords !== "undefined") {
+      trazo("corredor", corredorCoords, "rgba(184,90,58,0.9)", 2.2, [6, 5]);
+      var cm = corredorCoords[Math.floor(corredorCoords.length / 2)];
+      punto("corredor", cm[0], cm[1], CONTEXTO, 5, true,
+        { pie: "2025–2026",
+          tit: "Corredor epidemiológico Tarija–Salta–Jujuy",
+          txt: "Foco transfronterizo de hantavirus entre Bolivia y el norte argentino. " +
+               "La línea recorre Yacuiba, Bermejo, Salvador Mazza, Salta y Jujuy." });
+    }
+
+    /* ── Continentes y geopolítica ── */
+    if (typeof continentes !== "undefined") {
+      continentes.forEach(function (c) {
+        punto("continentes", c.coords[0], c.coords[1], CONTEXTO, 6, true,
+          { pie: c.label || "continente", tit: c.titulo || c.label,
+            txt: (c.desc || "") + (c.fuente ? "<br><i>" + c.fuente + "</i>" : "") });
+      });
+    }
+    if (typeof geopoliticos !== "undefined") {
+      geopoliticos.forEach(function (g) {
+        var c = g.offset || g.coords;   // dos de los tres caen en Washington
+        punto("geopolitica", c[0], c[1], CONTEXTO, 5, true,
+          { pie: g.fecha || "antecedente", tit: g.titulo,
+            txt: (g.desc || "") + (g.fuente ? "<br><i>" + g.fuente + "</i>" : "") });
+      });
+    }
+
     CAPAS.forEach(function (c) { capasOn[c[0]] = c[3]; });
     TIPOS.forEach(function (t) { tiposOn[t[0]] = true; });
 
@@ -1064,6 +1161,7 @@
       if (!b) return;
       capasOn[b.dataset.capa] = !capasOn[b.dataset.capa];
       marcarPill(b.dataset.capa, capasOn[b.dataset.capa]);
+      pintarLeyenda();
       ocultarPopup();
     });
 
@@ -1083,14 +1181,7 @@
         ocultarPopup();
       });
     }
-
-    if ($("#mapleyenda")) $("#mapleyenda").innerHTML = [
-      ["#5ba8f0", "Ruta y tr\u00e1nsito"], ["#d4a017", "S\u00edntoma y hospital"],
-      ["#a78bfa", "Laboratorio y vacunas"], ["#dc5f46", "Muerte confirmada"],
-      ["#3fbf6f", "Zona end\u00e9mica"]
-    ].map(function (l) {
-      return '<div><span class="dot" style="background:' + l[0] + '"></span>' + l[1] + "</div>";
-    }).join("");
+    pintarLeyenda();
 
     cargarLamina(marco && marco.dataset.lamina, function () { recalcularTope(); pedirPintado(); });
     armarInteraccion();
@@ -1104,14 +1195,100 @@
     var mejor = null, mejorD = 16;
     for (var i = PUNTOS.length - 1; i >= 0; i--) {
       var p = PUNTOS[i];
-      if (!capasOn[p.capa]) continue;
-      if (p.tipo && !tiposOn[p.tipo]) continue;
+      if (!visible(p)) continue;   // lo que el riel esconde tampoco se puede tocar
       var s = aPantalla(p.wx, p.wy);
       var d = Math.sqrt((s[0] - sx) * (s[0] - sx) + (s[1] - sy) * (s[1] - sy));
       if (d < mejorD) { mejorD = d; mejor = p; }
     }
     return mejor;
   }
+  /* ═══════════ La perilla del tiempo ═══════════ */
+  function armarRiel() {
+    var caja = $("#riel");
+    if (!caja) return;
+    var conDia = PUNTOS.filter(function (p) { return p.dia != null; });
+    if (!conDia.length) { caja.hidden = true; return; }
+    DIA_TOPE = Math.max.apply(null, conDia.map(function (p) { return p.dia; }));
+
+    // La fecha sale del pie del hito ("12-may · hospital"), que es el dato.
+    FECHAS = conDia.map(function (p) {
+      return { dia: p.dia, texto: String(p.pie || "").split("·")[0].trim() };
+    }).sort(function (a, b) { return a.dia - b.dia; });
+    DIA = DIA_TOPE;                       // arranca mostrándolo todo
+
+    caja.innerHTML =
+      '<button class="riel__play" id="rielPlay" aria-label="Reproducir la cronología">' +
+        '<span aria-hidden="true">▶</span></button>' +
+      '<input class="riel__barra" id="rielBarra" type="range" min="1" max="' + DIA_TOPE +
+        '" value="' + DIA_TOPE + '" aria-label="Día del expediente">' +
+      '<output class="riel__fecha" id="rielFecha"></output>';
+
+    $("#rielBarra").addEventListener("input", function () {
+      pausar(); pararTour();
+      irADia(+this.value);
+    });
+    $("#rielPlay").addEventListener("click", function () {
+      if (tocando) { pausar(); return; }
+      tocando = true;
+      $("#rielPlay").firstChild.textContent = "❚❚";
+      $("#rielPlay").setAttribute("aria-label", "Pausar la cronología");
+      if (DIA >= DIA_TOPE) irADia(1);     // al final, vuelve a empezar
+      reloj = setInterval(function () {
+        if (DIA >= DIA_TOPE) { pausar(); return; }
+        irADia(DIA + 1);
+      }, 90);
+    });
+    irADia(DIA_TOPE);
+  }
+  /* La crónica se apaga en paralelo: el riel manda sobre las dos vistas. Se
+     vuelve a aplicar cada vez que la lista se repinta (al desplegar las 39
+     entradas o al cambiar de vertiente), o las nuevas nacerían encendidas. */
+  function sincronizarCronica() {
+    $$(".cev[data-dia]").forEach(function (ev) {
+      ev.classList.toggle("apagado", +ev.dataset.dia > DIA);
+    });
+  }
+
+  function pausar() {
+    tocando = false;
+    if (reloj) { clearInterval(reloj); reloj = null; }
+    var b = $("#rielPlay");
+    if (b) {
+      b.firstChild.textContent = "▶";
+      b.setAttribute("aria-label", "Reproducir la cronología");
+    }
+  }
+  function irADia(d) {
+    DIA = Math.max(1, Math.min(DIA_TOPE, d));
+    var b = $("#rielBarra"), f = $("#rielFecha");
+    if (b) b.value = DIA;
+    if (f) {
+      var n = PUNTOS.filter(function (p) { return p.dia != null && p.dia <= DIA; }).length;
+      f.innerHTML = "<b>" + fechaDe(DIA) + "</b><span>" + n + " hito" +
+        (n === 1 ? "" : "s") + (DIA >= DIA_TOPE ? " · todo" : "") + "</span>";
+    }
+    sincronizarCronica();
+    pedirPintado();
+  }
+
+  /* Cinco colores de caso, que es el tope de la casa. La sexta linea aparece
+     solo si el lector prendio una capa de contexto: asi la leyenda por defecto
+     no crece y, cuando crece, es porque el la pidio. */
+  var CONTEXTUALES = ["mundial", "corredor", "continentes", "geopolitica"];
+  function pintarLeyenda() {
+    var c = $("#mapleyenda");
+    if (!c) return;
+    var l = [["#5ba8f0", "Ruta y tránsito"], ["#d4a017", "Síntoma y hospital"],
+             ["#a78bfa", "Laboratorio y vacunas"], ["#dc5f46", "Muerte confirmada"],
+             ["#3fbf6f", "Zona endémica"]];
+    if (CONTEXTUALES.some(function (k) { return capasOn[k]; })) {
+      l.push([CONTEXTO, "Capa de contexto"]);
+    }
+    c.innerHTML = l.map(function (x) {
+      return '<div><span class="dot" style="background:' + x[0] + '"></span>' + x[1] + "</div>";
+    }).join("");
+  }
+
   function marcarTope() {
     var m = $("#lamina");
     if (m) m.classList.toggle("con-zoom", V.z > 1);
@@ -1228,6 +1405,9 @@
     tour.i++;
     pintarTour();
     if (!p) return;
+    // El recorrido manda sobre el riel: si el hito todavia no ocurria, la
+    // fecha avanza hasta el. Si no, el tour abriria fichas invisibles.
+    if (p.dia != null && p.dia > DIA) irADia(p.dia);
     // Si su tipo está filtrado, no se detiene en un punto que no se ve.
     if (p.tipo && !tiposOn[p.tipo]) { pasoTour(); return; }
     mostrarFicha(p);
@@ -1334,7 +1514,7 @@
   detectarPortadas();
   ajustarIconos();
   abrirPorEnlace();
-  try { armarMapa(); } catch (err) {
+  try { armarMapa(); armarRiel(); } catch (err) {
     if ($("#lamina")) $("#lamina").insertAdjacentHTML("beforeend",
       '<p class="mapfail">No se pudo dibujar la lámina. El resto del expediente funciona igual.</p>');
     console.warn("Mapa:", err);
