@@ -495,6 +495,51 @@ button.capa-pill:active { transform: scale(0.97); }
 /* ══════════ CASOS POR PAÍS: tabla comparable, contexto a un toque ══════════ */
 /* El contenedor deja de ser rejilla de dos columnas: ahora es tabla. */
 .tpais { display: block; max-width: 900px; margin: 0 auto; }
+
+/* Filtro de la sección. Se puede mirar un brote sin cambiar el resto de la
+   página, o los dos juntos. */
+.tpais-filtro {
+  display: flex; justify-content: center; gap: 4px; flex-wrap: wrap;
+  max-width: 900px; margin: 0 auto 26px;
+  background: rgba(0,0,0,0.05); border-radius: var(--apple-radius-button);
+  padding: 3px; width: fit-content;
+}
+.tpais-filtro button {
+  appearance: none; border: 0; cursor: pointer; background: transparent;
+  font: 600 13.5px/1 var(--apple-font-text); color: var(--apple-text-secondary);
+  padding: 9px 18px; border-radius: var(--apple-radius-button);
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background .28s cubic-bezier(.22,1,.36,1), color .28s, box-shadow .28s;
+}
+.tpais-filtro button i {
+  font: 600 10.5px/1 var(--mono); font-style: normal;
+  color: var(--apple-text-tertiary); background: rgba(0,0,0,0.06);
+  border-radius: 5px; padding: 3px 5px;
+}
+.tpais-filtro button:hover { color: var(--apple-text-primary); }
+.tpais-filtro button[aria-pressed="true"] {
+  background: #fff; color: var(--apple-text-primary); box-shadow: 0 1px 3px rgba(0,0,0,.12);
+}
+.tpais-filtro button[aria-pressed="true"] i { color: var(--acc); background: var(--acc-soft); }
+.tpais-filtro button:active { transform: scale(0.97); }
+
+/* Encabezado de bloque: solo aparece con los dos brotes a la vez, y ahí es
+   donde se declara que cada barra mide contra su propio tope. */
+.tpais__brote {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+  margin: 34px 0 12px; font: 700 15px/1.2 var(--casa-serif);
+  color: var(--apple-text-primary);
+}
+.tpais__brote:first-child { margin-top: 0; }
+.tpais__brote span {
+  font: 500 11px/1 var(--mono); color: var(--apple-text-tertiary); text-align: right;
+}
+.tpais__brote[data-brote="hantavirus"] { border-left: 3px solid var(--casa-cian); padding-left: 11px; }
+.tpais__brote[data-brote="ebola"] { border-left: 3px solid var(--casa-rojo); padding-left: 11px; }
+@media (max-width: 733px) {
+  .tpais__brote { flex-direction: column; gap: 3px; }
+  .tpais__brote span { text-align: left; }
+}
 .tpais__cab, .tpais__fila {
   display: grid;
   grid-template-columns: minmax(0,1.7fr) minmax(0,1.5fr) 62px 62px minmax(0,110px) 22px;

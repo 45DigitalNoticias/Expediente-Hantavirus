@@ -373,51 +373,117 @@
     var m = String(v).replace(/,/g, "").match(/\d+(?:\.\d+)?/);
     return m ? parseFloat(m[0]) : 0;
   }
+  /* La sección se puede mirar por separado del resto de la página: null quiere
+     decir "sigue a la perilla de arriba". */
+  var PAIS_FILTRO = null;
+
+  /* 4381 se lee peor que 4,381, y el dato ya trae "2,011" escrito así. */
+  function miles(v) {
+    if (typeof v !== "number") return v;
+    return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  /* En la columna va la cifra sola. El dato de ébola trae cadenas como
+     "2,011 muertes · 254 en el ultimo mes" o "2 conf · 18 recuperados":
+     cortarlas por el punto medio dejaba un "2 conf" que en una columna
+     titulada MUERTES dice otra cosa. El matiz completo vive en la nota. */
+  function cifraMuertes(v) {
+    if (v == null || v === "") return "—";
+    if (typeof v === "number") return miles(v);
+    var m = String(v).match(/\d[\d.,]*/);
+    return m ? m[0] : String(v).split("·")[0].trim();
+  }
+
+  function filas(lista, tope) {
+    return lista.map(function (p) {
+      var conf = numDe(p.conf);
+      var muertes = cifraMuertes(p.deaths);
+      return '<div class="tpais__grupo">' +
+        '<button class="tpais__fila" aria-expanded="false">' +
+          '<span class="tpais__pais"><i class="tpais__cod">' + esc(p.flag) + "</i>" +
+            esc(p.name) + (p.v ? ' <em>' + esc(p.v) + "</em>" : "") + "</span>" +
+          '<span class="tpais__conf"><i style="width:' +
+            (conf / tope * 100).toFixed(1) + '%"></i><b>' + esc(p.conf != null ? miles(p.conf) : "—") + "</b></span>" +
+          '<span class="tpais__n">' + (p.prob != null ? esc(miles(p.prob)) : "—") + "</span>" +
+          '<span class="tpais__n">' + (p.obs != null ? esc(miles(p.obs)) : "—") + "</span>" +
+          '<span class="tpais__m">' + esc(muertes) + "</span>" +
+          '<span class="tpais__chev">›</span>' +
+        "</button>" +
+        '<div class="tpais__nota" hidden>' +
+          '<p class="tpais__hosp"><svg class="ic"><use href="#i-pin"/></svg> ' + esc(p.hosp) + "</p>" +
+          (typeof p.deaths === "string" && p.deaths ? '<p class="tpais__muertes">' + esc(p.deaths) + "</p>" : "") +
+          "<p>" + esc(p.note) + "</p>" +
+        "</div></div>";
+    }).join("");
+  }
+
+  /* Un bloque por brote, con su propia escala. Compartir el tope entre los dos
+     dejaría los trece territorios de hantavirus en una raya invisible al lado
+     de los 4,381 casos del Congo: la barra mentiría por diseño. */
+  function bloque(clave, conEncabezado) {
+    var d = D[clave];
+    var lista = d.paises.slice().sort(function (a, b) { return numDe(b.conf) - numDe(a.conf); });
+    if (!lista.length) return "";
+    var tope = Math.max.apply(null, lista.map(function (p) { return numDe(p.conf); })) || 1;
+    return (conEncabezado
+      ? '<p class="tpais__brote" data-brote="' + clave + '">' + esc(d.etiqueta) +
+        "<span>" + lista.length + " territorios · barra hasta " + miles(tope) + "</span></p>"
+      : "") +
+      '<div class="tpais__cab"><span>País</span><span>Confirmados</span>' +
+      '<span>Prob.</span><span>Obs.</span><span>Muertes</span><span></span></div>' +
+      filas(lista, tope);
+  }
+
   function pintarPaises() {
     var cont = $("#paisGrid");
     if (!cont) return;
-    var d = D[BROTE];
-    if ($("#paisesSub")) $("#paisesSub").innerHTML = "<b>" + d.paises.length +
-      " territorios</b>, ordenados por casos confirmados. La barra compara magnitudes; " +
-      "el contexto de cada cifra se abre al tocar la fila.";
+    var f = PAIS_FILTRO || BROTE;
+    var ambos = f === "ambos";
+    var claves = ambos ? ["hantavirus", "ebola"] : [f];
+    var total = claves.reduce(function (a, k) { return a + D[k].paises.length; }, 0);
 
-    var lista = d.paises.slice().sort(function (a, b) { return numDe(b.conf) - numDe(a.conf); });
-    var tope = Math.max.apply(null, lista.map(function (p) { return numDe(p.conf); })) || 1;
+    if ($("#paisesSub")) $("#paisesSub").innerHTML = "<b>" + total +
+      " territorios</b>, ordenados por casos confirmados. " +
+      (ambos
+        ? "Cada brote conserva su propia escala: las barras comparan <b>dentro</b> de su bloque, " +
+          "no entre brotes. El contexto de cada cifra se abre al tocar la fila."
+        : "La barra compara magnitudes; el contexto de cada cifra se abre al tocar la fila.");
 
-    cont.innerHTML =
-      '<div class="tpais__cab"><span>País</span><span>Confirmados</span>' +
-      '<span>Prob.</span><span>Obs.</span><span>Muertes</span><span></span></div>' +
-      lista.map(function (p, i) {
-        var conf = numDe(p.conf);
-        var muertes = p.deaths == null || p.deaths === "" ? "—" :
-          (typeof p.deaths === "number" ? p.deaths : String(p.deaths).split("·")[0].trim());
-        return '<div class="tpais__grupo">' +
-          '<button class="tpais__fila" aria-expanded="false" data-fila="' + i + '">' +
-            '<span class="tpais__pais"><i class="tpais__cod">' + esc(p.flag) + "</i>" +
-              esc(p.name) + (p.v ? ' <em>' + esc(p.v) + "</em>" : "") + "</span>" +
-            '<span class="tpais__conf"><i style="width:' +
-              (conf / tope * 100).toFixed(1) + '%"></i><b>' + esc(p.conf != null ? p.conf : "—") + "</b></span>" +
-            '<span class="tpais__n">' + (p.prob != null ? esc(p.prob) : "—") + "</span>" +
-            '<span class="tpais__n">' + (p.obs != null ? esc(p.obs) : "—") + "</span>" +
-            '<span class="tpais__m">' + esc(muertes) + "</span>" +
-            '<span class="tpais__chev">›</span>' +
-          "</button>" +
-          '<div class="tpais__nota" hidden>' +
-            '<p class="tpais__hosp"><svg class="ic"><use href="#i-pin"/></svg> ' + esc(p.hosp) + "</p>" +
-            (typeof p.deaths === "string" && p.deaths ? '<p class="tpais__muertes">' + esc(p.deaths) + "</p>" : "") +
-            "<p>" + esc(p.note) + "</p>" +
-          "</div></div>";
-      }).join("");
-
-    cont.addEventListener("click", function (e) {
-      var b = e.target.closest(".tpais__fila");
-      if (!b) return;
-      var nota = b.nextElementSibling;
-      var abierta = b.getAttribute("aria-expanded") === "true";
-      b.setAttribute("aria-expanded", String(!abierta));
-      if (nota) nota.hidden = abierta;
-    });
+    cont.innerHTML = claves.map(function (k) { return bloque(k, ambos); }).join("");
+    pintarFiltroPaises(f);
   }
+
+  function pintarFiltroPaises(activo) {
+    var c = $("#paisFiltro");
+    if (!c) return;
+    c.innerHTML = [
+      ["hantavirus", D.hantavirus.etiqueta, D.hantavirus.paises.length],
+      ["ebola", D.ebola.etiqueta, D.ebola.paises.length],
+      ["ambos", "Ambos", D.hantavirus.paises.length + D.ebola.paises.length]
+    ].map(function (o) {
+      return '<button data-fpais="' + o[0] + '" aria-pressed="' +
+        (o[0] === activo ? "true" : "false") + '">' + esc(o[1]) +
+        "<i>" + o[2] + "</i></button>";
+    }).join("");
+  }
+
+  /* Un solo escuchador, colgado del documento y no del contenedor: al repintar
+     por cambio de vertiente se volvía a colgar y el segundo cancelaba al
+     primero, así que la fila dejaba de abrirse. */
+  document.addEventListener("click", function (e) {
+    var f = e.target.closest("[data-fpais]");
+    if (f) {
+      PAIS_FILTRO = f.dataset.fpais;
+      pintarPaises(); ajustarIconos();
+      return;
+    }
+    var b = e.target.closest(".tpais__fila");
+    if (!b) return;
+    var nota = b.nextElementSibling;
+    var abierta = b.getAttribute("aria-expanded") === "true";
+    b.setAttribute("aria-expanded", String(!abierta));
+    if (nota) nota.hidden = abierta;
+  });
 
   /* ═══════════ Inventario ═══════════ */
   (function inventario() {
@@ -1208,6 +1274,8 @@
       btn.setAttribute("aria-selected", btn.dataset.brote === b ? "true" : "false");
     });
     VISTA.crono = 8; VISTA.boletin = 6;
+    // La perilla general manda: si la sección andaba por su cuenta, vuelve al redil.
+    PAIS_FILTRO = null;
     pintarCronica(); pintarBoletin(); pintarPaises(); sincronizarFragmentos(); sincronizarMapa();
     ajustarIconos();
   }
