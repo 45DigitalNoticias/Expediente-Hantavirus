@@ -111,7 +111,7 @@ window.FRAGMENTOS = {
           <li>
             <span class="x-glc" style="background:#c44536;opacity:0.4"></span>
             <div class="x-gt">
-              <b>Foco Ituri</b> — Polígono naranja semitransparente sobre la provincia de Ituri + Nord-Kivu (noreste de la RDC), zona donde inició el brote y epicentro que, al 15-jul (OMS DON613), se expandió a 46 zonas de salud en cinco provincias (Ituri concentra 1,904 casos y 692 muertes).
+              <b>Foco Ituri</b> — Polígono naranja semitransparente sobre la provincia de Ituri + Nord-Kivu (noreste de la RDC), zona donde inició el brote y epicentro que, al 24-ago (INSP-RDC SitRep 102), se expandió a <b>58 de 151 zonas de salud en seis provincias</b> — entró Bas-Uélé como sexta. <b>Ituri concentra 4,716 casos y 2,119 muertes (83.4% del total), pero pierde peso relativo:</b> en los últimos 21 días bajó 13.4% mientras Nord-Kivu subió 32.5% y Haut-Uélé 122.2%. Y donde crece, mata más: la letalidad de Nord-Kivu es <b>68.2%</b> contra 44.9% de Ituri. <b>Audit trail:</b> este popup declaraba 46 zonas y 1,904 casos al 15-jul (DON613).
             </div>
           </li>
           <li>
@@ -123,7 +123,7 @@ window.FRAGMENTOS = {
           <li>
             <span class="x-gld" style="border-top-color:#c44536"></span>
             <div class="x-gt">
-              <b>Evacuación a Alemania</b> — Línea punteada naranja Kinshasa → Frankfurt. Traslado aéreo del médico estadounidense positivo a un centro de bioseguridad alemán. El primer caso fuera de África no se trató en EE.UU.: la logística pasó por Europa.
+              <b>Evacuación a Alemania</b> — Línea punteada naranja Kinshasa → <b>Berlín</b>. <b>Corrección:</b> una versión inicial del expediente decía «Frankfurt» sin fuente primaria; el destino confirmado por el WHO DON603 es el <b>Hospital Charité de Berlín</b>. Traslado aéreo del médico estadounidense positivo a un centro de bioseguridad alemán. El primer caso fuera de África no se trató en EE.UU.: la logística pasó por Europa.
             </div>
           </li>
         </ul>
@@ -134,7 +134,7 @@ window.FRAGMENTOS = {
         <p>• <b>Click en cualquier marcador</b> abre un popup con la información completa de ese evento o nodo, incluida la fuente verificable.</p>
         <p>• <b>Click en una línea</b> (ruta marítima o pre-crucero) también abre popup descriptivo.</p>
         <p>• <b>Zoom y arrastre</b> funcionan como en cualquier mapa: rueda del ratón o doble click para acercar, click + arrastrar para mover.</p>
-        <p>• La <b>línea de tiempo</b> abajo del mapa permite recorrer los 48 días del brote en orden cronológico. Botón ▶ reproduce automáticamente.</p>
+        <p>• La <b>línea de tiempo</b> abajo del mapa permite recorrer los 145 días del expediente en orden cronológico, del 1 de abril al 24 de agosto de 2026. Botón ▶ reproduce automáticamente.</p>
         <p>• El <b>panel lateral derecho</b> tiene cinco pestañas adicionales: Cronología (línea de tiempo detallada con filtros), Casos por país, Boletín oficial, Columnas (las cinco piezas del expediente) y Fuentes (todas las referencias).</p>
       </div>
 
@@ -231,7 +231,7 @@ window.FRAGMENTOS = {
           <div class="x-faqq">¿Qué letalidad tiene el subtipo Bundibugyo?</div>
           <div class="x-faqa">
             <p>El subtipo <b>Bundibugyo (BDBV)</b> tiene letalidad histórica entre <b>25 % y 40 %</b>, según datos de Médicos Sin Fronteras consolidados a partir de los brotes de Uganda 2007 (149 casos, 37 muertes ≈ 25 %) y RDC 2012 (52 casos, 25 muertes ≈ 48 %). Es <b>menos letal que el subtipo Zaire</b> (50-80 %) pero más que el Reston, que no causa enfermedad humana documentada.</p>
-            <p>En el brote actual (mayo 2026), la letalidad cruda preliminar reportada por el ECDC el 19 de mayo es de <b>~25-30 %</b>, dentro del rango histórico. La cifra es preliminar y sujeta a ajuste conforme se confirmen casos sospechosos.</p>
+            <p>🔴 <b>En el brote actual la letalidad rompió el techo histórico: 48.0% al 24 de agosto de 2026</b> (INSP-RDC SitRep 102: 2,715 muertes sobre 5,656 confirmados), por encima del rango de 25 a 40% de Bundibugyo. Subió sostenidamente: 44% en el DON614 del 30-jul, 46.8% en el DON615 del 12-ago, 48.0% al 24-ago. <b>Audit trail:</b> esta ficha declaraba «~25-30%, dentro del rango histórico», cifra preliminar del ECDC del 19 de mayo, superada desde entonces. La cifra es preliminar y sujeta a ajuste conforme se confirmen casos sospechosos.</p>
             <p style="font-size:11px;color:#5a6e8c"><em>Fuentes: MSF Operational Centre Brussels · CDC Filovirus Page · ECDC week 21 update 2026</em></p>
           </div>
         </div>
@@ -266,13 +266,13 @@ window.FRAGMENTOS = {
         </div>
       </div>`,
   "comparativo": `<div class="x-intro">
-        Tres gráficos por brote, comparativos a primera vista: <b>cifras al cierre del 9 de agosto de 2026</b>, <b>velocidad de respuesta institucional</b> y <b>arquitectura farmacéutica activada</b>. Visualizaciones en SVG nativo, sin librerías externas. <b>Las cifras se actualizan al ritmo de los boletines oficiales.</b>
+        Tres gráficos por brote, comparativos a primera vista: <b>cifras al 24 de agosto de 2026</b>, <b>velocidad de respuesta institucional</b> y <b>arquitectura farmacéutica activada</b>. Visualizaciones en SVG nativo, sin librerías externas. <b>Las cifras se actualizan al ritmo de los boletines oficiales.</b>
       </div>
 
       <div class="x-cmpg">
         <!-- ====== Gráfico 1: Cifras crudas ====== -->
         <div class="x-cmp">
-          <h3 class="x-cmpt">1 · Cifras crudas al 9-ago-2026</h3>
+          <h3 class="x-cmpt">1 · Cifras crudas al 24-ago-2026</h3>
           <div class="x-cmps">Casos confirmados, muertes confirmadas y letalidad cruda por brote — escala independiente por métrica</div>
           <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" class="x-cmpsvg" role="img" aria-label="Comparativo de cifras crudas al 9 de agosto de 2026">
             <!-- Encabezados de las tres métricas (zona segura arriba) -->
@@ -288,9 +288,9 @@ window.FRAGMENTOS = {
             <rect x="32" y="182" width="22" height="8" fill="#2a8cd8"/>
             <text x="43" y="175" font-size="11" fill="#2a8cd8" text-anchor="middle" font-weight="700">13</text>
             <text x="43" y="208" font-size="9" fill="#2a8cd8" text-anchor="middle">Hant</text>
-            <!-- Ébola 4401 (RDC 4381 + Uganda 20) → 140 px -->
+            <!-- Ébola 5677 (RDC 5656 + Uganda 20 + Francia 1) → 140 px -->
             <rect x="66" y="50" width="22" height="140" fill="#c44536"/>
-            <text x="77" y="43" font-size="11" fill="#c44536" text-anchor="middle" font-weight="700">4401</text>
+            <text x="77" y="43" font-size="11" fill="#c44536" text-anchor="middle" font-weight="700">5677</text>
             <text x="77" y="208" font-size="9" fill="#c44536" text-anchor="middle">Ébola</text>
 
             <!-- Separador 1-2 -->
@@ -301,9 +301,9 @@ window.FRAGMENTOS = {
             <rect x="137" y="182" width="22" height="8" fill="#8f2b20"/>
             <text x="148" y="175" font-size="11" fill="#8f2b20" text-anchor="middle" font-weight="700">3</text>
             <text x="148" y="208" font-size="9" fill="#2a8cd8" text-anchor="middle">Hant</text>
-            <!-- Ébola 2013 (RDC 2011 + Uganda 2) → 140 px -->
+            <!-- Ébola 2717 (RDC 2715 + Uganda 2) → 140 px -->
             <rect x="171" y="50" width="22" height="140" fill="#8f2b20"/>
-            <text x="182" y="43" font-size="11" fill="#8f2b20" text-anchor="middle" font-weight="700">2013</text>
+            <text x="182" y="43" font-size="11" fill="#8f2b20" text-anchor="middle" font-weight="700">2717</text>
             <text x="182" y="208" font-size="9" fill="#c44536" text-anchor="middle">Ébola</text>
 
             <!-- Separador 2-3 -->
@@ -314,9 +314,9 @@ window.FRAGMENTOS = {
             <rect x="242" y="126" width="22" height="64" fill="#2a8cd8"/>
             <text x="253" y="119" font-size="11" fill="#2a8cd8" text-anchor="middle" font-weight="700">23%</text>
             <text x="253" y="208" font-size="9" fill="#2a8cd8" text-anchor="middle">Hant</text>
-            <!-- Ébola 46% (2011/4381, ECDC 9-ago) → 129 px -->
-            <rect x="276" y="61" width="22" height="129" fill="#c44536"/>
-            <text x="287" y="54" font-size="11" fill="#c44536" text-anchor="middle" font-weight="700">46%</text>
+            <!-- Ébola 48% (2715/5656, INSP-RDC 24-ago) → 134 px -->
+            <rect x="276" y="56" width="22" height="134" fill="#c44536"/>
+            <text x="287" y="49" font-size="11" fill="#c44536" text-anchor="middle" font-weight="700">48%</text>
             <text x="287" y="208" font-size="9" fill="#c44536" text-anchor="middle">Ébola</text>
 
             <!-- Leyenda al pie -->
@@ -410,7 +410,7 @@ window.FRAGMENTOS = {
             <rect x="180" y="88" width="95" height="20" fill="#faf0d6" stroke="#d4a017" stroke-width="1" rx="3"/>
             <text x="228" y="102" font-size="10" fill="#a87c10" text-anchor="middle" font-weight="700">Fase 1</text>
             <rect x="320" y="88" width="95" height="20" fill="#e6f6ec" stroke="#3fbf6f" stroke-width="1" rx="3"/>
-            <text x="368" y="102" font-size="10" fill="#2d8c3c" text-anchor="middle" font-weight="700">Fase 3</text>
+            <text x="368" y="102" font-size="10" fill="#2d8c3c" text-anchor="middle" font-weight="700">Fase 1</text>
 
             <!-- ===== Fila 3: Financiamiento CEPI ===== -->
             <text x="10" y="138" font-size="11" fill="#02101e" font-weight="600">Financiamiento CEPI activo</text>
@@ -454,7 +454,7 @@ window.FRAGMENTOS = {
             <text x="245" y="290" font-size="9" fill="#8f2b20" font-weight="600">Ausente</text>
           </svg>
           <div class="x-cmpp">
-            <b>La asimetría operativa</b> entre los dos brotes es estructural, no clínica. Para Ébola hay vacuna comercial (parcial), tres candidatos en fase 3, stockpile listo y 100 Day Mission activado en 24 horas. Para hantavirus —con letalidad mayor— solo hay candidatas en Fase 1 sin financiamiento sostenido. <b>La preparación farmacéutica selecciona qué brotes se vuelven gestionables y cuáles permanecen como riesgo abierto.</b><br/>
+            <b>La asimetría operativa</b> entre los dos brotes es estructural, no clínica. Para Ébola hay vacuna comercial pero <b>de la cepa equivocada</b> —Ervebo y Zabdeno+Mvabea son contra Zaire, no contra Bundibugyo—, <b>dos candidatos específicos contra Bundibugyo en fase 1</b>: Moderna desde el 4-ago y Oxford con el Serum Institute of India desde el 24-jul, con datos esperados en septiembre. Hay stockpile listo y 100 Day Mission activado en 24 horas. El 20-ago el Grupo Internacional de Coordinación liberó <b>70,000 dosis de Ervebo</b> para desplegarlas contra Bundibugyo, con esta salvedad textual de la OMS: «no se sabe si Ervebo puede proteger contra el virus Bundibugyo en humanos». <b>Audit trail:</b> esta ficha declaraba «tres candidatos en fase 3»; las fichas del propio apartado dicen fase 1 y preclínico. Para hantavirus —con letalidad mayor— solo hay candidatas en Fase 1 sin financiamiento sostenido. <b>La preparación farmacéutica selecciona qué brotes se vuelven gestionables y cuáles permanecen como riesgo abierto.</b><br/>
             <em>Fuentes: FDA · EMA · CEPI portfolio · USAMRIID · ClinicalTrials.gov</em>
           </div>
         </div>
@@ -525,8 +525,8 @@ window.FRAGMENTOS = {
         <li><b>Ervebo</b> Vacuna recombinante rVSV-ZEBOV de Merck contra ébola cepa Zaire. Aprobada por FDA y EMA en 2019. Pre-calificada por la OMS. Custodia del stockpile global a cargo de GAVI. <b>No autorizada para cepa Bundibugyo</b>; su despliegue en el brote 2026 es a título de mitigación regional, no de cobertura específica.</li>
       </ul>`,
   "vacunas": `<div class="x-bsel" data-context="vacunas">
-        <button class="x-btab active" data-brote="hantavirus"><span class="x-bdot"></span>Hantavirus <span class="x-bcount">(5)</span></button>
-        <button class="x-btab" data-brote="ebola"><span class="x-bdot"></span>Ébola <span class="x-bcount">(3)</span></button>
+        <button class="x-btab active" data-brote="hantavirus"><span class="x-bdot"></span>Hantavirus <span class="x-bcount">(6)</span></button>
+        <button class="x-btab" data-brote="ebola"><span class="x-bdot"></span>Ébola <span class="x-bcount">(7)</span></button>
       </div>
 
       <div class="x-bcont" data-brote="hantavirus">
@@ -536,11 +536,11 @@ window.FRAGMENTOS = {
 
       <div class="x-vstats">
         <div class="x-vstat">
-          <div class="x-vstatn">5</div>
+          <div class="x-vstatn">6</div>
           <div class="x-vstatl">Programas activos</div>
         </div>
         <div class="x-vstat">
-          <div class="x-vstatn">1</div>
+          <div class="x-vstatn">2</div>
           <div class="x-vstatl">Fase 1 completada</div>
         </div>
         <div class="x-vstat">
@@ -640,8 +640,8 @@ window.FRAGMENTOS = {
           Pipeline de vacunas contra <b>Ébola</b>. A diferencia del hantavirus, hay una vacuna comercial aprobada — <b>Ervebo</b> de Merck — pero <b>únicamente para la cepa Zaire</b>. El brote actual en RDC/Uganda es por <b>cepa Bundibugyo</b>, para la que no hay vacuna autorizada todavía. CEPI y BARDA están acelerando candidatos. La misma asimetría aplica al tratamiento: el anticuerpo <b>Ebanga</b> (ansuvimab, Emergent BioSolutions) tiene un contrato BARDA de hasta <b>USD 704M firmado en 2023</b>, casi tres años antes del brote, pero está autorizado por la FDA solo para la cepa <b>Zaire</b>. La contramedida pre-posicionada apunta a la cepa equivocada.
         </div>
         <div class="x-vstats">
-          <div class="x-vstat"><div class="x-vstatn">1</div><div class="x-vstatl">Aprobada (cepa Zaire)</div></div>
-          <div class="x-vstat"><div class="x-vstatn">2</div><div class="x-vstatl">En desarrollo (Bundibugyo)</div></div>
+          <div class="x-vstat"><div class="x-vstatn">2</div><div class="x-vstatl">Aprobadas (cepa Zaire)</div></div>
+          <div class="x-vstat"><div class="x-vstatn">5</div><div class="x-vstatl">En desarrollo (Bundibugyo)</div></div>
           <div class="x-vstat"><div class="x-vstatn">PHEIC</div><div class="x-vstatl">17-may-2026</div></div>
         </div>
 
