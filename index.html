@@ -61,6 +61,13 @@
   a{color:var(--acento);text-decoration:none;border-bottom:1px solid rgba(201,162,39,.4)}
   a:hover{border-bottom-color:var(--acento)}
   footer{margin-top:30px;font-size:13px;color:var(--apagado)}
+  .metodo{border:1px solid rgba(201,162,39,.35);border-left:3px solid var(--acento);
+    border-radius:3px;padding:22px 24px;margin:30px 0 4px;background:rgba(201,162,39,.045)}
+  .metodo-k{margin:0 0 12px;font:600 11px/1.4 ui-sans-serif,"Segoe UI",Helvetica,Arial,sans-serif;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--acento)}
+  .metodo-t{margin:0 0 14px;font-size:clamp(19px,3.2vw,25px);line-height:1.35;color:var(--hueso)}
+  .metodo-t b{color:var(--acento);font-weight:600}
+  .metodo-p{margin:0;font-size:15px;color:var(--apagado)}
   .linea{list-style:none;margin:0 0 6px;padding:0;counter-reset:n}
   .linea li{display:grid;grid-template-columns:92px 1fr;gap:16px;padding:12px 0;
     border-bottom:1px solid rgba(235,229,214,.07)}
@@ -90,20 +97,21 @@
 
   <p>Este trabajo nació siguiendo dos brotes a la vez: el hantavirus del cono sur y el
   ébola Bundibugyo en la República Democrática del Congo. Al documentarlos encontramos
-  algo que los excede, y que es lo que de verdad importa.</p>
+  algo que los excede: más allá de señalar un virus, lo que aparece es la
+  infraestructura. Quién pone el dinero y cuándo, quién declara la emergencia, quién
+  vigila los lugares donde se guardan los patógenos.</p>
 
-  <p>Más allá de señalar un virus, lo que aparece es la infraestructura: quién pone el
-  dinero y cuándo, quién declara la emergencia, quién vigila los lugares donde se
-  guardan los patógenos. Un patrón que se repite brote tras brote y que no se agota
-  cuando el brote termina.</p>
+  <p>Un patrón que se repite brote tras brote y que no se agota cuando el brote termina.
+  Por eso deja de ser expediente y pasa a ser <strong>observatorio permanente</strong>.</p>
 
-  <p>Por eso estamos reconstruyéndolo como <strong>observatorio permanente</strong>:
-  para rastrear ese patrón donde vuelva a aparecer, con cada dato verificado contra su
-  documento y con la fecha de revisión a la vista.</p>
-
-  <p class="cita">«La compactación del ciclo no responde a una mutación viral inédita, sino a la activación de un <b>andamio institucional preexistente</b>.» <span>De ahí el nombre. La respuesta no es rápida por el virus: es rápida porque el andamio ya estaba puesto.</span></p>
-
-  <div class="regla"></div>
+  <div class="metodo">
+    <p class="metodo-k">El método nuevo</p>
+    <p class="metodo-t">Cada dato muestra cuándo se revisó por última vez.<br>
+    <b>Incluso cuando no ha cambiado nada.</b></p>
+    <p class="metodo-p">Un dato sin fecha de revisión no dice si sigue siendo cierto o
+    si solo lleva meses ahí. Decir «revisado hoy, sin cambios» es información: significa
+    que alguien fue a ver. Ese va a ser el estándar de la casa, dato por dato.</p>
+  </div>
 
   <p class="kicker">Un vistazo · la cadena que estamos levantando</p>
   <p class="fino" style="margin-bottom:22px">El patrón no empieza en 2026. Estas son
