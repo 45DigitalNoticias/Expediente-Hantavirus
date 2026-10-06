@@ -2,50 +2,104 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<title>Expediente Brotes 2026 &middot; 45 Digital Noticias</title>
-<link rel="canonical" href="https://45digitalnoticias.github.io/Expediente-Hantavirus/expediente/expediente-completo.html" />
-<script>(function(){var d="expediente/expediente-completo.html";location.replace(d+location.search+location.hash);})();</script>
-<meta http-equiv="refresh" content="0; url=expediente/expediente-completo.html" />
-<meta name="robots" content="noindex, follow" />
-<style>
-  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-         background:#F5F5F7; color:#1D1D1F; text-align:center;
-         font:400 17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; }
-  a { color:#0066CC; }
-</style>
-  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a4de56a9a4564d0ea0f4e0259af8bc7a"}'></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Expediente Brotes · En construcción · 45 Digital Noticias</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="El Expediente Brotes está en reconstrucción. Volverá como observatorio permanente, con cada cifra verificada contra su fuente." />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Expediente Brotes 2026" />
-<meta property="og:description" content="Hantavirus y ébola, día por día, con su fuente al pie. Expediente interactivo de 45 Digital Noticias." />
-<meta property="og:image" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/og-expediente.png" />
-<meta property="og:image:alt" content="Expediente Brotes 2026 — portada del expediente interactivo" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+<meta property="og:title" content="Expediente Brotes · En construcción" />
+<meta property="og:description" content="Estamos reconstruyendo el expediente. Vuelve como observatorio, con cada cifra verificada contra su fuente." />
+<meta property="og:image" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/_recursos/imagenes/helice-adn-glowing-blue.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/og-expediente.png" />
-<!-- SEO-AUTO start -->
-<meta property="og:url" content="https://45digitalnoticias.github.io/Expediente-Hantavirus/">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Expediente Brotes 2026 &middot; 45 Digital Noticias",
-  "url": "https://45digitalnoticias.github.io/Expediente-Hantavirus/",
-  "inLanguage": "es-MX",
-  "publisher": {
-    "@type": "Organization",
-    "name": "45 Digital Noticias",
-    "sameAs": [
-      "https://facebook.com/45DigitalMx"
-    ]
+<style>
+  :root{
+    --tinta:#0E1116; --tinta-2:#161B22; --hueso:#EBE5D6;
+    --apagado:#8B9099; --acento:#C9A227; --linea:rgba(235,229,214,.14);
   }
-}
-</script>
-<link rel="icon" href="https://45digitalnoticias.github.io/Expediente-Hantavirus/favicon.svg">
-<!-- SEO-AUTO end -->
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    min-height:100vh; background:var(--tinta); color:var(--hueso);
+    font:400 17px/1.65 ui-serif,Georgia,"Times New Roman",serif;
+    display:flex; align-items:center; justify-content:center; padding:32px 20px;
+  }
+  .caja{max-width:760px;width:100%}
+  .marco{
+    position:relative;border:1px solid var(--linea);border-radius:3px;overflow:hidden;
+    aspect-ratio:16/7;background:var(--tinta-2);
+  }
+  .marco img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    filter:grayscale(.35) contrast(1.05) brightness(.62);
+  }
+  .marco::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(14,17,22,.25) 0%,rgba(14,17,22,.92) 92%);
+  }
+  .sello{
+    position:absolute;z-index:2;left:0;right:0;bottom:22px;text-align:center;
+    font:700 clamp(22px,5.2vw,40px)/1.1 ui-sans-serif,"Segoe UI",Helvetica,Arial,sans-serif;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--hueso);
+    text-shadow:0 2px 24px rgba(0,0,0,.8);
+  }
+  .sello span{display:block;margin-top:10px;font-size:11px;letter-spacing:.3em;
+    font-weight:600;color:var(--acento)}
+  .kicker{
+    margin:30px 0 8px;font:600 11px/1.4 ui-sans-serif,"Segoe UI",Helvetica,Arial,sans-serif;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--apagado);
+  }
+  h1{margin:0 0 20px;font-size:clamp(25px,4.6vw,37px);line-height:1.2;font-weight:600}
+  p{margin:0 0 16px;color:#CFC9BC}
+  .fino{font-size:15px;color:var(--apagado)}
+  .regla{height:1px;background:var(--linea);margin:28px 0}
+  .lista{list-style:none;margin:0 0 20px;padding:0}
+  .lista li{padding:9px 0 9px 20px;position:relative;font-size:15.5px;color:#CFC9BC;
+    border-bottom:1px solid rgba(235,229,214,.07)}
+  .lista li::before{content:"";position:absolute;left:0;top:18px;width:7px;height:1px;
+    background:var(--acento)}
+  .lista li:last-child{border-bottom:0}
+  a{color:var(--acento);text-decoration:none;border-bottom:1px solid rgba(201,162,39,.4)}
+  a:hover{border-bottom-color:var(--acento)}
+  footer{margin-top:30px;font-size:13px;color:var(--apagado)}
+  @media (max-width:560px){ .marco{aspect-ratio:4/3} body{padding:20px 16px} }
+</style>
 </head>
 <body>
-  <p>El expediente se mud&oacute;.<br>
-     Si no salta solo, <a href="expediente/expediente-completo.html">entra aqu&iacute;</a>.</p>
+<main class="caja">
+
+  <div class="marco">
+    <img src="_recursos/imagenes/helice-adn-glowing-blue.jpg" alt="Expediente Brotes en reconstrucción" />
+    <div class="sello">En construcción<span>Expediente Brotes · 45 Digital Noticias</span></div>
+  </div>
+
+  <p class="kicker">Aviso</p>
+  <h1>Estamos reconstruyendo este expediente</h1>
+
+  <p>El Expediente Brotes documentó durante meses dos brotes simultáneos, el hantavirus
+  del cono sur y el ébola Bundibugyo en la República Democrática del Congo. Lo bajamos
+  por decisión propia.</p>
+
+  <p>Una auditoría interna encontró que varias cifras publicadas tenían el corte
+  vencido y que otras no declaraban la fuente de la que salieron. En un expediente que
+  pide que se le crea porque cita, eso no se corrige con un parche.</p>
+
+  <div class="regla"></div>
+
+  <p class="kicker">Qué estamos haciendo</p>
+  <ul class="lista">
+    <li>Verificar cada cifra contra su documento original, una por una.</li>
+    <li>Archivar cada fuente con su fecha, su copia y su respaldo en un archivo público,
+        para que no dependa de que la página siga en línea.</li>
+    <li>Reconstruirlo como observatorio permanente, con la fecha de revisión a la vista
+        en cada dato, incluso cuando no haya cambiado nada.</li>
+  </ul>
+
+  <p class="fino">Mientras tanto, las columnas del expediente siguen publicadas y
+  consultables en <a href="https://45digitalnoticias.github.io/columnas/">45 Digital
+  Noticias · Columnas</a>.</p>
+
+  <footer>45 Digital Noticias · Expediente Brotes · Actualizado el 6 de octubre de 2026</footer>
+
+</main>
 </body>
 </html>

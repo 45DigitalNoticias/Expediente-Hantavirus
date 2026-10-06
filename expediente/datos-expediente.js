@@ -938,7 +938,7 @@ const declaracionesEbola = [
       vocero: 'Comité de Emergencia del Reglamento Sanitario Internacional',
       cita: 'El Comité de Emergencia, reunido en sesión extraordinaria, ratifica la calificación de Emergencia de Salud Pública de Importancia Internacional para el brote de ébola Bundibugyo en la República Democrática del Congo y Uganda. Cifras consolidadas: <b>650 casos sospechosos, 64 confirmados, más de 160 muertes</b>. Se emiten recomendaciones temporales bajo el RSI 2005: vigilancia transfronteriza reforzada, despliegue del stockpile global de Ervebo (Merck) y aceleración del ensayo de J&J Bundibugyo a través de la plataforma CEPI.',
       contexto: 'Ratificación formal de la PHEIC declarada el 17 de mayo. Es la reunión que activa, de manera operativa, el andamio financiero internacional para respuesta a brotes: stockpile farmacéutico + ensayos clínicos de emergencia + protocolos transfronterizos. Mismo manual aplicado al COVID-19, ahora compactado en trece días.',
-      url: 'https://www.who.int/news/item/22-05-2026-statement-on-the-meeting-of-the-international-health-regulations-emergency-committee'
+      url: 'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON603'
     },
     {
       fecha: '2026-05-21',
@@ -978,7 +978,7 @@ const declaracionesEbola = [
       vocero: 'Dr. Tedros Adhanom Ghebreyesus, Director General de la OMS',
       cita: 'Tras consulta con el Comité de Emergencia del Reglamento Sanitario Internacional, declaro <b>Emergencia de Salud Pública de Importancia Internacional</b> por el brote de ébola Bundibugyo en la República Democrática del Congo y Uganda. La velocidad de respuesta —trece días entre la alerta inicial y la presente declaración— refleja la madurez del sistema multilateral heredado del COVID-19. Se activan protocolos automáticos en los 196 Estados firmantes del RSI.',
       contexto: 'Activación más rápida de una PHEIC en la historia del Reglamento Sanitario Internacional 2005. Para comparar: el brote de ébola en Kivu (2018-2019) tardó once meses en alcanzar la misma figura legal. La compactación del ciclo no responde a una mutación viral inédita — Bundibugyo es un subtipo conocido desde 2007 — sino a la activación de un andamio institucional preexistente.',
-      url: 'https://www.who.int/news/item/17-05-2026-who-director-general-declares-the-bundibugyo-ebola-outbreak-a-pheic'
+      url: 'https://www.who.int/news/item/17-05-2026-epidemic-of-ebola-disease-in-the-democratic-republic-of-the-congo-and-uganda-determined-a-public-health-emergency-of-international-concern'
     },
     {
       fecha: '2026-05-15',
@@ -1087,14 +1087,14 @@ const sources = [
     ]},
     { group:'Brote de Ébola Bundibugyo 2026 (RDC + Uganda)', tag:'tag-oficial', items:[
       { t:'OMS — DON602 (informe oficial del brote Bundibugyo)', url:'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON602' },
-      { t:'OMS — Declaración PHEIC, Dr. Tedros (17 de mayo)', url:'https://www.who.int/news/item/17-05-2026-who-director-general-declares-the-bundibugyo-ebola-outbreak-a-pheic' },
-      { t:'OMS — Statement of the IHR Emergency Committee (22 de mayo)', url:'https://www.who.int/news/item/22-05-2026-statement-on-the-meeting-of-the-international-health-regulations-emergency-committee' },
+      { t:'OMS — Declaración PHEIC, Dr. Tedros (17 de mayo)', url:'https://www.who.int/news/item/17-05-2026-epidemic-of-ebola-disease-in-the-democratic-republic-of-the-congo-and-uganda-determined-a-public-health-emergency-of-international-concern' },
+      { t:'OMS — Statement of the IHR Emergency Committee (22 de mayo)', url:'https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON603' },
       { t:'ECDC — Communicable Disease Threats Report, week 21 (19 de mayo)', url:'https://www.ecdc.europa.eu/en/news-events/communicable-disease-threats-report-week-21-2026' },
       { t:'CDC — Health Alert Network HAN 00530 (guía clínica Bundibugyo)', url:'https://www.cdc.gov/han/php/notices/han00530.html' },
       { t:'MINSA RDC — Comunicado del 15 de mayo (confirmación INRB)', url:'https://www.minisanterdc.cd/communique-15-mai-2026-ebola-ituri' },
       { t:'Ministerio de Salud Uganda — Casos importados desde RDC (20 de mayo)', url:'https://www.health.go.ug/2026/05/20/uganda-confirms-imported-ebola-cases/' },
       { t:'Al Jazeera — India aplaza Cumbre India-África (21 de mayo)', url:'https://www.aljazeera.com/news/2026/5/21/india-postpones-africa-summit-ebola-outbreak' },
-      { t:'CEPI — Press release post-PHEIC sobre 100 Day Mission Bundibugyo', url:'https://cepi.net/news_cepi/cepi-response-bundibugyo-ebola-pheic-2026/' },
+      { t:'CEPI — Press release post-PHEIC sobre 100 Day Mission Bundibugyo', url:'https://cepi.net/cepi-fast-tracks-three-bundibugyo-ebolavirus-vaccine-candidates' },
       { t:'ReliefWeb — Boletín humanitario Nord-Kivu / Ituri (semana 20)', url:'https://reliefweb.int/disaster/ep-2026-000074-cod' }
     ]},
     { group:'Trackers y dashboards', tag:'tag-tracker', items:[

@@ -14,3 +14,4 @@ Thumbs.db
 # Respaldo local de las portadas sin optimizar: no va a la web.
 columnas/portadas/_originales/
 columnas/portadas/_renombres.txt
+_RESPALDO*
